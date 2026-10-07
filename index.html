@@ -3,57 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Каталог модов Minecraft</title>
+  <title>Всё лучшее для Minecraft</title>
   <style>
-    /* ========== Переменные ========== */
+    /* ========== Переменные тем ========== */
     :root {
-      --bg-deep: #05070C;
-      --bg-base: #0A0D12;
-      --bg-raised: rgba(15, 19, 28, 0.7);
-      --bg-overlay: #161D2B;
-      --bg-elevated: #1E2636;
-      
-      --accent: #38BDF8;
-      --accent-hover: #0EA5E9;
-      --accent-dim: #1E3A52;
-      
-      --text-primary: #E8EDF4;
-      --text-secondary: #8B95A8;
-      
-      --border: rgba(30, 38, 54, 0.6);
-      
-      --space-xs: 8px;
-      --space-sm: 12px;
-      --space-md: 20px;
-      --space-lg: 32px;
-      --space-xl: 48px;
-      
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --theme-primary: #38BDF8;
+      --theme-primary-dim: #1E3A52;
+      --theme-glow: rgba(56, 189, 248, 0.3);
     }
-    
-    /* ========== Сброс стилей ========== */
+
+    [data-theme="green"] {
+      --theme-primary: #10B981;
+      --theme-primary-dim: #064E3B;
+      --theme-glow: rgba(16, 185, 129, 0.3);
+    }
+
+    [data-theme="blue"] {
+      --theme-primary: #3B82F6;
+      --theme-primary-dim: #1E3A8A;
+      --theme-glow: rgba(59, 130, 246, 0.3);
+    }
+
+    [data-theme="white"] {
+      --theme-primary: #F3F4F6;
+      --theme-primary-dim: #6B7280;
+      --theme-glow: rgba(243, 244, 246, 0.3);
+    }
+
+    [data-theme="red"] {
+      --theme-primary: #EF4444;
+      --theme-primary-dim: #7F1D1D;
+      --theme-glow: rgba(239, 68, 68, 0.3);
+    }
+
+    [data-theme="yellow"] {
+      --theme-primary: #F59E0B;
+      --theme-primary-dim: #78350F;
+      --theme-glow: rgba(245, 158, 11, 0.3);
+    }
+
+    [data-theme="purple"] {
+      --theme-primary: #A855F7;
+      --theme-primary-dim: #581C87;
+      --theme-glow: rgba(168, 85, 247, 0.3);
+    }
+
+    [data-theme="cyan"] {
+      --theme-primary: #06B6D4;
+      --theme-primary-dim: #164E63;
+      --theme-glow: rgba(6, 182, 212, 0.3);
+    }
+
+    [data-theme="black"] {
+      --theme-primary: #1F2937;
+      --theme-primary-dim: #030712;
+      --theme-glow: rgba(31, 41, 55, 0.3);
+    }
+
+    [data-theme="lime"] {
+      --theme-primary: #84CC16;
+      --theme-primary-dim: #365314;
+      --theme-glow: rgba(132, 204, 22, 0.3);
+    }
+
+    [data-theme="lavender"] {
+      --theme-primary: #C084FC;
+      --theme-primary-dim: #6B21A8;
+      --theme-glow: rgba(192, 132, 252, 0.3);
+    }
+
+    [data-theme="brown"] {
+      --theme-primary: #D97706;
+      --theme-primary-dim: #451A03;
+      --theme-glow: rgba(217, 119, 6, 0.3);
+    }
+
+    [data-theme="beige"] {
+      --theme-primary: #FDE68A;
+      --theme-primary-dim: #92400E;
+      --theme-glow: rgba(253, 230, 138, 0.3);
+    }
+
+    [data-theme="cosmic"] {
+      --theme-primary: #8B5CF6;
+      --theme-primary-dim: #4C1D95;
+      --theme-glow: rgba(139, 92, 246, 0.3);
+    }
+
+    [data-theme="crimson"] {
+      --theme-primary: #DC2626;
+      --theme-primary-dim: #7F1D1D;
+      --theme-glow: rgba(220, 38, 38, 0.3);
+    }
+
+    [data-theme="fire"] {
+      --theme-primary: #F97316;
+      --theme-primary-dim: #7C2D12;
+      --theme-glow: rgba(249, 115, 22, 0.3);
+    }
+
+    /* ========== Основные стили ========== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
-    /* ========== Основные стили ========== */
+
     body {
       background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      line-height: 1.6;
-      padding: var(--space-lg) var(--space-md);
+      color: #E8EDF4;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
     }
-    
-    /* ========== Фон и звёзды ========== */
+
+    /* ========== Звёзды ========== */
     .stars {
       position: fixed;
       top: 0;
@@ -63,9 +128,408 @@
       pointer-events: none;
       z-index: 0;
     }
-    
+
     .star {
       position: absolute;
       background: white;
       border-radius: 50%;
-      box-shadow: 0 0 3px rgba(255, 255, 255, 0.
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
+      animation: twinkle 3s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* ========== Навигация ========== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 19, 28, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 16px 32px;
+      display: flex;
+      gap: 32px;
+      z-index: 100;
+    }
+
+    .nav-link {
+      color: #E8EDF4;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--theme-primary);
+    }
+
+    .nav-link.active {
+      background: var(--theme-primary);
+      color: #090A0F;
+    }
+
+    /* ========== Селектор темы ========== */
+    .theme-selector {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      z-index: 99;
+    }
+
+    .theme-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--theme-primary);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--theme-glow);
+      transition: transform 0.2s;
+    }
+
+    .theme-button:hover {
+      transform: scale(1.1);
+    }
+
+    .theme-menu {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background: rgba(15, 19, 28, 0.85);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      padding: 16px;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .theme-menu.active {
+      display: flex;
+    }
+
+    .theme-option {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .theme-option:hover {
+      transform: scale(1.15);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .theme-option[data-theme="green"] { background: #10B981; }
+    .theme-option[data-theme="blue"] { background: #3B82F6; }
+    .theme-option[data-theme="white"] { background: #F3F4F6; }
+    .theme-option[data-theme="red"] { background: #EF4444; }
+    .theme-option[data-theme="yellow"] { background: #F59E0B; }
+    .theme-option[data-theme="purple"] { background: #A855F7; }
+    .theme-option[data-theme="cyan"] { background: #06B6D4; }
+    .theme-option[data-theme="black"] { background: #1F2937; }
+    .theme-option[data-theme="lime"] { background: #84CC16; }
+    .theme-option[data-theme="lavender"] { background: #C084FC; }
+    .theme-option[data-theme="brown"] { background: #D97706; }
+    .theme-option[data-theme="beige"] { background: #FDE68A; }
+    .theme-option[data-theme="cosmic"] { background: #8B5CF6; }
+    .theme-option[data-theme="crimson"] { background: #DC2626; }
+    .theme-option[data-theme="fire"] { background: #F97316; }
+
+    /* ========== Главная страница ========== */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      text-align: center;
+      background: linear-gradient(135deg, #E8EDF4 0%, var(--theme-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 40px var(--theme-glow);
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.3); }
+    }
+
+    /* ========== Страницы контента ========== */
+    .page {
+      display: none;
+      padding: 100px 32px 32px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 48px;
+      color: var(--theme-primary);
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(15, 19, 28, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 32px var(--theme-glow);
+      border-color: var(--theme-primary);
+    }
+
+    .card-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: rgba(30, 38, 54, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8B95A8;
+      font-size: 14px;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--theme-primary);
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: #8B95A8;
+      line-height: 1.5;
+    }
+
+    @media (min-width: 1400px) {
+      .grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body data-theme="cyan">
+  <!-- Звёзды -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Навигация -->
+  <nav class="navbar">
+    <a class="nav-link" data-page="home">Главная</a>
+    <a class="nav-link" data-page="modpacks">Сборки</a>
+    <a class="nav-link" data-page="mods">Моды</a>
+    <a class="nav-link" data-page="resourcepacks">Ресурспаки</a>
+    <a class="nav-link" data-page="shaders">Шейдеры</a>
+    <a class="nav-link" data-page="skins">Скины</a>
+  </nav>
+
+  <!-- Селектор темы -->
+  <div class="theme-selector">
+    <div class="theme-button" id="themeButton"></div>
+    <div class="theme-menu" id="themeMenu">
+      <div class="theme-option" data-theme="green"></div>
+      <div class="theme-option" data-theme="blue"></div>
+      <div class="theme-option" data-theme="white"></div>
+      <div class="theme-option" data-theme="red"></div>
+      <div class="theme-option" data-theme="yellow"></div>
+      <div class="theme-option" data-theme="purple"></div>
+      <div class="theme-option" data-theme="cyan"></div>
+      <div class="theme-option" data-theme="black"></div>
+      <div class="theme-option" data-theme="lime"></div>
+      <div class="theme-option" data-theme="lavender"></div>
+      <div class="theme-option" data-theme="brown"></div>
+      <div class="theme-option" data-theme="beige"></div>
+      <div class="theme-option" data-theme="cosmic"></div>
+      <div class="theme-option" data-theme="crimson"></div>
+      <div class="theme-option" data-theme="fire"></div>
+    </div>
+  </div>
+
+  <!-- Главная страница -->
+  <div class="page active" id="home">
+    <div class="hero">
+      <h1 class="hero-title">ВСЁ ЛУЧШЕЕ ДЛЯ MINECRAFT</h1>
+    </div>
+  </div>
+
+  <!-- Сборки -->
+  <div class="page" id="modpacks">
+    <h2 class="page-title">Сборки</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-image">Изображение</div>
+        <div class="card-content">
+          <div class="card-title">Сборка 1</div>
+          <div class="card-desc">Описание сборки</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Моды -->
+  <div class="page" id="mods">
+    <h2 class="page-title">Моды</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-image">Изображение</div>
+        <div class="card-content">
+          <div class="card-title">Мод 1</div>
+          <div class="card-desc">Описание мода</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ресурспаки -->
+  <div class="page" id="resourcepacks">
+    <h2 class="page-title">Ресурспаки</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-image">Изображение</div>
+        <div class="card-content">
+          <div class="card-title">Ресурспак 1</div>
+          <div class="card-desc">Разрешение: 128x | Палитра: Тёплая</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Шейдеры -->
+  <div class="page" id="shaders">
+    <h2 class="page-title">Шейдеры</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-image">Изображение</div>
+        <div class="card-content">
+          <div class="card-title">Шейдер 1</div>
+          <div class="card-desc">Описание шейдера</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скины -->
+  <div class="page" id="skins">
+    <h2 class="page-title">Скины</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-image">3D скин</div>
+        <div class="card-content">
+          <div class="card-title">Ник игрока</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Звёзды
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 200; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = Math.random() * 2 + 1;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      starsContainer.appendChild(star);
+    }
+
+    // Навигация
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const pageId = link.getAttribute('data-page');
+        
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        
+        pages.forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+      });
+    });
+
+    // Селектор темы
+    const themeButton = document.getElementById('themeButton');
+    const themeMenu = document.getElementById('themeMenu');
+    const themeOptions = document.querySelectorAll('.theme-option');
+
+    themeButton.addEventListener('click', () => {
+      themeMenu.classList.toggle('active');
+    });
+
+    themeOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const theme = option.getAttribute('data-theme');
+        document.body.setAttribute('data-theme', theme);
+        themeMenu.classList.remove('active');
+      });
+    });
+
+    // Закрытие меню при клике вне его
+    document.addEventListener('click', (e) => {
+      if (!themeButton.contains(e.target) && !themeMenu.contains(e.target)) {
+        themeMenu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
