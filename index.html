@@ -449,35 +449,53 @@
             0%, 20% { content: '.'; }
             40% { content: '..'; }
             60% { content: '...'; }
-            80%, 100% { content: ''; }
+            100% { content: ''; }
         }
 
-        .error {
+        .empty-state {
             text-align: center;
-            color: var(--error);
-            padding: var(--spacing-xl);
-            background: var(--surface-2);
-            border-radius: var(--radius-lg);
-            font-size: 1rem;
-        }
-
-        .empty {
-            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-lg);
             color: var(--text-dim);
-            padding: var(--spacing-xl) * 2;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
             font-size: 1.1rem;
         }
 
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
-            .modal-actions {
-                grid-template-columns: 1fr;
+            .container {
+                padding: var(--spacing-md);
             }
-            
+
+            .tabs {
+                justify-content: flex-start;
+            }
+
             .search-row {
                 flex-direction: column;
             }
-            
-            .grid {
+
+            .search-input {
+                min-width: 100%;
+            }
+
+            .modal-actions {
                 grid-template-columns: 1fr;
             }
         }
@@ -486,27 +504,56 @@
 <body>
     <div class="container">
         <header>
-            <h1>⛏️ Minecraft Hub</h1>
-            <p class="subtitle">Моды, модпаки, ресурспаки, шейдеры и скины для Minecraft</p>
+            <h1>Minecraft Hub</h1>
+            <p class="subtitle">Лучшие моды, модпаки, ресурспаки, шейдеры и скины для Minecraft</p>
         </header>
 
         <div class="tabs">
-            <button class="tab active" data-tab="mods">Моды</button>
-            <button class="tab" data-tab="modpacks">Модпаки</button>
-            <button class="tab" data-tab="resourcepacks">Ресурспаки</button>
-            <button class="tab" data-tab="shaders">Шейдеры</button>
-            <button class="tab" data-tab="skins">Скины</button>
+            <button class="tab active" data-category="mods">🔧 Моды</button>
+            <button class="tab" data-category="modpacks">📦 Модпаки</button>
+            <button class="tab" data-category="resourcepacks">🎨 Ресурспаки</button>
+            <button class="tab" data-category="shaders">✨ Шейдеры</button>
+            <button class="tab" data-category="skins">👤 Скины</button>
         </div>
 
-        <div class="search-container" id="searchContainer">
+        <div class="search-container">
             <div class="search-row">
                 <input type="text" class="search-input" id="searchInput" placeholder="Поиск...">
-                <button class="search-btn" id="searchBtn">Искать</button>
+                <button class="search-btn" id="searchBtn">Найти</button>
             </div>
-            <div class="filters" id="filters"></div>
+            <div class="filters">
+                <select class="filter-select" id="versionFilter">
+                    <option value="">Все версии</option>
+                    <option value="1.21">1.21</option>
+                    <option value="1.20.6">1.20.6</option>
+                    <option value="1.20.4">1.20.4</option>
+                    <option value="1.20.1">1.20.1</option>
+                    <option value="1.19.4">1.19.4</option>
+                    <option value="1.19.2">1.19.2</option>
+                    <option value="1.18.2">1.18.2</option>
+                    <option value="1.16.5">1.16.5</option>
+                    <option value="1.12.2">1.12.2</option>
+                </select>
+                <select class="filter-select" id="loaderFilter">
+                    <option value="">Все лоадеры</option>
+                    <option value="forge">Forge</option>
+                    <option value="fabric">Fabric</option>
+                    <option value="neoforge">NeoForge</option>
+                    <option value="quilt">Quilt</option>
+                </select>
+                <select class="filter-select" id="sortFilter">
+                    <option value="downloads">По загрузкам</option>
+                    <option value="updated">По обновлению</option>
+                    <option value="created">По дате создания</option>
+                    <option value="relevance">По релевантности</option>
+                </select>
+            </div>
         </div>
 
         <div id="content" class="grid"></div>
+        <div id="loadMoreContainer" style="text-align: center; margin-top: 2rem; display: none;">
+            <button class="btn" id="loadMoreBtn" style="max-width: 300px; margin: 0 auto;">Загрузить ещё</button>
+        </div>
     </div>
 
     <div class="modal" id="modal">
@@ -515,458 +562,391 @@
                 <h2 class="modal-title" id="modalTitle"></h2>
                 <button class="modal-close" id="modalClose">&times;</button>
             </div>
-            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-body">
+                <img class="modal-image" id="modalImage" src="" alt="">
+                <p class="modal-description" id="modalDescription"></p>
+                <div class="modal-info" id="modalInfo"></div>
+                <div class="modal-actions">
+                    <a class="btn" id="modalDownload" href="#" target="_blank">Скачать</a>
+                    <a class="btn btn-secondary" id="modalSource" href="#" target="_blank">Подробнее</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // WORKER URL БЕЗ СЛЭША В КОНЦЕ
+        // ============================================
+        // КОНФИГУРАЦИЯ
+        // ============================================
         const WORKER_URL = 'https://minecraft-proxy.zxcdedinside944.workers.dev';
+        
+        let currentCategory = 'mods';
+        let currentPage = 0;
+        let isLoading = false;
+        let hasMore = true;
 
-        let currentTab = 'mods';
-        let currentSearch = '';
-        let currentFilters = {};
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            setupTabs();
-            setupSearch();
-            setupModal();
-            loadContent();
-        });
-
-        // Табы
-        function setupTabs() {
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    currentTab = tab.dataset.tab;
-                    currentSearch = '';
-                    currentFilters = {};
-                    document.getElementById('searchInput').value = '';
-                    updateFilters();
-                    loadContent();
-                });
-            });
-        }
-
-        // Поиск
-        function setupSearch() {
-            const searchBtn = document.getElementById('searchBtn');
-            const searchInput = document.getElementById('searchInput');
-
-            searchBtn.addEventListener('click', () => {
-                currentSearch = searchInput.value.trim();
-                loadContent();
-            });
-
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    currentSearch = searchInput.value.trim();
-                    loadContent();
-                }
-            });
-        }
-
-        // Фильтры
-        function updateFilters() {
-            const filtersContainer = document.getElementById('filters');
-            filtersContainer.innerHTML = '';
-
-            if (currentTab === 'mods' || currentTab === 'modpacks') {
-                const versionSelect = document.createElement('select');
-                versionSelect.className = 'filter-select';
-                versionSelect.innerHTML = `
-                    <option value="">Все версии</option>
-                    <option value="1.20.1">1.20.1</option>
-                    <option value="1.19.4">1.19.4</option>
-                    <option value="1.18.2">1.18.2</option>
-                    <option value="1.16.5">1.16.5</option>
-                    <option value="1.12.2">1.12.2</option>
-                `;
-                versionSelect.addEventListener('change', (e) => {
-                    currentFilters.version = e.target.value;
-                    loadContent();
-                });
-                filtersContainer.appendChild(versionSelect);
-            }
-
-            if (currentTab === 'mods') {
-                const loaderSelect = document.createElement('select');
-                loaderSelect.className = 'filter-select';
-                loaderSelect.innerHTML = `
-                    <option value="">Все загрузчики</option>
-                    <option value="forge">Forge</option>
-                    <option value="fabric">Fabric</option>
-                    <option value="quilt">Quilt</option>
-                `;
-                loaderSelect.addEventListener('change', (e) => {
-                    currentFilters.loader = e.target.value;
-                    loadContent();
-                });
-                filtersContainer.appendChild(loaderSelect);
-            }
-        }
-
-        // Загрузка контента
-        async function loadContent() {
-            const contentDiv = document.getElementById('content');
-            contentDiv.innerHTML = '<div class="loading">Загрузка</div>';
-
-            try {
-                let data;
-                switch (currentTab) {
-                    case 'mods':
-                        data = await loadMods();
-                        break;
-                    case 'modpacks':
-                        data = await loadModpacks();
-                        break;
-                    case 'resourcepacks':
-                        data = await loadResourcepacks();
-                        break;
-                    case 'shaders':
-                        data = await loadShaders();
-                        break;
-                    case 'skins':
-                        data = await loadSkins();
-                        break;
-                }
-
-                if (!data || data.length === 0) {
-                    contentDiv.innerHTML = '<div class="empty">Ничего не найдено</div>';
-                    return;
-                }
-
-                renderContent(data);
-            } catch (error) {
-                console.error('Error loading content:', error);
-                contentDiv.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
-            }
-        }
-
-        // Загрузка модов
-        async function loadMods() {
-            const modrinthPromise = fetch(`${WORKER_URL}/modrinth/search?query=${currentSearch}&facets=["project_type:mod"]&limit=10&offset=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const curseforgePromise = fetch(`${WORKER_URL}/curseforge/search?query=${currentSearch}&category=6&pageSize=10&index=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const [modrinthData, curseforgeData] = await Promise.all([modrinthPromise, curseforgePromise]);
-
-            let mods = [];
-
-            if (modrinthData && modrinthData.hits) {
-                mods = mods.concat(modrinthData.hits.map(mod => ({
-                    id: mod.project_id,
-                    title: mod.title,
-                    description: mod.description || 'Описание отсутствует',
-                    icon: mod.icon_url || 'https://via.placeholder.com/160',
-                    downloads: mod.downloads || 0,
-                    author: mod.author || 'Неизвестно',
-                    categories: mod.categories || [],
-                    source: 'modrinth',
-                    slug: mod.slug
-                })));
-            }
-
-            if (curseforgeData && curseforgeData.data) {
-                mods = mods.concat(curseforgeData.data.map(mod => ({
-                    id: mod.id,
-                    title: mod.name,
-                    description: mod.summary || 'Описание отсутствует',
-                    icon: mod.logo?.url || 'https://via.placeholder.com/160',
-                    downloads: mod.downloadCount || 0,
-                    author: mod.authors?.[0]?.name || 'Неизвестно',
-                    categories: mod.categories?.map(c => c.name) || [],
-                    source: 'curseforge',
-                    slug: mod.slug
-                })));
-            }
-
-            return mods;
-        }
-
-        // Загрузка модпаков
-        async function loadModpacks() {
-            const modrinthPromise = fetch(`${WORKER_URL}/modrinth/search?query=${currentSearch}&facets=["project_type:modpack"]&limit=10&offset=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const curseforgePromise = fetch(`${WORKER_URL}/curseforge/search?query=${currentSearch}&category=4471&pageSize=10&index=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const [modrinthData, curseforgeData] = await Promise.all([modrinthPromise, curseforgePromise]);
-
-            let modpacks = [];
-
-            if (modrinthData && modrinthData.hits) {
-                modpacks = modpacks.concat(modrinthData.hits.map(pack => ({
-                    id: pack.project_id,
-                    title: pack.title,
-                    description: pack.description || 'Описание отсутствует',
-                    icon: pack.icon_url || 'https://via.placeholder.com/160',
-                    downloads: pack.downloads || 0,
-                    author: pack.author || 'Неизвестно',
-                    categories: pack.categories || [],
-                    source: 'modrinth',
-                    slug: pack.slug
-                })));
-            }
-
-            if (curseforgeData && curseforgeData.data) {
-                modpacks = modpacks.concat(curseforgeData.data.map(pack => ({
-                    id: pack.id,
-                    title: pack.name,
-                    description: pack.summary || 'Описание отсутствует',
-                    icon: pack.logo?.url || 'https://via.placeholder.com/160',
-                    downloads: pack.downloadCount || 0,
-                    author: pack.authors?.[0]?.name || 'Неизвестно',
-                    categories: pack.categories?.map(c => c.name) || [],
-                    source: 'curseforge',
-                    slug: pack.slug
-                })));
-            }
-
-            return modpacks;
-        }
-
-        // Загрузка ресурспаков
-        async function loadResourcepacks() {
-            const modrinthPromise = fetch(`${WORKER_URL}/modrinth/search?query=${currentSearch}&facets=["project_type:resourcepack"]&limit=10&offset=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const curseforgePromise = fetch(`${WORKER_URL}/curseforge/search?query=${currentSearch}&category=12&pageSize=10&index=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const [modrinthData, curseforgeData] = await Promise.all([modrinthPromise, curseforgePromise]);
-
-            let packs = [];
-
-            if (modrinthData && modrinthData.hits) {
-                packs = packs.concat(modrinthData.hits.map(pack => ({
-                    id: pack.project_id,
-                    title: pack.title,
-                    description: pack.description || 'Описание отсутствует',
-                    icon: pack.icon_url || 'https://via.placeholder.com/160',
-                    downloads: pack.downloads || 0,
-                    author: pack.author || 'Неизвестно',
-                    categories: pack.categories || [],
-                    source: 'modrinth',
-                    slug: pack.slug
-                })));
-            }
-
-            if (curseforgeData && curseforgeData.data) {
-                packs = packs.concat(curseforgeData.data.map(pack => ({
-                    id: pack.id,
-                    title: pack.name,
-                    description: pack.summary || 'Описание отсутствует',
-                    icon: pack.logo?.url || 'https://via.placeholder.com/160',
-                    downloads: pack.downloadCount || 0,
-                    author: pack.authors?.[0]?.name || 'Неизвестно',
-                    categories: pack.categories?.map(c => c.name) || [],
-                    source: 'curseforge',
-                    slug: pack.slug
-                })));
-            }
-
-            return packs;
-        }
-
-        // Загрузка шейдеров
-        async function loadShaders() {
-            const modrinthPromise = fetch(`${WORKER_URL}/modrinth/search?query=${currentSearch}&facets=["project_type:shader"]&limit=10&offset=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const curseforgePromise = fetch(`${WORKER_URL}/curseforge/search?query=${currentSearch}&category=6552&pageSize=10&index=0`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null);
-
-            const [modrinthData, curseforgeData] = await Promise.all([modrinthPromise, curseforgePromise]);
-
-            let shaders = [];
-
-            if (modrinthData && modrinthData.hits) {
-                shaders = shaders.concat(modrinthData.hits.map(shader => ({
-                    id: shader.project_id,
-                    title: shader.title,
-                    description: shader.description || 'Описание отсутствует',
-                    icon: shader.icon_url || 'https://via.placeholder.com/160',
-                    downloads: shader.downloads || 0,
-                    author: shader.author || 'Неизвестно',
-                    categories: shader.categories || [],
-                    source: 'modrinth',
-                    slug: shader.slug
-                })));
-            }
-
-            if (curseforgeData && curseforgeData.data) {
-                shaders = shaders.concat(curseforgeData.data.map(shader => ({
-                    id: shader.id,
-                    title: shader.name,
-                    description: shader.summary || 'Описание отсутствует',
-                    icon: shader.logo?.url || 'https://via.placeholder.com/160',
-                    downloads: shader.downloadCount || 0,
-                    author: shader.authors?.[0]?.name || 'Неизвестно',
-                    categories: shader.categories?.map(c => c.name) || [],
-                    source: 'curseforge',
-                    slug: shader.slug
-                })));
-            }
-
-            return shaders;
-        }
-
-        // Загрузка скинов
-        async function loadSkins() {
-            const endpoint = currentSearch 
-                ? `${WORKER_URL}/skins/search?query=${currentSearch}`
-                : `${WORKER_URL}/skins/popular`;
-
-            const response = await fetch(endpoint);
-            if (!response.ok) throw new Error('Не удалось загрузить скины');
-            
-            const data = await response.json();
-            return data.skins || [];
-        }
-
-        // Рендер контента
-        function renderContent(items) {
-            const contentDiv = document.getElementById('content');
-            contentDiv.innerHTML = '';
-
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-
-                if (currentTab === 'skins') {
-                    card.innerHTML = `
-                        <img src="${item.url || 'https://via.placeholder.com/160'}" alt="${item.name || 'Скин'}" class="card-image" onerror="this.src='https://via.placeholder.com/160'">
-                        <div class="card-content">
-                            <h3 class="card-title">${item.name || 'Безымянный скин'}</h3>
-                            <p class="card-description">${item.model || 'Модель: стандартная'}</p>
-                            <button class="btn" onclick="downloadSkin('${item.url}', '${item.name}')">Скачать скин</button>
-                        </div>
-                    `;
-                } else {
-                    card.innerHTML = `
-                        <img src="${item.icon}" alt="${item.title}" class="card-image" onerror="this.src='https://via.placeholder.com/160'">
-                        <div class="card-content">
-                            <h3 class="card-title">${item.title}</h3>
-                            <p class="card-description">${item.description}</p>
-                            <div class="card-meta">
-                                ${item.categories.slice(0, 3).map(cat => `<span class="tag">${cat}</span>`).join('')}
-                            </div>
-                            <div class="card-stats">
-                                <span>📥 ${formatNumber(item.downloads)}</span>
-                                <span>👤 ${item.author}</span>
-                            </div>
-                            <button class="btn" onclick="openModal('${item.id}', '${item.source}', '${item.slug}')">Подробнее</button>
-                        </div>
-                    `;
-                }
-
-                contentDiv.appendChild(card);
-            });
-        }
-
-        // Модальное окно
-        function setupModal() {
-            const modal = document.getElementById('modal');
-            const closeBtn = document.getElementById('modalClose');
-
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('active');
-            });
-
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                }
-            });
-        }
-
-        async function openModal(id, source, slug) {
-            const modal = document.getElementById('modal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-
-            modal.classList.add('active');
-            modalTitle.textContent = 'Загрузка...';
-            modalBody.innerHTML = '<div class="loading">Загрузка</div>';
-
-            try {
-                const endpoint = source === 'modrinth' 
-                    ? `${WORKER_URL}/modrinth/project/${id}`
-                    : `${WORKER_URL}/curseforge/mod/${id}`;
-
-                const response = await fetch(endpoint);
-                if (!response.ok) throw new Error('Не удалось загрузить данные');
-                
-                const data = await response.json();
-
-                modalTitle.textContent = data.title || data.name;
-                modalBody.innerHTML = `
-                    <img src="${data.icon_url || data.logo?.url || 'https://via.placeholder.com/900x300'}" alt="${data.title || data.name}" class="modal-image" onerror="this.src='https://via.placeholder.com/900x300'">
-                    <p class="modal-description">${data.body || data.description || data.summary || 'Описание отсутствует'}</p>
-                    <div class="modal-info">
-                        <div class="info-row">
-                            <span class="info-label">Автор:</span>
-                            <span class="info-value">${data.team || data.authors?.[0]?.name || 'Неизвестно'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Загрузок:</span>
-                            <span class="info-value">${formatNumber(data.downloads || data.downloadCount || 0)}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Источник:</span>
-                            <span class="info-value">${source === 'modrinth' ? 'Modrinth' : 'CurseForge'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">ID проекта:</span>
-                            <span class="info-value">${id}</span>
-                        </div>
-                    </div>
-                    <div class="modal-actions">
-                        <a href="${source === 'modrinth' ? `https://modrinth.com/mod/${slug}` : `https://www.curseforge.com/minecraft/mc-mods/${slug}`}" target="_blank" class="btn">Открыть на сайте</a>
-                        <button class="btn btn-secondary" onclick="document.getElementById('modal').classList.remove('active')">Закрыть</button>
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Error loading modal:', error);
-                modalBody.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
-            }
-        }
-
-        // Скачивание скина
-        function downloadSkin(url, name) {
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${name || 'skin'}.png`;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Форматирование чисел
+        // ============================================
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // ============================================
+        
         function formatNumber(num) {
+            if (!num) return '0';
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
             return num.toString();
         }
 
-        // Обновление фильтров при загрузке
-        updateFilters();
+        function formatDate(dateString) {
+            if (!dateString) return 'Неизвестно';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU');
+        }
+
+        function stripHTML(html) {
+            if (!html) return 'Описание отсутствует';
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || 'Описание отсутствует';
+        }
+
+        function showError(message) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="error-message" style="grid-column: 1 / -1;">
+                    <strong>Ошибка загрузки:</strong> ${message}
+                </div>
+            `;
+        }
+
+        function showEmpty() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-state-icon">🔍</div>
+                    <p class="empty-state-text">Ничего не найдено. Попробуйте изменить параметры поиска.</p>
+                </div>
+            `;
+        }
+
+        function showLoading() {
+            if (currentPage === 0) {
+                const content = document.getElementById('content');
+                content.innerHTML = '<div class="loading" style="grid-column: 1 / -1;">Загрузка</div>';
+            }
+        }
+
+        // ============================================
+        // API ЗАПРОСЫ
+        // ============================================
+
+        async function loadMods() {
+            const query = document.getElementById('searchInput').value;
+            const version = document.getElementById('versionFilter').value;
+            const loader = document.getElementById('loaderFilter').value;
+            const sort = document.getElementById('sortFilter').value;
+
+            const facets = ['project_type:mod'];
+            if (version) facets.push(`versions:${version}`);
+            if (loader) facets.push(`categories:${loader}`);
+
+            const modrinthUrl = `${WORKER_URL}/modrinth/search?query=${encodeURIComponent(query)}&facets=${encodeURIComponent(JSON.stringify([facets]))}&limit=10&offset=${currentPage * 10}&index=${sort}`;
+            const curseforgeUrl = `${WORKER_URL}/curseforge/search?query=${encodeURIComponent(query)}&category=6&pageSize=10&index=${currentPage}&sortField=${sort === 'downloads' ? '6' : '2'}`;
+
+            const [modrinthRes, curseforgeRes] = await Promise.allSettled([
+                fetch(modrinthUrl).then(r => r.ok ? r.json() : null),
+                fetch(curseforgeUrl).then(r => r.ok ? r.json() : null)
+            ]);
+
+            const modrinthData = modrinthRes.status === 'fulfilled' && modrinthRes.value ? modrinthRes.value.hits || [] : [];
+            const curseforgeData = curseforgeRes.status === 'fulfilled' && curseforgeRes.value ? curseforgeRes.value.data || [] : [];
+
+            return [...modrinthData.map(normalizeModrinth), ...curseforgeData.map(normalizeCurseforge)];
+        }
+
+        async function loadModpacks() {
+            const query = document.getElementById('searchInput').value;
+            const sort = document.getElementById('sortFilter').value;
+
+            const facets = ['project_type:modpack'];
+
+            const modrinthUrl = `${WORKER_URL}/modrinth/search?query=${encodeURIComponent(query)}&facets=${encodeURIComponent(JSON.stringify([facets]))}&limit=10&offset=${currentPage * 10}&index=${sort}`;
+            const curseforgeUrl = `${WORKER_URL}/curseforge/search?query=${encodeURIComponent(query)}&category=4471&pageSize=10&index=${currentPage}&sortField=${sort === 'downloads' ? '6' : '2'}`;
+
+            const [modrinthRes, curseforgeRes] = await Promise.allSettled([
+                fetch(modrinthUrl).then(r => r.ok ? r.json() : null),
+                fetch(curseforgeUrl).then(r => r.ok ? r.json() : null)
+            ]);
+
+            const modrinthData = modrinthRes.status === 'fulfilled' && modrinthRes.value ? modrinthRes.value.hits || [] : [];
+            const curseforgeData = curseforgeRes.status === 'fulfilled' && curseforgeRes.value ? curseforgeRes.value.data || [] : [];
+
+            return [...modrinthData.map(normalizeModrinth), ...curseforgeData.map(normalizeCurseforge)];
+        }
+
+        async function loadResourcepacks() {
+            const query = document.getElementById('searchInput').value;
+            const sort = document.getElementById('sortFilter').value;
+
+            const facets = ['project_type:resourcepack'];
+
+            const modrinthUrl = `${WORKER_URL}/modrinth/search?query=${encodeURIComponent(query)}&facets=${encodeURIComponent(JSON.stringify([facets]))}&limit=10&offset=${currentPage * 10}&index=${sort}`;
+            const curseforgeUrl = `${WORKER_URL}/curseforge/search?query=${encodeURIComponent(query)}&category=12&pageSize=10&index=${currentPage}&sortField=${sort === 'downloads' ? '6' : '2'}`;
+
+            const [modrinthRes, curseforgeRes] = await Promise.allSettled([
+                fetch(modrinthUrl).then(r => r.ok ? r.json() : null),
+                fetch(curseforgeUrl).then(r => r.ok ? r.json() : null)
+            ]);
+
+            const modrinthData = modrinthRes.status === 'fulfilled' && modrinthRes.value ? modrinthRes.value.hits || [] : [];
+            const curseforgeData = curseforgeRes.status === 'fulfilled' && curseforgeRes.value ? curseforgeRes.value.data || [] : [];
+
+            return [...modrinthData.map(normalizeModrinth), ...curseforgeData.map(normalizeCurseforge)];
+        }
+
+        async function loadShaders() {
+            const query = document.getElementById('searchInput').value;
+            const sort = document.getElementById('sortFilter').value;
+
+            const facets = ['project_type:shader'];
+
+            const modrinthUrl = `${WORKER_URL}/modrinth/search?query=${encodeURIComponent(query)}&facets=${encodeURIComponent(JSON.stringify([facets]))}&limit=20&offset=${currentPage * 20}&index=${sort}`;
+
+            const res = await fetch(modrinthUrl);
+            if (!res.ok) return [];
+            
+            const data = await res.json();
+            return (data.hits || []).map(normalizeModrinth);
+        }
+
+        async function loadSkins() {
+            const sort = document.getElementById('sortFilter').value === 'updated' ? 'recent' : 'popular';
+            const url = `${WORKER_URL}/skins/${sort}`;
+
+            const res = await fetch(url);
+            if (!res.ok) return [];
+            
+            const data = await res.json();
+            return (data.skins || []).map(normalizeSkin);
+        }
+
+        // ============================================
+        // НОРМАЛИЗАЦИЯ ДАННЫХ
+        // ============================================
+
+        function normalizeModrinth(item) {
+            return {
+                id: item.project_id || item.slug,
+                title: item.title,
+                description: item.description || 'Описание отсутствует',
+                image: item.icon_url || item.gallery?.[0] || 'https://via.placeholder.com/280x160?text=No+Image',
+                downloads: item.downloads || 0,
+                author: item.author || 'Неизвестно',
+                updated: item.date_modified || item.date_created,
+                versions: item.versions || [],
+                categories: item.categories || [],
+                source: 'modrinth',
+                url: `https://modrinth.com/${item.project_type}/${item.slug}`,
+                downloadUrl: `https://modrinth.com/${item.project_type}/${item.slug}/versions`
+            };
+        }
+
+        function normalizeCurseforge(item) {
+            return {
+                id: item.id,
+                title: item.name,
+                description: stripHTML(item.summary) || 'Описание отсутствует',
+                image: item.logo?.url || 'https://via.placeholder.com/280x160?text=No+Image',
+                downloads: item.downloadCount || 0,
+                author: item.authors?.[0]?.name || 'Неизвестно',
+                updated: item.dateModified || item.dateCreated,
+                categories: item.categories?.map(c => c.name) || [],
+                source: 'curseforge',
+                url: item.links?.websiteUrl || '#',
+                downloadUrl: item.links?.websiteUrl || '#'
+            };
+        }
+
+        function normalizeSkin(item) {
+            return {
+                id: item.id,
+                title: item.name || `Скин #${item.id}`,
+                description: item.description || 'Крутой скин для Minecraft',
+                image: item.image || `https://via.placeholder.com/280x160?text=Skin`,
+                downloads: item.downloads || 0,
+                author: item.author || 'Игрок',
+                updated: item.created_at,
+                source: 'skinsmc',
+                url: item.url || '#',
+                downloadUrl: item.download || '#'
+            };
+        }
+
+        // ============================================
+        // ОТОБРАЖЕНИЕ КОНТЕНТА
+        // ============================================
+
+        async function loadContent(append = false) {
+            if (isLoading) return;
+            
+            isLoading = true;
+            if (!append) {
+                currentPage = 0;
+                hasMore = true;
+            }
+            
+            showLoading();
+
+            try {
+                let items = [];
+
+                switch (currentCategory) {
+                    case 'mods':
+                        items = await loadMods();
+                        break;
+                    case 'modpacks':
+                        items = await loadModpacks();
+                        break;
+                    case 'resourcepacks':
+                        items = await loadResourcepacks();
+                        break;
+                    case 'shaders':
+                        items = await loadShaders();
+                        break;
+                    case 'skins':
+                        items = await loadSkins();
+                        break;
+                }
+
+                if (!items || items.length === 0) {
+                    if (!append) {
+                        showEmpty();
+                    }
+                    hasMore = false;
+                    document.getElementById('loadMoreContainer').style.display = 'none';
+                } else {
+                    renderItems(items, append);
+                    hasMore = items.length >= 10;
+                    document.getElementById('loadMoreContainer').style.display = hasMore ? 'block' : 'none';
+                }
+            } catch (error) {
+                console.error('Error loading content:', error);
+                showError(error.message || 'Не удалось загрузить данные');
+                hasMore = false;
+                document.getElementById('loadMoreContainer').style.display = 'none';
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function renderItems(items, append = false) {
+            const content = document.getElementById('content');
+            
+            if (!append) {
+                content.innerHTML = '';
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img class="card-image" src="${item.image}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/280x160?text=No+Image'">
+                    <div class="card-content">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-description">${item.description}</p>
+                        <div class="card-meta">
+                            <span class="tag">${item.source}</span>
+                            ${item.categories.slice(0, 2).map(cat => `<span class="tag">${cat}</span>`).join('')}
+                        </div>
+                        <div class="card-stats">
+                            <span>📥 ${formatNumber(item.downloads)}</span>
+                            <span>👤 ${item.author}</span>
+                        </div>
+                        <button class="btn" onclick="openModal('${item.id}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">Подробнее</button>
+                    </div>
+                `;
+                content.appendChild(card);
+            });
+        }
+
+        function openModal(id, item) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalImage').src = item.image;
+            document.getElementById('modalDescription').textContent = item.description;
+            
+            const info = document.getElementById('modalInfo');
+            info.innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">Автор:</span>
+                    <span class="info-value">${item.author}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Загрузок:</span>
+                    <span class="info-value">${formatNumber(item.downloads)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Обновлено:</span>
+                    <span class="info-value">${formatDate(item.updated)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Источник:</span>
+                    <span class="info-value">${item.source}</span>
+                </div>
+            `;
+
+            document.getElementById('modalDownload').href = item.downloadUrl;
+            document.getElementById('modalSource').href = item.url;
+            
+            modal.classList.add('active');
+        }
+
+        // ============================================
+        // ОБРАБОТЧИКИ СОБЫТИЙ
+        // ============================================
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentCategory = tab.dataset.category;
+                loadContent();
+            });
+        });
+
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            loadContent();
+        });
+
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loadContent();
+            }
+        });
+
+        document.getElementById('versionFilter').addEventListener('change', () => loadContent());
+        document.getElementById('loaderFilter').addEventListener('change', () => loadContent());
+        document.getElementById('sortFilter').addEventListener('change', () => loadContent());
+
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+            currentPage++;
+            loadContent(true);
+        });
+
+        document.getElementById('modalClose').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('active');
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('active');
+            }
+        });
+
+        // ============================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ============================================
+        
+        loadContent();
     </script>
 </body>
 </html>
