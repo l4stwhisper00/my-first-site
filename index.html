@@ -1,4 +1,13 @@
-<!DOCTYPE html> <html lang="ru"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Каталог модов Minecraft</title> <style> :root { --bg-deep: #05070C; --bg-base: #0A0D12; --bg-raised: #0F131C; --bg-overlay: #161D2B; --bg-elevated: #1E2636; --accent: #38BDF8; --accent-hover: #0EA5E9; --accent-dim: #1E3A52; --text-primary: #E8EDF4; --text-secondary: #8B95A8; --border: #1E2636;
+<!DOCTYPE html> <html lang="ru"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Каталог модов Minecraft</title> <style> /* ========== Переменные ========== */ :root { --bg-deep: #05070C; --bg-base: #0A0D12; --bg-raised: rgba(15, 19, 28, 0.6); --bg-overlay: #161D2B; --bg-elevated: #1E2636;
+  --accent: #38BDF8;
+  --accent-hover: #0EA5E9;
+  --accent-dim: #1E3A52;
+  
+  --text-primary: #E8EDF4;
+  --text-secondary: #8B95A8;
+  
+  --border: rgba(30, 38, 54, 0.5);
+  
   --space-xs: 8px;
   --space-sm: 12px;
   --space-md: 20px;
@@ -11,25 +20,80 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+/* ========== Сброс стилей ========== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ========== Основные стили ========== */
 body {
-  background: var(--bg-deep);
+  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
   color: var(--text-primary);
   font-family: var(--font-sans);
   line-height: 1.6;
   padding: var(--space-lg) var(--space-md);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
 }
 
+/* ========== Фон и звёзды ========== */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite;
+}
+
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  border-radius: 50%;
+  animation: shoot 3s linear infinite;
+}
+
+/* ========== Анимации ========== */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes shoot {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-300px) translateY(300px);
+    opacity: 0;
+  }
+}
+
+/* ========== Контейнер ========== */
 .container {
   max-width: 1600px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
+/* ========== Заголовок ========== */
 header {
   margin-bottom: var(--space-xl);
 }
@@ -43,6 +107,7 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
 }
 
 .subtitle {
@@ -50,6 +115,7 @@ h1 {
   color: var(--text-secondary);
 }
 
+/* ========== Сетка карточек ========== */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -58,6 +124,8 @@ h1 {
 
 .card {
   background: var(--bg-raised);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   aspect-ratio: 1;
@@ -77,15 +145,17 @@ h1 {
 }
 
 .card:hover {
+  background: rgba(15, 19, 28, 0.8);
   border-color: var(--accent);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.25);
 }
 
 .card:hover::before {
-  opacity: 0.1;
+  opacity: 0.15;
 }
 
+/* ========== Адаптивность ========== */
 @media (min-width: 1400px) {
   .grid {
     grid-template-columns: repeat(6, 1fr);
@@ -102,7 +172,7 @@ h1 {
     gap: var(--space-sm);
   }
 }
-</style> </head> <body> <div class="container"> <header> <h1>Каталог модов Minecraft</h1> <p class="subtitle">Коллекция лучших модификаций для всех версий игры</p> </header>
+</style> </head> <body> <!-- Фон со звёздами --> <div class="stars" id="stars"></div> <!-- Основной контент --> <div class="container"> <header> <h1>Каталог модов Minecraft</h1> <p class="subtitle">Коллекция лучших модификаций для всех версий игры</p> </header>
 <div class="grid">
   <div class="card"></div>
   <div class="card"></div>
@@ -129,4 +199,4 @@ h1 {
   <div class="card"></div>
   <div class="card"></div>
 </div>
-</div> </body> </html>
+</div> <!-- Скрипт для звёзд --> <script> const starsContainer = document.getElementById('stars'); // Создаём обычные звёзды for (let i = 0; i < 200; i++) { const star = document.createElement('div'); star.className = 'star'; star.style.left = Math.random() * 100 + '%'; star.style.top = Math.random() * 100 + '%'; star.style.animationDelay = Math.random() * 3 + 's'; star.style.animationDuration = (Math.random() * 2 + 2) + 's'; starsContainer.appendChild(star); } // Создаём падающие звёзды function createShootingStar() { const star = document.createElement('div'); star.className = 'shooting-star'; star.style.left = Math.random() * 100 + '%'; star.style.top = Math.random() * 50 + '%'; star.style.width = Math.random() * 100 + 50 + 'px'; star.style.animationDuration = (Math.random() * 1 + 1.5) + 's'; starsContainer.appendChild(star); setTimeout(() => star.remove(), 3000); } // Запускаем падающие звёзды каждые 2-5 секунд setInterval(createShootingStar, Math.random() * 3000 + 2000); createShootingStar(); </script> </body> </html> 
