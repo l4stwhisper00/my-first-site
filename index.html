@@ -31,7 +31,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .btn{width:100%;display:inline-block}
 .btn:hover,.search-btn:hover,.load-more-btn:hover{background:#22A9E0;transform:scale(1.02)}
 .load-more-btn{width:100%;max-width:400px;margin:2rem auto;display:block}
-.load-more-btn:disabled{opacity:.5;cursor:not-allowed}
+.load-more-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .btn-secondary{background:var(--s3);color:var(--text)}
 .btn-secondary:hover{background:var(--s4)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem}
@@ -192,12 +192,10 @@ function performSearch() {
 
 async function loadContent() {
   const token = ++reqId;
-  if (currentTab === 'skins' && skinOffset === 0) {
-    $('content').innerHTML = '<div class="loading">Загрузка...</div>';
-  }
+  $('content').innerHTML = '<div class="loading">Загрузка...</div>';
   try {
     if (currentTab === 'skins') {
-      await loadMoreSkins(token);
+      await loadSkins(token);
     } else {
       const list = await loadModsContent(token);
       if (token !== reqId) return;
@@ -251,49 +249,37 @@ async function loadModsContent() {
   return {items: combined, hasNext: mr.items.length === LIMIT || cf.items.length === LIMIT};
 }
 
-async function loadMoreSkins(token) {
-  if (isLoadingSkins) return;
-  isLoadingSkins = true;
+async function loadSkins(token) {
+  const names = currentQuery && isValidNick(currentQuery) 
+    ? [currentQuery] 
+    : SKIN_NAMES;
   
-  try {
-    const names = currentQuery && isValidNick(currentQuery) 
-      ? [currentQuery] 
-      : SKIN_NAMES.slice(skinOffset, skinOffset + SKIN_LIMIT);
-    
-    if (names.length === 0) {
-      if (skinOffset === 0) {
-        $('content').innerHTML = '<div class="error">Нет доступных скинов</div>';
-      }
-      isLoadingSkins = false;
-      return;
-    }
+  if (names.length === 0) {
+    $('content').innerHTML = '<div class="error">Нет доступных скинов</div>';
+    return;
+  }
 
-    const newSkins = await Promise.all(names.map(async n => {
-      try {
-        const u = await getJson(`https://api.mojang.com/users/profiles/minecraft/${n}`);
-        if (!u?.id) return null;
-        return {
-          id: u.id, name: u.name,
-          head: `https://mc-heads.net/avatar/${u.id}/128`,
-          body: `https://mc-heads.net/body/${u.id}/128`,
-          full: `https://mc-heads.net/player/${u.id}/256`
-        };
-      } catch { return null; }
-    }));
+  const skinPromises = names.map(async n => {
+    try {
+      const u = await getJson(`https://api.mojang.com/users/profiles/minecraft/${n}`);
+      if (!u?.id) return null;
+      return {
+        id: u.id, name: u.name,
+        head: `https://mc-heads.net/avatar/${u.id}/128`,
+        body: `https://mc-heads.net/body/${u.id}/128`,
+        full: `https://mc-heads.net/player/${u.id}/256`
+      };
+    } catch { return null; }
+  });
 
-    const validSkins = newSkins.filter(s => s);
-    allSkins.push(...validSkins);
-    skinOffset += SKIN_LIMIT;
+  const skins = (await Promise.all(skinPromises)).filter(s => s);
+  
+  if (token !== reqId) return;
 
-    if (token !== reqId) return;
-
-    if (allSkins.length === 0 && skinOffset === SKIN_LIMIT) {
-      $('content').innerHTML = '<div class="error">Скины не найдены</div>';
-    } else {
-      renderSkinCards(allSkins, !currentQuery || names.length === SKIN_LIMIT);
-    }
-  } finally {
-    isLoadingSkins = false;
+  if (skins.length === 0) {
+    $('content').innerHTML = '<div class="error">Скины не найдены</div>';
+  } else {
+    renderSkinCards(skins);
   }
 }
 
@@ -338,7 +324,7 @@ function renderCards(list, token) {
   translateAll(token);
 }
 
-function renderSkinCards(skins, showLoadMore) {
+function renderSkinCards(skins) {
   const grid = skins.map(s => `
     <div class="card" tabindex="0" data-skin="${esc(s.name)}">
       <img src="${esc(s.head)}" alt="${esc(s.name)}" class="card-image skin" loading="lazy">
@@ -350,13 +336,7 @@ function renderSkinCards(skins, showLoadMore) {
     </div>
   `).join('');
 
-  const loadMoreBtn = showLoadMore ? `
-    <button class="load-more-btn" id="loadMoreSkins" ${isLoadingSkins ? 'disabled' : ''}>
-      ${isLoadingSkins ? 'Загрузка...' : 'Загрузить ещё'}
-    </button>
-  ` : '';
-
-  $('content').innerHTML = `<div class="grid">${grid}</div>${loadMoreBtn}`;
+  $('content').innerHTML = `<div class="grid">${grid}</div>`;
   
   document.querySelectorAll('.card[data-skin]').forEach(card => {
     const name = card.dataset.skin;
@@ -364,28 +344,7 @@ function renderSkinCards(skins, showLoadMore) {
     card.addEventListener('click', () => openSkinDetail(skin));
     card.addEventListener('keydown', e => { if (e.key === 'Enter') openSkinDetail(skin); });
   });
-
-  const btn = $('loadMoreSkins');
-  if (btn) {
-    btn.addEventListener('click', () => loadMoreSkins(reqId));
-  }
 }
-
-// Auto-load при скролле для скинов
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-  if (currentTab !== 'skins' || isLoadingSkins) return;
-  clearTimeout(scrollTimeout);
-  scrollTimeout = setTimeout(() => {
-    const btn = $('loadMoreSkins');
-    if (btn && !btn.disabled) {
-      const rect = btn.getBoundingClientRect();
-      if (rect.top < window.innerHeight + 200) {
-        btn.click();
-      }
-    }
-  }, 100);
-});
 
 async function openDetail(id, source) {
   const modal = $('detailModal'), body = $('modalBody');
