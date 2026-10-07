@@ -2,636 +2,993 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Всё лучшее для Minecraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
     <style>
-        :root {
-            --theme-primary: #38BDF8;
-            --theme-primary-dim: #1E3A52;
-            --theme-glow: rgba(56, 189, 248, 0.3);
-        }
-        [data-theme="green"] {
-            --theme-primary: #10B981;
-            --theme-primary-dim: #064E3B;
-            --theme-glow: rgba(16, 185, 129, 0.3);
-        }
-        [data-theme="blue"] {
-            --theme-primary: #3B82F6;
-            --theme-primary-dim: #1E3A8A;
-            --theme-glow: rgba(59, 130, 246, 0.3);
-        }
-        [data-theme="white"] {
-            --theme-primary: #F3F4F6;
-            --theme-primary-dim: #6B7280;
-            --theme-glow: rgba(243, 244, 246, 0.3);
-        }
-        [data-theme="red"] {
-            --theme-primary: #EF4444;
-            --theme-primary-dim: #7F1D1D;
-            --theme-glow: rgba(239, 68, 68, 0.3);
-        }
-        [data-theme="yellow"] {
-            --theme-primary: #F59E0B;
-            --theme-primary-dim: #78350F;
-            --theme-glow: rgba(245, 158, 11, 0.3);
-        }
-        [data-theme="purple"] {
-            --theme-primary: #A855F7;
-            --theme-primary-dim: #581C87;
-            --theme-glow: rgba(168, 85, 247, 0.3);
-        }
-        [data-theme="cyan"] {
-            --theme-primary: #06B6D4;
-            --theme-primary-dim: #164E63;
-            --theme-glow: rgba(6, 182, 212, 0.3);
-        }
-        [data-theme="black"] {
-            --theme-primary: #1F2937;
-            --theme-primary-dim: #030712;
-            --theme-glow: rgba(31, 41, 55, 0.3);
-        }
-        [data-theme="lime"] {
-            --theme-primary: #84CC16;
-            --theme-primary-dim: #365314;
-            --theme-glow: rgba(132, 204, 22, 0.3);
-        }
-        [data-theme="lavender"] {
-            --theme-primary: #C084FC;
-            --theme-primary-dim: #6B21A8;
-            --theme-glow: rgba(192, 132, 252, 0.3);
-        }
-        [data-theme="brown"] {
-            --theme-primary: #D97706;
-            --theme-primary-dim: #451A03;
-            --theme-glow: rgba(217, 119, 6, 0.3);
-        }
-        [data-theme="beige"] {
-            --theme-primary: #FDE68A;
-            --theme-primary-dim: #92400E;
-            --theme-glow: rgba(253, 230, 138, 0.3);
-        }
-        [data-theme="cosmic"] {
-            --theme-primary: #8B5CF6;
-            --theme-primary-dim: #4C1D95;
-            --theme-glow: rgba(139, 92, 246, 0.3);
-        }
-        [data-theme="crimson"] {
-            --theme-primary: #DC2626;
-            --theme-primary-dim: #7F1D1D;
-            --theme-glow: rgba(220, 38, 38, 0.3);
-        }
-        [data-theme="fire"] {
-            --theme-primary: #F97316;
-            --theme-primary-dim: #7C2D12;
-            --theme-glow: rgba(249, 115, 22, 0.3);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            color: #E8EDF4;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+        :root {
+            --surface-0: #05070C;
+            --surface-1: #0A0D12;
+            --surface-2: #0F131C;
+            --surface-3: #161D2B;
+            --surface-4: #1E2636;
+            --accent: #38BDF8;
+            --accent-dim: #1E3A5F;
+            --text: #E8EDF4;
+            --text-dim: #9CA3AF;
+            --success: #10B981;
+            --error: #EF4444;
+            --radius-full: 999px;
+            --radius-lg: 1.5rem;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
         }
 
-        .stars {
+        body {
+            background: var(--surface-0);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
+
+        header {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--accent), #6EE7B7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            overflow-x: auto;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .tab {
+            background: var(--surface-2);
+            color: var(--text-dim);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: var(--surface-3);
+            color: var(--text);
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: var(--surface-0);
+        }
+
+        /* Search Bar */
+        .search-container {
+            background: var(--surface-2);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-row {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .search-input {
+            flex: 1;
+            background: var(--surface-3);
+            border: 2px solid transparent;
+            color: var(--text);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .search-btn {
+            background: var(--accent);
+            color: var(--surface-0);
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .search-btn:hover {
+            background: #22A9E0;
+            transform: scale(1.02);
+        }
+
+        .filters {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            background: var(--surface-3);
+            border: 2px solid transparent;
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: border 0.2s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .filter-select option {
+            background: var(--surface-3);
+            color: var(--text);
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .card {
+            background: var(--surface-2);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background: var(--surface-4);
+        }
+
+        .card-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .card-description {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
+            line-height: 1.5;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tag {
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: var(--surface-0);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background 0.2s, transform 0.1s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #22A9E0;
+            transform: scale(1.02);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--surface-3);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-4);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            background: rgba(5, 7, 12, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.2s;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: transparent;
-            padding: 20px 32px;
+        .modal.active {
             display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            gap: 0;
-            z-index: 100;
+            padding: var(--spacing-xl);
         }
 
-        .nav-link {
-            color: #E8EDF4;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 500;
-            padding: 10px 24px;
-            border-radius: 12px;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .nav-link:nth-child(1), .nav-link:nth-child(6) {
-            font-size: 14px;
-            opacity: 0.7;
+        .modal-content {
+            background: var(--surface-2);
+            border-radius: var(--radius-lg);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
         }
 
-        .nav-link:nth-child(2), .nav-link:nth-child(5) {
-            font-size: 16px;
-            opacity: 0.85;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .nav-link:nth-child(3), .nav-link:nth-child(4) {
-            font-size: 18px;
-            opacity: 1;
-        }
-
-        .nav-link:hover {
-            background: rgba(56, 189, 248, 0.15);
-            color: var(--theme-primary);
-            transform: translateY(-2px);
-        }
-
-        .nav-link.active {
-            background: var(--theme-primary);
-            color: #090A0F;
-        }
-
-        .theme-selector {
-            position: fixed;
-            top: 90px;
-            left: 24px;
-            z-index: 99;
-        }
-
-        .theme-button {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: transparent;
-            border: 3px solid var(--theme-primary);
-            box-shadow: 0 0 15px var(--theme-glow), inset 0 0 10px var(--theme-glow);
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .theme-button::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 50%;
-            background: var(--theme-primary);
-            opacity: 0.2;
-            filter: blur(8px);
-        }
-
-        .theme-button:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 20px var(--theme-glow), inset 0 0 15px var(--theme-glow);
-        }
-
-        .theme-menu {
-            position: absolute;
-            top: 0;
-            left: 50px;
-            background: rgba(10, 13, 18, 0.95);
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--theme-primary);
-            border-radius: 30px;
-            padding: 12px 16px;
-            display: none;
-            flex-direction: row;
-            gap: 12px;
-            align-items: center;
-            box-shadow: 0 8px 32px var(--theme-glow), inset 0 0 20px rgba(0,0,0,0.3);
-        }
-
-        .theme-menu.active {
+        .modal-header {
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--surface-3);
             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--spacing-md);
         }
 
-        .theme-option {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: transparent;
-            border: 2.5px solid;
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 2rem;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
             flex-shrink: 0;
         }
 
-        .theme-option::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 50%;
-            opacity: 0.35;
-            filter: blur(6px);
-            transition: all 0.3s;
-            z-index: -1;
+        .modal-close:hover {
+            background: var(--surface-3);
+            color: var(--text);
         }
 
-        .theme-option::after {
-            content: '';
-            position: absolute;
-            inset: 4px;
-            border-radius: 50%;
-            opacity: 0.2;
-            transition: all 0.3s;
+        .modal-body {
+            padding: var(--spacing-xl);
         }
 
-        .theme-option:hover {
-            transform: scale(1.2);
-            border-width: 3px;
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+            background: var(--surface-4);
         }
 
-        .theme-option:hover::before {
-            opacity: 0.6;
-            filter: blur(10px);
+        .modal-description {
+            color: var(--text-dim);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-lg);
         }
 
-        .theme-option[data-theme="green"] { border-color: #10B981; }
-        .theme-option[data-theme="green"]::before { background: #10B981; }
-        .theme-option[data-theme="green"]::after { background: #10B981; }
-        .theme-option[data-theme="blue"] { border-color: #3B82F6; }
-        .theme-option[data-theme="blue"]::before { background: #3B82F6; }
-        .theme-option[data-theme="blue"]::after { background: #3B82F6; }
-        .theme-option[data-theme="white"] { border-color: #F3F4F6; }
-        .theme-option[data-theme="white"]::before { background: #F3F4F6; }
-        .theme-option[data-theme="white"]::after { background: #F3F4F6; }
-        .theme-option[data-theme="red"] { border-color: #EF4444; }
-        .theme-option[data-theme="red"]::before { background: #EF4444; }
-        .theme-option[data-theme="red"]::after { background: #EF4444; }
-        .theme-option[data-theme="yellow"] { border-color: #F59E0B; }
-        .theme-option[data-theme="yellow"]::before { background: #F59E0B; }
-        .theme-option[data-theme="yellow"]::after { background: #F59E0B; }
-        .theme-option[data-theme="purple"] { border-color: #A855F7; }
-        .theme-option[data-theme="purple"]::before { background: #A855F7; }
-        .theme-option[data-theme="purple"]::after { background: #A855F7; }
-        .theme-option[data-theme="cyan"] { border-color: #06B6D4; }
-        .theme-option[data-theme="cyan"]::before { background: #06B6D4; }
-        .theme-option[data-theme="cyan"]::after { background: #06B6D4; }
-        .theme-option[data-theme="black"] { border-color: #1F2937; }
-        .theme-option[data-theme="black"]::before { background: #1F2937; }
-        .theme-option[data-theme="black"]::after { background: #1F2937; }
-        .theme-option[data-theme="lime"] { border-color: #84CC16; }
-        .theme-option[data-theme="lime"]::before { background: #84CC16; }
-        .theme-option[data-theme="lime"]::after { background: #84CC16; }
-        .theme-option[data-theme="lavender"] { border-color: #C084FC; }
-        .theme-option[data-theme="lavender"]::before { background: #C084FC; }
-        .theme-option[data-theme="lavender"]::after { background: #C084FC; }
-        .theme-option[data-theme="brown"] { border-color: #D97706; }
-        .theme-option[data-theme="brown"]::before { background: #D97706; }
-        .theme-option[data-theme="brown"]::after { background: #D97706; }
-        .theme-option[data-theme="beige"] { border-color: #FDE68A; }
-        .theme-option[data-theme="beige"]::before { background: #FDE68A; }
-        .theme-option[data-theme="beige"]::after { background: #FDE68A; }
-        .theme-option[data-theme="cosmic"] { border-color: #8B5CF6; }
-        .theme-option[data-theme="cosmic"]::before { background: #8B5CF6; }
-        .theme-option[data-theme="cosmic"]::after { background: #8B5CF6; }
-        .theme-option[data-theme="crimson"] { border-color: #DC2626; }
-        .theme-option[data-theme="crimson"]::before { background: #DC2626; }
-        .theme-option[data-theme="crimson"]::after { background: #DC2626; }
-        .theme-option[data-theme="fire"] { border-color: #F97316; }
-        .theme-option[data-theme="fire"]::before { background: #F97316; }
-        .theme-option[data-theme="fire"]::after { background: #F97316; }
-
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
-            padding-bottom: 100px;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 6.5rem);
-            font-weight: 900;
-            letter-spacing: 0.05em;
-            text-align: center;
-            color: var(--theme-primary);
-            user-select: none;
-            pointer-events: none;
-            text-transform: uppercase;
-            filter: blur(1px);
-            text-shadow: 0 0 20px var(--theme-glow);
-        }
-
-        .page {
-            display: none;
-            padding: 100px 32px 32px;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .page-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
-            margin-bottom: 48px;
-            color: var(--theme-primary);
-            text-align: center;
-        }
-
-        .grid {
+        .modal-info {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            max-width: 1600px;
-            margin: 0 auto;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
         }
 
-        .card {
-            background: rgba(15, 19, 18, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 16px;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--surface-3);
+        }
+
+        .info-label {
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            color: var(--text-dim);
+            padding: var(--spacing-xl);
+            font-size: 1.1rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #FCA5A5;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .empty {
+            text-align: center;
+            color: var(--text-dim);
+            padding: var(--spacing-xl) * 2;
+            font-size: 1.1rem;
+        }
+
+        .load-more {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Skin Card */
+        .skin-card {
+            background: var(--surface-2);
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            transition: all 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
             cursor: pointer;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px var(--theme-glow);
-            border-color: var(--theme-primary);
+        .skin-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
         }
 
-        .card-image {
+        .skin-preview {
             width: 100%;
-            aspect-ratio: 16/9;
-            background: rgba(30, 38, 54, 0.5);
+            height: 280px;
+            background: var(--surface-4);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #8B95A8;
-            font-size: 14px;
+            overflow: hidden;
         }
 
-        .card-content {
-            padding: 20px;
+        .skin-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            image-rendering: pixelated;
         }
 
-        .card-title {
-            font-size: 20px;
+        .skin-info {
+            padding: var(--spacing-lg);
+        }
+
+        .skin-name {
             font-weight: 600;
-            color: var(--theme-primary);
-            margin-bottom: 8px;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text);
         }
 
-        .card-desc {
-            font-size: 14px;
-            color: #8B95A8;
-            line-height: 1.5;
+        .skin-likes {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
         }
 
-        @media (min-width: 1400px) {
-            .grid {
-                grid-template-columns: repeat(6, 1fr);
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-md);
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .search-row {
+                flex-direction: column;
+            }
+
+            .modal-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                gap: var(--spacing-xs);
+            }
+
+            .tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
-<body data-theme="cyan">
-    <div class="stars" id="stars"></div>
+<body>
+    <div class="container">
+        <header>
+            <h1>Minecraft Hub</h1>
+            <p class="subtitle">Более 170,000 модов, модпаков, ресурспаков, шейдеров и скинов</p>
+        </header>
 
-    <nav class="navbar">
-        <a class="nav-link active" data-page="home">Главная</a>
-        <a class="nav-link" data-page="modpacks">Сборки</a>
-        <a class="nav-link" data-page="mods">Моды</a>
-        <a class="nav-link" data-page="resourcepacks">Ресурспаки</a>
-        <a class="nav-link" data-page="shaders">Шейдеры</a>
-        <a class="nav-link" data-page="skins">Скины</a>
-    </nav>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="mods">Моды</button>
+            <button class="tab" data-tab="modpacks">Модпаки</button>
+            <button class="tab" data-tab="resourcepacks">Ресурспаки</button>
+            <button class="tab" data-tab="shaders">Шейдеры</button>
+            <button class="tab" data-tab="skins">Скины</button>
+        </div>
 
-    <div class="theme-selector">
-        <div class="theme-button" id="themeButton"></div>
-        <div class="theme-menu" id="themeMenu">
-            <div class="theme-option" data-theme="green"></div>
-            <div class="theme-option" data-theme="blue"></div>
-            <div class="theme-option" data-theme="white"></div>
-            <div class="theme-option" data-theme="red"></div>
-            <div class="theme-option" data-theme="yellow"></div>
-            <div class="theme-option" data-theme="purple"></div>
-            <div class="theme-option" data-theme="cyan"></div>
-            <div class="theme-option" data-theme="black"></div>
-            <div class="theme-option" data-theme="lime"></div>
-            <div class="theme-option" data-theme="lavender"></div>
-            <div class="theme-option" data-theme="brown"></div>
-            <div class="theme-option" data-theme="beige"></div>
-            <div class="theme-option" data-theme="cosmic"></div>
-            <div class="theme-option" data-theme="crimson"></div>
-            <div class="theme-option" data-theme="fire"></div>
+        <!-- Search -->
+        <div class="search-container">
+            <div class="search-row">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="search-input" 
+                    placeholder="Поиск..."
+                >
+                <button class="search-btn" onclick="search()">Найти</button>
+            </div>
+            <div class="filters" id="filters">
+                <select class="filter-select" id="version-filter">
+                    <option value="">Все версии</option>
+                    <option value="1.20.1">1.20.1</option>
+                    <option value="1.20">1.20</option>
+                    <option value="1.19.4">1.19.4</option>
+                    <option value="1.19.2">1.19.2</option>
+                    <option value="1.18.2">1.18.2</option>
+                    <option value="1.16.5">1.16.5</option>
+                    <option value="1.12.2">1.12.2</option>
+                </select>
+                <select class="filter-select" id="source-filter">
+                    <option value="both">CurseForge + Modrinth</option>
+                    <option value="curseforge">Только CurseForge</option>
+                    <option value="modrinth">Только Modrinth</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div id="content">
+            <div class="loading">Загрузка</div>
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more hidden" id="load-more-container">
+            <button class="btn btn-secondary" onclick="loadMore()">Показать ещё</button>
         </div>
     </div>
 
-    <div class="page active" id="home">
-        <div class="hero">
-            <h1 class="hero-title">ВСЁ ЛУЧШЕЕ ДЛЯ MINECRAFT</h1>
-        </div>
-    </div>
-
-    <div class="page" id="modpacks">
-        <h2 class="page-title">Сборки</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Сборка 1</div>
-                    <div class="card-desc">Описание сборки</div>
-                </div>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title"></h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Сборка 2</div>
-                    <div class="card-desc">Описание сборки</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page" id="mods">
-        <h2 class="page-title">Моды</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Мод 1</div>
-                    <div class="card-desc">Описание мода</div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Мод 2</div>
-                    <div class="card-desc">Описание мода</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page" id="resourcepacks">
-        <h2 class="page-title">Ресурспаки</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Ресурспак 1</div>
-                    <div class="card-desc">Описание ресурспака</div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Ресурспак 2</div>
-                    <div class="card-desc">Описание ресурспака</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page" id="shaders">
-        <h2 class="page-title">Шейдеры</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Шейдер 1</div>
-                    <div class="card-desc">Описание шейдера</div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Шейдер 2</div>
-                    <div class="card-desc">Описание шейдера</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page" id="skins">
-        <h2 class="page-title">Скины</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Скин 1</div>
-                    <div class="card-desc">Описание скина</div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-image">Изображение</div>
-                <div class="card-content">
-                    <div class="card-title">Скин 2</div>
-                    <div class="card-desc">Описание скина</div>
-                </div>
+            <div class="modal-body" id="modal-body">
+                <div class="loading">Загрузка</div>
             </div>
         </div>
     </div>
 
     <script>
-        function generateStars() {
-            const starsContainer = document.getElementById('stars');
-            const starCount = 150;
+        const WORKER_URL = 'https://minecraft-proxy.zxcdedinside944.workers.dev';
+        
+        let currentTab = 'mods';
+        let currentPage = 0;
+        let isLoading = false;
+        let hasMore = true;
+
+        // Category mapping
+        const categoryMap = {
+            mods: { curseforge: '6', modrinth: 'mod' },
+            modpacks: { curseforge: '4471', modrinth: 'modpack' },
+            resourcepacks: { curseforge: '12', modrinth: 'resourcepack' },
+            shaders: { curseforge: '6552', modrinth: 'shader' }
+        };
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            setupTabs();
+            setupSearch();
+            loadContent();
+        });
+
+        // Tab switching
+        function setupTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentTab = tab.dataset.tab;
+                    currentPage = 0;
+                    hasMore = true;
+                    
+                    // Hide filters for skins
+                    document.getElementById('filters').classList.toggle('hidden', currentTab === 'skins');
+                    
+                    loadContent();
+                });
+            });
+        }
+
+        // Search
+        function setupSearch() {
+            document.getElementById('search-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') search();
+            });
             
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                const size = Math.random() * 2 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                
-                star.style.animationDelay = `${Math.random() * 3}s`;
-                star.style.animationDuration = `${Math.random() * 2 + 2}s`;
-                
-                starsContainer.appendChild(star);
+            document.getElementById('version-filter').addEventListener('change', search);
+            document.getElementById('source-filter').addEventListener('change', search);
+        }
+
+        function search() {
+            currentPage = 0;
+            hasMore = true;
+            loadContent();
+        }
+
+        // Load content
+        async function loadContent() {
+            if (isLoading) return;
+            isLoading = true;
+
+            const content = document.getElementById('content');
+            const loadMoreBtn = document.getElementById('load-more-container');
+
+            if (currentPage === 0) {
+                content.innerHTML = '<div class="loading">Загрузка</div>';
+                loadMoreBtn.classList.add('hidden');
+            }
+
+            try {
+                if (currentTab === 'skins') {
+                    await loadSkins();
+                } else {
+                    await loadMods();
+                }
+            } catch (error) {
+                if (currentPage === 0) {
+                    content.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
+                }
+            } finally {
+                isLoading = false;
             }
         }
 
-        function initNavigation() {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pages = document.querySelectorAll('.page');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetPage = link.getAttribute('data-page');
-                    
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                    
-                    pages.forEach(page => {
-                        if (page.id === targetPage) {
-                            page.classList.add('active');
-                        } else {
-                            page.classList.remove('active');
-                        }
-                    });
-                });
-            });
-        }
+        async function loadMods() {
+            const query = document.getElementById('search-input').value;
+            const version = document.getElementById('version-filter').value;
+            const source = document.getElementById('source-filter').value;
+            const content = document.getElementById('content');
+            const loadMoreBtn = document.getElementById('load-more-container');
 
-        function initThemeSelector() {
-            const themeButton = document.getElementById('themeButton');
-            const themeMenu = document.getElementById('themeMenu');
-            const themeOptions = document.querySelectorAll('.theme-option');
-            const body = document.body;
-            
-            themeButton.addEventListener('click', () => {
-                themeMenu.classList.toggle('active');
-            });
-            
-            document.addEventListener('click', (e) => {
-                if (!themeButton.contains(e.target) && !themeMenu.contains(e.target)) {
-                    themeMenu.classList.remove('active');
+            let results = [];
+
+            // Load from CurseForge
+            if (source === 'both' || source === 'curseforge') {
+                try {
+                    const cfData = await fetchCurseForge(query, version);
+                    results = results.concat(cfData.map(item => ({ ...item, source: 'curseforge' })));
+                } catch (error) {
+                    console.error('CurseForge error:', error);
                 }
+            }
+
+            // Load from Modrinth
+            if (source === 'both' || source === 'modrinth') {
+                try {
+                    const mrData = await fetchModrinth(query, version);
+                    results = results.concat(mrData.map(item => ({ ...item, source: 'modrinth' })));
+                } catch (error) {
+                    console.error('Modrinth error:', error);
+                }
+            }
+
+            if (currentPage === 0) {
+                if (results.length === 0) {
+                    content.innerHTML = '<div class="empty">Ничего не найдено</div>';
+                    return;
+                }
+                content.innerHTML = '<div class="grid" id="grid"></div>';
+            }
+
+            const grid = document.getElementById('grid');
+            results.forEach(item => {
+                grid.appendChild(createCard(item));
             });
-            
-            themeOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    const theme = option.getAttribute('data-theme');
-                    body.setAttribute('data-theme', theme);
-                    themeMenu.classList.remove('active');
-                });
-            });
+
+            hasMore = results.length >= 20;
+            loadMoreBtn.classList.toggle('hidden', !hasMore);
         }
 
-        generateStars();
-        initNavigation();
-        initThemeSelector();
+        async function fetchCurseForge(query, version) {
+            const category = categoryMap[currentTab].curseforge;
+            const url = `${WORKER_URL}/curseforge/search?category=${category}&pageSize=20&index=${currentPage * 20}${query ? `&query=${encodeURIComponent(query)}` : ''}${version ? `&version=${encodeURIComponent(version)}` : ''}`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            return data.data || [];
+        }
+
+        async function fetchModrinth(query, version) {
+            const projectType = categoryMap[currentTab].modrinth;
+            let facets = `["project_type:${projectType}"]`;
+            
+            if (version) {
+                facets = `["project_type:${projectType}","versions:${version}"]`;
+            }
+            
+            const url = `${WORKER_URL}/modrinth/search?limit=20&offset=${currentPage * 20}${query ? `&query=${encodeURIComponent(query)}` : ''}&facets=${encodeURIComponent(facets)}`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            return data.hits || [];
+        }
+
+        function createCard(item) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openModal(item);
+
+            const isCurseForge = item.source === 'curseforge';
+            
+            const name = isCurseForge ? item.name : item.title;
+            const description = isCurseForge ? item.summary : item.description;
+            const image = isCurseForge ? item.logo?.url : item.icon_url || item.gallery?.[0]?.url;
+            const downloads = isCurseForge ? item.downloadCount : item.downloads;
+            const author = isCurseForge ? item.authors?.[0]?.name : item.author;
+
+            card.innerHTML = `
+                <img src="${image || 'https://via.placeholder.com/280x160/1E2636/38BDF8?text=No+Image'}" 
+                     alt="${name}" 
+                     class="card-image"
+                     onerror="this.src='https://via.placeholder.com/280x160/1E2636/38BDF8?text=No+Image'">
+                <div class="card-content">
+                    <h3 class="card-title">${name}</h3>
+                    <p class="card-description">${description || 'Нет описания'}</p>
+                    <div class="card-meta">
+                        <span class="tag">${item.source === 'curseforge' ? 'CurseForge' : 'Modrinth'}</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>📥 ${formatNumber(downloads)}</span>
+                        <span>👤 ${author || 'Неизвестен'}</span>
+                    </div>
+                    <button class="btn" onclick="event.stopPropagation(); openModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                        Подробнее
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        async function loadSkins() {
+            const content = document.getElementById('content');
+            const loadMoreBtn = document.getElementById('load-more-container');
+            
+            try {
+                const response = await fetch(`${WORKER_URL}/namemc/skins`);
+                const skins = await response.json();
+                
+                if (skins.length === 0) {
+                    content.innerHTML = '<div class="empty">Скины не найдены</div>';
+                    return;
+                }
+
+                content.innerHTML = '<div class="grid" id="grid"></div>';
+                const grid = document.getElementById('grid');
+
+                skins.slice(0, 20).forEach(skin => {
+                    const card = document.createElement('div');
+                    card.className = 'skin-card';
+                    
+                    card.innerHTML = `
+                        <div class="skin-preview">
+                            <img src="https://namemc.com/texture/${skin.texture}.png" 
+                                 alt="Skin" 
+                                 style="width: 200px; height: auto;">
+                        </div>
+                        <div class="skin-info">
+                            <div class="skin-name">Скин ${skin.texture.substring(0, 8)}</div>
+                            <div class="skin-likes">❤️ ${formatNumber(skin.likes)} лайков</div>
+                            <a href="https://namemc.com/skin/${skin.texture}" 
+                               target="_blank" 
+                               class="btn">
+                                Скачать на NameMC
+                            </a>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+
+                loadMoreBtn.classList.add('hidden');
+                hasMore = false;
+            } catch (error) {
+                content.innerHTML = `<div class="error">Ошибка загрузки скинов: ${error.message}</div>`;
+            }
+        }
+
+        function loadMore() {
+            currentPage++;
+            loadContent();
+        }
+
+        // Modal
+        async function openModal(item) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            const isCurseForge = item.source === 'curseforge';
+            const name = isCurseForge ? item.name : item.title;
+
+            title.textContent = name;
+            body.innerHTML = '<div class="loading">Загрузка</div>';
+
+            try {
+                if (isCurseForge) {
+                    await loadCurseForgeDetails(item, body);
+                } else {
+                    await loadModrinthDetails(item, body);
+                }
+            } catch (error) {
+                body.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
+            }
+        }
+
+        async function loadCurseForgeDetails(item, body) {
+            const description = item.summary || 'Нет описания';
+            const image = item.logo?.url;
+            const downloads = item.downloadCount;
+            const author = item.authors?.[0]?.name;
+            const dateModified = new Date(item.dateModified).toLocaleDateString('ru-RU');
+            
+            // Get latest file
+            const latestFile = item.latestFiles?.[0];
+            const downloadUrl = item.links?.websiteUrl;
+
+            body.innerHTML = `
+                ${image ? `<img src="${image}" alt="${item.name}" class="modal-image">` : ''}
+                <p class="modal-description">${description}</p>
+                <div class="modal-info">
+                    <div class="info-row">
+                        <span class="info-label">Автор</span>
+                        <span class="info-value">${author || 'Неизвестен'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Загрузок</span>
+                        <span class="info-value">${formatNumber(downloads)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Обновлено</span>
+                        <span class="info-value">${dateModified}</span>
+                    </div>
+                    ${latestFile ? `
+                    <div class="info-row">
+                        <span class="info-label">Версия Minecraft</span>
+                        <span class="info-value">${latestFile.gameVersions?.join(', ') || 'Неизвестна'}</span>
+                    </div>
+                    ` : ''}
+                </div>
+                <div class="modal-actions">
+                    <a href="${downloadUrl}" target="_blank" class="btn">Открыть на CurseForge</a>
+                    <button class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+                </div>
+            `;
+        }
+
+        async function loadModrinthDetails(item, body) {
+            const response = await fetch(`${WORKER_URL}/modrinth/project/${item.project_id || item.slug}`);
+            const project = await response.json();
+            
+            const versionsResponse = await fetch(`${WORKER_URL}/modrinth/versions?projectId=${project.id}`);
+            const versions = await versionsResponse.json();
+            
+            const latestVersion = versions[0];
+            const downloadUrl = latestVersion?.files?.[0]?.url;
+
+            body.innerHTML = `
+                ${project.icon_url ? `<img src="${project.icon_url}" alt="${project.title}" class="modal-image">` : ''}
+                <p class="modal-description">${project.body || project.description || 'Нет описания'}</p>
+                <div class="modal-info">
+                    <div class="info-row">
+                        <span class="info-label">Автор</span>
+                        <span class="info-value">${item.author || 'Неизвестен'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Загрузок</span>
+                        <span class="info-value">${formatNumber(project.downloads)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Обновлено</span>
+                        <span class="info-value">${new Date(project.updated).toLocaleDateString('ru-RU')}</span>
+                    </div>
+                    ${latestVersion ? `
+                    <div class="info-row">
+                        <span class="info-label">Версия Minecraft</span>
+                        <span class="info-value">${latestVersion.game_versions?.join(', ') || 'Неизвестна'}</span>
+                    </div>
+                    ` : ''}
+                </div>
+                <div class="modal-actions">
+                    ${downloadUrl ? `<a href="${downloadUrl}" class="btn" download>Скачать напрямую</a>` : ''}
+                    <a href="https://modrinth.com/${project.project_type}/${project.slug}" target="_blank" class="btn ${downloadUrl ? 'btn-secondary' : ''}">
+                        Открыть на Modrinth
+                    </a>
+                </div>
+            `;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Click outside modal to close
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+
+        // Utils
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
     </script>
 </body>
 </html>
