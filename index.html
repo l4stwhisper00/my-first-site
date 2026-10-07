@@ -50,6 +50,7 @@
 
         header {
             margin-bottom: var(--spacing-xl);
+            text-align: center;
         }
 
         h1 {
@@ -76,6 +77,8 @@
             margin-bottom: var(--spacing-xl);
             overflow-x: auto;
             padding-bottom: var(--spacing-sm);
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .tab {
@@ -113,10 +116,12 @@
             display: flex;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
         }
 
         .search-input {
             flex: 1;
+            min-width: 250px;
             background: var(--surface-3);
             border: 2px solid transparent;
             color: var(--text);
@@ -150,6 +155,10 @@
         .search-btn:hover {
             background: #22A9E0;
             transform: scale(1.02);
+        }
+
+        .search-btn:active {
+            transform: scale(0.98);
         }
 
         .filters {
@@ -452,14 +461,14 @@
             color: #FCA5A5;
             padding: var(--spacing-lg);
             border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-lg);
             text-align: center;
+            margin: var(--spacing-xl) 0;
         }
 
         .empty {
             text-align: center;
             color: var(--text-dim);
-            padding: var(--spacing-xl) * 2;
+            padding: var(--spacing-xl);
             font-size: 1.1rem;
         }
 
@@ -468,81 +477,28 @@
             margin-top: var(--spacing-xl);
         }
 
-        .hidden {
-            display: none !important;
+        /* Skin specific */
+        .skin-card .card-image {
+            height: 250px;
+            object-fit: contain;
+            background: linear-gradient(135deg, var(--surface-3), var(--surface-4));
         }
 
-        /* Skin Card */
-        .skin-card {
-            background: var(--surface-2);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-
-        .skin-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
-        }
-
-        .skin-preview {
-            width: 100%;
-            height: 280px;
-            background: var(--surface-4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .skin-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            image-rendering: pixelated;
-        }
-
-        .skin-info {
-            padding: var(--spacing-lg);
-        }
-
-        .skin-name {
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text);
-        }
-
-        .skin-likes {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            margin-bottom: var(--spacing-md);
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: var(--spacing-md);
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .search-row {
-                flex-direction: column;
             }
 
             .modal-actions {
                 grid-template-columns: 1fr;
             }
 
-            .tabs {
-                gap: var(--spacing-xs);
+            .search-row {
+                flex-direction: column;
             }
 
-            .tab {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
+            .search-input {
+                width: 100%;
             }
         }
     </style>
@@ -550,8 +506,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>Minecraft Hub</h1>
-            <p class="subtitle">Более 170,000 модов, модпаков, ресурспаков, шейдеров и скинов</p>
+            <h1>🎮 Minecraft Hub</h1>
+            <p class="subtitle">Моды, Модпаки, Ресурспаки, Шейдеры и Скины — всё в одном месте</p>
         </header>
 
         <!-- Tabs -->
@@ -563,44 +519,25 @@
             <button class="tab" data-tab="skins">Скины</button>
         </div>
 
-        <!-- Search -->
-        <div class="search-container">
+        <!-- Search Container -->
+        <div class="search-container" id="searchContainer">
             <div class="search-row">
-                <input 
-                    type="text" 
-                    class="search-input" 
-                    id="search-input" 
-                    placeholder="Поиск..."
-                >
-                <button class="search-btn" onclick="search()">Найти</button>
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск...">
+                <button class="search-btn" id="searchBtn">Искать</button>
             </div>
-            <div class="filters" id="filters">
-                <select class="filter-select" id="version-filter">
-                    <option value="">Все версии</option>
-                    <option value="1.20.1">1.20.1</option>
-                    <option value="1.20">1.20</option>
-                    <option value="1.19.4">1.19.4</option>
-                    <option value="1.19.2">1.19.2</option>
-                    <option value="1.18.2">1.18.2</option>
-                    <option value="1.16.5">1.16.5</option>
-                    <option value="1.12.2">1.12.2</option>
-                </select>
-                <select class="filter-select" id="source-filter">
-                    <option value="both">CurseForge + Modrinth</option>
-                    <option value="curseforge">Только CurseForge</option>
-                    <option value="modrinth">Только Modrinth</option>
-                </select>
+            <div class="filters" id="filtersContainer">
+                <!-- Filters will be injected here -->
             </div>
         </div>
 
-        <!-- Content -->
-        <div id="content">
+        <!-- Content Grid -->
+        <div id="contentArea">
             <div class="loading">Загрузка</div>
         </div>
 
-        <!-- Load More -->
-        <div class="load-more hidden" id="load-more-container">
-            <button class="btn btn-secondary" onclick="loadMore()">Показать ещё</button>
+        <!-- Load More Button -->
+        <div class="load-more" id="loadMoreContainer" style="display: none;">
+            <button class="btn" id="loadMoreBtn">Загрузить ещё</button>
         </div>
     </div>
 
@@ -608,387 +545,375 @@
     <div class="modal" id="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="modal-title"></h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="modal-close" id="modalClose">&times;</button>
             </div>
-            <div class="modal-body" id="modal-body">
-                <div class="loading">Загрузка</div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be injected here -->
             </div>
         </div>
     </div>
 
     <script>
-        const WORKER_URL = 'https://minecraft-proxy.zxcdedinside944.workers.dev';
+        const WORKER_URL = 'https://minecraft-proxy.l4stwhisper00.workers.dev';
         
         let currentTab = 'mods';
         let currentPage = 0;
+        let currentQuery = '';
+        let currentVersion = '';
         let isLoading = false;
-        let hasMore = true;
 
-        // Category mapping
-        const categoryMap = {
-            mods: { curseforge: '6', modrinth: 'mod' },
-            modpacks: { curseforge: '4471', modrinth: 'modpack' },
-            resourcepacks: { curseforge: '12', modrinth: 'resourcepack' },
-            shaders: { curseforge: '6552', modrinth: 'shader' }
-        };
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentTab = tab.dataset.tab;
+                currentPage = 0;
+                currentQuery = '';
+                document.getElementById('searchInput').value = '';
+                loadContent();
+            });
+        });
 
-        // Init
-        document.addEventListener('DOMContentLoaded', () => {
-            setupTabs();
-            setupSearch();
+        // Search
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            currentQuery = document.getElementById('searchInput').value;
+            currentPage = 0;
             loadContent();
         });
 
-        // Tab switching
-        function setupTabs() {
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    currentTab = tab.dataset.tab;
-                    currentPage = 0;
-                    hasMore = true;
-                    
-                    // Hide filters for skins
-                    document.getElementById('filters').classList.toggle('hidden', currentTab === 'skins');
-                    
-                    loadContent();
-                });
-            });
-        }
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                currentQuery = document.getElementById('searchInput').value;
+                currentPage = 0;
+                loadContent();
+            }
+        });
 
-        // Search
-        function setupSearch() {
-            document.getElementById('search-input').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') search();
-            });
-            
-            document.getElementById('version-filter').addEventListener('change', search);
-            document.getElementById('source-filter').addEventListener('change', search);
-        }
+        // Load More
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+            currentPage++;
+            loadContent(true);
+        });
 
-        function search() {
-            currentPage = 0;
-            hasMore = true;
-            loadContent();
-        }
+        // Modal
+        document.getElementById('modalClose').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('active');
+        });
 
-        // Load content
-        async function loadContent() {
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('active');
+            }
+        });
+
+        // Load content based on current tab
+        async function loadContent(append = false) {
             if (isLoading) return;
             isLoading = true;
 
-            const content = document.getElementById('content');
-            const loadMoreBtn = document.getElementById('load-more-container');
+            const contentArea = document.getElementById('contentArea');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
 
-            if (currentPage === 0) {
-                content.innerHTML = '<div class="loading">Загрузка</div>';
-                loadMoreBtn.classList.add('hidden');
+            if (!append) {
+                contentArea.innerHTML = '<div class="loading">Загрузка</div>';
+                loadMoreContainer.style.display = 'none';
             }
 
             try {
+                let data;
+                
                 if (currentTab === 'skins') {
-                    await loadSkins();
+                    data = await loadSkins();
                 } else {
-                    await loadMods();
+                    data = await loadMods();
+                }
+
+                if (!append) {
+                    contentArea.innerHTML = '';
+                }
+
+                if (data.items.length === 0 && !append) {
+                    contentArea.innerHTML = '<div class="empty">Ничего не найдено</div>';
+                } else {
+                    renderContent(data.items, append);
+                    
+                    if (data.hasMore) {
+                        loadMoreContainer.style.display = 'block';
+                    } else {
+                        loadMoreContainer.style.display = 'none';
+                    }
                 }
             } catch (error) {
-                if (currentPage === 0) {
-                    content.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
-                }
-            } finally {
-                isLoading = false;
+                console.error('Error loading content:', error);
+                contentArea.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
             }
+
+            isLoading = false;
         }
 
+        // Load mods/modpacks/resourcepacks/shaders
         async function loadMods() {
-            const query = document.getElementById('search-input').value;
-            const version = document.getElementById('version-filter').value;
-            const source = document.getElementById('source-filter').value;
-            const content = document.getElementById('content');
-            const loadMoreBtn = document.getElementById('load-more-container');
+            const categoryMap = {
+                'mods': '6',
+                'modpacks': '4471',
+                'resourcepacks': '12',
+                'shaders': '6552'
+            };
 
-            let results = [];
+            const facetsMap = {
+                'mods': '["project_type:mod"]',
+                'modpacks': '["project_type:modpack"]',
+                'resourcepacks': '["project_type:resourcepack"]',
+                'shaders': '["project_type:shader"]'
+            };
 
-            // Load from CurseForge
-            if (source === 'both' || source === 'curseforge') {
-                try {
-                    const cfData = await fetchCurseForge(query, version);
-                    results = results.concat(cfData.map(item => ({ ...item, source: 'curseforge' })));
-                } catch (error) {
-                    console.error('CurseForge error:', error);
-                }
+            // Load from both CurseForge and Modrinth
+            const [curseforgeData, modrinthData] = await Promise.all([
+                fetch(`${WORKER_URL}/curseforge/search?query=${encodeURIComponent(currentQuery)}&category=${categoryMap[currentTab]}&pageSize=10&index=${currentPage * 10}`).then(r => r.json()),
+                fetch(`${WORKER_URL}/modrinth/search?query=${encodeURIComponent(currentQuery)}&facets=${encodeURIComponent(facetsMap[currentTab])}&limit=10&offset=${currentPage * 10}`).then(r => r.json())
+            ]);
+
+            const items = [];
+
+            // Process CurseForge data
+            if (curseforgeData.data) {
+                curseforgeData.data.forEach(mod => {
+                    items.push({
+                        source: 'curseforge',
+                        id: mod.id,
+                        name: mod.name,
+                        description: mod.summary,
+                        image: mod.logo?.url || 'https://via.placeholder.com/280x160?text=No+Image',
+                        downloads: mod.downloadCount,
+                        author: mod.authors?.[0]?.name || 'Unknown',
+                        dateModified: mod.dateModified,
+                        latestFiles: mod.latestFiles || []
+                    });
+                });
             }
 
-            // Load from Modrinth
-            if (source === 'both' || source === 'modrinth') {
-                try {
-                    const mrData = await fetchModrinth(query, version);
-                    results = results.concat(mrData.map(item => ({ ...item, source: 'modrinth' })));
-                } catch (error) {
-                    console.error('Modrinth error:', error);
-                }
+            // Process Modrinth data
+            if (modrinthData.hits) {
+                modrinthData.hits.forEach(project => {
+                    items.push({
+                        source: 'modrinth',
+                        id: project.project_id,
+                        slug: project.slug,
+                        name: project.title,
+                        description: project.description,
+                        image: project.icon_url || project.gallery?.[0] || 'https://via.placeholder.com/280x160?text=No+Image',
+                        downloads: project.downloads,
+                        author: project.author,
+                        dateModified: project.date_modified,
+                        versions: project.versions || []
+                    });
+                });
             }
 
-            if (currentPage === 0) {
-                if (results.length === 0) {
-                    content.innerHTML = '<div class="empty">Ничего не найдено</div>';
-                    return;
-                }
-                content.innerHTML = '<div class="grid" id="grid"></div>';
-            }
-
-            const grid = document.getElementById('grid');
-            results.forEach(item => {
-                grid.appendChild(createCard(item));
-            });
-
-            hasMore = results.length >= 20;
-            loadMoreBtn.classList.toggle('hidden', !hasMore);
+            return {
+                items,
+                hasMore: (curseforgeData.data?.length === 10 || modrinthData.hits?.length === 10)
+            };
         }
 
-        async function fetchCurseForge(query, version) {
-            const category = categoryMap[currentTab].curseforge;
-            const url = `${WORKER_URL}/curseforge/search?category=${category}&pageSize=20&index=${currentPage * 20}${query ? `&query=${encodeURIComponent(query)}` : ''}${version ? `&version=${encodeURIComponent(version)}` : ''}`;
-            
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            return data.data || [];
-        }
-
-        async function fetchModrinth(query, version) {
-            const projectType = categoryMap[currentTab].modrinth;
-            let facets = `["project_type:${projectType}"]`;
-            
-            if (version) {
-                facets = `["project_type:${projectType}","versions:${version}"]`;
-            }
-            
-            const url = `${WORKER_URL}/modrinth/search?limit=20&offset=${currentPage * 20}${query ? `&query=${encodeURIComponent(query)}` : ''}&facets=${encodeURIComponent(facets)}`;
-            
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            return data.hits || [];
-        }
-
-        function createCard(item) {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.onclick = () => openModal(item);
-
-            const isCurseForge = item.source === 'curseforge';
-            
-            const name = isCurseForge ? item.name : item.title;
-            const description = isCurseForge ? item.summary : item.description;
-            const image = isCurseForge ? item.logo?.url : item.icon_url || item.gallery?.[0]?.url;
-            const downloads = isCurseForge ? item.downloadCount : item.downloads;
-            const author = isCurseForge ? item.authors?.[0]?.name : item.author;
-
-            card.innerHTML = `
-                <img src="${image || 'https://via.placeholder.com/280x160/1E2636/38BDF8?text=No+Image'}" 
-                     alt="${name}" 
-                     class="card-image"
-                     onerror="this.src='https://via.placeholder.com/280x160/1E2636/38BDF8?text=No+Image'">
-                <div class="card-content">
-                    <h3 class="card-title">${name}</h3>
-                    <p class="card-description">${description || 'Нет описания'}</p>
-                    <div class="card-meta">
-                        <span class="tag">${item.source === 'curseforge' ? 'CurseForge' : 'Modrinth'}</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>📥 ${formatNumber(downloads)}</span>
-                        <span>👤 ${author || 'Неизвестен'}</span>
-                    </div>
-                    <button class="btn" onclick="event.stopPropagation(); openModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-                        Подробнее
-                    </button>
-                </div>
-            `;
-
-            return card;
-        }
-
+        // Load skins
         async function loadSkins() {
-            const content = document.getElementById('content');
-            const loadMoreBtn = document.getElementById('load-more-container');
-            
-            try {
-                const response = await fetch(`${WORKER_URL}/namemc/skins`);
-                const skins = await response.json();
+            if (currentQuery) {
+                // Search by username
+                const response = await fetch(`${WORKER_URL}/skins/search?username=${encodeURIComponent(currentQuery)}`);
+                const data = await response.json();
                 
-                if (skins.length === 0) {
-                    content.innerHTML = '<div class="empty">Скины не найдены</div>';
-                    return;
+                if (data.error) {
+                    throw new Error(data.error);
                 }
 
-                content.innerHTML = '<div class="grid" id="grid"></div>';
-                const grid = document.getElementById('grid');
+                return {
+                    items: [data.skin],
+                    hasMore: false
+                };
+            } else {
+                // Load popular skins
+                const response = await fetch(`${WORKER_URL}/skins/popular`);
+                const data = await response.json();
+                
+                return {
+                    items: data.skins,
+                    hasMore: false
+                };
+            }
+        }
 
-                skins.slice(0, 20).forEach(skin => {
-                    const card = document.createElement('div');
-                    card.className = 'skin-card';
-                    
+        // Render content
+        function renderContent(items, append) {
+            const contentArea = document.getElementById('contentArea');
+            
+            if (!append) {
+                contentArea.innerHTML = '<div class="grid"></div>';
+            }
+
+            const grid = contentArea.querySelector('.grid');
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = currentTab === 'skins' ? 'card skin-card' : 'card';
+                
+                if (currentTab === 'skins') {
                     card.innerHTML = `
-                        <div class="skin-preview">
-                            <img src="https://namemc.com/texture/${skin.texture}.png" 
-                                 alt="Skin" 
-                                 style="width: 200px; height: auto;">
-                        </div>
-                        <div class="skin-info">
-                            <div class="skin-name">Скин ${skin.texture.substring(0, 8)}</div>
-                            <div class="skin-likes">❤️ ${formatNumber(skin.likes)} лайков</div>
-                            <a href="https://namemc.com/skin/${skin.texture}" 
-                               target="_blank" 
-                               class="btn">
-                                Скачать на NameMC
-                            </a>
+                        <img src="${item.imageUrl}" alt="${item.name}" class="card-image" onerror="this.src='https://via.placeholder.com/280x250?text=No+Image'">
+                        <div class="card-content">
+                            <h3 class="card-title">${item.name}</h3>
+                            <button class="btn" onclick="downloadSkin('${item.id}', '${item.name}')">Скачать скин</button>
                         </div>
                     `;
+                } else {
+                    const downloads = item.downloads ? item.downloads.toLocaleString() : '0';
+                    const date = new Date(item.dateModified).toLocaleDateString('ru-RU');
                     
-                    grid.appendChild(card);
-                });
+                    card.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="card-image" onerror="this.src='https://via.placeholder.com/280x160?text=No+Image'">
+                        <div class="card-content">
+                            <h3 class="card-title">${item.name}</h3>
+                            <p class="card-description">${item.description || 'Нет описания'}</p>
+                            <div class="card-meta">
+                                <span class="tag">${item.author}</span>
+                                <span class="tag">${item.source === 'curseforge' ? 'CurseForge' : 'Modrinth'}</span>
+                            </div>
+                            <div class="card-stats">
+                                <span>📥 ${downloads}</span>
+                                <span>📅 ${date}</span>
+                            </div>
+                            <button class="btn" onclick="showDetails('${item.source}', '${item.id}', '${item.slug || ''}')">Подробнее</button>
+                        </div>
+                    `;
+                }
 
-                loadMoreBtn.classList.add('hidden');
-                hasMore = false;
-            } catch (error) {
-                content.innerHTML = `<div class="error">Ошибка загрузки скинов: ${error.message}</div>`;
-            }
+                grid.appendChild(card);
+            });
         }
 
-        function loadMore() {
-            currentPage++;
-            loadContent();
-        }
-
-        // Modal
-        async function openModal(item) {
+        // Show details modal
+        async function showDetails(source, id, slug) {
             const modal = document.getElementById('modal');
-            const title = document.getElementById('modal-title');
-            const body = document.getElementById('modal-body');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
 
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            const isCurseForge = item.source === 'curseforge';
-            const name = isCurseForge ? item.name : item.title;
-
-            title.textContent = name;
-            body.innerHTML = '<div class="loading">Загрузка</div>';
+            modalBody.innerHTML = '<div class="loading">Загрузка</div>';
 
             try {
-                if (isCurseForge) {
-                    await loadCurseForgeDetails(item, body);
+                let data;
+                let files = [];
+
+                if (source === 'curseforge') {
+                    const [modData, filesData] = await Promise.all([
+                        fetch(`${WORKER_URL}/curseforge/mod/${id}`).then(r => r.json()),
+                        fetch(`${WORKER_URL}/curseforge/files/?modId=${id}`).then(r => r.json())
+                    ]);
+
+                    data = modData.data;
+                    files = filesData.data || [];
                 } else {
-                    await loadModrinthDetails(item, body);
+                    const [projectData, versionsData] = await Promise.all([
+                        fetch(`${WORKER_URL}/modrinth/project/${slug || id}`).then(r => r.json()),
+                        fetch(`${WORKER_URL}/modrinth/versions/?projectId=${slug || id}`).then(r => r.json())
+                    ]);
+
+                    data = projectData;
+                    files = versionsData;
                 }
+
+                modalTitle.textContent = data.name || data.title;
+
+                let filesHtml = '';
+                
+                if (source === 'curseforge' && files.length > 0) {
+                    const latestFile = files[0];
+                    filesHtml = `
+                        <button class="btn" onclick="downloadFile('curseforge', ${data.id}, ${latestFile.id}, '${latestFile.fileName}')">
+                            Скачать ${latestFile.fileName}
+                        </button>
+                    `;
+                } else if (source === 'modrinth' && files.length > 0) {
+                    const latestFile = files[0];
+                    const downloadUrl = latestFile.files?.[0]?.url;
+                    if (downloadUrl) {
+                        filesHtml = `
+                            <button class="btn" onclick="downloadFile('modrinth', null, null, '${latestFile.name}', '${encodeURIComponent(downloadUrl)}')">
+                                Скачать ${latestFile.name}
+                            </button>
+                        `;
+                    }
+                }
+
+                modalBody.innerHTML = `
+                    <img src="${data.logo?.url || data.icon_url || 'https://via.placeholder.com/900x300?text=No+Image'}" 
+                         alt="${data.name || data.title}" 
+                         class="modal-image"
+                         onerror="this.src='https://via.placeholder.com/900x300?text=No+Image'">
+                    <div class="modal-description">${data.summary || data.description || 'Нет описания'}</div>
+                    <div class="modal-info">
+                        <div class="info-row">
+                            <span class="info-label">Автор</span>
+                            <span class="info-value">${data.authors?.[0]?.name || data.team || 'Unknown'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Загрузок</span>
+                            <span class="info-value">${(data.downloadCount || data.downloads || 0).toLocaleString()}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Обновлено</span>
+                            <span class="info-value">${new Date(data.dateModified || data.updated).toLocaleDateString('ru-RU')}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Источник</span>
+                            <span class="info-value">${source === 'curseforge' ? 'CurseForge' : 'Modrinth'}</span>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        ${filesHtml}
+                    </div>
+                `;
             } catch (error) {
-                body.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
+                console.error('Error loading details:', error);
+                modalBody.innerHTML = `<div class="error">Ошибка загрузки: ${error.message}</div>`;
             }
         }
 
-        async function loadCurseForgeDetails(item, body) {
-            const description = item.summary || 'Нет описания';
-            const image = item.logo?.url;
-            const downloads = item.downloadCount;
-            const author = item.authors?.[0]?.name;
-            const dateModified = new Date(item.dateModified).toLocaleDateString('ru-RU');
+        // Download file
+        function downloadFile(source, modId, fileId, fileName, downloadUrl) {
+            let url;
             
-            // Get latest file
-            const latestFile = item.latestFiles?.[0];
-            const downloadUrl = item.links?.websiteUrl;
+            if (source === 'curseforge') {
+                url = `${WORKER_URL}/curseforge/download?modId=${modId}&fileId=${fileId}`;
+            } else {
+                url = `${WORKER_URL}/modrinth/download?url=${downloadUrl}`;
+            }
 
-            body.innerHTML = `
-                ${image ? `<img src="${image}" alt="${item.name}" class="modal-image">` : ''}
-                <p class="modal-description">${description}</p>
-                <div class="modal-info">
-                    <div class="info-row">
-                        <span class="info-label">Автор</span>
-                        <span class="info-value">${author || 'Неизвестен'}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Загрузок</span>
-                        <span class="info-value">${formatNumber(downloads)}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Обновлено</span>
-                        <span class="info-value">${dateModified}</span>
-                    </div>
-                    ${latestFile ? `
-                    <div class="info-row">
-                        <span class="info-label">Версия Minecraft</span>
-                        <span class="info-value">${latestFile.gameVersions?.join(', ') || 'Неизвестна'}</span>
-                    </div>
-                    ` : ''}
-                </div>
-                <div class="modal-actions">
-                    <a href="${downloadUrl}" target="_blank" class="btn">Открыть на CurseForge</a>
-                    <button class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
-                </div>
-            `;
+            // Create temporary link and trigger download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
-        async function loadModrinthDetails(item, body) {
-            const response = await fetch(`${WORKER_URL}/modrinth/project/${item.project_id || item.slug}`);
-            const project = await response.json();
+        // Download skin
+        function downloadSkin(uuid, name) {
+            const url = `${WORKER_URL}/skins/download?uuid=${uuid}`;
             
-            const versionsResponse = await fetch(`${WORKER_URL}/modrinth/versions?projectId=${project.id}`);
-            const versions = await versionsResponse.json();
-            
-            const latestVersion = versions[0];
-            const downloadUrl = latestVersion?.files?.[0]?.url;
-
-            body.innerHTML = `
-                ${project.icon_url ? `<img src="${project.icon_url}" alt="${project.title}" class="modal-image">` : ''}
-                <p class="modal-description">${project.body || project.description || 'Нет описания'}</p>
-                <div class="modal-info">
-                    <div class="info-row">
-                        <span class="info-label">Автор</span>
-                        <span class="info-value">${item.author || 'Неизвестен'}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Загрузок</span>
-                        <span class="info-value">${formatNumber(project.downloads)}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Обновлено</span>
-                        <span class="info-value">${new Date(project.updated).toLocaleDateString('ru-RU')}</span>
-                    </div>
-                    ${latestVersion ? `
-                    <div class="info-row">
-                        <span class="info-label">Версия Minecraft</span>
-                        <span class="info-value">${latestVersion.game_versions?.join(', ') || 'Неизвестна'}</span>
-                    </div>
-                    ` : ''}
-                </div>
-                <div class="modal-actions">
-                    ${downloadUrl ? `<a href="${downloadUrl}" class="btn" download>Скачать напрямую</a>` : ''}
-                    <a href="https://modrinth.com/${project.project_type}/${project.slug}" target="_blank" class="btn ${downloadUrl ? 'btn-secondary' : ''}">
-                        Открыть на Modrinth
-                    </a>
-                </div>
-            `;
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Click outside modal to close
-        document.getElementById('modal').addEventListener('click', (e) => {
-            if (e.target.id === 'modal') closeModal();
-        });
-
-        // Utils
-        function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
-        }
+        // Initial load
+        loadContent();
     </script>
 </body>
 </html>
