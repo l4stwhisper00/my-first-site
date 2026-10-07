@@ -1,143 +1,383 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src https: data:; connect-src https:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--s0:#05070C;--s2:#0F131C;--s3:#161D2B;--s4:#1E2636;--accent:#38BDF8;--dim:#1E3A5F;--text:#E8EDF4;--tdim:#9CA3AF;--error:#EF4444;--r:999px;--rl:1.5rem}
+body{background:var(--s0);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;min-height:100vh}
+body.lock{overflow:hidden}
+.container{max-width:1400px;margin:0 auto;padding:2rem}
+header{margin-bottom:2rem;text-align:center}
+h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),#6EE7B7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--tdim);font-size:1.1rem}
+.tabs{display:flex;gap:.75rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap}
+.tab,.page-btn{background:var(--s2);color:var(--tdim);padding:.75rem 1.5rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;transition:all .2s;white-space:nowrap}
+.tab:hover,.page-btn:hover{background:var(--s3);color:var(--text)}
+.tab.active,.page-btn.active{background:var(--accent);color:var(--s0)}
+.search-container{background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem}
+.search-row{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.search-input,.filter-select{background:var(--s3);border:2px solid transparent;color:var(--text);padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem}
+.search-input{flex:1;min-width:250px}
+.filter-select{padding:.5rem 1rem;cursor:pointer}
+.search-input:focus,.filter-select:focus{outline:none;border-color:var(--accent)}
+.filters{display:flex;gap:1rem;flex-wrap:wrap}
+.hidden{display:none!important}
+.btn,.search-btn{background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;transition:background .2s,transform .1s;text-align:center}
+.btn{width:100%;display:inline-block}
+.btn:hover,.search-btn:hover{background:#22A9E0;transform:scale(1.02)}
+.btn-secondary{background:var(--s3);color:var(--text)}
+.btn-secondary:hover{background:var(--s4)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem}
+.card{background:var(--s2);border-radius:var(--rl);overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;display:flex;flex-direction:column}
+.card:hover,.card:focus-visible{transform:translateY(-4px);box-shadow:0 8px 24px rgba(56,189,248,.15);outline:none}
+.card-image{width:100%;height:160px;object-fit:cover;background:var(--s4)}
+.card-image.skin{object-fit:contain;padding:.5rem}
+.card-content{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+.card-title{font-size:1.15rem;font-weight:600;margin-bottom:.75rem;line-height:1.3;word-break:break-word}
+.card-description{color:var(--tdim);font-size:.9rem;margin-bottom:1rem;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tag{display:inline-block;background:var(--dim);color:var(--accent);padding:.25rem .75rem;border-radius:var(--r);font-size:.85rem;font-weight:500;margin-bottom:1rem;align-self:flex-start}
+.card-stats{display:flex;justify-content:space-between;gap:.5rem;color:var(--tdim);font-size:.85rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(5,7,12,.95);backdrop-filter:blur(8px);z-index:1000;overflow-y:auto}
+.modal.active{display:flex;align-items:center;justify-content:center;padding:2rem}
+.modal-content{background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-header{padding:2rem;border-bottom:1px solid var(--s3);display:flex;justify-content:space-between;gap:1rem}
+.modal-title{font-size:1.75rem;font-weight:700;line-height:1.3;word-break:break-word}
+.modal-close{background:none;border:none;color:var(--tdim);font-size:2rem;cursor:pointer;width:40px;height:40px;border-radius:50%;flex-shrink:0}
+.modal-close:hover{background:var(--s3);color:var(--text)}
+.modal-body{padding:2rem}
+.modal-image{width:100%;height:300px;object-fit:cover;border-radius:var(--rl);margin-bottom:1.5rem;background:var(--s4)}
+.modal-image.skin{object-fit:contain}
+.modal-description{color:var(--tdim);line-height:1.7;margin-bottom:1.5rem;white-space:pre-line}
+.modal-info{margin-bottom:2rem}
+.info-row{display:flex;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--s3)}
+.info-label{color:var(--tdim)}
+.info-value{font-weight:600;text-align:right}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.loading,.error{text-align:center;padding:2rem;font-size:1.1rem}
+.loading{color:var(--tdim)}
+.error{color:var(--error);background:var(--s2);border-radius:var(--rl)}
+.pagination{display:flex;justify-content:center;align-items:center;gap:.75rem;margin-top:2rem}
+.page-btn:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:768px){.container{padding:1rem}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.search-row{flex-direction:column}.modal-actions{grid-template-columns:1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Minecraft Hub</h1>
+    <p class="subtitle">Все для Minecraft в одном месте</p>
+  </header>
+  <div class="tabs">
+    <button class="tab active" data-tab="mods">Моды</button>
+    <button class="tab" data-tab="modpacks">Модпаки</button>
+    <button class="tab" data-tab="resourcepacks">Ресурспаки</button>
+    <button class="tab" data-tab="shaders">Шейдеры</button>
+    <button class="tab" data-tab="skins">Скины</button>
+  </div>
+  <div class="search-container">
+    <div class="search-row">
+      <input type="text" class="search-input" id="searchInput" placeholder="Поиск..." maxlength="64" autocomplete="off">
+      <button class="search-btn" id="searchBtn">Искать</button>
+    </div>
+    <div class="filters" id="filters">
+      <select class="filter-select" id="sortSelect" aria-label="Сортировка">
+        <option value="relevance">По релевантности</option>
+        <option value="downloads">По загрузкам</option>
+        <option value="updated">По обновлению</option>
+        <option value="newest">Новые</option>
+      </select>
+    </div>
+  </div>
+  <div id="content"><div class="loading">Загрузка...</div></div>
+</div>
 
-        :root {
-            --surface-0: #05070C;
-            --surface-1: #0A0D12;
-            --surface-2: #0F131C;
-            --surface-3: #161D2B;
-            --surface-4: #1E2636;
-            --accent: #38BDF8;
-            --accent-dim: #1E3A5F;
-            --text: #E8EDF4;
-            --text-dim: #9CA3AF;
-            --success: #10B981;
-            --error: #EF4444;
-            --radius-full: 999px;
-            --radius-lg: 1.5rem;
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 0.75rem;
-            --spacing-md: 1rem;
-            --spacing-lg: 1.5rem;
-            --spacing-xl: 2rem;
-            --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-            --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-        }
+<div class="modal" id="detailModal" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">Детали</h2>
+      <button class="modal-close" id="modalClose" aria-label="Закрыть">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
 
-        body {
-            background: var(--surface-0);
-            color: var(--text);
-            font-family: var(--font-body);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
+<script>
+'use strict';
+const WORKER_URL = 'https://minecraft-proxy.zxcdedinside944.workers.dev';
+const LIMIT = 20;
+const NO_IMG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#1E2636"/><text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text></svg>');
+const SKIN_NAMES = ['Notch','jeb_','Dinnerbone','Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','Ph1LzA','Grian','MumboJumbo','Skeppy','BadBoyHalo','CaptainSparklez','Dantdm'];
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: var(--spacing-xl);
-        }
+const tabConfig = {
+  mods:          {type: 'mod',          cf: '6'},
+  modpacks:      {type: 'modpack',      cf: '4471'},
+  resourcepacks: {type: 'resourcepack', cf: '12'},
+  shaders:       {type: 'shader',       cf: '6552'}
+};
+const CF_SORT = {relevance: 2, downloads: 6, updated: 3, newest: 11};
 
-        header {
-            margin-bottom: var(--spacing-xl);
-            text-align: center;
-        }
+let currentTab = 'mods', currentPage = 0, currentQuery = '', items = [], reqId = 0, lastSearch = 0;
+const $ = id => document.getElementById(id);
 
-        h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: var(--spacing-md);
-            background: linear-gradient(135deg, var(--accent), #6EE7B7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+/* ---------- Защита ---------- */
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function safeUrl(u) {                       // только https-ссылки
+  try { const x = new URL(u); return x.protocol === 'https:' ? x.href : ''; } catch { return ''; }
+}
+const safeId = v => /^[\w-]{1,64}$/.test(String(v)) ? String(v) : '';
+const isValidNick = n => /^\w{3,16}$/.test(n);
 
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 1.1rem;
-        }
+/* ---------- Перевод (EN -> RU) с кэшем ---------- */
+const trCache = new Map();
+try { Object.entries(JSON.parse(localStorage.getItem('trCache') || '{}')).forEach(([k, v]) => trCache.set(k, v)); } catch {}
+function saveCache() {
+  try { localStorage.setItem('trCache', JSON.stringify(Object.fromEntries([...trCache].slice(-300)))); } catch {}
+}
+const needsTranslation = t => t && t.length > 2 && (t.match(/[а-яё]/gi) || []).length < t.length * 0.2;
+async function translate(text) {
+  if (!needsTranslation(text)) return text;
+  text = text.slice(0, 450);
+  if (trCache.has(text)) return trCache.get(text);
+  try {
+    const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q=' + encodeURIComponent(text));
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    const out = d[0].map(p => p[0]).join('');
+    trCache.set(text, out); saveCache();
+    return out;
+  } catch { return text; }
+}
+async function translateAll(token) {
+  const els = [...document.querySelectorAll('.card-description[data-orig]')];
+  const queue = els.slice();
+  const worker = async () => {
+    while (queue.length && token === reqId) {
+      const el = queue.shift();
+      const ru = await translate(el.dataset.orig);
+      if (token === reqId) el.textContent = ru;
+    }
+  };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+}
 
-        .tabs {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-xl);
-            overflow-x: auto;
-            padding-bottom: var(--spacing-sm);
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+/* ---------- Вкладки и поиск ---------- */
+document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  currentTab = tab.dataset.tab; currentPage = 0; currentQuery = '';
+  $('searchInput').value = '';
+  const sk = currentTab === 'skins';
+  $('filters').classList.toggle('hidden', sk);
+  $('searchInput').placeholder = sk ? 'Ник игрока (3–16 символов: буквы, цифры, _)' : 'Поиск...';
+  loadContent();
+}));
+$('searchBtn').addEventListener('click', performSearch);
+$('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(); });
+$('sortSelect').addEventListener('change', () => { currentPage = 0; loadContent(); });
 
-        .tab {
-            background: var(--surface-2);
-            color: var(--text-dim);
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
+function performSearch() {
+  const now = Date.now();
+  if (now - lastSearch < 600) return;       // защита от спама запросами
+  lastSearch = now;
+  currentQuery = $('searchInput').value.trim().slice(0, 64);
+  currentPage = 0;
+  loadContent();
+}
 
-        .tab:hover {
-            background: var(--surface-3);
-            color: var(--text);
-        }
+async function loadContent() {
+  const token = ++reqId;
+  $('content').innerHTML = '<div class="loading">Загрузка...</div>';
+  try {
+    const list = currentTab === 'skins' ? loadSkins() : await loadModsContent(token);
+    if (token !== reqId) return;
+    items = list.items;
+    renderCards(list, token);
+  } catch (e) {
+    if (token === reqId) $('content').innerHTML = `<div class="error">${esc(e.message || 'Ошибка загрузки')}</div>`;
+  }
+}
 
-        .tab.active {
-            background: var(--accent);
-            color: var(--surface-0);
-        }
+async function getJson(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
 
-        .search-container {
-            background: var(--surface-2);
-            padding: var(--spacing-xl);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-xl);
-        }
+async function loadModsContent() {
+  const cfg = tabConfig[currentTab], sort = $('sortSelect').value, offset = currentPage * LIMIT;
+  const q = encodeURIComponent(currentQuery);
+  const mrUrl = `${WORKER_URL}/modrinth/search?query=${q}&facets=${encodeURIComponent('["project_type:' + cfg.type + '"]')}&limit=${LIMIT}&offset=${offset}` + (sort !== 'relevance' ? `&index=${sort}` : '');
+  const cfUrl = `${WORKER_URL}/curseforge/search?query=${q}&category=${cfg.cf}&pageSize=${LIMIT}&index=${offset}`;
+  const mrDirect = `https://api.modrinth.com/v2/search?query=${q}&facets=${encodeURIComponent('[["project_type:' + cfg.type + '"]]')}&limit=${LIMIT}&offset=${offset}&index=${sort}`;
+  const [mr, cf] = await Promise.allSettled([getJson(mrUrl).catch(() => getJson(mrDirect)), getJson(cfUrl)]);   // один сбойный источник не ломает второй
+  if (mr.status === 'rejected' && cf.status === 'rejected') { console.error('Modrinth:', mr.reason, 'CurseForge:', cf.reason);
+    throw new Error('Не удалось загрузить данные (' + (mr.reason?.message || '?') + ' / ' + (cf.reason?.message || '?') + '). Проверьте Worker и CORS.'); }
+  const a = mr.status === 'fulfilled' ? (mr.value.hits || []).map(i => ({source: 'modrinth', ...i})) : [];
+  const b = cf.status === 'fulfilled' ? (cf.value.data || []).map(i => ({source: 'curseforge', ...i})) : [];
+  const note = cf.status === 'rejected' ? 'CurseForge сейчас недоступен (проверьте Worker). Показан только Modrinth.' : '';
+  return {items: [...a, ...b], hasNext: a.length >= LIMIT || b.length >= LIMIT, note};
+}
 
-        .search-row {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-            flex-wrap: wrap;
-        }
+function loadSkins() {
+  // NameMC закрыт, поэтому берём скины по нику через minotar.net
+  let names = SKIN_NAMES;
+  if (currentQuery) {
+    if (!isValidNick(currentQuery)) throw new Error('Ник должен быть 3–16 символов: буквы, цифры, _');
+    names = [currentQuery];
+  }
+  return {items: names.map(n => ({source: 'skin', name: n})), hasNext: false};
+}
 
-        .search-input {
-            flex: 1;
-            min-width: 250px;
-            background: var(--surface-3);
-            border: 2px solid transparent;
-            color: var(--text);
-            padding: 0.75rem 1.25rem;
-            border-radius: var(--radius-full);
-            font-size: 1rem;
-            transition: border 0.2s;
-        }
+/* ---------- Рендер ---------- */
+const norm = it => it.source === 'modrinth' ? {
+  title: it.title, desc: it.description, icon: it.icon_url, downloads: it.downloads, author: it.author,
+  updated: it.date_modified, id: it.project_id || it.slug,
+  web: `https://modrinth.com/${tabConfig[currentTab].type}/${encodeURIComponent(it.slug)}`
+} : {
+  title: it.name, desc: it.summary, icon: it.logo?.url, downloads: it.downloadCount, author: it.authors?.[0]?.name || 'Неизвестно',
+  updated: it.dateModified, id: it.id, web: it.links?.websiteUrl
+};
+const SKIN_SRC = [
+  n => `https://minotar.net/armor/body/${n}/300.png`,
+  n => `https://mc-heads.net/body/${n}/300`,
+  n => `https://api.mineatar.io/body/full/${n}?scale=8`,
+  n => `https://starlightskins.lunareclipse.studio/render/default/${n}/full`
+];
+const skinImg = (n, i = 0) => SKIN_SRC[i](encodeURIComponent(n));
 
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+function renderCards({items, hasNext, note}, token) {
+  if (!items.length) { $('content').innerHTML = '<div class="error">Ничего не найдено</div>'; return; }
+  const html = items.map((it, i) => {
+    if (it.source === 'skin') return `<article class="card" data-i="${i}" tabindex="0">
+      <img src="${skinImg(it.name)}" alt="${esc(it.name)}" class="card-image skin" loading="lazy" data-n="${esc(it.name)}" data-step="0" data-fallback>
+      <div class="card-content"><h3 class="card-title">${esc(it.name)}</h3><p class="card-description">Нажмите для просмотра и скачивания</p></div></article>`;
+    const n = norm(it);
+    return `<article class="card" data-i="${i}" tabindex="0">
+      <img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="card-image" loading="lazy" referrerpolicy="no-referrer" data-fallback>
+      <div class="card-content"><h3 class="card-title">${esc(n.title)}</h3>
+      <p class="card-description" data-orig="${esc(n.desc || '')}">${esc(n.desc || 'Описание отсутствует')}</p>
+      <span class="tag">${it.source === 'modrinth' ? 'Modrinth' : 'CurseForge'}</span>
+      <div class="card-stats"><span>📥 ${formatNumber(n.downloads)}</span><span>👤 ${esc(n.author)}</span></div></div></article>`;
+  }).join('');
+  const pager = currentTab === 'skins' ? '' : `<div class="pagination">
+    <button class="page-btn" data-page="-1" ${currentPage === 0 ? 'disabled' : ''}>← Назад</button>
+    <button class="page-btn active" disabled>${currentPage + 1}</button>
+    <button class="page-btn" data-page="1" ${hasNext ? '' : 'disabled'}>Вперёд →</button></div>`;
+  $('content').innerHTML = (note ? `<div class="error">${esc(note)}</div>` : '') + `<div class="grid">${html}</div>${pager}`;
+  if (currentTab !== 'skins') translateAll(token);
+}
 
-        .search-input::placeholder {
-            color: var(--text-dim);
-        }
+// обработка ошибок картинок (без бесконечного цикла)
+document.addEventListener('error', e => {
+  const img = e.target;
+  if (img.tagName !== 'IMG' || !img.hasAttribute('data-fallback') || img.src === NO_IMG) return;
+  if (img.dataset.n) {
+    const step = +img.dataset.step + 1;
+    if (step < SKIN_SRC.length) { img.dataset.step = step; img.src = skinImg(img.dataset.n, step); return; }
+  }
+  img.src = NO_IMG;
+}, true);
 
-        .search-btn {
-            background: var(--accent);
-            col
+$('content').addEventListener('click', e => {
+  const pg = e.target.closest('[data-page]');
+  if (pg && !pg.disabled) { currentPage += +pg.dataset.page; loadContent(); window.scrollTo({top: 0, behavior: 'smooth'}); return; }
+  const card = e.target.closest('.card');
+  if (card) showDetails(items[+card.dataset.i]);
+});
+$('content').addEventListener('keydown', e => {
+  const card = e.target.closest('.card');
+  if (card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); showDetails(items[+card.dataset.i]); }
+});
+
+/* ---------- Модальное окно ---------- */
+async function showDetails(item) {
+  if (!item) return;
+  let html;
+  if (item.source === 'skin') {
+    $('modalTitle').textContent = item.name;
+    html = `<img src="${skinImg(item.name)}" alt="${esc(item.name)}" class="modal-image skin" data-n="${esc(item.name)}" data-step="0" data-fallback>
+      <div class="modal-actions">
+        <a class="btn" href="https://minotar.net/download/${encodeURIComponent(item.name)}" rel="noopener noreferrer">Скачать скин</a>
+        <a class="btn btn-secondary" href="https://minotar.net/skin/${encodeURIComponent(item.name)}" target="_blank" rel="noopener noreferrer">Открыть PNG</a>
+      </div>`;
+  } else {
+    const n = norm(item);
+    const date = n.updated ? new Date(n.updated).toLocaleDateString('ru-RU') : '—';
+    const web = safeUrl(n.web);
+    $('modalTitle').textContent = n.title;
+    html = `<img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="modal-image" referrerpolicy="no-referrer" data-fallback>
+      <p class="modal-description" id="modalDesc">${esc(n.desc || 'Описание отсутствует')}</p>
+      <div class="modal-info">
+        <div class="info-row"><span class="info-label">Автор</span><span class="info-value">${esc(n.author)}</span></div>
+        <div class="info-row"><span class="info-label">Загрузок</span><span class="info-value">${formatNumber(n.downloads)}</span></div>
+        <div class="info-row"><span class="info-label">Обновлено</span><span class="info-value">${esc(date)}</span></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="dlBtn" data-source="${item.source}" data-id="${esc(safeId(n.id))}">Скачать</button>
+        ${web ? `<a class="btn btn-secondary" href="${esc(web)}" target="_blank" rel="noopener noreferrer">Открыть на сайте</a>` : ''}
+      </div>`;
+  }
+  $('modalBody').innerHTML = html;
+  $('detailModal').classList.add('active');
+  document.body.classList.add('lock');
+  if (item.source !== 'skin') {
+    const d = item.source === 'modrinth' ? item.description : item.summary;
+    const ru = await translate(d || '');
+    const el = $('modalDesc');
+    if (el && d) el.textContent = ru;
+  }
+}
+function closeModal() { $('detailModal').classList.remove('active'); document.body.classList.remove('lock'); }
+$('modalClose').addEventListener('click', closeModal);
+$('detailModal').addEventListener('click', e => { if (e.target.id === 'detailModal') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+$('modalBody').addEventListener('click', e => {
+  const b = e.target.closest('#dlBtn');
+  if (b) downloadLatest(b.dataset.source, b.dataset.id, b);
+});
+
+async function downloadLatest(source, id, btn) {
+  if (!id) return alert('Некорректный идентификатор');
+  const old = btn.textContent; btn.disabled = true; btn.textContent = 'Подождите...';
+  try {
+    let url;
+    if (source === 'modrinth') {
+      let v, viaWorker = true;
+      try { v = await getJson(`${WORKER_URL}/modrinth/project/${id}/version`); }
+      catch { viaWorker = false; v = await getJson(`https://api.modrinth.com/v2/project/${id}/version`); }
+      if (!v?.length) return alert('Файлы не найдены');
+      if (viaWorker) url = `${WORKER_URL}/modrinth/download/${safeId(v[0].id)}`;
+      else {
+        const f = (v[0].files || []).find(x => x.primary) || (v[0].files || [])[0];
+        url = f && safeUrl(f.url);
+        if (!url) return alert('Файлы не найдены');
+      }
+    } else {
+      const f = await getJson(`${WORKER_URL}/curseforge/mod/${id}/files`);
+      if (!f.data?.length) return alert('Файлы не найдены');
+      url = `${WORKER_URL}/curseforge/download/${id}/${safeId(f.data[0].id)}`;
+    }
+    const a = document.createElement('a');
+    a.href = url; a.rel = 'noopener noreferrer';
+    document.body.appendChild(a); a.click(); a.remove();
+  } catch (e) {
+    alert('Ошибка загрузки файла: ' + e.message);
+  } finally { btn.disabled = false; btn.textContent = old; }
+}
+
+function formatNumber(n) {
+  n = Number(n) || 0;
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+  return String(n);
+}
+
+loadContent();
+</script>
+</body>
+</html>
