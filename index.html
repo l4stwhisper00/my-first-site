@@ -27,11 +27,9 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .search-input:focus,.filter-select:focus{outline:none;border-color:var(--accent)}
 .filters{display:flex;gap:1rem;flex-wrap:wrap}
 .hidden{display:none!important}
-.btn,.search-btn,.load-more-btn{background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;transition:background .2s,transform .1s;text-align:center}
+.btn,.search-btn{background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;transition:background .2s,transform .1s;text-align:center}
 .btn{width:100%;display:inline-block}
-.btn:hover,.search-btn:hover,.load-more-btn:hover{background:#22A9E0;transform:scale(1.02)}
-.load-more-btn{width:100%;max-width:400px;margin:2rem auto;display:block}
-.load-more-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn:hover,.search-btn:hover{background:#22A9E0;transform:scale(1.02)}
 .btn-secondary{background:var(--s3);color:var(--text)}
 .btn-secondary:hover{background:var(--s4)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem}
@@ -112,9 +110,8 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 'use strict';
 const WORKER_URL = 'https://minecraft-proxy.zxcdedinside944.workers.dev';
 const LIMIT = 20;
-const SKIN_LIMIT = 40;
 const NO_IMG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#1E2636"/><text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text></svg>');
-const SKIN_NAMES = ['Notch','jeb_','Dinnerbone','Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','Ph1LzA','Grian','MumboJumbo','Skeppy','BadBoyHalo','CaptainSparklez','Dantdm','xQc','Pokimane','Ninja','Shroud','Valkyrae','Sykkuno','Corpse_Husband','Ranboo','Wilbur','Fundy','Niki','Quackity','Karl','Punz','Awesamdude','Eret','Foolish','Hannahxxrose','Antfrost','Puffy','Ponk','Callahan','Alyssa','ConnorEatsPants'];
+const SKIN_NAMES = ['Notch','jeb_','Dinnerbone','Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','Ph1LzA','Grian','MumboJumbo','Skeppy','BadBoyHalo','CaptainSparklez','Dantdm'];
 
 const tabConfig = {
   mods:          {type: 'mod',          cf: '6'},
@@ -125,16 +122,17 @@ const tabConfig = {
 const CF_SORT = {relevance: 2, downloads: 6, updated: 3, newest: 11};
 
 let currentTab = 'mods', currentPage = 0, currentQuery = '', items = [], reqId = 0, lastSearch = 0;
-let skinOffset = 0, allSkins = [], isLoadingSkins = false;
 const $ = id => document.getElementById(id);
 
+/* ---------- Защита ---------- */
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function safeUrl(u) {
+function safeUrl(u) {                       // только https-ссылки
   try { const x = new URL(u); return x.protocol === 'https:' ? x.href : ''; } catch { return ''; }
 }
 const safeId = v => /^[\w-]{1,64}$/.test(String(v)) ? String(v) : '';
 const isValidNick = n => /^\w{3,16}$/.test(n);
 
+/* ---------- Перевод (EN -> RU) с кэшем ---------- */
 const trCache = new Map();
 try { Object.entries(JSON.parse(localStorage.getItem('trCache') || '{}')).forEach(([k, v]) => trCache.set(k, v)); } catch {}
 function saveCache() {
@@ -167,10 +165,11 @@ async function translateAll(token) {
   await Promise.all([worker(), worker(), worker(), worker()]);
 }
 
+/* ---------- Вкладки и поиск ---------- */
 document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
-  currentTab = tab.dataset.tab; currentPage = 0; currentQuery = ''; skinOffset = 0; allSkins = [];
+  currentTab = tab.dataset.tab; currentPage = 0; currentQuery = '';
   $('searchInput').value = '';
   const sk = currentTab === 'skins';
   $('filters').classList.toggle('hidden', sk);
@@ -183,10 +182,10 @@ $('sortSelect').addEventListener('change', () => { currentPage = 0; loadContent(
 
 function performSearch() {
   const now = Date.now();
-  if (now - lastSearch < 600) return;
+  if (now - lastSearch < 600) return;       // защита от спама запросами
   lastSearch = now;
   currentQuery = $('searchInput').value.trim().slice(0, 64);
-  currentPage = 0; skinOffset = 0; allSkins = [];
+  currentPage = 0;
   loadContent();
 }
 
@@ -194,14 +193,10 @@ async function loadContent() {
   const token = ++reqId;
   $('content').innerHTML = '<div class="loading">Загрузка...</div>';
   try {
-    if (currentTab === 'skins') {
-      await loadSkins(token);
-    } else {
-      const list = await loadModsContent(token);
-      if (token !== reqId) return;
-      items = list.items;
-      renderCards(list, token);
-    }
+    const list = currentTab === 'skins' ? loadSkins() : await loadModsContent(token);
+    if (token !== reqId) return;
+    items = list.items;
+    renderCards(list, token);
   } catch (e) {
     if (token === reqId) $('content').innerHTML = `<div class="error">${esc(e.message || 'Ошибка загрузки')}</div>`;
   }
@@ -216,204 +211,171 @@ async function getJson(url) {
 async function loadModsContent() {
   const cfg = tabConfig[currentTab], sort = $('sortSelect').value, offset = currentPage * LIMIT;
   const q = encodeURIComponent(currentQuery);
-  const mrUrl = `${WORKER_URL}/modrinth/search?query=${q}&facets=${encodeURIComponent('["project_type:' + cfg.type + '"]')}&limit=${LIMIT}&offset=${offset}&index=${sort}`;
-  
-  const mrPromise = getJson(mrUrl).then(d => ({
-    source: 'modrinth',
-    items: (d.hits || []).map(h => ({
-      source: 'modrinth', id: h.project_id, slug: h.slug, title: h.title,
-      description: h.description || '', icon: safeUrl(h.icon_url) || NO_IMG,
-      downloads: h.downloads || 0, author: h.author || '?',
-      updated: h.date_modified ? new Date(h.date_modified).toLocaleDateString('ru') : '?'
-    }))
-  })).catch(() => ({source: 'modrinth', items: []}));
-
-  const cfUrl = `${WORKER_URL}/curseforge/search?query=${q}&category=${cfg.cf}&pageSize=${LIMIT}&index=${offset}&sortField=${CF_SORT[sort] || 2}`;
-  const cfPromise = getJson(cfUrl).then(d => ({
-    source: 'curseforge',
-    items: (d.data || []).map(m => ({
-      source: 'curseforge', id: m.id, slug: m.slug, title: m.name,
-      description: m.summary || '', icon: safeUrl(m.logo?.url) || NO_IMG,
-      downloads: m.downloadCount || 0, author: m.authors?.[0]?.name || '?',
-      updated: m.dateModified ? new Date(m.dateModified).toLocaleDateString('ru') : '?'
-    }))
-  })).catch(() => ({source: 'curseforge', items: []}));
-
-  const [mr, cf] = await Promise.all([mrPromise, cfPromise]);
-  const combined = [...mr.items, ...cf.items].sort((a, b) => {
-    if (sort === 'downloads') return b.downloads - a.downloads;
-    if (sort === 'updated') return new Date(b.updated) - new Date(a.updated);
-    return 0;
-  });
-
-  return {items: combined, hasNext: mr.items.length === LIMIT || cf.items.length === LIMIT};
+  const mrUrl = `${WORKER_URL}/modrinth/search?query=${q}&facets=${encodeURIComponent('["project_type:' + cfg.type + '"]')}&limit=${LIMIT}&offset=${offset}` + (sort !== 'relevance' ? `&index=${sort}` : '');
+  const cfUrl = `${WORKER_URL}/curseforge/search?query=${q}&category=${cfg.cf}&pageSize=${LIMIT}&index=${offset}`;
+  const mrDirect = `https://api.modrinth.com/v2/search?query=${q}&facets=${encodeURIComponent('[["project_type:' + cfg.type + '"]]')}&limit=${LIMIT}&offset=${offset}&index=${sort}`;
+  const [mr, cf] = await Promise.allSettled([getJson(mrUrl).catch(() => getJson(mrDirect)), getJson(cfUrl)]);   // один сбойный источник не ломает второй
+  if (mr.status === 'rejected' && cf.status === 'rejected') { console.error('Modrinth:', mr.reason, 'CurseForge:', cf.reason);
+    throw new Error('Не удалось загрузить данные (' + (mr.reason?.message || '?') + ' / ' + (cf.reason?.message || '?') + '). Проверьте Worker и CORS.'); }
+  const a = mr.status === 'fulfilled' ? (mr.value.hits || []).map(i => ({source: 'modrinth', ...i})) : [];
+  const b = cf.status === 'fulfilled' ? (cf.value.data || []).map(i => ({source: 'curseforge', ...i})) : [];
+  const note = cf.status === 'rejected' ? 'CurseForge сейчас недоступен (проверьте Worker). Показан только Modrinth.' : '';
+  return {items: [...a, ...b], hasNext: a.length >= LIMIT || b.length >= LIMIT, note};
 }
 
-async function loadSkins(token) {
-  const names = currentQuery && isValidNick(currentQuery) 
-    ? [currentQuery] 
-    : SKIN_NAMES;
-  
-  if (names.length === 0) {
-    $('content').innerHTML = '<div class="error">Нет доступных скинов</div>';
-    return;
+function loadSkins() {
+  // NameMC закрыт, поэтому берём скины по нику через minotar.net
+  let names = SKIN_NAMES;
+  if (currentQuery) {
+    if (!isValidNick(currentQuery)) throw new Error('Ник должен быть 3–16 символов: буквы, цифры, _');
+    names = [currentQuery];
   }
+  return {items: names.map(n => ({source: 'skin', name: n})), hasNext: false};
+}
 
-  const skinPromises = names.map(async n => {
-    try {
-      const u = await getJson(`https://api.mojang.com/users/profiles/minecraft/${n}`);
-      if (!u?.id) return null;
-      return {
-        id: u.id, name: u.name,
-        head: `https://mc-heads.net/avatar/${u.id}/128`,
-        body: `https://mc-heads.net/body/${u.id}/128`,
-        full: `https://mc-heads.net/player/${u.id}/256`
-      };
-    } catch { return null; }
-  });
+/* ---------- Рендер ---------- */
+const norm = it => it.source === 'modrinth' ? {
+  title: it.title, desc: it.description, icon: it.icon_url, downloads: it.downloads, author: it.author,
+  updated: it.date_modified, id: it.project_id || it.slug,
+  web: `https://modrinth.com/${tabConfig[currentTab].type}/${encodeURIComponent(it.slug)}`
+} : {
+  title: it.name, desc: it.summary, icon: it.logo?.url, downloads: it.downloadCount, author: it.authors?.[0]?.name || 'Неизвестно',
+  updated: it.dateModified, id: it.id, web: it.links?.websiteUrl
+};
+const SKIN_SRC = [
+  n => `https://minotar.net/armor/body/${n}/300.png`,
+  n => `https://mc-heads.net/body/${n}/300`,
+  n => `https://api.mineatar.io/body/full/${n}?scale=8`,
+  n => `https://starlightskins.lunareclipse.studio/render/default/${n}/full`
+];
+const skinImg = (n, i = 0) => SKIN_SRC[i](encodeURIComponent(n));
 
-  const skins = (await Promise.all(skinPromises)).filter(s => s);
-  
-  if (token !== reqId) return;
+function renderCards({items, hasNext, note}, token) {
+  if (!items.length) { $('content').innerHTML = '<div class="error">Ничего не найдено</div>'; return; }
+  const html = items.map((it, i) => {
+    if (it.source === 'skin') return `<article class="card" data-i="${i}" tabindex="0">
+      <img src="${skinImg(it.name)}" alt="${esc(it.name)}" class="card-image skin" loading="lazy" data-n="${esc(it.name)}" data-step="0" data-fallback>
+      <div class="card-content"><h3 class="card-title">${esc(it.name)}</h3><p class="card-description">Нажмите для просмотра и скачивания</p></div></article>`;
+    const n = norm(it);
+    return `<article class="card" data-i="${i}" tabindex="0">
+      <img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="card-image" loading="lazy" referrerpolicy="no-referrer" data-fallback>
+      <div class="card-content"><h3 class="card-title">${esc(n.title)}</h3>
+      <p class="card-description" data-orig="${esc(n.desc || '')}">${esc(n.desc || 'Описание отсутствует')}</p>
+      <span class="tag">${it.source === 'modrinth' ? 'Modrinth' : 'CurseForge'}</span>
+      <div class="card-stats"><span>📥 ${formatNumber(n.downloads)}</span><span>👤 ${esc(n.author)}</span></div></div></article>`;
+  }).join('');
+  const pager = currentTab === 'skins' ? '' : `<div class="pagination">
+    <button class="page-btn" data-page="-1" ${currentPage === 0 ? 'disabled' : ''}>← Назад</button>
+    <button class="page-btn active" disabled>${currentPage + 1}</button>
+    <button class="page-btn" data-page="1" ${hasNext ? '' : 'disabled'}>Вперёд →</button></div>`;
+  $('content').innerHTML = (note ? `<div class="error">${esc(note)}</div>` : '') + `<div class="grid">${html}</div>${pager}`;
+  if (currentTab !== 'skins') translateAll(token);
+}
 
-  if (skins.length === 0) {
-    $('content').innerHTML = '<div class="error">Скины не найдены</div>';
+// обработка ошибок картинок (без бесконечного цикла)
+document.addEventListener('error', e => {
+  const img = e.target;
+  if (img.tagName !== 'IMG' || !img.hasAttribute('data-fallback') || img.src === NO_IMG) return;
+  if (img.dataset.n) {
+    const step = +img.dataset.step + 1;
+    if (step < SKIN_SRC.length) { img.dataset.step = step; img.src = skinImg(img.dataset.n, step); return; }
+  }
+  img.src = NO_IMG;
+}, true);
+
+$('content').addEventListener('click', e => {
+  const pg = e.target.closest('[data-page]');
+  if (pg && !pg.disabled) { currentPage += +pg.dataset.page; loadContent(); window.scrollTo({top: 0, behavior: 'smooth'}); return; }
+  const card = e.target.closest('.card');
+  if (card) showDetails(items[+card.dataset.i]);
+});
+$('content').addEventListener('keydown', e => {
+  const card = e.target.closest('.card');
+  if (card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); showDetails(items[+card.dataset.i]); }
+});
+
+/* ---------- Модальное окно ---------- */
+async function showDetails(item) {
+  if (!item) return;
+  let html;
+  if (item.source === 'skin') {
+    $('modalTitle').textContent = item.name;
+    html = `<img src="${skinImg(item.name)}" alt="${esc(item.name)}" class="modal-image skin" data-n="${esc(item.name)}" data-step="0" data-fallback>
+      <div class="modal-actions">
+        <a class="btn" href="https://minotar.net/download/${encodeURIComponent(item.name)}" rel="noopener noreferrer">Скачать скин</a>
+        <a class="btn btn-secondary" href="https://minotar.net/skin/${encodeURIComponent(item.name)}" target="_blank" rel="noopener noreferrer">Открыть PNG</a>
+      </div>`;
   } else {
-    renderSkinCards(skins);
-  }
-}
-
-function renderCards(list, token) {
-  const grid = list.items.map(item => `
-    <div class="card" tabindex="0" data-id="${esc(item.id)}" data-source="${esc(item.source)}">
-      <img src="${esc(item.icon)}" alt="${esc(item.title)}" class="card-image" loading="lazy" onerror="this.src='${NO_IMG}'">
-      <div class="card-content">
-        <div class="tag">${esc(item.source === 'modrinth' ? 'Modrinth' : 'CurseForge')}</div>
-        <h3 class="card-title">${esc(item.title)}</h3>
-        <p class="card-description" data-orig="${esc(item.description)}">${esc(item.description.slice(0, 150))}</p>
-        <div class="card-stats">
-          <span>⬇ ${item.downloads.toLocaleString('ru')}</span>
-          <span>👤 ${esc(item.author)}</span>
-          <span>📅 ${esc(item.updated)}</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
-
-  const pagination = list.hasNext ? `
-    <div class="pagination">
-      <button class="page-btn" id="prevPage" ${currentPage === 0 ? 'disabled' : ''}>← Назад</button>
-      <span style="color:var(--tdim)">Страница ${currentPage + 1}</span>
-      <button class="page-btn" id="nextPage">Вперёд →</button>
-    </div>
-  ` : '';
-
-  $('content').innerHTML = `<div class="grid">${grid}</div>${pagination}`;
-  
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => openDetail(card.dataset.id, card.dataset.source));
-    card.addEventListener('keydown', e => { if (e.key === 'Enter') openDetail(card.dataset.id, card.dataset.source); });
-  });
-
-  if (list.hasNext) {
-    const prev = $('prevPage'), next = $('nextPage');
-    if (prev) prev.addEventListener('click', () => { currentPage--; loadContent(); });
-    if (next) next.addEventListener('click', () => { currentPage++; loadContent(); });
-  }
-
-  translateAll(token);
-}
-
-function renderSkinCards(skins) {
-  const grid = skins.map(s => `
-    <div class="card" tabindex="0" data-skin="${esc(s.name)}">
-      <img src="${esc(s.head)}" alt="${esc(s.name)}" class="card-image skin" loading="lazy">
-      <div class="card-content">
-        <div class="tag">Скин</div>
-        <h3 class="card-title">${esc(s.name)}</h3>
-        <p class="card-description">UUID: ${esc(s.id)}</p>
-      </div>
-    </div>
-  `).join('');
-
-  $('content').innerHTML = `<div class="grid">${grid}</div>`;
-  
-  document.querySelectorAll('.card[data-skin]').forEach(card => {
-    const name = card.dataset.skin;
-    const skin = skins.find(s => s.name === name);
-    card.addEventListener('click', () => openSkinDetail(skin));
-    card.addEventListener('keydown', e => { if (e.key === 'Enter') openSkinDetail(skin); });
-  });
-}
-
-async function openDetail(id, source) {
-  const modal = $('detailModal'), body = $('modalBody');
-  modal.classList.add('active');
-  document.body.classList.add('lock');
-  body.innerHTML = '<div class="loading">Загрузка...</div>';
-
-  try {
-    const item = items.find(i => i.id == id && i.source === source);
-    if (!item) throw new Error('Элемент не найден');
-
-    let versions = [], downloadUrl = '';
-    if (source === 'modrinth') {
-      const vData = await getJson(`${WORKER_URL}/modrinth/project/${item.slug}/version`);
-      versions = vData.slice(0, 5).map(v => `${v.name} (${v.game_versions?.join(', ') || '?'})`);
-      downloadUrl = vData[0]?.id ? `${WORKER_URL}/modrinth/download/${vData[0].id}` : '';
-    } else {
-      const fData = await getJson(`${WORKER_URL}/curseforge/mod/${id}/files`);
-      versions = (fData.data || []).slice(0, 5).map(f => `${f.displayName} (${f.gameVersions?.join(', ') || '?'})`);
-      const latestFile = fData.data?.[0];
-      downloadUrl = latestFile ? `${WORKER_URL}/curseforge/download/${id}/${latestFile.id}` : '';
-    }
-
-    const description = await translate(item.description);
-    $('modalTitle').textContent = item.title;
-    body.innerHTML = `
-      <img src="${esc(item.icon)}" alt="${esc(item.title)}" class="modal-image" onerror="this.src='${NO_IMG}'">
-      <p class="modal-description">${esc(description)}</p>
+    const n = norm(item);
+    const date = n.updated ? new Date(n.updated).toLocaleDateString('ru-RU') : '—';
+    const web = safeUrl(n.web);
+    $('modalTitle').textContent = n.title;
+    html = `<img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="modal-image" referrerpolicy="no-referrer" data-fallback>
+      <p class="modal-description" id="modalDesc">${esc(n.desc || 'Описание отсутствует')}</p>
       <div class="modal-info">
-        <div class="info-row"><span class="info-label">Источник</span><span class="info-value">${esc(source === 'modrinth' ? 'Modrinth' : 'CurseForge')}</span></div>
-        <div class="info-row"><span class="info-label">Автор</span><span class="info-value">${esc(item.author)}</span></div>
-        <div class="info-row"><span class="info-label">Загрузок</span><span class="info-value">${item.downloads.toLocaleString('ru')}</span></div>
-        <div class="info-row"><span class="info-label">Обновлено</span><span class="info-value">${esc(item.updated)}</span></div>
-        ${versions.length ? `<div class="info-row"><span class="info-label">Версии</span><span class="info-value">${esc(versions.join(', '))}</span></div>` : ''}
+        <div class="info-row"><span class="info-label">Автор</span><span class="info-value">${esc(n.author)}</span></div>
+        <div class="info-row"><span class="info-label">Загрузок</span><span class="info-value">${formatNumber(n.downloads)}</span></div>
+        <div class="info-row"><span class="info-label">Обновлено</span><span class="info-value">${esc(date)}</span></div>
       </div>
       <div class="modal-actions">
-        ${downloadUrl ? `<a href="${esc(downloadUrl)}" class="btn" download>Скачать</a>` : ''}
-        <a href="${source === 'modrinth' ? `https://modrinth.com/mod/${item.slug}` : `https://www.curseforge.com/minecraft/mc-mods/${item.slug}`}" target="_blank" rel="noopener" class="btn btn-secondary">Открыть на сайте</a>
-      </div>
-    `;
-  } catch (e) {
-    body.innerHTML = `<div class="error">${esc(e.message || 'Ошибка загрузки')}</div>`;
+        <button class="btn" id="dlBtn" data-source="${item.source}" data-id="${esc(safeId(n.id))}">Скачать</button>
+        ${web ? `<a class="btn btn-secondary" href="${esc(web)}" target="_blank" rel="noopener noreferrer">Открыть на сайте</a>` : ''}
+      </div>`;
+  }
+  $('modalBody').innerHTML = html;
+  $('detailModal').classList.add('active');
+  document.body.classList.add('lock');
+  if (item.source !== 'skin') {
+    const d = item.source === 'modrinth' ? item.description : item.summary;
+    const ru = await translate(d || '');
+    const el = $('modalDesc');
+    if (el && d) el.textContent = ru;
   }
 }
-
-function openSkinDetail(skin) {
-  const modal = $('detailModal'), body = $('modalBody');
-  modal.classList.add('active');
-  document.body.classList.add('lock');
-  $('modalTitle').textContent = skin.name;
-  body.innerHTML = `
-    <img src="${esc(skin.full)}" alt="${esc(skin.name)}" class="modal-image skin">
-    <div class="modal-info">
-      <div class="info-row"><span class="info-label">Ник</span><span class="info-value">${esc(skin.name)}</span></div>
-      <div class="info-row"><span class="info-label">UUID</span><span class="info-value">${esc(skin.id)}</span></div>
-    </div>
-    <div class="modal-actions">
-      <a href="${esc(skin.full)}" download="${esc(skin.name)}.png" class="btn">Скачать скин</a>
-      <a href="https://namemc.com/profile/${esc(skin.name)}" target="_blank" rel="noopener" class="btn btn-secondary">Открыть на NameMC</a>
-    </div>
-  `;
-}
-
-function closeModal() {
-  $('detailModal').classList.remove('active');
-  document.body.classList.remove('lock');
-}
+function closeModal() { $('detailModal').classList.remove('active'); document.body.classList.remove('lock'); }
 $('modalClose').addEventListener('click', closeModal);
-$('detailModal').addEventListener('click', e => { if (e.target === $('detailModal')) closeModal(); });
+$('detailModal').addEventListener('click', e => { if (e.target.id === 'detailModal') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+$('modalBody').addEventListener('click', e => {
+  const b = e.target.closest('#dlBtn');
+  if (b) downloadLatest(b.dataset.source, b.dataset.id, b);
+});
+
+async function downloadLatest(source, id, btn) {
+  if (!id) return alert('Некорректный идентификатор');
+  const old = btn.textContent; btn.disabled = true; btn.textContent = 'Подождите...';
+  try {
+    let url;
+    if (source === 'modrinth') {
+      let v, viaWorker = true;
+      try { v = await getJson(`${WORKER_URL}/modrinth/project/${id}/version`); }
+      catch { viaWorker = false; v = await getJson(`https://api.modrinth.com/v2/project/${id}/version`); }
+      if (!v?.length) return alert('Файлы не найдены');
+      if (viaWorker) url = `${WORKER_URL}/modrinth/download/${safeId(v[0].id)}`;
+      else {
+        const f = (v[0].files || []).find(x => x.primary) || (v[0].files || [])[0];
+        url = f && safeUrl(f.url);
+        if (!url) return alert('Файлы не найдены');
+      }
+    } else {
+      const f = await getJson(`${WORKER_URL}/curseforge/mod/${id}/files`);
+      if (!f.data?.length) return alert('Файлы не найдены');
+      url = `${WORKER_URL}/curseforge/download/${id}/${safeId(f.data[0].id)}`;
+    }
+    const a = document.createElement('a');
+    a.href = url; a.rel = 'noopener noreferrer';
+    document.body.appendChild(a); a.click(); a.remove();
+  } catch (e) {
+    alert('Ошибка загрузки файла: ' + e.message);
+  } finally { btn.disabled = false; btn.textContent = old; }
+}
+
+function formatNumber(n) {
+  n = Number(n) || 0;
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+  return String(n);
+}
 
 loadContent();
 </script>
