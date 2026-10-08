@@ -2174,18 +2174,18 @@ async function openEditor(skinName){
       mat.onBeforeCompile = (shader) => {
         if(mat.userData.__origOBC) mat.userData.__origOBC(shader);
         shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <map_fragment>',
-          `#include <map_fragment>
-          #ifdef USE_MAP
-            vec2 __gUV = vMapUv * 64.0;
-            vec2 __gF = abs(fract(__gUV - 0.5) - 0.5);
-            vec2 __gD = fwidth(__gUV);
-            vec2 __gL = __gF / max(__gD, vec2(0.0001));
-            float __gA = 1.0 - min(min(__gL.x, __gL.y), 1.0);
-            gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.38, 0.83, 1.0), __gA * 0.85);
-          #endif
-          `
-        );
+  '#include <map_fragment>',
+  `#include <map_fragment>
+  #ifdef USE_MAP
+    vec2 __gUV = vMapUv * 64.0;
+    vec2 __gF = abs(fract(__gUV - 0.5) - 0.5);
+    vec2 __gD = fwidth(__gUV);
+    vec2 __gL = __gF / max(__gD, vec2(0.0001));
+    float __gA = 1.0 - min(min(__gL.x, __gL.y), 1.0);
+    diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.38, 0.83, 1.0), __gA * 0.85);
+  #endif
+  `
+);
       };
       mat.customProgramCacheKey = () => 'grid-on';
       mat.needsUpdate = true;
