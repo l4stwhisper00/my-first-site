@@ -3,77 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://mc-heads.net https://api.mineatar.io https://starlightskins.lunareclipse.studio https://nuc.de.majic.rs data: blob:; connect-src https://minecraft-proxy.zxcdedinside944.workers.dev https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://mc-heads.net https://api.mineatar.io https://starlightskins.lunareclipse.studio https://crafatar.com data: blob:; connect-src https://minecraft-proxy.zxcdedinside944.workers.dev https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-<link rel="dns-prefetch" href="https://cdn.modrinth.com">
-<link rel="dns-prefetch" href="https://media.forgecdn.net">
+<link rel="dns-prefetch" href="https://starlightskins.lunareclipse.studio">
+<link rel="dns-prefetch" href="https://mc-heads.net">
 <title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
 <style>
-/* === ТЕМЫ === */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --s0:#05070C;--s2:#0F131C;--s3:#161D2B;--s4:#1E2636;
-  --accent:#38BDF8;--dim:#1E3A5F;--text:#E8EDF4;--tdim:#9CA3AF;
+  --accent:#38BDF8;--accent-2:#6EE7B7;--dim:#1E3A5F;
+  --text:#E8EDF4;--tdim:#9CA3AF;
   --error:#EF4444;--ok:#10B981;
   --r:999px;--rl:1.5rem;
   --blur:8px;
   --tr-fast:.14s;--tr-norm:.28s;--tr-slow:.45s;
   --ease:cubic-bezier(.25,.46,.45,.94);
   --card-glow:rgba(56,189,248,.15);
+  --aurora-1:rgba(56,189,248,.35);
+  --aurora-2:rgba(110,231,183,.28);
 }
 [data-theme="midnight"]{
   --s0:#02040A;--s2:#0A0E18;--s3:#111624;--s4:#1A2132;
-  --accent:#818CF8;--dim:#1E1B4B;--text:#E0E7FF;--tdim:#8B95B8;
+  --accent:#818CF8;--accent-2:#A78BFA;--dim:#1E1B4B;
+  --text:#E0E7FF;--tdim:#8B95B8;
   --card-glow:rgba(129,140,248,.2);
+  --aurora-1:rgba(129,140,248,.35);--aurora-2:rgba(167,139,250,.28);
 }
 [data-theme="light"]{
   --s0:#F0F4FA;--s2:#FFFFFF;--s3:#E8EDF5;--s4:#DDE4EE;
-  --accent:#0284C7;--dim:#DBEAFE;--text:#0F172A;--tdim:#64748B;
+  --accent:#0284C7;--accent-2:#10B981;--dim:#DBEAFE;
+  --text:#0F172A;--tdim:#64748B;
   --card-glow:rgba(2,132,199,.15);
+  --aurora-1:rgba(2,132,199,.2);--aurora-2:rgba(16,185,129,.15);
 }
+[data-theme="ocean"]{
+  --s0:#041220;--s2:#081A2B;--s3:#0D2438;--s4:#133049;
+  --accent:#06B6D4;--accent-2:#22D3EE;--dim:#0E4D64;
+  --text:#DBEEF7;--tdim:#7BA3B8;
+  --card-glow:rgba(6,182,212,.2);
+  --aurora-1:rgba(6,182,212,.4);--aurora-2:rgba(34,211,238,.3);
+}
+[data-theme="sunset"]{
+  --s0:#14070F;--s2:#1E0A18;--s3:#2A0F22;--s4:#38152C;
+  --accent:#FB7185;--accent-2:#FBBF24;--dim:#5B1F3A;
+  --text:#FDE4EC;--tdim:#C99AAB;
+  --card-glow:rgba(251,113,133,.22);
+  --aurora-1:rgba(251,113,133,.4);--aurora-2:rgba(251,191,36,.3);
+}
+[data-theme="forest"]{
+  --s0:#071510;--s2:#0C1E17;--s3:#122A20;--s4:#1A3629;
+  --accent:#10B981;--accent-2:#84CC16;--dim:#14532D;
+  --text:#DCFCE7;--tdim:#7FA089;
+  --card-glow:rgba(16,185,129,.22);
+  --aurora-1:rgba(16,185,129,.4);--aurora-2:rgba(132,204,22,.28);
+}
+[data-theme="cyber"]{
+  --s0:#0A0512;--s2:#100820;--s3:#180D2E;--s4:#211340;
+  --accent:#D946EF;--accent-2:#22D3EE;--dim:#4A1060;
+  --text:#F5E4FF;--tdim:#B096C5;
+  --card-glow:rgba(217,70,239,.25);
+  --aurora-1:rgba(217,70,239,.45);--aurora-2:rgba(34,211,238,.35);
+}
+[data-theme="nord"]{
+  --s0:#242933;--s2:#2E3440;--s3:#3B4252;--s4:#434C5E;
+  --accent:#88C0D0;--accent-2:#A3BE8C;--dim:#4C566A;
+  --text:#ECEFF4;--tdim:#9099A8;
+  --card-glow:rgba(136,192,208,.2);
+  --aurora-1:rgba(136,192,208,.3);--aurora-2:rgba(163,190,140,.25);
+}
+[data-theme="rose"]{
+  --s0:#1A0A15;--s2:#280F20;--s3:#37162C;--s4:#471C39;
+  --accent:#F472B6;--accent-2:#FCD34D;--dim:#5E1F41;
+  --text:#FFE4F1;--tdim:#C493AD;
+  --card-glow:rgba(244,114,182,.22);
+  --aurora-1:rgba(244,114,182,.4);--aurora-2:rgba(252,211,77,.3);
+}
+
+html,body{min-height:100vh}
+html{background:var(--s0);transition:background var(--tr-slow) var(--ease)}
 body{
-  background:var(--s0);color:var(--text);
+  background:transparent;color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-  line-height:1.6;min-height:100vh;
-  transition:background var(--tr-slow) var(--ease),color var(--tr-slow) var(--ease);
+  line-height:1.6;
+  transition:color var(--tr-slow) var(--ease);
+  overflow-x:hidden;
 }
 body.lock{overflow:hidden}
-.container{max-width:1400px;margin:0 auto;padding:2rem}
-header{margin-bottom:2rem;text-align:center;position:relative;animation:fadeInUp .5s var(--ease)}
+
+/* === ФОН: AURORA === */
+.bg-aurora{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  opacity:.9;transition:opacity var(--tr-slow) var(--ease);
+}
+.bg-aurora::before,.bg-aurora::after{
+  content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;
+  filter:blur(90px);will-change:transform;
+}
+.bg-aurora::before{
+  background:radial-gradient(circle,var(--aurora-1) 0%,transparent 65%);
+  top:-25vmax;left:-20vmax;
+  animation:auroraA 28s ease-in-out infinite;
+}
+.bg-aurora::after{
+  background:radial-gradient(circle,var(--aurora-2) 0%,transparent 65%);
+  bottom:-25vmax;right:-20vmax;
+  animation:auroraB 34s ease-in-out infinite;
+}
+@keyframes auroraA{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(15vmax,8vmax) scale(1.15)}
+  66%{transform:translate(5vmax,20vmax) scale(.95)}
+}
+@keyframes auroraB{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(-12vmax,-10vmax) scale(1.1)}
+  66%{transform:translate(-20vmax,5vmax) scale(1.05)}
+}
+body.no-bg .bg-aurora{opacity:0}
+
+.container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:2rem}
+
+header{margin-bottom:2rem;text-align:center;animation:fadeInUp .5s var(--ease)}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 h1{
   font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;
-  background:linear-gradient(135deg,var(--accent),#6EE7B7);
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   transition:background var(--tr-slow) var(--ease);
+  background-size:200% 200%;
+  animation:gradientShift 8s ease infinite;
 }
-.subtitle{color:var(--tdim);font-size:1.1rem;transition:color var(--tr-slow) var(--ease)}
+@keyframes gradientShift{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+.subtitle{color:var(--tdim);font-size:1.1rem}
+
 .tabs{display:flex;gap:.75rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap}
-.tab,.page-btn{
+.tab{
   background:var(--s2);color:var(--tdim);padding:.75rem 1.5rem;
   border:none;border-radius:var(--r);font-weight:600;cursor:pointer;
   font-size:1rem;white-space:nowrap;
   transition:all var(--tr-norm) var(--ease);
+  backdrop-filter:blur(10px);
+  border:1px solid transparent;
 }
-.tab:hover,.page-btn:hover{
-  background:var(--s3);color:var(--text);transform:translateY(-2px);
-  box-shadow:0 6px 18px var(--card-glow);
-}
-.tab.active,.page-btn.active{
-  background:var(--accent);color:var(--s0);
+.tab:hover{background:var(--s3);color:var(--text);transform:translateY(-2px);box-shadow:0 6px 18px var(--card-glow)}
+.tab.active{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);
   box-shadow:0 4px 16px var(--card-glow);
 }
+
 .search-container{
   background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem;
-  transition:background var(--tr-slow) var(--ease);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 8px 32px rgba(0,0,0,.15);
+  transition:background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease);
 }
-.search-row{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.search-row{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
 .search-input,.filter-select{
   background:var(--s3);border:2px solid transparent;color:var(--text);
   padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem;
@@ -82,80 +179,103 @@ h1{
 .search-input{flex:1;min-width:250px}
 .filter-select{padding:.5rem 1rem;cursor:pointer}
 .search-input:focus,.filter-select:focus{outline:none;border-color:var(--accent)}
+
+/* === КНОПКА РЕДАКТОРА === */
+#editorBtn{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:var(--s0);border:none;border-radius:var(--r);
+  padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;
+  cursor:pointer;display:none;align-items:center;gap:.55rem;
+  box-shadow:0 4px 16px var(--card-glow);
+  transition:all var(--tr-norm) var(--ease);
+  white-space:nowrap;position:relative;overflow:hidden;
+}
+#editorBtn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);
+  transform:translateX(-100%);transition:transform .6s var(--ease);
+}
+#editorBtn:hover::before{transform:translateX(100%)}
+#editorBtn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 28px var(--card-glow)}
+#editorBtn .ico{font-size:1.15rem;line-height:1;display:inline-block;transition:transform var(--tr-norm) var(--ease)}
+#editorBtn:hover .ico{transform:rotate(-15deg) scale(1.15)}
+
 .filters{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
 .filters label{color:var(--tdim);font-size:.9rem}
 .hidden{display:none!important}
+
 .btn,.search-btn{
   background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;
   border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;
   transition:all var(--tr-norm) var(--ease);text-align:center;
 }
 .btn{width:100%;display:inline-block}
-.btn:hover,.search-btn:hover{
-  filter:brightness(1.15);transform:scale(1.02);
-  box-shadow:0 6px 20px var(--card-glow);
-}
+.btn:hover,.search-btn:hover{filter:brightness(1.1);transform:scale(1.02);box-shadow:0 6px 20px var(--card-glow)}
 .btn-secondary{background:var(--s3);color:var(--text)}
 .btn-secondary:hover{background:var(--s4)}
 .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;margin-bottom:2rem}
 .card{
   background:var(--s2);border-radius:var(--rl);overflow:hidden;
   cursor:pointer;display:flex;flex-direction:column;
   animation:fadeInUp .45s var(--ease) both;
-  transition:transform var(--tr-norm) var(--ease),box-shadow var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.05);
+  transition:transform var(--tr-norm) var(--ease),box-shadow var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease);
+  position:relative;
 }
+.card::after{
+  content:'';position:absolute;inset:0;border-radius:var(--rl);
+  background:linear-gradient(135deg,var(--accent),transparent 60%);
+  opacity:0;transition:opacity var(--tr-norm) var(--ease);
+  pointer-events:none;mix-blend-mode:overlay;
+}
+.card:hover::after,.card:focus-visible::after{opacity:.06}
 .card:hover,.card:focus-visible{
   transform:translateY(-6px) scale(1.01);
   box-shadow:0 12px 32px var(--card-glow);
   outline:none;
+  border-color:rgba(255,255,255,.1);
 }
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .card-image{width:100%;height:180px;object-fit:cover;background:var(--s4);transition:background var(--tr-slow) var(--ease)}
-.card-3d-container{
-  width:100%;height:180px;background:linear-gradient(135deg,var(--s3),var(--s4));
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-  transition:background var(--tr-slow) var(--ease);
-}
-.card-3d-container canvas{display:block;max-width:100%;max-height:100%}
+.card-image.skin{object-fit:contain;padding:.5rem;background:linear-gradient(135deg,var(--s3),var(--s4))}
 .card-content{padding:1.25rem;flex:1;display:flex;flex-direction:column}
 .card-title{font-size:1.05rem;font-weight:600;margin-bottom:.5rem;line-height:1.3;word-break:break-word}
 .card-description{color:var(--tdim);font-size:.9rem;margin-bottom:1rem;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.tag{
-  display:inline-block;background:var(--dim);color:var(--accent);
-  padding:.25rem .75rem;border-radius:var(--r);font-size:.8rem;
-  font-weight:500;margin-bottom:1rem;align-self:flex-start;
-}
+.tag{display:inline-block;background:var(--dim);color:var(--accent);padding:.25rem .75rem;border-radius:var(--r);font-size:.8rem;font-weight:500;margin-bottom:1rem;align-self:flex-start}
 .card-stats{display:flex;justify-content:space-between;gap:.5rem;color:var(--tdim);font-size:.85rem}
+
 .skeleton-card{cursor:default!important;pointer-events:none}
 .skeleton-card:hover{transform:none!important;box-shadow:none!important}
+.skeleton-card:hover::after{opacity:0}
 .skeleton-shimmer{background:linear-gradient(90deg,var(--s3) 25%,var(--s4) 50%,var(--s3) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
 .skeleton-line{height:.85rem;border-radius:.4rem;margin-bottom:.6rem}
 .skeleton-line.big{height:1.2rem;width:70%}
-.modal{
-  display:none;position:fixed;inset:0;background:rgba(5,7,12,.9);
-  backdrop-filter:blur(var(--blur));z-index:1000;overflow-y:auto;
-  animation:fadeIn .2s var(--ease);
-}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(var(--blur));z-index:1000;overflow-y:auto;animation:fadeIn .2s var(--ease)}
 .modal.active{display:flex;align-items:center;justify-content:center;padding:2rem}
 .modal-content{
   background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;
-  max-height:90vh;overflow-y:auto;
+  max-height:90vh;overflow-y:auto;backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.08);
   animation:fadeInUp .3s var(--ease);
   transition:background var(--tr-slow) var(--ease);
 }
-.modal-header{padding:1.5rem 2rem;border-bottom:1px solid var(--s3);display:flex;justify-content:space-between;gap:1rem}
+.modal-header{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;gap:1rem;align-items:center}
 .modal-title{font-size:1.5rem;font-weight:700;line-height:1.3;word-break:break-word}
-.modal-close{background:none;border:none;color:var(--tdim);font-size:2rem;cursor:pointer;width:40px;height:40px;border-radius:50%;flex-shrink:0;transition:all var(--tr-fast) var(--ease)}
+.modal-close{background:none;border:none;color:var(--tdim);font-size:2rem;cursor:pointer;width:40px;height:40px;border-radius:50%;flex-shrink:0;transition:all var(--tr-fast) var(--ease);display:flex;align-items:center;justify-content:center}
 .modal-close:hover{background:var(--s3);color:var(--text);transform:rotate(90deg)}
 .modal-body{padding:2rem}
 .modal-3d-viewport{
-  width:100%;height:360px;background:linear-gradient(135deg,var(--s3),var(--s4));
+  width:100%;height:400px;background:linear-gradient(135deg,var(--s3),var(--s4));
   border-radius:var(--rl);margin-bottom:1.5rem;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
 }
 .modal-3d-viewport canvas{display:block;cursor:grab}
 .modal-3d-viewport canvas:active{cursor:grabbing}
+.modal-3d-viewport img{max-height:100%;object-fit:contain}
 .modal-description{color:var(--tdim);line-height:1.7;margin-bottom:1.5rem;white-space:pre-line}
 .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .version-picker{background:var(--s3);border-radius:var(--rl);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:.75rem}
@@ -167,114 +287,114 @@ h1{
 .info-note{color:var(--accent);background:var(--s2);border-radius:var(--rl);text-align:center;padding:1rem;margin-bottom:1.5rem;font-size:.95rem}
 #sentinel{height:40px;display:flex;align-items:center;justify-content:center;color:var(--tdim);font-size:.9rem}
 #toasts{position:fixed;bottom:1.5rem;right:1.5rem;display:flex;flex-direction:column;gap:.75rem;z-index:2000;max-width:min(360px,calc(100vw - 3rem))}
-.toast{background:var(--s3);color:var(--text);padding:1rem 1.25rem;border-radius:1rem;box-shadow:0 8px 24px rgba(0,0,0,.4);border-left:4px solid var(--accent);animation:slideIn .25s var(--ease);font-size:.95rem}
+.toast{background:var(--s3);color:var(--text);padding:1rem 1.25rem;border-radius:1rem;box-shadow:0 8px 24px rgba(0,0,0,.4);border-left:4px solid var(--accent);animation:slideIn .25s var(--ease);font-size:.95rem;backdrop-filter:blur(12px)}
 .toast.error{border-left-color:var(--error)}
 .toast.ok{border-left-color:var(--ok)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* === ПАНЕЛЬ ТЕМ === */
-.theme-panel{
-  position:fixed;bottom:1.5rem;left:1.5rem;z-index:3000;
-  display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;
-}
-.theme-toggle{
+/* === ПАНЕЛЬ НАСТРОЕК === */
+.settings-panel{position:fixed;bottom:1.5rem;left:1.5rem;z-index:3000;display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.settings-toggle{
   width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
   background:var(--s2);color:var(--text);font-size:1.4rem;
-  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  box-shadow:0 8px 24px rgba(0,0,0,.4);backdrop-filter:blur(12px);
   transition:all var(--tr-norm) var(--ease);
   display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.08);
 }
-.theme-toggle:hover{transform:scale(1.1) rotate(15deg);background:var(--s3)}
-.theme-options{
-  display:flex;gap:.5rem;background:var(--s2);padding:.5rem;
-  border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.4);
-  opacity:0;transform:translateY(10px) scale(.9);pointer-events:none;
+.settings-toggle:hover{transform:scale(1.1) rotate(20deg);background:var(--s3)}
+.settings-menu{
+  background:var(--s2);padding:1.25rem;border-radius:var(--rl);
+  box-shadow:0 12px 40px rgba(0,0,0,.5);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.08);
+  opacity:0;transform:translateY(10px) scale(.95);pointer-events:none;
   transition:all var(--tr-norm) var(--ease);
+  min-width:280px;
 }
-.theme-panel.open .theme-options{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.settings-panel.open .settings-menu{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.settings-section{margin-bottom:1rem}
+.settings-section:last-child{margin-bottom:0}
+.settings-label{font-size:.75rem;color:var(--tdim);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.6rem}
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
 .theme-opt{
-  width:36px;height:36px;border-radius:50%;border:2px solid transparent;
+  width:100%;aspect-ratio:1;border-radius:.75rem;border:2px solid transparent;
   cursor:pointer;transition:all var(--tr-fast) var(--ease);
+  position:relative;overflow:hidden;
 }
-.theme-opt[data-theme="dark"]{background:linear-gradient(135deg,#05070C,#0F131C)}
-.theme-opt[data-theme="midnight"]{background:linear-gradient(135deg,#02040A,#818CF8)}
-.theme-opt[data-theme="light"]{background:linear-gradient(135deg,#F0F4FA,#0284C7)}
-.theme-opt:hover{transform:scale(1.15)}
-.theme-opt.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--s0) inset}
+.theme-opt:hover{transform:scale(1.08)}
+.theme-opt.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--s0) inset,0 0 12px var(--accent)}
+.theme-opt[data-theme="dark"]{background:linear-gradient(135deg,#05070C 50%,#38BDF8)}
+.theme-opt[data-theme="midnight"]{background:linear-gradient(135deg,#02040A 50%,#818CF8)}
+.theme-opt[data-theme="light"]{background:linear-gradient(135deg,#F0F4FA 50%,#0284C7)}
+.theme-opt[data-theme="ocean"]{background:linear-gradient(135deg,#041220 50%,#06B6D4)}
+.theme-opt[data-theme="sunset"]{background:linear-gradient(135deg,#14070F 50%,#FB7185)}
+.theme-opt[data-theme="forest"]{background:linear-gradient(135deg,#071510 50%,#10B981)}
+.theme-opt[data-theme="cyber"]{background:linear-gradient(135deg,#0A0512 50%,#D946EF)}
+.theme-opt[data-theme="nord"]{background:linear-gradient(135deg,#2E3440 50%,#88C0D0)}
+.theme-opt[data-theme="rose"]{background:linear-gradient(135deg,#1A0A15 50%,#F472B6)}
+.settings-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;color:var(--text);font-size:.9rem;cursor:pointer;user-select:none}
+.switch{
+  position:relative;width:42px;height:24px;background:var(--s4);border-radius:999px;
+  transition:background var(--tr-norm) var(--ease);flex-shrink:0;
+}
+.switch::after{
+  content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
+  background:var(--text);border-radius:50%;
+  transition:transform var(--tr-norm) var(--ease);
+}
+.switch.on{background:var(--accent)}
+.switch.on::after{transform:translateX(18px);background:var(--s0)}
 
 /* === РЕДАКТОР === */
-.editor-wrap{background:var(--s2);border-radius:var(--rl);padding:2rem;animation:fadeInUp .4s var(--ease)}
+.editor-wrap{background:var(--s2);border-radius:var(--rl);padding:2rem;animation:fadeInUp .4s var(--ease);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05)}
 .editor-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
 .editor-header h2{font-size:1.5rem}
 .editor-header-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 .editor-header-actions .btn,.editor-header-actions .btn-secondary{padding:.6rem 1rem;font-size:.9rem;width:auto}
 .editor-layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
 @media(max-width:1000px){.editor-layout{grid-template-columns:1fr}}
-.editor-canvas-area{
-  position:relative;background:linear-gradient(135deg,var(--s3),var(--s4));
-  border-radius:var(--rl);min-height:520px;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-}
+.editor-canvas-area{position:relative;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .editor-canvas-area canvas{display:block;cursor:crosshair}
-.editor-mode-toggle{
-  position:absolute;top:1rem;right:1rem;z-index:10;
-  display:flex;gap:.25rem;background:var(--s2);padding:.25rem;border-radius:var(--r);
-}
-.editor-mode-toggle button{
-  background:transparent;color:var(--tdim);border:none;
-  padding:.5rem 1rem;border-radius:var(--r);cursor:pointer;
-  font-weight:600;font-size:.85rem;
-  transition:all var(--tr-fast) var(--ease);
-}
+.editor-mode-toggle{position:absolute;top:1rem;right:1rem;z-index:10;display:flex;gap:.25rem;background:var(--s2);padding:.25rem;border-radius:var(--r);border:1px solid rgba(255,255,255,.08)}
+.editor-mode-toggle button{background:transparent;color:var(--tdim);border:none;padding:.5rem 1rem;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.85rem;transition:all var(--tr-fast) var(--ease)}
 .editor-mode-toggle button.active{background:var(--accent);color:var(--s0)}
 .editor-sidebar{display:flex;flex-direction:column;gap:1.25rem}
 .editor-section{background:var(--s3);border-radius:var(--rl);padding:1rem 1.25rem}
-.editor-section-title{font-size:.85rem;color:var(--tdim);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.editor-section-title{font-size:.75rem;color:var(--tdim);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
 .editor-tools{display:flex;gap:.5rem;flex-wrap:wrap}
-.editor-tool{
-  flex:1;min-width:0;background:var(--s2);color:var(--tdim);
-  border:2px solid transparent;border-radius:1rem;
-  padding:.6rem .5rem;cursor:pointer;font-size:1.2rem;
-  transition:all var(--tr-fast) var(--ease);
-  display:flex;align-items:center;justify-content:center;
-}
+.editor-tool{flex:1;min-width:0;background:var(--s2);color:var(--tdim);border:2px solid transparent;border-radius:1rem;padding:.6rem .5rem;cursor:pointer;font-size:1.2rem;transition:all var(--tr-fast) var(--ease);display:flex;align-items:center;justify-content:center}
 .editor-tool:hover{background:var(--s4);color:var(--text)}
 .editor-tool.active{background:var(--accent);color:var(--s0);border-color:var(--accent)}
 .editor-color-row{display:flex;gap:.75rem;align-items:center}
-.editor-color-row input[type="color"]{
-  width:56px;height:44px;border:none;border-radius:.75rem;
-  cursor:pointer;background:transparent;
-}
+.editor-color-row input[type="color"]{width:56px;height:44px;border:none;border-radius:.75rem;cursor:pointer;background:transparent}
 .skin-palette{display:grid;grid-template-columns:repeat(8,1fr);gap:.4rem}
 .skin-palette button{aspect-ratio:1;border:2px solid transparent;border-radius:6px;cursor:pointer;padding:0;transition:all var(--tr-fast) var(--ease)}
 .skin-palette button:hover{transform:scale(1.15)}
 .skin-palette button.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--s0) inset}
 .editor-layer-row{display:flex;gap:.5rem}
-.editor-layer-btn{
-  flex:1;background:var(--s2);color:var(--tdim);border:2px solid transparent;
-  border-radius:1rem;padding:.6rem;cursor:pointer;font-size:.85rem;font-weight:600;
-  transition:all var(--tr-fast) var(--ease);
-}
+.editor-layer-btn{flex:1;background:var(--s2);color:var(--tdim);border:2px solid transparent;border-radius:1rem;padding:.6rem;cursor:pointer;font-size:.85rem;font-weight:600;transition:all var(--tr-fast) var(--ease)}
 .editor-layer-btn.active{background:var(--accent);color:var(--s0);border-color:var(--accent)}
 .editor-action-row{display:flex;gap:.5rem}
 .editor-action-row .btn,.editor-action-row .btn-secondary{width:auto;flex:1;padding:.6rem .75rem;font-size:.85rem}
-
-/* === 2D-развёртка === */
 .editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:var(--s3);border-radius:.5rem;max-width:100%;display:block}
+.editor-hint{color:var(--tdim);font-size:.8rem;line-height:1.5}
 
 @media(max-width:768px){
   .container{padding:1rem}
   .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}
-  .search-row{flex-direction:column}
+  .search-row{flex-direction:column;align-items:stretch}
   .modal-actions{grid-template-columns:1fr}
   .grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
   #toasts{right:1rem;left:1rem;max-width:none}
   .editor-layout{grid-template-columns:1fr}
-  .theme-panel{bottom:1rem;left:1rem}
+  .settings-panel{bottom:1rem;left:1rem}
+  .settings-menu{min-width:240px}
 }
 </style>
 </head>
 <body>
+<div class="bg-aurora"></div>
+
 <div class="container">
   <header>
     <h1>Minecraft Hub</h1>
@@ -291,7 +411,7 @@ h1{
     <div class="search-row">
       <input type="text" class="search-input" id="searchInput" placeholder="Поиск..." maxlength="64" autocomplete="off">
       <button class="search-btn" id="searchBtn">Искать</button>
-      <button class="btn-secondary" id="editorBtn" style="width:auto;display:none;padding:.75rem 1.5rem">✏️ Редактор</button>
+      <button id="editorBtn"><span class="ico">✏️</span> Редактор</button>
     </div>
     <div class="filters" id="filters">
       <select class="filter-select" id="sortSelect" aria-label="Сортировка">
@@ -329,13 +449,31 @@ h1{
 <div id="toasts" aria-live="polite" aria-atomic="false"></div>
 <div class="sr-only" id="liveStatus" aria-live="polite"></div>
 
-<!-- ТЕМЫ -->
-<div class="theme-panel" id="themePanel">
-  <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">🎨</button>
-  <div class="theme-options">
-    <button class="theme-opt active" data-theme="dark" title="Dark"></button>
-    <button class="theme-opt" data-theme="midnight" title="Midnight"></button>
-    <button class="theme-opt" data-theme="light" title="Light"></button>
+<!-- НАСТРОЙКИ -->
+<div class="settings-panel" id="settingsPanel">
+  <button class="settings-toggle" id="settingsToggle" aria-label="Настройки">⚙️</button>
+  <div class="settings-menu">
+    <div class="settings-section">
+      <div class="settings-label">Тема</div>
+      <div class="theme-grid" id="themeGrid">
+        <button class="theme-opt active" data-theme="dark" title="Dark"></button>
+        <button class="theme-opt" data-theme="midnight" title="Midnight"></button>
+        <button class="theme-opt" data-theme="light" title="Light"></button>
+        <button class="theme-opt" data-theme="ocean" title="Ocean"></button>
+        <button class="theme-opt" data-theme="sunset" title="Sunset"></button>
+        <button class="theme-opt" data-theme="forest" title="Forest"></button>
+        <button class="theme-opt" data-theme="cyber" title="Cyberpunk"></button>
+        <button class="theme-opt" data-theme="nord" title="Nord"></button>
+        <button class="theme-opt" data-theme="rose" title="Rose"></button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">Эффекты</div>
+      <div class="settings-toggle-row" id="bgToggleRow">
+        <span>Аврора-фон</span>
+        <div class="switch on" id="bgSwitch"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -394,7 +532,7 @@ const tabConfig = {
 let currentTab='mods', currentQuery='';
 let items=[];
 let offset=0, hasMore=true, isLoading=false, reqId=0, lastSearch=0;
-let skinPool=[], skinCursor=0, skinPage=1, skinHasMore=true;
+let skinPage=1;
 let editorActive=false;
 const $=id=>document.getElementById(id);
 
@@ -412,7 +550,6 @@ function toast(msg,kind='info',ms=4000){
   setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},ms);
 }
 
-/* === ПЕРЕВОД === */
 const trCache=new Map();
 try{Object.entries(JSON.parse(localStorage.getItem('trCache')||'{}')).forEach(([k,v])=>trCache.set(k,v))}catch{}
 let cacheSaveTimer=null;
@@ -432,101 +569,101 @@ async function translate(text,signal){
   }catch{return text}
 }
 
-/* === ТЕМЫ === */
-function initThemes(){
-  const saved = localStorage.getItem('mch-theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', saved);
-  document.querySelectorAll('.theme-opt').forEach(b=>b.classList.toggle('active', b.dataset.theme===saved));
-  $('themeToggle').addEventListener('click', e=>{
+/* === НАСТРОЙКИ === */
+function initSettings(){
+  const savedTheme = localStorage.getItem('mch-theme') || 'dark';
+  const savedBg = localStorage.getItem('mch-bg') !== 'off';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  if(!savedBg) document.body.classList.add('no-bg');
+  $('bgSwitch').classList.toggle('on', savedBg);
+  document.querySelectorAll('.theme-opt').forEach(b=>b.classList.toggle('active', b.dataset.theme===savedTheme));
+
+  $('settingsToggle').addEventListener('click', e=>{
     e.stopPropagation();
-    $('themePanel').classList.toggle('open');
+    $('settingsPanel').classList.toggle('open');
   });
   document.querySelectorAll('.theme-opt').forEach(b=>b.addEventListener('click', ()=>{
     const t=b.dataset.theme;
     document.documentElement.setAttribute('data-theme',t);
     localStorage.setItem('mch-theme',t);
     document.querySelectorAll('.theme-opt').forEach(x=>x.classList.toggle('active',x===b));
-    $('themePanel').classList.remove('open');
-    toast('Тема: '+t,'ok',2000);
+    toast('Тема: '+t,'ok',1500);
   }));
+  $('bgToggleRow').addEventListener('click', ()=>{
+    const on = !$('bgSwitch').classList.contains('on');
+    $('bgSwitch').classList.toggle('on', on);
+    document.body.classList.toggle('no-bg', !on);
+    localStorage.setItem('mch-bg', on ? 'on' : 'off');
+  });
   document.addEventListener('click',e=>{
-    if(!e.target.closest('#themePanel'))$('themePanel').classList.remove('open');
+    if(!e.target.closest('#settingsPanel'))$('settingsPanel').classList.remove('open');
   });
 }
 
-/* === 3D СКИНЫ === */
-const skinViewers = new Map();
-const viewerObserver = new IntersectionObserver(entries=>{
-  entries.forEach(en=>{
-    const id = en.target.dataset.skinView;
-    const v = skinViewers.get(id);
-    if(!v)return;
-    if(en.isIntersecting){
-      if(!v._started){v._started=true;v.renderer.setAnimationLoop(v._loop)}
-    } else {
-      if(v._started){v._started=false;v.renderer.setAnimationLoop(null)}
-    }
-  });
-},{rootMargin:'200px'});
+/* === СКИН-РЕНДЕРЫ (статика в списке) === */
+const SKIN_3D_SOURCES = [
+  n => `https://starlightskins.lunareclipse.studio/render/default/${encodeURIComponent(n)}/full`,
+  n => `https://mc-heads.net/body/${encodeURIComponent(n)}/180`,
+  n => `https://minotar.net/armor/body/${encodeURIComponent(n)}/180`,
+  n => `https://crafatar.com/renders/body/${encodeURIComponent(n)}?scale=6&overlay`
+];
+const skin3DSrc = (n, i=0) => SKIN_3D_SOURCES[Math.min(i, SKIN_3D_SOURCES.length-1)](n);
 
+/* === skinview3d только для модалки === */
 function createSkinViewer(container, skinUrl, opts={}){
-  if(typeof skinview3d==='undefined')return null;
-  const w = container.clientWidth || 240;
-  const h = container.clientHeight || 180;
+  if(typeof skinview3d === 'undefined' || typeof THREE === 'undefined'){
+    // Фолбэк: статичная 3D-картинка
+    const img = document.createElement('img');
+    img.src = skinUrl.startsWith('http') ? skinUrl : `https://mc-heads.net/body/${encodeURIComponent(skinUrl)}/300`;
+    img.style.cssText = 'max-height:100%;object-fit:contain';
+    img.onerror = () => { img.src = NO_IMG; };
+    container.appendChild(img);
+    return null;
+  }
   try{
     const viewer = new skinview3d.SkinViewer({
       canvas: document.createElement('canvas'),
-      width: w, height: h,
+      width: container.clientWidth || 400,
+      height: container.clientHeight || 400,
       skin: skinUrl,
-      model: opts.model || 'auto-detect',
       background: 'transparent'
     });
-    viewer.controls.enableZoom = false;
-    viewer.controls.enableRotate = opts.interactive || false;
+    viewer.controls.enableZoom = opts.zoom !== false;
+    viewer.controls.enableRotate = true;
     viewer.controls.enablePan = false;
-    viewer.controls.autoRotate = false;
-    if(opts.pose){
-      viewer.playerObject.rotation.y = opts.pose.ry || 0.5;
-      viewer.playerObject.rotation.x = opts.pose.rx || 0;
-    }
-    viewer.autoRotate = false;
+    viewer.camera.position.z = 60;
     if(opts.animation){
       viewer.animation = new skinview3d.WalkingAnimation();
       viewer.animation.speed = 1;
     }
-    viewer.camera.position.z = 60;
-    viewer.fov = 45;
-    viewer.renderer.setClearColor(0x000000, 0);
+    // Прозрачный фон канваса
+    try{viewer.renderer.setClearColor(0x000000, 0);viewer.renderer.setClearAlpha(0);}catch{}
+    viewer.canvas.style.background = 'transparent';
     container.appendChild(viewer.canvas);
-    const id = 'sv_'+Math.random().toString(36).slice(2,10);
-    container.dataset.skinView = id;
-    viewer._started = false;
-    viewer._loop = ()=>{
+    // Запускаем цикл рендера
+    viewer.renderer.setAnimationLoop(()=>{
       viewer.renderer.render(viewer.scene, viewer.camera);
-    };
-    if(!opts.lazy){viewer._started=true;viewer.renderer.setAnimationLoop(viewer._loop)}
-    else viewerObserver.observe(container);
-    skinViewers.set(id, viewer);
+    });
     return viewer;
-  }catch(e){console.warn('skinview3d:',e);return null}
-}
-
-function destroySkinViewer(container){
-  const id = container.dataset.skinView;
-  if(!id)return;
-  const v = skinViewers.get(id);
-  if(v){
-    try{v.renderer.setAnimationLoop(null);v.dispose();}catch{}
-    skinViewers.delete(id);
+  }catch(e){
+    console.warn('skinview3d init failed:', e);
+    // Фолбэк на картинку
+    const img = document.createElement('img');
+    img.src = `https://mc-heads.net/body/${encodeURIComponent(skinUrl.split('/').pop())}/300`;
+    img.style.cssText = 'max-height:100%;object-fit:contain';
+    img.onerror = () => { img.src = NO_IMG; };
+    container.appendChild(img);
+    return null;
   }
-  delete container.dataset.skinView;
 }
 
-/* === ЗАГРУЗКА СКИНОВ (MegaSkins + NameMC + локальный список) === */
+/* === ЗАГРУЗКА СКИНОВ === */
 async function loadSkinsPage(page, query=''){
   const cacheKey = `skins|${page}|${query}`;
   const cached = cacheGet(cacheKey);
   if(cached)return cached;
+
+  // MegaSkins
   try{
     const qs = new URLSearchParams({page:String(page), limit:String(SKIN_LIMIT)});
     if(query)qs.set('query',query);
@@ -537,15 +674,15 @@ async function loadSkinsPage(page, query=''){
         const list = d.skins.map(s=>({
           source:'skin',
           name: s.name || s.username || s.id,
-          skinUrl: s.skin_url || s.url || `https://minotar.net/skin/${encodeURIComponent(s.name||'Steve')}`,
-          uuid: s.uuid
+          skinUrl: s.skin_url || s.url || `https://minotar.net/skin/${encodeURIComponent(s.name||'Steve')}`
         }));
         cacheSet(cacheKey,list);
         return list;
       }
     }
   }catch(e){console.warn('megaskins:',e)}
-  // Резерв: NameMC trending
+
+  // NameMC trending
   try{
     const r = await fetch(`${WORKER_URL}/skins/trending?page=${page}`);
     if(r.ok){
@@ -557,7 +694,8 @@ async function loadSkinsPage(page, query=''){
       }
     }
   }catch(e){console.warn('namemc:',e)}
-  // Последний резерв: локальный список
+
+  // Локальный список (страница 1) — для старта
   if(page===1 && !query){
     return SKIN_NAMES.map(n=>({source:'skin',name:n,skinUrl:`https://minotar.net/skin/${encodeURIComponent(n)}`}));
   }
@@ -599,10 +737,9 @@ document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>
   currentTab=tab.dataset.tab;currentQuery='';
   $('searchInput').value='';
   editorActive=false;
-  document.querySelectorAll('.card-3d-container').forEach(destroySkinViewer);
   const sk=currentTab==='skins';
   $('filters').classList.toggle('hidden',sk);
-  $('editorBtn').style.display=sk?'inline-block':'none';
+  $('editorBtn').style.display=sk?'inline-flex':'none';
   $('searchInput').placeholder=sk?'Поиск скина по нику...':'Поиск...';
   resetAndLoad();
 }));
@@ -612,7 +749,7 @@ $('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')performSearch
 $('sortSelect').addEventListener('change',resetAndLoad);
 $('mcVersion').addEventListener('change',resetAndLoad);
 $('loaderSelect').addEventListener('change',resetAndLoad);
-$('editorBtn').addEventListener('click',openEditor);
+$('editorBtn').addEventListener('click',()=>openEditor());
 
 function performSearch(){
   const now=Date.now();if(now-lastSearch<600)return;lastSearch=now;
@@ -623,13 +760,12 @@ function performSearch(){
 function resetAndLoad(){
   reqId++;
   items=[];offset=0;hasMore=true;isLoading=false;
-  skinCursor=0;skinPage=1;skinHasMore=true;
+  skinPage=1;
   $('content').innerHTML='';
   setSentinel('idle');
   loadMore();
 }
 
-/* === ЗАГРУЗКА МОДОВ === */
 function buildModrinthQuery(){
   const cfg=tabConfig[currentTab],sort=$('sortSelect').value;
   const mc=$('mcVersion').value.trim(),loader=$('loaderSelect').value;
@@ -672,7 +808,6 @@ async function loadMore(){
       let list;
       if(page===1 && currentQuery && isValidNick(currentQuery)){
         list=[{source:'skin',name:currentQuery,skinUrl:`https://minotar.net/skin/${encodeURIComponent(currentQuery)}`}];
-        skinHasMore=false;
       } else {
         showSkeletons(8);
         list=await loadSkinsPage(page,currentQuery);
@@ -682,7 +817,7 @@ async function loadMore(){
       if(!list.length){hasMore=false;setSentinel('end');return}
       appendCards(list,token);
       skinPage++;
-      hasMore=skinHasMore;
+      hasMore = list.length >= SKIN_LIMIT;
       setSentinel(hasMore?'idle':'end');
       return;
     }
@@ -723,10 +858,15 @@ const norm=it=>it.source==='modrinth'?{
 
 function buildCardHTML(it,globalIndex){
   if(it.source==='skin'){
-    const skinUrl = it.skinUrl || `https://minotar.net/skin/${encodeURIComponent(it.name)}`;
+    const name = it.name;
+    const src = skin3DSrc(name, 0);
     return `<article class="card" data-i="${globalIndex}" tabindex="0">
-      <div class="card-3d-container" data-skin-url="${esc(skinUrl)}" data-skin-name="${esc(it.name)}"></div>
-      <div class="card-content"><h3 class="card-title">${esc(it.name)}</h3><p class="card-description">Нажмите для 3D-просмотра и скачивания</p></div></article>`;
+      <img src="${esc(src)}" alt="${esc(name)}" class="card-image skin" loading="lazy" data-skin-name="${esc(name)}" data-skin-step="0" data-skin-fallback>
+      <div class="card-content">
+        <h3 class="card-title">${esc(name)}</h3>
+        <p class="card-description">Клик — 3D-просмотр и скачивание</p>
+      </div>
+    </article>`;
   }
   const n=norm(it);
   return `<article class="card" data-i="${globalIndex}" tabindex="0">
@@ -744,15 +884,7 @@ function appendCards(list,token){
   const html=list.map((it,i)=>buildCardHTML(it,startIdx+i)).join('');
   grid.insertAdjacentHTML('beforeend',html);
   items.push(...list);
-  // Запускаем 3D-вьюеры для скинов
-  if(currentTab==='skins'){
-    grid.querySelectorAll('.card-3d-container:not([data-skin-view])').forEach(el=>{
-      const url = el.dataset.skinUrl;
-      if(url) createSkinViewer(el, url, {lazy:true, pose:{ry:0.5}, interactive:false});
-    });
-  } else {
-    translateNew(token,startIdx);
-  }
+  if(currentTab!=='skins') translateNew(token,startIdx);
 }
 
 async function translateNew(token,fromIdx){
@@ -764,8 +896,22 @@ async function translateNew(token,fromIdx){
 
 document.addEventListener('error',e=>{
   const img=e.target;
-  if(img.tagName!=='IMG'||!img.hasAttribute('data-fallback')||img.src===NO_IMG)return;
-  img.src=NO_IMG;
+  if(img.tagName!=='IMG')return;
+  // Скины: пройтись по цепочке фолбэков
+  if(img.hasAttribute('data-skin-fallback')){
+    const step = +img.dataset.skinStep + 1;
+    if(step < SKIN_3D_SOURCES.length){
+      img.dataset.skinStep = step;
+      img.src = skin3DSrc(img.dataset.skinName, step);
+      return;
+    }
+    img.src = NO_IMG;
+    return;
+  }
+  // Обычные картинки
+  if(img.hasAttribute('data-fallback') && img.src !== NO_IMG){
+    img.src = NO_IMG;
+  }
 },true);
 
 $('content').addEventListener('click',e=>{
@@ -778,6 +924,7 @@ $('content').addEventListener('keydown',e=>{
 });
 
 let lastFocused=null;
+let modalViewer=null;
 function trapFocus(e){
   if(e.key!=='Tab')return;
   const modal=$('detailModal');
@@ -795,11 +942,11 @@ async function showDetails(item){
   const isSkin=item.source==='skin';
   if(isSkin){
     $('modalTitle').textContent=item.name;
-    const skinUrl = item.skinUrl || `https://minotar.net/skin/${encodeURIComponent(item.name)}`;
-    html = `<div class="modal-3d-viewport" id="modal3d" data-skin-url="${esc(skinUrl)}"></div>
+    const skinUrl = `https://minotar.net/skin/${encodeURIComponent(item.name)}`;
+    html = `<div class="modal-3d-viewport" id="modal3d"></div>
       <div class="modal-actions">
-        <button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}" data-skin-url="${esc(skinUrl)}">Скачать скин</button>
-        <button class="btn btn-secondary" id="editSkinBtn" data-skin-url="${esc(skinUrl)}" data-skin-name="${esc(item.name)}">✏️ Редактировать</button>
+        <button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}">Скачать скин</button>
+        <button class="btn btn-secondary" id="editSkinBtn" data-skin-name="${esc(item.name)}">✏️ Редактировать</button>
       </div>`;
   } else {
     const n=norm(item);
@@ -826,7 +973,12 @@ async function showDetails(item){
 
   if(isSkin){
     const vp = $('modal3d');
-    if(vp) createSkinViewer(vp, vp.dataset.skinUrl, {interactive:true, animation:true, pose:{ry:0.3}});
+    const skinUrl = `https://minotar.net/skin/${encodeURIComponent(item.name)}`;
+    if(vp){
+      setTimeout(()=>{
+        modalViewer = createSkinViewer(vp, skinUrl, {animation:true, zoom:true});
+      }, 50);
+    }
   } else {
     const d=item.source==='modrinth'?item.description:item.summary;
     const ru=await translate(d||'');
@@ -867,8 +1019,11 @@ function compareVersions(a,b){const pa=String(a).split('.').map(Number),pb=Strin
 function closeModal(){
   $('detailModal').classList.remove('active');
   document.body.classList.remove('lock');
-  const vp=$('modal3d');
-  if(vp){destroySkinViewer(vp);document.querySelectorAll('.modal-3d-viewport').forEach(destroySkinViewer)}
+  if(modalViewer){
+    try{modalViewer.renderer.setAnimationLoop(null);modalViewer.dispose()}catch{}
+    modalViewer=null;
+  }
+  $('modalBody').innerHTML='';
   if(lastFocused&&document.contains(lastFocused))lastFocused.focus();
   lastFocused=null;
 }
@@ -878,7 +1033,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();trapFoc
 $('modalBody').addEventListener('click',e=>{
   const b=e.target.closest('#dlBtn');if(b)downloadDirect(b.dataset.source,b.dataset.id,b);
   const ebtn=e.target.closest('#editSkinBtn');
-  if(ebtn){closeModal();openEditor(ebtn.dataset.skinUrl,ebtn.dataset.skinName)}
+  if(ebtn){const name=ebtn.dataset.skinName;closeModal();setTimeout(()=>openEditor(name),100)}
 });
 
 async function downloadDirect(source,id,btn){
@@ -887,7 +1042,7 @@ async function downloadDirect(source,id,btn){
   try{
     let url='',filename='download';
     if(source==='skin'){
-      url=btn.dataset.skinUrl||`https://minotar.net/download/${encodeURIComponent(id)}`;
+      url=`https://minotar.net/download/${encodeURIComponent(id)}`;
       filename=id+'.png';
     } else if(source==='modrinth'){
       const v=await raceJson(`${MR_API}/project/${id}/version`,`${WORKER_URL}/modrinth/project/${id}/version`);
@@ -925,17 +1080,14 @@ function formatNumber(n){
   return String(n);
 }
 
-/* ============================================================
-   РЕДАКТОР СКИНОВ (3D + 2D + UV-raycast)
-   ============================================================ */
+/* === РЕДАКТОР СКИНОВ === */
 const SKIN_SIZE = 64;
 let editorState = null;
 
-async function openEditor(skinUrl, skinName){
+async function openEditor(skinName){
   editorActive = true;
   $('searchContainer').classList.add('hidden');
   $('sentinel').classList.add('hidden');
-  document.querySelectorAll('.card-3d-container').forEach(destroySkinViewer);
 
   $('content').innerHTML = `
     <div class="editor-wrap">
@@ -943,7 +1095,7 @@ async function openEditor(skinUrl, skinName){
         <h2>🎨 Редактор скинов ${skinName?`— ${esc(skinName)}`:''}</h2>
         <div class="editor-header-actions">
           <button class="btn" id="ed-save">💾 Скачать PNG</button>
-          <button class="btn btn-secondary" id="ed-close">← Закрыть</button>
+          <button class="btn btn-secondary" id="ed-close">← К списку</button>
         </div>
       </div>
       <div class="editor-layout">
@@ -988,23 +1140,19 @@ async function openEditor(skinUrl, skinName){
             </div>
           </div>
           <div class="editor-section">
-            <div class="editor-section-title">Действия</div>
+            <div class="editor-section-title">Файл</div>
             <div class="editor-action-row" style="flex-direction:column">
               <button class="btn btn-secondary" id="ed-upload">📁 Загрузить PNG</button>
               <button class="btn btn-secondary" id="ed-blank">⬜ Чистое тело</button>
               <button class="btn btn-secondary" id="ed-steve">👕 Steve</button>
             </div>
           </div>
-          <p class="editor-hint" style="color:var(--tdim);font-size:.8rem;line-height:1.5">
-            Рисуй прямо на 3D-модели — клик по руке красит пиксель руки.
-            Переключись на «Сетку», чтобы редактировать плоскую развёртку 64×64.
-          </p>
+          <p class="editor-hint">Рисуй прямо на 3D-модели — клик по руке красит пиксель руки. Переключись на «Сетку», чтобы редактировать плоскую развёртку 64×64.</p>
         </div>
       </div>
       <input type="file" id="ed-file" accept="image/png" hidden>
     </div>`;
 
-  // === Состояние редактора ===
   const baseCanvas = document.createElement('canvas');
   baseCanvas.width = SKIN_SIZE; baseCanvas.height = SKIN_SIZE;
   const baseCtx = baseCanvas.getContext('2d');
@@ -1016,8 +1164,7 @@ async function openEditor(skinUrl, skinName){
   overlayCtx.imageSmoothingEnabled = false;
 
   editorState = {
-    baseCanvas, baseCtx,
-    overlayCanvas, overlayCtx,
+    baseCanvas, baseCtx, overlayCanvas, overlayCtx,
     activeLayer: 'base',
     tool: 'pencil',
     color: '#38BDF8',
@@ -1025,9 +1172,7 @@ async function openEditor(skinUrl, skinName){
     history: [],
     historyIdx: -1,
     viewer: null,
-    flatCanvas: null,
-    flatCtx: null,
-    lastTexel: null
+    flatCanvas: null
   };
 
   // Палитра
@@ -1081,28 +1226,36 @@ async function openEditor(skinUrl, skinName){
     });
   });
 
-  // === Инициализация 3D-модели в редакторе ===
+  // 3D-модель
   const ed3d = $('ed-3d');
-  const viewer = new skinview3d.SkinViewer({
-    canvas: document.createElement('canvas'),
-    width: 460, height: 520,
-    skin: skinUrl || 'https://minotar.net/skin/Steve',
-    background: 'transparent'
-  });
-  viewer.controls.enableZoom = true;
-  viewer.controls.enableRotate = true;
-  viewer.controls.autoRotate = false;
-  viewer.animation = new skinview3d.WalkingAnimation();
-  viewer.animation.paused = true;
-  viewer.camera.position.z = 70;
-  viewer.fov = 45;
-  ed3d.appendChild(viewer.canvas);
-  editorState.viewer = viewer;
+  let viewer = null;
+  if(typeof skinview3d !== 'undefined' && typeof THREE !== 'undefined'){
+    try{
+      viewer = new skinview3d.SkinViewer({
+        canvas: document.createElement('canvas'),
+        width: 460, height: 520,
+        skin: skinName ? `https://minotar.net/skin/${encodeURIComponent(skinName)}` : 'https://minotar.net/skin/Steve',
+        background: 'transparent'
+      });
+      viewer.controls.enableZoom = true;
+      viewer.controls.enableRotate = true;
+      viewer.controls.enablePan = false;
+      viewer.camera.position.z = 70;
+      try{viewer.renderer.setClearColor(0x000000, 0);viewer.renderer.setClearAlpha(0);}catch{}
+      viewer.canvas.style.background = 'transparent';
+      ed3d.appendChild(viewer.canvas);
+      viewer.renderer.setAnimationLoop(()=>{viewer.renderer.render(viewer.scene, viewer.camera)});
+      editorState.viewer = viewer;
+    }catch(e){
+      console.warn('editor viewer failed:', e);
+      ed3d.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">3D-превью недоступно. Работай в режиме «Сетка».</p>';
+    }
+  } else {
+    ed3d.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">3D-превью недоступно. Работай в режиме «Сетка».</p>';
+  }
 
-  // Загружаем стартовый скин в оба канваса
-  await loadStarterSkin(skinUrl || 'https://minotar.net/skin/Steve');
+  await loadStarterSkin(skinName ? `https://minotar.net/skin/${encodeURIComponent(skinName)}` : 'https://minotar.net/skin/Steve');
 
-  // === 2D-развёртка ===
   function renderFlat(){
     const flat = $('ed-2d');
     flat.innerHTML = '';
@@ -1113,27 +1266,21 @@ async function openEditor(skinUrl, skinName){
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(editorState.baseCanvas, 0, 0, canvas.width, canvas.height);
-    // Оверлей полупрозрачно
     ctx.globalAlpha = 0.6;
     ctx.drawImage(editorState.overlayCanvas, 0, 0, canvas.width, canvas.height);
     ctx.globalAlpha = 1;
     flat.appendChild(canvas);
     editorState.flatCanvas = canvas;
-    editorState.flatCtx = ctx;
 
-    canvas.addEventListener('mousedown', e=>{
-      editorState.drawing = true;
-      handleFlatDraw(e.clientX, e.clientY);
-    });
-    canvas.addEventListener('mousemove', e=>{
-      if(editorState.drawing) handleFlatDraw(e.clientX, e.clientY);
-    });
-    canvas.addEventListener('mouseup', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory()}});
-    canvas.addEventListener('mouseleave', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory()}});
+    canvas.addEventListener('mousedown', e=>{editorState.drawing = true; handleFlatDraw(e.clientX, e.clientY)});
+    canvas.addEventListener('mousemove', e=>{if(editorState.drawing) handleFlatDraw(e.clientX, e.clientY)});
+    canvas.addEventListener('mouseup', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
+    canvas.addEventListener('mouseleave', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
   }
 
   function handleFlatDraw(clientX, clientY){
     const canvas = editorState.flatCanvas;
+    if(!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const px = Math.floor((clientX - rect.left) * (SKIN_SIZE / rect.width));
     const py = Math.floor((clientY - rect.top) * (SKIN_SIZE / rect.height));
@@ -1142,26 +1289,19 @@ async function openEditor(skinUrl, skinName){
     renderFlat();
   }
 
-  // === 3D-рисование через UV-raycast ===
-  // Упрощённый подход: используем 2D-развёртку как основу,
-  // а 3D-модель служит превью. Для клика по 3D — конвертируем
-  // экранные координаты через Three.js Raycaster.
+  // Raycast на 3D
   let raycaster = null, mouseVec = null;
   if(typeof THREE !== 'undefined'){
     raycaster = new THREE.Raycaster();
     mouseVec = new THREE.Vector2();
   }
 
-  viewer.canvas.addEventListener('mousedown', e=>{
-    if(!raycaster || !mouseVec) return;
-    editorState.drawing = true;
-    handle3DDraw(e);
-  });
-  viewer.canvas.addEventListener('mousemove', e=>{
-    if(editorState.drawing) handle3DDraw(e);
-  });
-  viewer.canvas.addEventListener('mouseup', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
-  viewer.canvas.addEventListener('mouseleave', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
+  if(viewer && raycaster){
+    viewer.canvas.addEventListener('mousedown', e=>{editorState.drawing = true; handle3DDraw(e)});
+    viewer.canvas.addEventListener('mousemove', e=>{if(editorState.drawing) handle3DDraw(e)});
+    viewer.canvas.addEventListener('mouseup', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
+    viewer.canvas.addEventListener('mouseleave', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
+  }
 
   function handle3DDraw(e){
     const canvas = viewer.canvas;
@@ -1181,7 +1321,7 @@ async function openEditor(skinUrl, skinName){
   }
 
   function refresh3D(){
-    // Объединяем base + overlay в один PNG и загружаем в viewer
+    if(!editorState.viewer) return;
     const merged = document.createElement('canvas');
     merged.width = SKIN_SIZE; merged.height = SKIN_SIZE;
     const mctx = merged.getContext('2d');
@@ -1189,12 +1329,13 @@ async function openEditor(skinUrl, skinName){
     mctx.drawImage(editorState.baseCanvas, 0, 0);
     mctx.drawImage(editorState.overlayCanvas, 0, 0);
     const dataUrl = merged.toDataURL('image/png');
-    viewer.loadSkin(dataUrl).catch(()=>{});
+    try{editorState.viewer.loadSkin(dataUrl).catch(()=>{})}catch{}
   }
 
   function paintTexel(px, py){
-    const ctx = editorState.activeLayer === 'base' ? editorState.baseCtx : editorState.overlayCtx;
-    const canvas = editorState.activeLayer === 'base' ? editorState.baseCanvas : editorState.overlayCanvas;
+    const isBase = editorState.activeLayer === 'base';
+    const ctx = isBase ? editorState.baseCtx : editorState.overlayCtx;
+    const canvas = isBase ? editorState.baseCanvas : editorState.overlayCanvas;
     if(editorState.tool === 'fill'){
       floodFill(canvas, ctx, px, py, editorState.color);
     } else if(editorState.tool === 'picker'){
@@ -1231,47 +1372,29 @@ async function openEditor(skinUrl, skinName){
     ctx.putImageData(img, 0, 0);
   }
 
-  function hexToRgbA(hex){
-    return [parseInt(hex.slice(1,3),16),parseInt(hex.slice(3,5),16),parseInt(hex.slice(5,7),16),255];
-  }
+  function hexToRgbA(hex){return [parseInt(hex.slice(1,3),16),parseInt(hex.slice(3,5),16),parseInt(hex.slice(5,7),16),255]}
 
   async function loadStarterSkin(url){
-    return new Promise((resolve)=>{
+    return new Promise(resolve=>{
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = ()=>{
-        // Сначала очищаем оба слоя
         baseCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
         overlayCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-        // Рисуем скин в base (для 64x64 всё что есть)
         baseCtx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
-        // Оверлей: копируем только прозрачные/вторые слои по стандарту
-        // Упрощённо: всё после первого слоя оставляем в base, оверлей пустой.
-        // Настоящий парсер скинов сложен, поэтому оверлей пользователь рисует сам.
         pushHistory();
         refresh3D();
         renderFlat();
         resolve();
       };
-      img.onerror = ()=>{
-        // Чистое тело: заливаем базовые цвета
-        baseCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-        overlayCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-        pushHistory();
-        refresh3D();
-        renderFlat();
-        resolve();
-      };
+      img.onerror = ()=>{pushHistory();refresh3D();renderFlat();resolve()};
       img.src = url;
     });
   }
 
   function pushHistory(){
     const s = editorState;
-    const snapshot = {
-      base: s.baseCanvas.toDataURL(),
-      overlay: s.overlayCanvas.toDataURL()
-    };
+    const snapshot = {base:s.baseCanvas.toDataURL(), overlay:s.overlayCanvas.toDataURL()};
     s.history = s.history.slice(0, s.historyIdx + 1);
     s.history.push(snapshot);
     s.historyIdx++;
@@ -1283,15 +1406,12 @@ async function openEditor(skinUrl, skinName){
       let loaded = 0;
       const done = ()=>{if(++loaded===2){refresh3D();renderFlat();resolve()}};
       const b = new Image(); b.onload = ()=>{baseCtx.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);baseCtx.drawImage(b,0,0,SKIN_SIZE,SKIN_SIZE);done()};
-      b.onerror = done;
-      b.src = snap.base;
+      b.onerror = done; b.src = snap.base;
       const o = new Image(); o.onload = ()=>{overlayCtx.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);overlayCtx.drawImage(o,0,0,SKIN_SIZE,SKIN_SIZE);done()};
-      o.onerror = done;
-      o.src = snap.overlay;
+      o.onerror = done; o.src = snap.overlay;
     });
   }
 
-  // === Кнопки ===
   $('ed-undo').addEventListener('click', async ()=>{
     if(editorState.historyIdx <= 0) return;
     editorState.historyIdx--;
@@ -1313,62 +1433,4 @@ async function openEditor(skinUrl, skinName){
     const a = document.createElement('a');
     a.download = 'my-skin.png';
     a.href = merged.toDataURL('image/png');
-    a.click();
-    toast('Скин скачан','ok');
-  });
-
-  $('ed-upload').addEventListener('click', ()=>$('ed-file').click());
-  $('ed-file').addEventListener('change', async e=>{
-    const file = e.target.files[0]; if(!file) return;
-    const url = URL.createObjectURL(file);
-    await loadStarterSkin(url);
-    URL.revokeObjectURL(url);
-    toast('Скин загружен','ok');
-  });
-
-  $('ed-blank').addEventListener('click', ()=>{
-    baseCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-    overlayCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-    pushHistory();
-    refresh3D();
-    renderFlat();
-    toast('Чистое тело','info');
-  });
-
-  $('ed-steve').addEventListener('click', async ()=>{
-    await loadStarterSkin('https://minotar.net/skin/Steve');
-    toast('Загружен Steve','ok');
-  });
-
-  // Переключение 3D/2D
-  document.querySelectorAll('[data-mode]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const mode = btn.dataset.mode;
-      document.querySelectorAll('[data-mode]').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      $('ed-3d').style.display = mode === '3d' ? 'flex' : 'none';
-      $('ed-2d').style.display = mode === '2d' ? 'block' : 'none';
-      if(mode === '2d') renderFlat();
-      else refresh3D();
-    });
-  });
-
-  $('ed-close').addEventListener('click', ()=>{
-    editorActive = false;
-    if(editorState?.viewer){
-      try{editorState.viewer.renderer.setAnimationLoop(null);editorState.viewer.dispose()}catch{}
-    }
-    editorState = null;
-    document.querySelectorAll('.tab').forEach(t=>{
-      if(t.classList.contains('active')) t.click();
-    });
-  });
-}
-
-/* === СТАРТ === */
-initThemes();
-io.observe(sentinel);
-resetAndLoad();
-</script>
-</body>
-</html>
+   
