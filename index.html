@@ -59,16 +59,16 @@
 }
 [data-theme="light"]{--line:rgba(0,0,0,.06);--line-strong:rgba(0,0,0,.12)}
 
-[data-style="default"]{}
-[data-style="brutal"]{--r:2px;--r-sm:2px;--r-lg:2px;--r-xl:2px;--font-body:'JetBrains Mono',monospace;--font-display:'JetBrains Mono',monospace;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s2);--tracking:-.02em}
-[data-style="neon"]{--r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;--bg-card:linear-gradient(180deg, color-mix(in oklab, var(--s2), var(--accent) 6%) 0%, var(--s2) 100%)}
-[data-style="glass"]{--r:16px;--r-sm:12px;--r-lg:20px;--r-xl:24px;--bg-card:color-mix(in oklab, var(--s2), transparent 35%)}
-[data-style="retro"]{--r:0;--r-sm:0;--r-lg:0;--r-xl:0;--font-body:'Rubik',sans-serif;--font-display:'Archivo Black',sans-serif;--border-w:3px;--bg-card:var(--s2)}
-[data-style="minimal"]{--r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s2);--tracking:-.012em}
-[data-style="paper"]{--r:6px;--r-sm:4px;--r-lg:8px;--r-xl:12px;--font-body:'IBM Plex Serif',Georgia,serif;--font-display:'IBM Plex Serif',Georgia,serif;--font-mono:'IBM Plex Mono',monospace;--bg-card:var(--s2);--tracking:0em}
-[data-style="terminal"]{--r:0;--r-sm:0;--r-lg:0;--r-xl:0;--font-body:'IBM Plex Mono',monospace;--font-display:'IBM Plex Mono',monospace;--font-mono:'IBM Plex Mono',monospace;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s0)}
-[data-style="soft"]{--r:20px;--r-sm:14px;--r-lg:26px;--r-xl:32px;--border-w:0px;--bg-card:linear-gradient(180deg, var(--s3) 0%, var(--s2) 100%)}
-[data-style="dev"]{--r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;--font-body:'JetBrains Mono',monospace;--font-display:'JetBrains Mono',monospace;--shadow-sm:none;--bg-card:var(--s2);--tracking:-.02em}
+html[data-style="default"]{}
+html[data-style="brutal"]{--r:2px;--r-sm:2px;--r-lg:2px;--r-xl:2px;--font-body:'JetBrains Mono',monospace;--font-display:'JetBrains Mono',monospace;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s2);--tracking:-.02em}
+html[data-style="neon"]{--r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;--bg-card:linear-gradient(180deg, color-mix(in oklab, var(--s2), var(--accent) 6%) 0%, var(--s2) 100%)}
+html[data-style="glass"]{--r:16px;--r-sm:12px;--r-lg:20px;--r-xl:24px;--bg-card:color-mix(in oklab, var(--s2), transparent 35%)}
+html[data-style="retro"]{--r:0;--r-sm:0;--r-lg:0;--r-xl:0;--font-body:'Rubik',sans-serif;--font-display:'Archivo Black',sans-serif;--border-w:3px;--bg-card:var(--s2)}
+html[data-style="minimal"]{--r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s2);--tracking:-.012em}
+html[data-style="paper"]{--r:6px;--r-sm:4px;--r-lg:8px;--r-xl:12px;--font-body:'IBM Plex Serif',Georgia,serif;--font-display:'IBM Plex Serif',Georgia,serif;--font-mono:'IBM Plex Mono',monospace;--bg-card:var(--s2);--tracking:0em}
+html[data-style="terminal"]{--r:0;--r-sm:0;--r-lg:0;--r-xl:0;--font-body:'IBM Plex Mono',monospace;--font-display:'IBM Plex Mono',monospace;--font-mono:'IBM Plex Mono',monospace;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s0)}
+html[data-style="soft"]{--r:20px;--r-sm:14px;--r-lg:26px;--r-xl:32px;--border-w:0px;--bg-card:linear-gradient(180deg, var(--s3) 0%, var(--s2) 100%)}
+html[data-style="dev"]{--r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;--font-body:'JetBrains Mono',monospace;--font-display:'JetBrains Mono',monospace;--shadow-sm:none;--bg-card:var(--s2);--tracking:-.02em}
 
 /* ============================================================
    БАЗА
@@ -113,17 +113,17 @@ body::before{
   mask-image:radial-gradient(ellipse 100% 70% at 50% 0%, #000 20%, transparent 85%);
   opacity:.55;
 }
-[data-style="paper"] body::before,
-[data-style="minimal"] body::before,
-[data-style="soft"] body::before{display:none}
+html[data-style="paper"] body::before,
+html[data-style="minimal"] body::before,
+html[data-style="soft"] body::before{display:none}
 
 .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.85;transition:opacity var(--ts) var(--ease)}
-[data-style="minimal"] .aurora,
-[data-style="brutal"] .aurora,
-[data-style="terminal"] .aurora,
-[data-style="dev"] .aurora,
-[data-style="paper"] .aurora,
-[data-style="retro"] .aurora{opacity:.3}
+html[data-style="minimal"] .aurora,
+html[data-style="brutal"] .aurora,
+html[data-style="terminal"] .aurora,
+html[data-style="dev"] .aurora,
+html[data-style="paper"] .aurora,
+html[data-style="retro"] .aurora{opacity:.3}
 .aurora::before,.aurora::after{content:'';position:absolute;width:80vmax;height:80vmax;border-radius:50%;filter:blur(100px);will-change:transform}
 .aurora::before{background:radial-gradient(circle, color-mix(in oklab, var(--accent), transparent 70%) 0%, transparent 60%);top:-30vmax;left:-25vmax;animation:aA 32s ease-in-out infinite}
 .aurora::after{background:radial-gradient(circle, color-mix(in oklab, var(--accent-2), transparent 72%) 0%, transparent 60%);bottom:-30vmax;right:-25vmax;animation:aB 38s ease-in-out infinite}
@@ -135,6 +135,7 @@ body::before{
 @keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes blink{50%{opacity:0}}
+@keyframes arrowIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
 
 /* ============================================================
    LAYOUT
@@ -221,7 +222,6 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .card-content{padding:.95rem 1.1rem 1.15rem;flex:1;display:flex;flex-direction:column;position:relative}
 .card-title{font-family:var(--font-display);font-size:.98rem;font-weight:600;letter-spacing:-.015em;line-height:1.3;margin-bottom:.4rem;word-break:break-word;padding-right:1.5rem;color:var(--text)}
 .card:hover .card-title::after{content:'→';position:absolute;top:.95rem;right:1.1rem;font-family:var(--font-mono);font-size:.9rem;color:var(--accent);animation:arrowIn .25s var(--ease-out)}
-@keyframes arrowIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
 .card-description{color:var(--tdim);font-size:.82rem;line-height:1.5;margin-bottom:.9rem;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .tag{display:inline-flex;align-items:center;align-self:flex-start;gap:.4rem;background:color-mix(in oklab, var(--s0), var(--s2) 30%);color:var(--tdim);border:1px solid var(--line);font-family:var(--font-mono);font-size:.62rem;font-weight:500;text-transform:uppercase;letter-spacing:.09em;padding:.25rem .55rem;border-radius:var(--r-sm);margin-bottom:.85rem}
 .tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);flex-shrink:0}
@@ -393,26 +393,16 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .skin-palette button:hover{transform:scale(1.08)}
 .skin-palette button.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
 .skin-palette button.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;font-weight:900;text-shadow:0 1px 3px rgba(0,0,0,.9)}
+.editor-layer-row{display:flex;gap:.5rem}
+.editor-layer-btn{flex:1;background:var(--s2);color:var(--tdim);border:var(--border-w) solid var(--line);border-radius:var(--r-sm);padding:.6rem;cursor:pointer;font-size:.85rem;font-weight:600;transition:all var(--tf) var(--ease);display:flex;align-items:center;justify-content:center;gap:.35rem}
+.editor-layer-btn.active{background:var(--accent);color:var(--s0);border-color:var(--accent)}
+.editor-layer-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--s0);flex-shrink:0}
 .editor-action-row{display:flex;gap:.5rem}
 .editor-action-row .btn,.editor-action-row .btn-secondary{width:auto;flex:1;padding:.6rem .75rem;font-size:.85rem}
 .editor-action-col{display:flex;flex-direction:column;gap:.5rem}
 .editor-action-col .btn,.editor-action-col .btn-secondary{width:100%}
 .editor-hint{color:#fff;font-size:.8rem;line-height:1.5;text-align:center;margin-top:.75rem;max-width:500px;text-shadow:0 1px 3px rgba(0,0,0,.9);background:rgba(0,0,0,.4);padding:.4rem .75rem;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.1);position:relative;z-index:1}
 .editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:transparent;border-radius:var(--r-sm);display:block;touch-action:none}
-#ed-theme-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:.3rem}
-#ed-theme-mini button{aspect-ratio:1;border-radius:4px;border:var(--border-w) solid var(--line);cursor:pointer;padding:0;transition:all var(--tf) var(--ease)}
-#ed-theme-mini button:hover{transform:scale(1.08)}
-#ed-theme-mini button.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
-#ed-theme-mini button[data-theme="dark"]{background:linear-gradient(135deg,#04060A 50%,#38BDF8)}
-#ed-theme-mini button[data-theme="midnight"]{background:linear-gradient(135deg,#02030A 50%,#818CF8)}
-#ed-theme-mini button[data-theme="light"]{background:linear-gradient(135deg,#F5F7FA 50%,#0284C7)}
-#ed-theme-mini button[data-theme="ocean"]{background:linear-gradient(135deg,#03101C 50%,#06B6D4)}
-#ed-theme-mini button[data-theme="sunset"]{background:linear-gradient(135deg,#0F0510 50%,#FB7185)}
-#ed-theme-mini button[data-theme="forest"]{background:linear-gradient(135deg,#051208 50%,#10B981)}
-#ed-theme-mini button[data-theme="cyber"]{background:linear-gradient(135deg,#08030F 50%,#D946EF)}
-#ed-theme-mini button[data-theme="nord"]{background:linear-gradient(135deg,#20252E 50%,#88C0D0)}
-#ed-theme-mini button[data-theme="rose"]{background:linear-gradient(135deg,#150710 50%,#F472B6)}
-#ed-theme-mini button[data-theme="mono"]{background:linear-gradient(135deg,#0A0A0A 50%,#FAFAFA)}
 
 /* ============================================================
    РЕДАКТОР РЕСУРСПАКОВ
@@ -594,6 +584,7 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
 <script>
 'use strict';
 
@@ -1384,7 +1375,7 @@ const normalizeItem = item => item.source === 'modrinth' ? {
   web:item.links?.websiteUrl
 };
 
-/* SKIN URLS — теперь 3D-тело */
+/* SKIN URLS */
 function skinTextureUrl(name){
   return `${WORKER_URL}/skins/get?nick=${encodeURIComponent(name)}&source=${encodeURIComponent(skinSource)}`;
 }
@@ -1398,7 +1389,7 @@ function skinRenderFallback(name){
   return `https://mc-heads.net/body/${encodeURIComponent(name)}/right`;
 }
 
-/* Загрузка скина в dataURL (для 3D-модели) */
+/* Загрузка скина в dataURL */
 async function loadSkinDataUrl(sources){
   for(const url of sources){
     if(!url) continue;
@@ -1954,8 +1945,16 @@ async function openEditor(skinName){
             <div class="skin-palette" id="ed-palette"></div>
           </div>
           <div class="editor-section">
-            <div class="editor-section-title">Тема</div>
-            <div id="ed-theme-mini"></div>
+            <div class="editor-section-title">Слой</div>
+            <div class="editor-layer-row">
+              <button class="editor-layer-btn active" data-layer="base">
+                <span class="editor-layer-dot" style="background:var(--accent)"></span>Базовый
+              </button>
+              <button class="editor-layer-btn" data-layer="overlay">
+                <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
+              </button>
+            </div>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый — тело. Оверлей — сетка поверх шапки и куртки.</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
@@ -1985,6 +1984,7 @@ async function openEditor(skinName){
 
   editorState = {
     canvas, ctx,
+    activeLayer: 'base',
     tool: 'pencil',
     color: '#38BDF8',
     drawing: false,
@@ -2041,25 +2041,7 @@ async function openEditor(skinName){
     b.classList.add('active');
   }));
 
-  /* Мини-пикер темы */
-  const miniThemeEl = $('ed-theme-mini');
-  if(miniThemeEl){
-    const curTheme = safeGetLocalStorage('mch-theme') || 'dark';
-    miniThemeEl.innerHTML = BUILTIN_THEMES.map(t =>
-      `<button data-theme="${t.id}" title="${esc(t.name)}"${t.id === curTheme ? ' class="active"' : ''}></button>`
-    ).join('');
-    miniThemeEl.addEventListener('click', e => {
-      const btn = e.target.closest('button[data-theme]');
-      if(!btn) return;
-      const th = btn.dataset.theme;
-      applyTheme(th);
-      safeSetLocalStorage('mch-theme', th);
-      miniThemeEl.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
-      $$('.theme-opt').forEach(b => b.classList.toggle('active', b.dataset.theme === th));
-    });
-  }
-
-  /* EDITOR BG — ВАЖНО: до await, чтобы работал всегда */
+  /* EDITOR BG — ДО await, чтобы работал всегда */
   const canvasArea = document.querySelector('.editor-canvas-area');
   const savedBg = safeGetLocalStorage('mch-editor-bg') || 'theme';
   const savedCustomBg = safeGetLocalStorage('mch-editor-bg-custom');
@@ -2183,21 +2165,71 @@ async function openEditor(skinName){
   window.addEventListener('resize', doResize);
   editorState._resizeHandler = doResize;
 
-  /* Включаем все меши (без слоёв) */
+  /* GRID SHADER на материал */
+  function applyGridShaderToMat(mat, show){
+    if(!mat) return;
+    if(show && !mat.userData.__gridApplied){
+      mat.userData.__gridApplied = true;
+      mat.userData.__origOBC = mat.onBeforeCompile;
+      mat.onBeforeCompile = (shader) => {
+        if(mat.userData.__origOBC) mat.userData.__origOBC(shader);
+        shader.fragmentShader = shader.fragmentShader.replace(
+          '#include <map_fragment>',
+          `#include <map_fragment>
+          #ifdef USE_MAP
+            vec2 __gUV = vMapUv * 64.0;
+            vec2 __gF = abs(fract(__gUV - 0.5) - 0.5);
+            vec2 __gD = fwidth(__gUV);
+            vec2 __gL = __gF / max(__gD, vec2(0.0001));
+            float __gA = 1.0 - min(min(__gL.x, __gL.y), 1.0);
+            gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.38, 0.83, 1.0), __gA * 0.85);
+          #endif
+          `
+        );
+      };
+      mat.customProgramCacheKey = () => 'grid-on';
+      mat.needsUpdate = true;
+    }else if(!show && mat.userData.__gridApplied){
+      mat.userData.__gridApplied = false;
+      mat.onBeforeCompile = mat.userData.__origOBC || function(){};
+      mat.customProgramCacheKey = () => 'grid-off';
+      mat.needsUpdate = true;
+    }
+  }
+
+  /* Видимость слоёв: всё видно всегда, grid только на оверлее */
   function applyLayerVisibility(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
+    const isBase = editorState.activeLayer === 'base';
+
     v.playerObject.traverse(obj => {
       if(!obj.isMesh) return;
+      const n = (obj.name || '').toLowerCase();
+      const p = (obj.parent && obj.parent.name || '').toLowerCase();
+      const combined = n + ' ' + p;
+      if(combined.includes('cape') || combined.includes('elytra')) return;
+
       obj.visible = true;
+
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      mats.forEach(m => {
-        if(!m) return;
-        m.visible = true;
-        m.opacity = 1;
-        m.transparent = false;
-        m.depthWrite = true;
-        m.needsUpdate = true;
+      const isMulti = mats.length >= 2;
+
+      mats.forEach((mat, idx) => {
+        if(!mat) return;
+        mat.visible = true;
+        mat.transparent = false;
+        mat.opacity = 1;
+        mat.depthWrite = true;
+
+        let isOuter;
+        if(isMulti) isOuter = idx > 0;
+        else isOuter = /outer|hat|jacket|sleeve|overlay|second/i.test(combined);
+
+        obj.userData.__isOuter = isOuter;
+
+        applyGridShaderToMat(mat, isOuter && !isBase);
+        mat.needsUpdate = true;
       });
     });
   }
@@ -2237,6 +2269,13 @@ async function openEditor(skinName){
     });
     applyLayerVisibility();
   }
+
+  $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
+    editorState.activeLayer = b.dataset.layer;
+    $$('[data-layer]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    applyLayerVisibility();
+  }));
 
   /* PAINT */
   function paintPx(px, py){
@@ -2325,6 +2364,7 @@ async function openEditor(skinName){
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
     if(!v || !ray || !mv) return;
+    const isBase = editorState.activeLayer === 'base';
 
     const rect = v.canvas.getBoundingClientRect();
     mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
@@ -2343,6 +2383,21 @@ async function openEditor(skinName){
       if(!h.object.visible) continue;
       if(!h.uv) continue;
       if(h.object.isLine || h.object.isLineSegments) continue;
+
+      const obj = h.object;
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+
+      let isOuterHit;
+      if(mats.length >= 2){
+        const matIdx = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
+        isOuterHit = matIdx > 0;
+      }else{
+        isOuterHit = !!obj.userData.__isOuter;
+      }
+
+      if(isBase && isOuterHit) continue;
+      if(!isBase && !isOuterHit) continue;
+
       hit = h;
       break;
     }
