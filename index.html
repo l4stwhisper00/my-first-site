@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minecraft-inside.ru https://minotar.net https://crafatar.com https://mc-heads.net https://starlightskins.lunareclipse.studio data: blob:; font-src data:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://crafatar.com https://mc-heads.net data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
-<title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
+<title>Minecraft Hub</title>
 <style>
 /* RESET */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -187,26 +187,31 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .confirm-box p{color:var(--tdim);margin-bottom:1.5rem;font-size:.95rem}
 .confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 
-/* ============================================================
-   РЕДАКТОР СКИНОВ
-   ============================================================ */
+/* РЕДАКТОР СКИНОВ */
 .editor-wrap{background:var(--s2);border-radius:var(--rl);padding:2rem;animation:fIU .4s var(--ease)}
 .editor-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
 .editor-header h2{font-size:1.5rem}
 .editor-header-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 .editor-header-actions .btn,.editor-header-actions .btn-secondary{padding:.6rem 1rem;font-size:.9rem;width:auto}
-
 .editor-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:2rem;align-items:start}
 @media(max-width:1000px){.editor-layout{grid-template-columns:1fr}}
 
-.editor-canvas-area{position:relative;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:1rem;flex-direction:column}
+/* БИОМ-ФОН */
+.editor-canvas-area{position:relative;border-radius:var(--rl);min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:1rem;flex-direction:column;background:
+    radial-gradient(ellipse 120px 40px at 22% 14%, #fff 48%, transparent 50%),
+    radial-gradient(ellipse 90px 30px at 68% 22%, #fff 48%, transparent 50%),
+    radial-gradient(ellipse 70px 24px at 45% 8%, #fff 48%, transparent 50%),
+    radial-gradient(ellipse 100px 35px at 85% 30%, #fff 48%, transparent 50%),
+    linear-gradient(to bottom, #4FA8DE 0%, #6FC0EA 30%, #8ECFEF 52%, #A8DBF5 56%, #5EAE3E 56%, #4A9030 62%, #3B7228 65%, #7A4C24 65%, #5E3A1A 100%);
+  background-size:100% 100%;image-rendering:pixelated;border:1px solid rgba(0,0,0,.3);box-shadow:inset 0 0 60px rgba(0,0,0,.35)}
+.editor-canvas-area::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.04) 3px 4px),repeating-linear-gradient(to right,transparent 0 3px,rgba(0,0,0,.04) 3px 4px);mix-blend-mode:multiply}
 
-#ed-3d{width:100%;height:100%;min-height:520px;display:flex;align-items:center;justify-content:center}
-#ed-3d canvas{display:block;max-width:100%;height:auto;touch-action:none}
-#ed-2d{padding:1rem;max-width:100%;overflow:auto}
+#ed-3d{width:100%;height:100%;min-height:520px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+#ed-3d canvas{display:block;max-width:100%;height:auto;touch-action:none;cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M4 20 L2 24 L6 22 Z' fill='%23F5DEB3' stroke='%23000' stroke-width='1.2' stroke-linejoin='round'/><rect x='5.5' y='18' width='3' height='3' transform='rotate(-45 7 19.5)' fill='%23C0C0C0' stroke='%23000' stroke-width='1'/><path d='M8 17 L20 5 L23 8 L11 20 Z' fill='%23FFD700' stroke='%23000' stroke-width='1.2' stroke-linejoin='round'/><path d='M20 5 L23 8 L21 10 L18 7 Z' fill='%23FFED4A' stroke='%23000' stroke-width='1'/></svg>") 2 24, crosshair}
+#ed-2d{padding:1rem;max-width:100%;overflow:auto;position:relative;z-index:1}
 
-.editor-mode-toggle{position:absolute;top:1rem;right:1rem;z-index:10;display:flex;gap:.25rem;background:var(--s2);padding:.25rem;border-radius:var(--r);border:1px solid rgba(255,255,255,.08)}
-.editor-mode-toggle button{background:transparent;color:var(--tdim);border:none;padding:.5rem 1rem;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.85rem;transition:all var(--tf) var(--ease)}
+.editor-mode-toggle{position:absolute;top:1rem;right:1rem;z-index:10;display:flex;gap:.25rem;background:rgba(15,19,28,.85);padding:.3rem;border-radius:var(--r);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px)}
+.editor-mode-toggle button{background:transparent;color:#E8EDF4;border:none;padding:.5rem 1rem;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.85rem;transition:all var(--tf) var(--ease)}
 .editor-mode-toggle button.active{background:var(--accent);color:var(--s0)}
 
 .editor-sidebar{display:flex;flex-direction:column;gap:1.25rem}
@@ -214,16 +219,22 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .editor-section-title{font-size:.75rem;color:var(--tdim);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
 
 .editor-tools{display:flex;gap:.5rem}
-.editor-tool{flex:1;min-width:0;background:var(--s2);color:var(--tdim);border:2px solid transparent;border-radius:1rem;padding:.6rem .5rem;cursor:pointer;font-size:1.1rem;transition:all var(--tf) var(--ease);display:flex;align-items:center;justify-content:center}
-.editor-tool:hover{background:var(--s4);color:var(--text)}
-.editor-tool.active{background:var(--accent);color:var(--s0);border-color:var(--accent)}
+.editor-tool{flex:1;min-width:0;background:var(--s2);color:var(--tdim);border:2px solid transparent;border-radius:1rem;padding:.55rem .5rem;cursor:pointer;transition:all var(--tf) var(--ease);display:flex;align-items:center;justify-content:center}
+.editor-tool svg{width:22px;height:22px;display:block}
+.editor-tool:hover{background:var(--s4);color:var(--text);transform:translateY(-2px)}
+.editor-tool.active{background:var(--accent);color:var(--s0);border-color:var(--accent);box-shadow:0 4px 14px var(--glow)}
 
-.editor-color-row{display:flex;gap:.75rem;align-items:center}
-.editor-color-row input[type="color"]{width:56px;height:44px;border:none;border-radius:.75rem;cursor:pointer;background:transparent}
-.skin-palette{display:grid;grid-template-columns:repeat(8,1fr);gap:.4rem;margin-top:.75rem}
-.skin-palette button{aspect-ratio:1;border:2px solid transparent;border-radius:6px;cursor:pointer;padding:0;transition:all var(--tf) var(--ease)}
-.skin-palette button:hover{transform:scale(1.15)}
-.skin-palette button.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--s0) inset}
+.editor-color-row{display:flex;gap:.75rem;align-items:center;margin-bottom:.9rem}
+.editor-color-row input[type="color"]{width:56px;height:44px;border:none;border-radius:.85rem;cursor:pointer;background:transparent;padding:0;overflow:hidden}
+.editor-color-row input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+.editor-color-row input[type="color"]::-webkit-color-swatch{border:none;border-radius:.85rem;box-shadow:inset 0 0 0 2px rgba(255,255,255,.15)}
+.editor-color-row input[type="color"]::-moz-color-swatch{border:none;border-radius:.85rem}
+
+.skin-palette{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.skin-palette button{aspect-ratio:1;border:2px solid rgba(255,255,255,.08);border-radius:10px;cursor:pointer;padding:0;transition:all var(--tf) var(--ease);box-shadow:inset 0 2px 0 rgba(255,255,255,.15), inset 0 -2px 0 rgba(0,0,0,.25), 0 2px 4px rgba(0,0,0,.3);position:relative}
+.skin-palette button:hover{transform:translateY(-2px) scale(1.08);border-color:rgba(255,255,255,.3);box-shadow:inset 0 2px 0 rgba(255,255,255,.2), inset 0 -2px 0 rgba(0,0,0,.3), 0 6px 14px rgba(0,0,0,.5)}
+.skin-palette button.active{border-color:#fff;box-shadow:inset 0 2px 0 rgba(255,255,255,.25), inset 0 -2px 0 rgba(0,0,0,.3), 0 0 0 3px var(--accent), 0 0 20px var(--accent);transform:scale(1.1)}
+.skin-palette button.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;font-weight:900;text-shadow:0 1px 3px rgba(0,0,0,.9)}
 
 .editor-layer-row{display:flex;gap:.5rem}
 .editor-layer-btn{flex:1;background:var(--s2);color:var(--tdim);border:2px solid transparent;border-radius:1rem;padding:.6rem;cursor:pointer;font-size:.85rem;font-weight:600;transition:all var(--tf) var(--ease);display:flex;align-items:center;justify-content:center;gap:.35rem}
@@ -235,12 +246,10 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .editor-action-col{display:flex;flex-direction:column;gap:.5rem}
 .editor-action-col .btn,.editor-action-col .btn-secondary{width:100%}
 
-.editor-hint{color:var(--tdim);font-size:.8rem;line-height:1.5;text-align:center;margin-top:.75rem;max-width:500px}
-.editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:transparent;border-radius:.5rem;display:block;touch-action:none}
+.editor-hint{color:#fff;font-size:.8rem;line-height:1.5;text-align:center;margin-top:.75rem;max-width:500px;text-shadow:0 1px 3px rgba(0,0,0,.9);background:rgba(0,0,0,.35);padding:.4rem .75rem;border-radius:var(--r);backdrop-filter:blur(6px);position:relative;z-index:1}
+.editor-flat-canvas{image-rendering:pixelated;cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M4 20 L2 24 L6 22 Z' fill='%23F5DEB3' stroke='%23000' stroke-width='1.2' stroke-linejoin='round'/><rect x='5.5' y='18' width='3' height='3' transform='rotate(-45 7 19.5)' fill='%23C0C0C0' stroke='%23000' stroke-width='1'/><path d='M8 17 L20 5 L23 8 L11 20 Z' fill='%23FFD700' stroke='%23000' stroke-width='1.2' stroke-linejoin='round'/><path d='M20 5 L23 8 L21 10 L18 7 Z' fill='%23FFED4A' stroke='%23000' stroke-width='1'/></svg>") 2 24, crosshair;background:transparent;border-radius:.5rem;display:block;touch-action:none}
 
-/* ============================================================
-   РЕДАКТОР РЕСУРСПАКОВ
-   ============================================================ */
+/* РЕДАКТОР ПАКОВ */
 .rp-file-list{background:var(--s3);border-radius:var(--rl);padding:1rem;max-height:400px;overflow-y:auto;font-family:ui-monospace,monospace;font-size:.85rem}
 .rp-file-list .file-item{padding:.4rem .6rem;border-radius:.4rem;cursor:pointer;color:var(--tdim);transition:all var(--tf) var(--ease);word-break:break-all}
 .rp-file-list .file-item:hover{background:var(--s4);color:var(--text)}
@@ -249,7 +258,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .rp-preview-area img{max-width:100%;max-height:300px;image-rendering:pixelated;border-radius:.5rem}
 .rp-preview-area pre{background:var(--s0);padding:1rem;border-radius:.5rem;font-size:.8rem;max-height:200px;overflow:auto;width:100%;text-align:left}
 
-/* MOBILE */
 @media(max-width:768px){
   .wrap{padding:1rem}
   .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}
@@ -270,10 +278,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 <div class="aurora"></div>
 
 <div class="wrap">
-  <header>
-    <h1>Minecraft Hub</h1>
-    <p class="subtitle">Все для Minecraft в одном месте</p>
-  </header>
+  <header><h1>Minecraft Hub</h1><p class="subtitle">Все для Minecraft в одном месте</p></header>
   <div class="tabs" role="tablist">
     <button class="tab active" role="tab" aria-selected="true" data-tab="mods">Моды</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="modpacks">Модпаки</button>
@@ -290,44 +295,27 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
       <button id="editorBtn"><span>✏️</span> Редактор скинов</button>
     </div>
     <div class="filters" id="filters">
-      <select class="filter-select" id="sortSelect" aria-label="Сортировка">
-        <option value="relevance">По релевантности</option>
-        <option value="downloads">По загрузкам</option>
-        <option value="updated">По обновлению</option>
-        <option value="newest">Новые</option>
-      </select>
+      <select class="filter-select" id="sortSelect"><option value="relevance">По релевантности</option><option value="downloads">По загрузкам</option><option value="updated">По обновлению</option><option value="newest">Новые</option></select>
       <label for="mcVersion">Версия MC:</label>
       <input type="text" class="filter-select" id="mcVersion" placeholder="напр. 1.20.1" maxlength="12" autocomplete="off" style="width:130px">
       <label for="loaderSelect">Загрузчик:</label>
-      <select class="filter-select" id="loaderSelect" aria-label="Загрузчик">
-        <option value="">Любой</option>
-        <option value="forge">Forge</option>
-        <option value="fabric">Fabric</option>
-        <option value="quilt">Quilt</option>
-        <option value="neoforge">NeoForge</option>
-      </select>
+      <select class="filter-select" id="loaderSelect"><option value="">Любой</option><option value="forge">Forge</option><option value="fabric">Fabric</option><option value="quilt">Quilt</option><option value="neoforge">NeoForge</option></select>
     </div>
   </div>
   <div id="content"></div>
   <div id="sentinel"></div>
 </div>
 
-<div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<div class="modal" id="detailModal" role="dialog" aria-modal="true">
   <div class="modal-content">
-    <div class="modal-header">
-      <h2 class="modal-title" id="modalTitle">Детали</h2>
-      <button class="modal-close" id="modalClose" aria-label="Закрыть">&times;</button>
-    </div>
+    <div class="modal-header"><h2 class="modal-title" id="modalTitle">Детали</h2><button class="modal-close" id="modalClose" aria-label="Закрыть">&times;</button></div>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
 <div class="modal" id="themeModal" role="dialog" aria-modal="true">
   <div class="modal-content small">
-    <div class="modal-header">
-      <h2 class="modal-title" id="themeModalTitle">Своя тема</h2>
-      <button class="modal-close" id="themeModalClose" aria-label="Закрыть">&times;</button>
-    </div>
+    <div class="modal-header"><h2 class="modal-title" id="themeModalTitle">Своя тема</h2><button class="modal-close" id="themeModalClose" aria-label="Закрыть">&times;</button></div>
     <div class="modal-body">
       <label style="display:block;color:var(--tdim);font-size:.85rem;margin-bottom:.35rem">Название темы</label>
       <input type="text" id="ct-name" maxlength="24" placeholder="Моя тема" style="width:100%;background:var(--s3);border:2px solid var(--s4);color:var(--text);padding:.6rem 1rem;border-radius:1rem;font-size:.95rem;margin-bottom:1rem">
@@ -364,10 +352,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
     </div>
     <div class="settings-section">
       <div class="settings-label">Фон</div>
-      <div class="settings-toggle-row" id="bgToggleRow">
-        <span>Аврора-фон</span>
-        <div class="switch on" id="bgSwitch"></div>
-      </div>
+      <div class="settings-toggle-row" id="bgToggleRow"><span>Аврора-фон</span><div class="switch on" id="bgSwitch"></div></div>
       <div class="bg-upload-row">
         <button class="bg-upload-btn" id="bgUploadBtn">🖼️ Загрузить свой фон</button>
         <button class="bg-upload-btn" id="bgResetBtn" style="flex:0 0 auto">✕</button>
@@ -381,184 +366,85 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
-   'use strict';
+'use strict';
 
-/* ============================================================
-   ХЕЛПЕРЫ
-   ============================================================ */
+/* ХЕЛПЕРЫ */
 const $ = id => document.getElementById(id);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#39;'
-}[c]));
-
-function safeUrl(u) {
-  try {
-    const x = new URL(u);
-    return x.protocol === 'https:' ? x.href : '';
-  } catch {
-    return '';
-  }
-}
-
+function safeUrl(u){try{const x=new URL(u);return x.protocol==='https:'?x.href:''}catch{return ''}}
 const safeId = v => /^[\w-]{1,64}$/.test(String(v)) ? String(v) : '';
 const isValidNick = n => /^[A-Za-z0-9_]{3,16}$/.test(n);
 const isValidVersion = v => /^\d{1,2}(\.\d{1,2}){1,2}$/.test(v);
 const isValidHex = c => /^#[0-9a-fA-F]{6}$/.test(c);
 
-function safeSetLocalStorage(key, val) {
-  try {
-    let str = typeof val === 'string' ? val : JSON.stringify(val);
-    if (str.length > 500000) str = str.slice(0, 500000);
-    localStorage.setItem(key, str);
-    return true;
-  } catch (e) {
-    try { localStorage.removeItem(key); } catch {}
-    return false;
-  }
+function safeSetLocalStorage(key, val){
+  try{let str=typeof val==='string'?val:JSON.stringify(val);if(str.length>500000)str=str.slice(0,500000);localStorage.setItem(key,str);return true}
+  catch(e){try{localStorage.removeItem(key)}catch{}return false}
 }
+function safeGetLocalStorage(key){try{return localStorage.getItem(key)}catch{return null}}
 
-function safeGetLocalStorage(key) {
-  try { return localStorage.getItem(key); } catch { return null; }
-}
-
-/* ============================================================
-   КОНСТАНТЫ
-   ============================================================ */
+/* КОНСТАНТЫ */
 const MR_API = 'https://api.modrinth.com/v2';
 const MCIM_API = 'https://mod.mcimirror.top/curseforge/v1';
 const LIMIT = 20;
 const SKIN_LIMIT = 24;
+const NO_IMG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#1E2636"/><text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text></svg>');
 
-const NO_IMG = 'data:image/svg+xml,' + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">' +
-  '<rect width="300" height="300" fill="#1E2636"/>' +
-  '<text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text>' +
-  '</svg>'
-);
-
-/* ============================================================
-   КЭШ
-   ============================================================ */
+/* КЭШ */
 const pageCache = new Map();
 const CACHE_TTL = 5 * 60 * 1000;
+function cacheGet(k){const e=pageCache.get(k);if(!e)return null;if(Date.now()-e.ts>CACHE_TTL){pageCache.delete(k);return null}return e.data}
+function cacheSet(k,v){if(pageCache.size>=120){pageCache.delete(pageCache.keys().next().value)}pageCache.set(k,{data:v,ts:Date.now()})}
 
-function cacheGet(key) {
-  const entry = pageCache.get(key);
-  if (!entry) return null;
-  if (Date.now() - entry.ts > CACHE_TTL) {
-    pageCache.delete(key);
-    return null;
-  }
-  return entry.data;
-}
-
-function cacheSet(key, value) {
-  if (pageCache.size >= 120) {
-    const first = pageCache.keys().next().value;
-    pageCache.delete(first);
-  }
-  pageCache.set(key, { data: value, ts: Date.now() });
-}
-
-/* ============================================================
-   FETCH С РЕТРАЯМИ
-   ============================================================ */
-async function fetchJson(url) {
+/* FETCH */
+async function fetchJson(url){
   let lastError;
-  for (let i = 0; i < 2; i++) {
-    try {
+  for(let i=0;i<2;i++){
+    try{
       const ctrl = new AbortController();
-      const tm = setTimeout(() => ctrl.abort(), 15000);
-      const r = await fetch(url, { signal: ctrl.signal });
+      const tm = setTimeout(()=>ctrl.abort(),15000);
+      const r = await fetch(url,{signal:ctrl.signal});
       clearTimeout(tm);
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if(!r.ok) throw new Error('HTTP '+r.status);
       return await r.json();
-    } catch (e) {
-      lastError = e;
-      if (i === 0) await new Promise(res => setTimeout(res, 300));
-    }
+    }catch(e){lastError=e;if(i===0)await new Promise(res=>setTimeout(res,300))}
   }
   throw lastError || new Error('fetch failed');
 }
 
-/* ============================================================
-   CORS ПРОКСИ
-   ============================================================ */
+/* CORS ПРОКСИ */
 const CORS_PROXIES = [
   u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
   u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
 ];
-
-async function fetchViaProxy(url) {
-  for (const wrap of CORS_PROXIES) {
-    try {
+async function fetchViaProxy(url){
+  for(const wrap of CORS_PROXIES){
+    try{
       const ctrl = new AbortController();
-      const tm = setTimeout(() => ctrl.abort(), 10000);
-      const r = await fetch(wrap(url), { signal: ctrl.signal });
+      const tm = setTimeout(()=>ctrl.abort(),10000);
+      const r = await fetch(wrap(url),{signal:ctrl.signal});
       clearTimeout(tm);
-      if (r.ok) {
-        const text = await r.text();
-        if (text && text.length > 100) return text;
-      }
-    } catch { continue; }
+      if(r.ok){const t=await r.text();if(t&&t.length>100)return t}
+    }catch{continue}
   }
   throw new Error('all proxies failed');
 }
 
-/* ============================================================
-   СПИСОК НИКОВ (фолбэк)
-   ============================================================ */
-const NICK_POOL = [
-  'Notch', 'jeb_', 'Dinnerbone', 'Grumm', '_Grum', 'Herobrine', 'Steve', 'Alex',
-  'Technoblade', 'Dream', 'GeorgeNotFound', 'Sapnap', 'TommyInnit', 'Tubbo_',
-  'WilburSoot', 'Ph1LzA', 'Quackity', 'Grian', 'MumboJumbo', 'GoodTimesWithScar',
-  'Renthedog', 'impulseSV', 'TangoTek', 'Zedaph', 'BdoubleO100', 'Docm77',
-  'Keralis', 'EthosLab', 'VintageBeef', 'iskall85', 'Xisumavoid', 'Welsknight',
-  'Cubfan135', 'FalseSymmetry', 'Stressmonster101', 'ZombieCleo', 'JoeHills',
-  'Hypnotizd', 'xBCrafted', 'TinfoilChef', 'Skeppy', 'BadBoyHalo', 'a6d',
-  'CaptainSparklez', 'DanTDM', 'PopularMMOs', 'SkyDoesMinecraft', 'Stampylonghead',
-  'iBallisticSquid', 'LDShadowLady', 'Smallishbeans', 'SolidarityGaming',
-  'Smajor1995', 'Fwhip', 'GeminiTay', 'Shubble', 'PearlescentMoon', 'Jimmy',
-  'Pixlriffs', 'MythicalSausage', 'AntVenom', 'SethBling', 'Noxcrew', 'Illumina',
-  'Fruitberries', 'Punz', 'Hbomb94', 'TapL', 'Purpled', 'Wallibear', 'Ranboo',
-  'KarlJacobs', 'CorpseHusband', 'Fundy', 'Eret', 'Nihachu', 'JackManifoldTV',
-  'Niki', 'FoolishGamers', 'Ponk', 'Hannahxxrose', 'Boosfer', 'Krtzyy',
-  'PeteZahHutt', 'Quig', 'Mefs', 'Krinios', 'Michaelmcchill', 'KingBurren',
-  'KaraCorvus', 'Wisp', 'Seapeekay', 'InTheLittleWood', 'SB737', 'PrestonPlayz',
-  'UnspeakableGaming', 'SSundee', 'JeromeASF', 'BajanCanadian', 'Vikkstar123',
-  'Logdotzip', 'SimonHoneydew', 'LewisXephos', 'Strippin', 'Rythian', 'Crainer',
-  'SkyDoesMineCraft', 'EeOneGuy', 'IvanGrozny', 'Marmok', 'Kuplinov', 'Letalis',
-  'Windy31', 'Buster', 'GamerVlad', 'SashaPlay', 'Dimasik', 'Lexa',
-  'Bratishkinoff', 'KarinaKross', 'Ender', 'Ghost', 'Phantom', 'Shadow', 'Wolf',
-  'Fox', 'Cat', 'Panda', 'Tiger', 'Lion', 'Dragon', 'Eagle', 'CreeperKing',
-  'ZombieSlayer', 'Enderman', 'Slimey', 'SkeletonWar', 'WitchCraft', 'NetherKing',
-  'EnderDragon', 'PiglinBoss', 'BlazeMaster', 'GhastLord', 'MagmaCube',
-  'ShulkerKing', 'Guardian', 'ElderGuardian', 'WitherBoss', 'Vex', 'Evoker',
-  'Vindicator', 'Pillager', 'Ravager', 'Warden', 'Axolotl', 'Bee', 'Dolphin',
-  'PolarBear', 'SnowFox', 'Strider', 'Hoglin', 'Llama', 'Allay', 'Frog',
-  'Tadpole', 'Goat', 'GlowSquid', 'Breeze', 'Bogged', 'Armadillo'
-];
+/* СПИСОК НИКОВ */
+const NICK_POOL = ['Notch','jeb_','Dinnerbone','Grumm','_Grum','Herobrine','Steve','Alex','Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','WilburSoot','Ph1LzA','Quackity','Grian','MumboJumbo','GoodTimesWithScar','Renthedog','impulseSV','TangoTek','Zedaph','BdoubleO100','Docm77','Keralis','EthosLab','VintageBeef','iskall85','Xisumavoid','Welsknight','Cubfan135','FalseSymmetry','Stressmonster101','ZombieCleo','JoeHills','Hypnotizd','xBCrafted','TinfoilChef','Skeppy','BadBoyHalo','a6d','CaptainSparklez','DanTDM','PopularMMOs','SkyDoesMinecraft','Stampylonghead','iBallisticSquid','LDShadowLady','Smallishbeans','SolidarityGaming','Smajor1995','Fwhip','GeminiTay','Shubble','PearlescentMoon','Jimmy','Pixlriffs','MythicalSausage','AntVenom','SethBling','Noxcrew','Illumina','Fruitberries','Punz','Hbomb94','TapL','Purpled','Wallibear','Ranboo','KarlJacobs','CorpseHusband','Fundy','Eret','Nihachu','JackManifoldTV','Niki','FoolishGamers','Ponk','Hannahxxrose','Boosfer','Krtzyy','PeteZahHutt','Quig','Mefs','Krinios','Michaelmcchill','KingBurren','KaraCorvus','Wisp','Seapeekay','InTheLittleWood','SB737','PrestonPlayz','UnspeakableGaming','SSundee','JeromeASF','BajanCanadian','Vikkstar123','Logdotzip','SimonHoneydew','LewisXephos','Strippin','Rythian','Crainer','SkyDoesMineCraft','EeOneGuy','IvanGrozny','Marmok','Kuplinov','Letalis','Windy31','Buster','GamerVlad','SashaPlay','Dimasik','Lexa','Bratishkinoff','KarinaKross','Ender','Ghost','Phantom','Shadow','Wolf','Fox','Cat','Panda','Tiger','Lion','Dragon','Eagle','CreeperKing','ZombieSlayer','Enderman','Slimey','SkeletonWar','WitchCraft','NetherKing','EnderDragon','PiglinBoss','BlazeMaster','GhastLord','MagmaCube','ShulkerKing','Guardian','ElderGuardian','WitherBoss','Vex','Evoker','Vindicator','Pillager','Ravager','Warden','Axolotl','Bee','Dolphin','PolarBear','SnowFox','Strider','Hoglin','Llama','Allay','Frog','Tadpole','Goat','GlowSquid','Breeze','Bogged','Armadillo'];
 
-/* ============================================================
-   КОНФИГ ВКЛАДОК
-   ============================================================ */
+/* КОНФИГ ВКЛАДОК */
 const TAB_CONFIG = {
-  mods:          { type: 'mod',          cf: '6' },
-  modpacks:      { type: 'modpack',      cf: '4471' },
-  resourcepacks: { type: 'resourcepack', cf: '12' },
-  shaders:       { type: 'shader',       cf: '6552' }
+  mods:{type:'mod',cf:'6'},
+  modpacks:{type:'modpack',cf:'4471'},
+  resourcepacks:{type:'resourcepack',cf:'12'},
+  shaders:{type:'shader',cf:'6552'}
 };
 
-/* ============================================================
-   СОСТОЯНИЕ
-   ============================================================ */
+/* СОСТОЯНИЕ */
 let currentTab = 'mods';
 let currentQuery = '';
 let items = [];
@@ -571,260 +457,162 @@ let editorActive = false;
 let randomMode = false;
 let namemcNames = null;
 
-/* ============================================================
-   TOAST
-   ============================================================ */
-function toast(msg, kind = 'info', ms = 4000) {
+/* TOAST */
+function toast(msg,kind='info',ms=4000){
   const el = document.createElement('div');
-  el.className = 'toast ' + (kind === 'error' ? 'error' : kind === 'ok' ? 'ok' : '');
+  el.className = 'toast ' + (kind==='error'?'error':kind==='ok'?'ok':'');
   el.textContent = msg;
   const container = $('toasts');
-  if (!container) return;
+  if(!container) return;
   container.appendChild(el);
-  setTimeout(() => {
-    el.style.opacity = '0';
-    el.style.transition = 'opacity .3s';
-    setTimeout(() => el.remove(), 300);
-  }, ms);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},ms);
 }
 
-/* ============================================================
-   ПЕРЕВОД
-   ============================================================ */
+/* ПЕРЕВОД */
 const trCache = new Map();
-try {
-  const raw = safeGetLocalStorage('trCache');
-  if (raw) Object.entries(JSON.parse(raw)).forEach(([k, v]) => trCache.set(k, v));
-} catch {}
-
+try{const raw=safeGetLocalStorage('trCache');if(raw)Object.entries(JSON.parse(raw)).forEach(([k,v])=>trCache.set(k,v))}catch{}
 let cacheSaveTimer = null;
-function scheduleCacheSave() {
-  if (cacheSaveTimer) return;
-  cacheSaveTimer = setTimeout(() => {
-    try {
-      const entries = [...trCache].slice(-300);
-      safeSetLocalStorage('trCache', JSON.stringify(Object.fromEntries(entries)));
-    } catch {}
+function scheduleCacheSave(){
+  if(cacheSaveTimer) return;
+  cacheSaveTimer = setTimeout(()=>{
+    try{const entries=[...trCache].slice(-300);safeSetLocalStorage('trCache',JSON.stringify(Object.fromEntries(entries)))}catch{}
     cacheSaveTimer = null;
-  }, 2000);
+  },2000);
 }
-
-const needsTranslation = t =>
-  t && t.length > 2 && (t.match(/[а-яё]/gi) || []).length < t.length * 0.2;
-
-async function translate(text) {
-  if (!needsTranslation(text)) return text;
-  const cut = text.slice(0, 450);
-  if (trCache.has(cut)) return trCache.get(cut);
-  try {
-    const r = await fetch(
-      'https://translate.googleapis.com/translate_a/single?' +
-      'client=gtx&sl=auto&tl=ru&dt=t&q=' + encodeURIComponent(cut)
-    );
-    if (r.status === 429) {
-      await new Promise(res => setTimeout(res, 1500));
-      throw new Error('rate limited');
-    }
-    if (!r.ok) throw new Error('translate http ' + r.status);
+const needsTranslation = t => t && t.length > 2 && (t.match(/[а-яё]/gi)||[]).length < t.length * 0.2;
+async function translate(text){
+  if(!needsTranslation(text)) return text;
+  const cut = text.slice(0,450);
+  if(trCache.has(cut)) return trCache.get(cut);
+  try{
+    const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q='+encodeURIComponent(cut));
+    if(r.status===429){await new Promise(res=>setTimeout(res,1500));throw new Error('rate limited')}
+    if(!r.ok) throw new Error('translate http '+r.status);
     const d = await r.json();
-    const out = d[0].map(p => p[0]).join('');
-    trCache.set(cut, out);
+    const out = d[0].map(p=>p[0]).join('');
+    trCache.set(cut,out);
     scheduleCacheSave();
     return out;
-  } catch {
-    return text;
-  }
+  }catch{return text}
 }
-
-async function translateQueue(elements, token) {
+async function translateQueue(elements,token){
   let idx = 0;
   const worker = async () => {
-    while (idx < elements.length && token === reqId) {
+    while(idx < elements.length && token === reqId){
       const el = elements[idx++];
-      if (!el || !el.dataset || !el.dataset.orig) continue;
+      if(!el||!el.dataset||!el.dataset.orig) continue;
       const ru = await translate(el.dataset.orig);
-      if (token === reqId && document.contains(el)) el.textContent = ru;
-      await new Promise(res => setTimeout(res, 80));
+      if(token===reqId && document.contains(el)) el.textContent = ru;
+      await new Promise(res=>setTimeout(res,80));
     }
   };
-  await Promise.all([worker(), worker()]);
+  await Promise.all([worker(),worker()]);
 }
 
-/* ============================================================
-   ТЕМЫ
-   ============================================================ */
+/* ТЕМЫ */
 const BUILTIN_THEMES = [
-  { id: 'dark',     name: 'Dark' },
-  { id: 'midnight', name: 'Midnight' },
-  { id: 'light',    name: 'Light' },
-  { id: 'ocean',    name: 'Ocean' },
-  { id: 'sunset',   name: 'Sunset' },
-  { id: 'forest',   name: 'Forest' },
-  { id: 'cyber',    name: 'Cyberpunk' },
-  { id: 'nord',     name: 'Nord' },
-  { id: 'rose',     name: 'Rose' }
+  {id:'dark',name:'Dark'},{id:'midnight',name:'Midnight'},{id:'light',name:'Light'},
+  {id:'ocean',name:'Ocean'},{id:'sunset',name:'Sunset'},{id:'forest',name:'Forest'},
+  {id:'cyber',name:'Cyberpunk'},{id:'nord',name:'Nord'},{id:'rose',name:'Rose'}
 ];
-
 const THEME_COLORS = [
-  { key: 's0',       label: 'Фон' },
-  { key: 's2',       label: 'Карточки' },
-  { key: 's3',       label: 'Поля' },
-  { key: 's4',       label: 'Hover' },
-  { key: 'accent',   label: 'Акцент' },
-  { key: 'accent-2', label: 'Градиент' },
-  { key: 'text',     label: 'Текст' },
-  { key: 'tdim',     label: 'Тусклый текст' },
-  { key: 'dim',      label: 'Тег' }
+  {key:'s0',label:'Фон'},{key:'s2',label:'Карточки'},{key:'s3',label:'Поля'},{key:'s4',label:'Hover'},
+  {key:'accent',label:'Акцент'},{key:'accent-2',label:'Градиент'},{key:'text',label:'Текст'},
+  {key:'tdim',label:'Тусклый текст'},{key:'dim',label:'Тег'}
 ];
-
 let customThemes = [];
-try {
+try{
   const raw = safeGetLocalStorage('mch-custom-themes');
-  if (raw) {
+  if(raw){
     const arr = JSON.parse(raw);
-    if (Array.isArray(arr)) {
-      customThemes = arr.filter(t =>
-        t && typeof t === 'object' &&
-        typeof t.id === 'string' &&
-        /^custom_[a-z0-9]+$/.test(t.id) &&
-        /^[\w\s\-А-Яа-яЁё]{1,24}$/.test(t.name || '') &&
-        t.colors && typeof t.colors === 'object'
-      );
+    if(Array.isArray(arr)){
+      customThemes = arr.filter(t => t && typeof t==='object' && typeof t.id==='string' && /^custom_[a-z0-9]+$/.test(t.id) && /^[\w\s\-А-Яа-яЁё]{1,24}$/.test(t.name||'') && t.colors && typeof t.colors==='object');
     }
   }
-} catch { customThemes = []; }
+}catch{customThemes=[]}
+function saveCustomThemes(){safeSetLocalStorage('mch-custom-themes',customThemes)}
+function hexToRgb(hex){const h=hex.replace('#','');return{r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)}}
 
-function saveCustomThemes() {
-  safeSetLocalStorage('mch-custom-themes', customThemes);
-}
-
-function hexToRgb(hex) {
-  const h = hex.replace('#', '');
-  return {
-    r: parseInt(h.slice(0, 2), 16),
-    g: parseInt(h.slice(2, 4), 16),
-    b: parseInt(h.slice(4, 6), 16)
-  };
-}
-
-function applyTheme(themeId) {
-  document.documentElement.setAttribute('data-theme', themeId);
-  const custom = customThemes.find(t => t.id === themeId);
-  if (custom) {
-    for (const [k, v] of Object.entries(custom.colors)) {
-      if (isValidHex(v)) {
-        document.documentElement.style.setProperty('--' + k, v);
-      }
-    }
-    if (custom.colors.accent) {
-      const rgb = hexToRgb(custom.colors.accent);
-      document.documentElement.style.setProperty('--glow', `rgba(${rgb.r},${rgb.g},${rgb.b},.18)`);
-      document.documentElement.style.setProperty('--a1', `rgba(${rgb.r},${rgb.g},${rgb.b},.35)`);
-    }
-    if (custom.colors['accent-2']) {
-      const rgb = hexToRgb(custom.colors['accent-2']);
-      document.documentElement.style.setProperty('--a2', `rgba(${rgb.r},${rgb.g},${rgb.b},.28)`);
-    }
-  } else {
-    THEME_COLORS.forEach(c =>
-      document.documentElement.style.removeProperty('--' + c.key)
-    );
+function applyTheme(themeId){
+  document.documentElement.setAttribute('data-theme',themeId);
+  const custom = customThemes.find(t=>t.id===themeId);
+  if(custom){
+    for(const [k,v] of Object.entries(custom.colors)){if(isValidHex(v))document.documentElement.style.setProperty('--'+k,v)}
+    if(custom.colors.accent){const rgb=hexToRgb(custom.colors.accent);document.documentElement.style.setProperty('--glow',`rgba(${rgb.r},${rgb.g},${rgb.b},.18)`);document.documentElement.style.setProperty('--a1',`rgba(${rgb.r},${rgb.g},${rgb.b},.35)`)}
+    if(custom.colors['accent-2']){const rgb=hexToRgb(custom.colors['accent-2']);document.documentElement.style.setProperty('--a2',`rgba(${rgb.r},${rgb.g},${rgb.b},.28)`)}
+  }else{
+    THEME_COLORS.forEach(c=>document.documentElement.style.removeProperty('--'+c.key));
     document.documentElement.style.removeProperty('--glow');
     document.documentElement.style.removeProperty('--a1');
     document.documentElement.style.removeProperty('--a2');
   }
 }
 
-function renderThemeGrid() {
+function renderThemeGrid(){
   const grid = $('themeGrid');
-  if (!grid) return;
-  let html = BUILTIN_THEMES.map(t =>
-    `<button class="theme-opt" data-theme="${t.id}" title="${esc(t.name)}"></button>`
-  ).join('');
-  html += customThemes.map(t => {
-    const c = t.colors;
-    const bg = `background:linear-gradient(135deg,${esc(c.s0 || '#000')} 50%,${esc(c.accent || '#fff')})`;
+  if(!grid) return;
+  let html = BUILTIN_THEMES.map(t=>`<button class="theme-opt" data-theme="${t.id}" title="${esc(t.name)}"></button>`).join('');
+  html += customThemes.map(t=>{
+    const c=t.colors;
+    const bg = `background:linear-gradient(135deg,${esc(c.s0||'#000')} 50%,${esc(c.accent||'#fff')})`;
     return `<button class="theme-opt custom" data-theme="${t.id}" title="${esc(t.name)}" style="${bg}"><span class="del-badge" data-del="${t.id}" title="Удалить">×</span></button>`;
   }).join('');
   grid.innerHTML = html;
 }
 
-function initThemes() {
+function initThemes(){
   renderThemeGrid();
   const savedTheme = safeGetLocalStorage('mch-theme') || 'dark';
   const savedBg = safeGetLocalStorage('mch-bg') !== 'off';
   applyTheme(savedTheme);
-  if (!savedBg) document.body.classList.add('no-bg');
+  if(!savedBg) document.body.classList.add('no-bg');
   $('bgSwitch').classList.toggle('on', savedBg);
-
-  const markActive = () => {
-    $$('.theme-opt').forEach(b =>
-      b.classList.toggle('active', b.dataset.theme === (safeGetLocalStorage('mch-theme') || 'dark'))
-    );
-  };
+  const markActive = () => {$$('.theme-opt').forEach(b=>b.classList.toggle('active',b.dataset.theme===(safeGetLocalStorage('mch-theme')||'dark')))};
   markActive();
 
-  $('settingsToggle').addEventListener('click', e => {
-    e.stopPropagation();
-    $('settingsPanel').classList.toggle('open');
-  });
-
-  $('themeGrid').addEventListener('click', e => {
+  $('settingsToggle').addEventListener('click',e=>{e.stopPropagation();$('settingsPanel').classList.toggle('open')});
+  $('themeGrid').addEventListener('click',e=>{
     const delBtn = e.target.closest('[data-del]');
-    if (delBtn) {
+    if(delBtn){
       e.stopPropagation();
       const id = delBtn.dataset.del;
-      const theme = customThemes.find(t => t.id === id);
-      if (!theme) return;
-      showConfirm(`Удалить тему «${theme.name}»?`, () => {
-        customThemes = customThemes.filter(t => t.id !== id);
+      const theme = customThemes.find(t=>t.id===id);
+      if(!theme) return;
+      showConfirm(`Удалить тему «${theme.name}»?`,()=>{
+        customThemes = customThemes.filter(t=>t.id!==id);
         saveCustomThemes();
-        if (safeGetLocalStorage('mch-theme') === id) {
-          applyTheme('dark');
-          safeSetLocalStorage('mch-theme', 'dark');
-        }
+        if(safeGetLocalStorage('mch-theme')===id){applyTheme('dark');safeSetLocalStorage('mch-theme','dark')}
         renderThemeGrid();
         markActive();
       });
       return;
     }
     const btn = e.target.closest('.theme-opt');
-    if (!btn) return;
+    if(!btn) return;
     const th = btn.dataset.theme;
-    if (!th) return;
+    if(!th) return;
     applyTheme(th);
-    safeSetLocalStorage('mch-theme', th);
+    safeSetLocalStorage('mch-theme',th);
     markActive();
   });
-
-  $('bgToggleRow').addEventListener('click', () => {
+  $('bgToggleRow').addEventListener('click',()=>{
     const on = !$('bgSwitch').classList.contains('on');
-    $('bgSwitch').classList.toggle('on', on);
-    document.body.classList.toggle('no-bg', !on);
-    safeSetLocalStorage('mch-bg', on ? 'on' : 'off');
+    $('bgSwitch').classList.toggle('on',on);
+    document.body.classList.toggle('no-bg',!on);
+    safeSetLocalStorage('mch-bg',on?'on':'off');
   });
+  document.addEventListener('click',e=>{if(!e.target.closest('#settingsPanel'))$('settingsPanel').classList.remove('open')});
+  $('addThemeBtn').addEventListener('click',()=>openThemeEditor());
 
-  document.addEventListener('click', e => {
-    if (!e.target.closest('#settingsPanel')) {
-      $('settingsPanel').classList.remove('open');
-    }
-  });
-
-  $('addThemeBtn').addEventListener('click', () => openThemeEditor());
-
-  $('bgUploadBtn').addEventListener('click', () => $('bgFile').click());
-  $('bgFile').addEventListener('change', e => {
+  $('bgUploadBtn').addEventListener('click',()=>$('bgFile').click());
+  $('bgFile').addEventListener('change',e=>{
     const file = e.target.files[0];
-    if (!file) return;
+    if(!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = ()=>{
       const dataUrl = reader.result;
-      if (typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')) {
-        try {
-          localStorage.setItem('mch-custom-bg', dataUrl);
-        } catch {
-          toast('Фон слишком большой, не сохранится после перезагрузки', 'error');
-        }
+      if(typeof dataUrl==='string' && dataUrl.startsWith('data:image/')){
+        try{localStorage.setItem('mch-custom-bg',dataUrl)}catch{toast('Фон слишком большой','error')}
         document.body.style.backgroundImage = `url(${dataUrl})`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundAttachment = 'fixed';
@@ -834,18 +622,17 @@ function initThemes() {
     };
     reader.readAsDataURL(file);
   });
-  $('bgResetBtn').addEventListener('click', () => {
+  $('bgResetBtn').addEventListener('click',()=>{
     localStorage.removeItem('mch-custom-bg');
     document.body.style.backgroundImage = '';
     document.body.style.backgroundSize = '';
     document.body.style.backgroundAttachment = '';
     document.body.style.backgroundPosition = '';
     document.body.classList.remove('no-bg');
-    toast('Фон сброшен', 'ok');
+    toast('Фон сброшен','ok');
   });
-
   const savedCustomBg = safeGetLocalStorage('mch-custom-bg');
-  if (savedCustomBg) {
+  if(savedCustomBg){
     document.body.style.backgroundImage = `url(${savedCustomBg})`;
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundAttachment = 'fixed';
@@ -854,453 +641,239 @@ function initThemes() {
   }
 }
 
-/* ============================================================
-   КОНСТРУКТОР ТЕМ
-   ============================================================ */
+/* КОНСТРУКТОР ТЕМ */
 let themeEditState = null;
-
-function openThemeEditor(existingId) {
-  const existing = existingId ? customThemes.find(t => t.id === existingId) : null;
-  const defaults = existing ? existing.colors : {
-    's0': '#05070C', 's2': '#0F131C', 's3': '#161D2B', 's4': '#1E2636',
-    'accent': '#38BDF8', 'accent-2': '#6EE7B7',
-    'text': '#E8EDF4', 'tdim': '#9CA3AF', 'dim': '#1E3A5F'
-  };
-  themeEditState = {
-    id: existing ? existing.id : null,
-    colors: { ...defaults },
-    name: existing ? existing.name : ''
-  };
-
+function openThemeEditor(existingId){
+  const existing = existingId ? customThemes.find(t=>t.id===existingId) : null;
+  const defaults = existing ? existing.colors : {'s0':'#05070C','s2':'#0F131C','s3':'#161D2B','s4':'#1E2636','accent':'#38BDF8','accent-2':'#6EE7B7','text':'#E8EDF4','tdim':'#9CA3AF','dim':'#1E3A5F'};
+  themeEditState = {id:existing?existing.id:null,colors:{...defaults},name:existing?existing.name:''};
   $('themeModalTitle').textContent = existing ? 'Редактировать тему' : 'Своя тема';
   $('ct-name').value = themeEditState.name;
-
   const colorsEl = $('ct-colors');
-  colorsEl.innerHTML = THEME_COLORS.map(c => `
-    <div class="color-row">
-      <label for="ct-${c.key}">${c.label}</label>
-      <input type="text" id="ct-txt-${c.key}" value="${esc(themeEditState.colors[c.key])}" maxlength="7">
-      <input type="color" id="ct-${c.key}" value="${esc(themeEditState.colors[c.key])}">
-    </div>
-  `).join('');
-
-  THEME_COLORS.forEach(c => {
-    $('ct-' + c.key).addEventListener('input', e => {
-      const v = e.target.value;
-      themeEditState.colors[c.key] = v;
-      $('ct-txt-' + c.key).value = v;
-      previewCustomTheme();
-    });
-    $('ct-txt-' + c.key).addEventListener('input', e => {
-      const v = e.target.value.trim();
-      if (isValidHex(v)) {
-        themeEditState.colors[c.key] = v;
-        $('ct-' + c.key).value = v;
-        previewCustomTheme();
-      }
-    });
+  colorsEl.innerHTML = THEME_COLORS.map(c=>`<div class="color-row"><label for="ct-${c.key}">${c.label}</label><input type="text" id="ct-txt-${c.key}" value="${esc(themeEditState.colors[c.key])}" maxlength="7"><input type="color" id="ct-${c.key}" value="${esc(themeEditState.colors[c.key])}"></div>`).join('');
+  THEME_COLORS.forEach(c=>{
+    $('ct-'+c.key).addEventListener('input',e=>{const v=e.target.value;themeEditState.colors[c.key]=v;$('ct-txt-'+c.key).value=v;previewCustomTheme()});
+    $('ct-txt-'+c.key).addEventListener('input',e=>{const v=e.target.value.trim();if(isValidHex(v)){themeEditState.colors[c.key]=v;$('ct-'+c.key).value=v;previewCustomTheme()}});
   });
-
   $('themeModal').classList.add('active');
 }
-
-function previewCustomTheme() {
-  for (const [k, v] of Object.entries(themeEditState.colors)) {
-    if (isValidHex(v)) {
-      document.documentElement.style.setProperty('--' + k, v);
-    }
-  }
-  if (themeEditState.colors.accent) {
-    const rgb = hexToRgb(themeEditState.colors.accent);
-    document.documentElement.style.setProperty('--glow', `rgba(${rgb.r},${rgb.g},${rgb.b},.18)`);
-    document.documentElement.style.setProperty('--a1', `rgba(${rgb.r},${rgb.g},${rgb.b},.35)`);
-  }
+function previewCustomTheme(){
+  for(const [k,v] of Object.entries(themeEditState.colors)){if(isValidHex(v))document.documentElement.style.setProperty('--'+k,v)}
+  if(themeEditState.colors.accent){const rgb=hexToRgb(themeEditState.colors.accent);document.documentElement.style.setProperty('--glow',`rgba(${rgb.r},${rgb.g},${rgb.b},.18)`);document.documentElement.style.setProperty('--a1',`rgba(${rgb.r},${rgb.g},${rgb.b},.35)`)}
 }
-
-function closeThemeEditor(revert) {
-  if (revert) {
-    applyTheme(safeGetLocalStorage('mch-theme') || 'dark');
-  }
-  $('themeModal').classList.remove('active');
-  themeEditState = null;
-}
-
-function saveCustomTheme() {
-  if (!themeEditState) return;
-  const name = ($('ct-name').value || '').trim().slice(0, 24);
-  if (!name) { toast('Введи название темы', 'error'); return; }
-  if (!/^[\w\s\-А-Яа-яЁё]{1,24}$/.test(name)) {
-    toast('Только буквы, цифры, пробелы, дефис', 'error');
-    return;
-  }
-  const id = themeEditState.id || ('custom_' + Math.random().toString(36).slice(2, 10));
-  if (customThemes.some(t => t.id !== id && t.name.toLowerCase() === name.toLowerCase())) {
-    toast('Такое имя уже есть', 'error');
-    return;
-  }
+function closeThemeEditor(revert){if(revert)applyTheme(safeGetLocalStorage('mch-theme')||'dark');$('themeModal').classList.remove('active');themeEditState=null}
+function saveCustomTheme(){
+  if(!themeEditState) return;
+  const name = ($('ct-name').value||'').trim().slice(0,24);
+  if(!name){toast('Введи название темы','error');return}
+  if(!/^[\w\s\-А-Яа-яЁё]{1,24}$/.test(name)){toast('Только буквы, цифры, пробелы, дефис','error');return}
+  const id = themeEditState.id || ('custom_'+Math.random().toString(36).slice(2,10));
+  if(customThemes.some(t=>t.id!==id && t.name.toLowerCase()===name.toLowerCase())){toast('Такое имя уже есть','error');return}
   const colors = {};
-  for (const [k, v] of Object.entries(themeEditState.colors)) {
-    if (isValidHex(v)) colors[k] = v;
-  }
-  if (Object.keys(colors).length < THEME_COLORS.length) {
-    toast('Некорректные цвета', 'error');
-    return;
-  }
-  if (themeEditState.id) {
-    const idx = customThemes.findIndex(t => t.id === id);
-    if (idx >= 0) customThemes[idx] = { id, name, colors };
-    else customThemes.push({ id, name, colors });
-  } else {
-    customThemes.push({ id, name, colors });
-  }
+  for(const [k,v] of Object.entries(themeEditState.colors)){if(isValidHex(v))colors[k]=v}
+  if(Object.keys(colors).length < THEME_COLORS.length){toast('Некорректные цвета','error');return}
+  if(themeEditState.id){
+    const idx = customThemes.findIndex(t=>t.id===id);
+    if(idx>=0)customThemes[idx]={id,name,colors};else customThemes.push({id,name,colors});
+  }else customThemes.push({id,name,colors});
   saveCustomThemes();
   renderThemeGrid();
   applyTheme(id);
-  safeSetLocalStorage('mch-theme', id);
-  toast('Тема сохранена: ' + name, 'ok');
+  safeSetLocalStorage('mch-theme',id);
+  toast('Тема сохранена: '+name,'ok');
   closeThemeEditor(false);
 }
 
-/* ============================================================
-   CONFIRM
-   ============================================================ */
+/* CONFIRM */
 let confirmCallback = null;
+function showConfirm(text,cb){$('confirmText').textContent=text;confirmCallback=cb;$('confirmModal').classList.add('active')}
+$('confirmYes').addEventListener('click',()=>{if(confirmCallback)confirmCallback();confirmCallback=null;$('confirmModal').classList.remove('active')});
+$('confirmNo').addEventListener('click',()=>{confirmCallback=null;$('confirmModal').classList.remove('active')});
+$('confirmModal').addEventListener('click',e=>{if(e.target.id==='confirmModal'){confirmCallback=null;$('confirmModal').classList.remove('active')}});
 
-function showConfirm(text, cb) {
-  $('confirmText').textContent = text;
-  confirmCallback = cb;
-  $('confirmModal').classList.add('active');
-}
-
-$('confirmYes').addEventListener('click', () => {
-  if (confirmCallback) confirmCallback();
-  confirmCallback = null;
-  $('confirmModal').classList.remove('active');
-});
-$('confirmNo').addEventListener('click', () => {
-  confirmCallback = null;
-  $('confirmModal').classList.remove('active');
-});
-$('confirmModal').addEventListener('click', e => {
-  if (e.target.id === 'confirmModal') {
-    confirmCallback = null;
-    $('confirmModal').classList.remove('active');
-  }
-});
-
-/* ============================================================
-   СКЕЛЕТОНЫ
-   ============================================================ */
-function showSkeletons(n = 8) {
+/* СКЕЛЕТОНЫ */
+function showSkeletons(n=8){
   let grid = $('content').querySelector('.grid');
-  if (!grid) {
-    grid = document.createElement('div');
-    grid.className = 'grid';
-    $('content').appendChild(grid);
-  }
-  const html = Array.from({ length: n }, () => `
-    <article class="card skeleton-card">
-      <div class="card-image skeleton-shimmer"></div>
-      <div class="card-content">
-        <div class="skeleton-line big skeleton-shimmer"></div>
-        <div class="skeleton-line skeleton-shimmer" style="width:90%"></div>
-        <div class="skeleton-line skeleton-shimmer" style="width:60%"></div>
-      </div>
-    </article>
-  `).join('');
-  grid.insertAdjacentHTML('beforeend', html);
+  if(!grid){grid=document.createElement('div');grid.className='grid';$('content').appendChild(grid)}
+  const html = Array.from({length:n},()=>`<article class="card skeleton-card"><div class="card-image skeleton-shimmer"></div><div class="card-content"><div class="skeleton-line big skeleton-shimmer"></div><div class="skeleton-line skeleton-shimmer" style="width:90%"></div><div class="skeleton-line skeleton-shimmer" style="width:60%"></div></div></article>`).join('');
+  grid.insertAdjacentHTML('beforeend',html);
 }
+function removeSkeletons(){$$('.skeleton-card').forEach(el=>el.remove())}
 
-function removeSkeletons() {
-  $$('.skeleton-card').forEach(el => el.remove());
-}
-
-/* ============================================================
-   SENTINEL
-   ============================================================ */
+/* SENTINEL */
 const sentinel = $('sentinel');
-const io = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting && !isLoading && hasMore && !editorActive) {
-    loadMore();
-  }
-}, { rootMargin: '400px' });
-
-function setSentinel(state) {
-  if (!sentinel) return;
-  if (state === 'loading') {
-    sentinel.textContent = '';
-    sentinel.classList.remove('end');
-  } else if (state === 'end') {
-    sentinel.textContent = '— Конец списка —';
-    sentinel.classList.add('end');
-  } else {
-    sentinel.textContent = '';
-    sentinel.classList.remove('end');
-  }
+const io = new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting && !isLoading && hasMore && !editorActive) loadMore();
+},{rootMargin:'400px'});
+function setSentinel(state){
+  if(!sentinel) return;
+  if(state==='loading'){sentinel.textContent='';sentinel.classList.remove('end')}
+  else if(state==='end'){sentinel.textContent='— Конец списка —';sentinel.classList.add('end')}
+  else{sentinel.textContent='';sentinel.classList.remove('end')}
 }
 
-/* ============================================================
-   ВКЛАДКИ
-   ============================================================ */
-$$('.tab').forEach(tab => tab.addEventListener('click', () => {
-  if (editorActive) {
-    if (window._editorCleanup) {
-      try { window._editorCleanup(); } catch {}
-      window._editorCleanup = null;
-    }
+/* ВКЛАДКИ */
+$$('.tab').forEach(tab=>tab.addEventListener('click',()=>{
+  if(editorActive){
+    if(window._editorCleanup){try{window._editorCleanup()}catch{};window._editorCleanup=null}
     editorActive = false;
   }
-  $$('.tab').forEach(t => {
-    t.classList.remove('active');
-    t.setAttribute('aria-selected', 'false');
-  });
+  $$('.tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false')});
   tab.classList.add('active');
-  tab.setAttribute('aria-selected', 'true');
+  tab.setAttribute('aria-selected','true');
   currentTab = tab.dataset.tab;
   currentQuery = '';
   randomMode = false;
   $('searchInput').value = '';
   $('searchContainer').classList.remove('hidden');
   sentinel.classList.remove('hidden');
-
-  const isSkins = currentTab === 'skins';
-  const isPackEditor = currentTab === 'packeditor';
-
-  $('filters').classList.toggle('hidden', isSkins || isPackEditor);
+  const isSkins = currentTab==='skins';
+  const isPackEditor = currentTab==='packeditor';
+  $('filters').classList.toggle('hidden',isSkins||isPackEditor);
   $('editorBtn').style.display = isSkins ? 'inline-flex' : 'none';
   $('randomBtn').style.display = isSkins ? 'inline-flex' : 'none';
   $('searchInput').placeholder = isSkins ? 'Введи ник и Enter' : 'Поиск...';
-
-  if (isPackEditor) {
-    openPackEditor();
-    return;
-  }
+  if(isPackEditor){openPackEditor();return}
   resetAndLoad();
 }));
 
-$('searchBtn').addEventListener('click', performSearch);
-$('searchInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') performSearch();
-});
-$('sortSelect').addEventListener('change', resetAndLoad);
-$('mcVersion').addEventListener('change', resetAndLoad);
-$('loaderSelect').addEventListener('change', resetAndLoad);
-$('editorBtn').addEventListener('click', () => openEditor());
-$('randomBtn').addEventListener('click', () => {
-  randomMode = true;
-  currentQuery = '';
-  $('searchInput').value = '';
-  resetAndLoad();
-});
+$('searchBtn').addEventListener('click',performSearch);
+$('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')performSearch()});
+$('sortSelect').addEventListener('change',resetAndLoad);
+$('mcVersion').addEventListener('change',resetAndLoad);
+$('loaderSelect').addEventListener('change',resetAndLoad);
+$('editorBtn').addEventListener('click',()=>openEditor());
+$('randomBtn').addEventListener('click',()=>{randomMode=true;currentQuery='';$('searchInput').value='';resetAndLoad()});
 
-function performSearch() {
+function performSearch(){
   const now = Date.now();
-  if (now - lastSearch < 600) return;
+  if(now-lastSearch<600) return;
   lastSearch = now;
-  currentQuery = $('searchInput').value.trim().slice(0, 64);
+  currentQuery = $('searchInput').value.trim().slice(0,64);
   randomMode = false;
   resetAndLoad();
 }
-
-function resetAndLoad() {
+function resetAndLoad(){
   reqId++;
-  items = [];
-  offset = 0;
-  hasMore = true;
-  isLoading = false;
-  $('content').innerHTML = '';
+  items=[];offset=0;hasMore=true;isLoading=false;
+  $('content').innerHTML='';
   setSentinel('idle');
   loadMore();
 }
 
-/* ============================================================
-   MODRINTH / CURSEFORGE
-   ============================================================ */
-function buildModrinthQuery() {
+/* MODRINTH/CURSEFORGE */
+function buildModrinthQuery(){
   const cfg = TAB_CONFIG[currentTab];
   const sort = $('sortSelect').value;
   const mc = $('mcVersion').value.trim();
   const loader = $('loaderSelect').value;
-  const facets = [['project_type:' + cfg.type]];
-  if (mc && isValidVersion(mc)) facets.push(['versions:' + mc]);
-  if (loader) facets.push(['categories:' + loader]);
-  const qs = new URLSearchParams({
-    query: currentQuery,
-    facets: JSON.stringify(facets),
-    limit: LIMIT,
-    offset,
-    index: sort
-  });
-  return { qs, key: ['mr', currentTab, currentQuery, sort, mc, loader, offset].join('|') };
+  const facets = [['project_type:'+cfg.type]];
+  if(mc && isValidVersion(mc)) facets.push(['versions:'+mc]);
+  if(loader) facets.push(['categories:'+loader]);
+  const qs = new URLSearchParams({query:currentQuery,facets:JSON.stringify(facets),limit:LIMIT,offset,index:sort});
+  return {qs,key:['mr',currentTab,currentQuery,sort,mc,loader,offset].join('|')};
 }
-
-function buildCurseForgeQuery() {
+function buildCurseForgeQuery(){
   const cfg = TAB_CONFIG[currentTab];
   const sort = $('sortSelect').value;
-  const sortField = sort === 'downloads' ? '6' : sort === 'updated' ? '3' : sort === 'newest' ? '11' : '2';
-  const qs = new URLSearchParams({
-    gameId: '432',
-    classId: cfg.cf,
-    searchFilter: currentQuery,
-    pageSize: LIMIT,
-    index: offset,
-    sortField,
-    sortOrder: 'desc'
-  });
-  return { qs, key: ['cf', currentTab, currentQuery, sort, offset].join('|') };
+  const sortField = sort==='downloads'?'6':sort==='updated'?'3':sort==='newest'?'11':'2';
+  const qs = new URLSearchParams({gameId:'432',classId:cfg.cf,searchFilter:currentQuery,pageSize:LIMIT,index:offset,sortField,sortOrder:'desc'});
+  return {qs,key:['cf',currentTab,currentQuery,sort,offset].join('|')};
 }
-
-async function fetchModrinthPage() {
-  const { qs, key } = buildModrinthQuery();
-  const cached = cacheGet(key);
-  if (cached) return cached;
+async function fetchModrinthPage(){
+  const {qs,key} = buildModrinthQuery();
+  const cached = cacheGet(key);if(cached) return cached;
   const data = await fetchJson(`${MR_API}/search?${qs}`);
-  const result = {
-    list: (data.hits || []).map(i => ({ source: 'modrinth', ...i })),
-    total: data.total_hits ?? 0
-  };
-  cacheSet(key, result);
-  return result;
+  const result = {list:(data.hits||[]).map(i=>({source:'modrinth',...i})),total:data.total_hits??0};
+  cacheSet(key,result);return result;
 }
-
-async function fetchCurseForgePage() {
-  const { qs, key } = buildCurseForgeQuery();
-  const cached = cacheGet(key);
-  if (cached) return cached;
+async function fetchCurseForgePage(){
+  const {qs,key} = buildCurseForgeQuery();
+  const cached = cacheGet(key);if(cached) return cached;
   const data = await fetchJson(`${MCIM_API}/mods/search?${qs}`);
-  const result = {
-    list: (data.data || []).map(i => ({ source: 'curseforge', ...i })),
-    total: data.pagination?.totalCount ?? 0
-  };
-  cacheSet(key, result);
-  return result;
+  const result = {list:(data.data||[]).map(i=>({source:'curseforge',...i})),total:data.pagination?.totalCount??0};
+  cacheSet(key,result);return result;
 }
 
-async function loadMore() {
-  if (isLoading || !hasMore) return;
+async function loadMore(){
+  if(isLoading||!hasMore) return;
   isLoading = true;
   const token = reqId;
-
-  try {
-    if (currentTab === 'skins') {
+  try{
+    if(currentTab==='skins'){
       showSkeletons(8);
       let list = [];
-
-      if (currentQuery && isValidNick(currentQuery)) {
+      if(currentQuery && isValidNick(currentQuery)){
         let names = [currentQuery];
-        try { names = await fetchNamemcSearch(currentQuery); } catch {}
-        list = names.slice(0, SKIN_LIMIT).map(n => ({ source: 'skin', name: n }));
+        try{names = await fetchNamemcSearch(currentQuery)}catch{}
+        list = names.slice(0,SKIN_LIMIT).map(n=>({source:'skin',name:n}));
         hasMore = false;
-      } else if (randomMode) {
+      }else if(randomMode){
         const adjectives = ['Epic','Dark','Fire','Ice','Shadow','Light','Red','Blue','Green','Gold','Diamond','Nether','Ender','Void','Storm','Frost','Blaze','Pixel','Retro','Craft'];
         const nouns = ['Warrior','Mage','Knight','Archer','Ninja','Pirate','King','Dragon','Wolf','Tiger','Phoenix','Golem','Slime','Creeper','Zombie','Skeleton','Wizard','Steve','Alex'];
-        list = Array.from({ length: SKIN_LIMIT }, () => ({
-          source: 'skin',
-          name: adjectives[Math.floor(Math.random() * adjectives.length)] +
-                nouns[Math.floor(Math.random() * nouns.length)] +
-                Math.floor(Math.random() * 100)
-        }));
+        list = Array.from({length:SKIN_LIMIT},()=>({source:'skin',name:adjectives[Math.floor(Math.random()*adjectives.length)]+nouns[Math.floor(Math.random()*nouns.length)]+Math.floor(Math.random()*100)}));
         hasMore = false;
-      } else {
-        if (namemcNames === null) {
-          try {
-            const trending = await fetchNamemcTrending(1);
-            namemcNames = trending.length > 20 ? trending : NICK_POOL;
-          } catch {
-            namemcNames = NICK_POOL;
-          }
+      }else{
+        if(namemcNames === null){
+          try{const trending = await fetchNamemcTrending(1);namemcNames = trending.length>20?trending:NICK_POOL}
+          catch{namemcNames = NICK_POOL}
         }
         const start = offset;
-        list = namemcNames.slice(start, start + SKIN_LIMIT).map(n => ({ source: 'skin', name: n }));
-        hasMore = (offset + SKIN_LIMIT) < namemcNames.length;
+        list = namemcNames.slice(start,start+SKIN_LIMIT).map(n=>({source:'skin',name:n}));
+        hasMore = (offset+SKIN_LIMIT) < namemcNames.length;
       }
-
       removeSkeletons();
-      if (token !== reqId) return;
-      if (!list.length) { hasMore = false; setSentinel('end'); return; }
-      appendCards(list, token);
+      if(token!==reqId) return;
+      if(!list.length){hasMore=false;setSentinel('end');return}
+      appendCards(list,token);
       offset += list.length;
-      setSentinel(hasMore ? 'idle' : 'end');
+      setSentinel(hasMore?'idle':'end');
       return;
     }
 
     showSkeletons(8);
     setSentinel('loading');
-
-    let mrResult = null, cfResult = null, rendered = false;
-
+    let mrResult=null,cfResult=null,rendered=false;
     const handleMr = async () => {
-      try {
-        const r = await fetchModrinthPage();
-        if (token !== reqId) return null;
-        mrResult = r;
-        if (r.list.length) {
-          if (!rendered) { removeSkeletons(); rendered = true; }
-          appendCards(r.list, token);
-        }
-        return r;
-      } catch (e) { console.warn('Modrinth:', e.message); return null; }
+      try{const r = await fetchModrinthPage();if(token!==reqId) return null;mrResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}
+      catch(e){console.warn('Modrinth:',e.message);return null}
     };
-
     const handleCf = async () => {
-      try {
-        const r = await fetchCurseForgePage();
-        if (token !== reqId) return null;
-        cfResult = r;
-        if (r.list.length) {
-          if (!rendered) { removeSkeletons(); rendered = true; }
-          appendCards(r.list, token);
-        }
-        return r;
-      } catch (e) { console.warn('CurseForge:', e.message); return null; }
+      try{const r = await fetchCurseForgePage();if(token!==reqId) return null;cfResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}
+      catch(e){console.warn('CurseForge:',e.message);return null}
     };
-
-    await Promise.all([handleMr(), handleCf()]);
-    if (token !== reqId) return;
+    await Promise.all([handleMr(),handleCf()]);
+    if(token!==reqId) return;
     removeSkeletons();
-    if (!mrResult && !cfResult) throw new Error('Оба источника недоступны');
-
-    const mrTotal = mrResult?.total ?? 0;
-    const cfTotal = cfResult?.total ?? 0;
-    hasMore = (offset + LIMIT) < Math.max(mrTotal, cfTotal);
+    if(!mrResult && !cfResult) throw new Error('Оба источника недоступны');
+    const mrTotal = mrResult?.total??0;
+    const cfTotal = cfResult?.total??0;
+    hasMore = (offset+LIMIT) < Math.max(mrTotal,cfTotal);
     offset += LIMIT;
-    setSentinel(hasMore ? 'idle' : 'end');
-  } catch (e) {
-    if (token !== reqId) return;
+    setSentinel(hasMore?'idle':'end');
+  }catch(e){
+    if(token!==reqId) return;
     console.error(e);
     removeSkeletons();
     hasMore = false;
     const errEl = document.createElement('div');
     errEl.className = 'error';
-    errEl.innerHTML = `Не удалось загрузить.<div class="error-detail">${esc(e.message || '')}</div>`;
+    errEl.innerHTML = `Не удалось загрузить.<div class="error-detail">${esc(e.message||'')}</div>`;
     $('content').appendChild(errEl);
     setSentinel('');
-  } finally {
-    if (token === reqId) isLoading = false;
+  }finally{
+    if(token===reqId) isLoading = false;
   }
 }
 
-/* ============================================================
-   НОРМАЛИЗАЦИЯ + КАРТОЧКИ
-   ============================================================ */
-const normalizeItem = item => item.source === 'modrinth' ? {
-  title: item.title,
-  desc: item.description,
-  icon: item.icon_url,
-  downloads: item.downloads,
-  author: item.author,
-  updated: item.date_modified,
-  id: item.project_id || item.slug,
-  web: `https://modrinth.com/${TAB_CONFIG[currentTab]?.type || 'mod'}/${encodeURIComponent(item.slug)}`
+/* НОРМАЛИЗАЦИЯ */
+const normalizeItem = item => item.source==='modrinth' ? {
+  title:item.title,desc:item.description,icon:item.icon_url,downloads:item.downloads,author:item.author,
+  updated:item.date_modified,id:item.project_id||item.slug,
+  web:`https://modrinth.com/${TAB_CONFIG[currentTab]?.type||'mod'}/${encodeURIComponent(item.slug)}`
 } : {
-  title: item.name,
-  desc: item.summary,
-  icon: item.logo?.url,
-  downloads: item.downloadCount,
-  author: item.authors?.[0]?.name || 'Неизвестно',
-  updated: item.dateModified,
-  id: item.id,
-  web: item.links?.websiteUrl
+  title:item.name,desc:item.summary,icon:item.logo?.url,downloads:item.downloadCount,author:item.authors?.[0]?.name||'Неизвестно',
+  updated:item.dateModified,id:item.id,web:item.links?.websiteUrl
 };
 
 const SKIN_SOURCES = [
@@ -1309,433 +882,257 @@ const SKIN_SOURCES = [
   n => `https://mc-heads.net/body/${encodeURIComponent(n)}/180`,
   n => `https://minotar.net/skin/${encodeURIComponent(n)}`
 ];
+function skinRenderUrl(name,step=0){return SKIN_SOURCES[Math.min(Math.max(0,step|0),SKIN_SOURCES.length-1)](name)}
+function skinTextureUrl(name){return `https://minotar.net/skin/${encodeURIComponent(name)}`}
+function skinDownloadUrl(name){return `https://minotar.net/download/${encodeURIComponent(name)}`}
 
-function skinRenderUrl(name, step = 0) {
-  return SKIN_SOURCES[Math.min(Math.max(0, step | 0), SKIN_SOURCES.length - 1)](name);
-}
-
-function skinTextureUrl(name) {
-  return `https://minotar.net/skin/${encodeURIComponent(name)}`;
-}
-
-function skinDownloadUrl(name) {
-  return `https://minotar.net/download/${encodeURIComponent(name)}`;
-}
-
-function buildCardHTML(item, globalIndex) {
-  if (item.source === 'skin') {
-    const src = skinRenderUrl(item.name, 0);
-    return `<article class="card" data-i="${globalIndex}" tabindex="0">
-      <img src="${esc(src)}" alt="${esc(item.name)}" class="card-image skin" loading="lazy" data-skin-name="${esc(item.name)}" data-skin-step="0" data-skin-fallback>
-      <div class="card-content">
-        <h3 class="card-title">${esc(item.name)}</h3>
-        <p class="card-description">Клик — 3D-просмотр и скачивание</p>
-      </div>
-    </article>`;
+function buildCardHTML(item,globalIndex){
+  if(item.source==='skin'){
+    const src = skinRenderUrl(item.name,0);
+    return `<article class="card" data-i="${globalIndex}" tabindex="0"><img src="${esc(src)}" alt="${esc(item.name)}" class="card-image skin" loading="lazy" data-skin-name="${esc(item.name)}" data-skin-step="0" data-skin-fallback><div class="card-content"><h3 class="card-title">${esc(item.name)}</h3><p class="card-description">Клик — 3D-просмотр и скачивание</p></div></article>`;
   }
   const n = normalizeItem(item);
-  return `<article class="card" data-i="${globalIndex}" tabindex="0">
-    <img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="card-image" loading="lazy" referrerpolicy="no-referrer" data-fallback>
-    <div class="card-content">
-      <h3 class="card-title">${esc(n.title)}</h3>
-      <p class="card-description" data-orig="${esc(n.desc || '')}">${esc(n.desc || 'Описание отсутствует')}</p>
-      <span class="tag">${item.source === 'modrinth' ? 'Modrinth' : 'CurseForge'}</span>
-      <div class="card-stats">
-        <span>📥 ${formatNumber(n.downloads)}</span>
-        <span>👤 ${esc(n.author)}</span>
-      </div>
-    </div>
-  </article>`;
+  return `<article class="card" data-i="${globalIndex}" tabindex="0"><img src="${esc(safeUrl(n.icon)||NO_IMG)}" alt="${esc(n.title)}" class="card-image" loading="lazy" referrerpolicy="no-referrer" data-fallback><div class="card-content"><h3 class="card-title">${esc(n.title)}</h3><p class="card-description" data-orig="${esc(n.desc||'')}">${esc(n.desc||'Описание отсутствует')}</p><span class="tag">${item.source==='modrinth'?'Modrinth':'CurseForge'}</span><div class="card-stats"><span>📥 ${formatNumber(n.downloads)}</span><span>👤 ${esc(n.author)}</span></div></div></article>`;
 }
 
-function appendCards(list, token) {
+function appendCards(list,token){
   let grid = $('content').querySelector('.grid');
-  if (!grid) {
-    grid = document.createElement('div');
-    grid.className = 'grid';
-    $('content').appendChild(grid);
-  }
+  if(!grid){grid=document.createElement('div');grid.className='grid';$('content').appendChild(grid)}
   const startIdx = items.length;
-  grid.insertAdjacentHTML('beforeend',
-    list.map((it, i) => buildCardHTML(it, startIdx + i)).join(''));
+  grid.insertAdjacentHTML('beforeend',list.map((it,i)=>buildCardHTML(it,startIdx+i)).join(''));
   items.push(...list);
-  if (currentTab !== 'skins') {
+  if(currentTab!=='skins'){
     const cards = [...grid.children].slice(startIdx);
-    const queue = cards.map(c => c.querySelector('.card-description[data-orig]')).filter(Boolean);
-    translateQueue(queue, token);
+    const queue = cards.map(c=>c.querySelector('.card-description[data-orig]')).filter(Boolean);
+    translateQueue(queue,token);
   }
 }
 
-/* ============================================================
-   IMG ERROR HANDLER
-   ============================================================ */
-document.addEventListener('error', e => {
+document.addEventListener('error',e=>{
   const img = e.target;
-  if (!img || img.tagName !== 'IMG') return;
-  if (img.hasAttribute('data-skin-fallback')) {
+  if(!img||img.tagName!=='IMG') return;
+  if(img.hasAttribute('data-skin-fallback')){
     const step = +img.dataset.skinStep + 1;
-    if (step < SKIN_SOURCES.length) {
-      img.dataset.skinStep = step;
-      img.src = skinRenderUrl(img.dataset.skinName, step);
-      return;
-    }
-    img.src = NO_IMG;
-    return;
+    if(step < SKIN_SOURCES.length){img.dataset.skinStep=step;img.src=skinRenderUrl(img.dataset.skinName,step);return}
+    img.src = NO_IMG;return;
   }
-  if (img.hasAttribute('data-fallback') && img.src !== NO_IMG) {
-    img.src = NO_IMG;
-  }
-}, true);
+  if(img.hasAttribute('data-fallback') && img.src!==NO_IMG) img.src = NO_IMG;
+},true);
 
-$('content').addEventListener('click', e => {
+$('content').addEventListener('click',e=>{
   const card = e.target.closest('.card');
-  if (card && !card.classList.contains('skeleton-card')) {
-    showDetails(items[+card.dataset.i]);
-  }
+  if(card && !card.classList.contains('skeleton-card')) showDetails(items[+card.dataset.i]);
+});
+$('content').addEventListener('keydown',e=>{
+  const card = e.target.closest('.card');
+  if(card && !card.classList.contains('skeleton-card') && (e.key==='Enter'||e.key===' ')){e.preventDefault();showDetails(items[+card.dataset.i])}
 });
 
-$('content').addEventListener('keydown', e => {
-  const card = e.target.closest('.card');
-  if (card && !card.classList.contains('skeleton-card') &&
-      (e.key === 'Enter' || e.key === ' ')) {
-    e.preventDefault();
-    showDetails(items[+card.dataset.i]);
-  }
-});
-
-/* ============================================================
-   МОДАЛЬНОЕ ОКНО ДЕТАЛЕЙ
-   ============================================================ */
+/* МОДАЛКА */
 let lastFocused = null;
 let modalViewer = null;
-
-function trapFocus(e) {
-  if (e.key !== 'Tab') return;
+function trapFocus(e){
+  if(e.key!=='Tab') return;
   const activeModal = $$('.modal.active').pop();
-  if (!activeModal) return;
-  const focusables = [...activeModal.querySelectorAll(
-    'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-  )].filter(el => el.offsetParent !== null);
-  if (!focusables.length) return;
+  if(!activeModal) return;
+  const focusables = [...activeModal.querySelectorAll('button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);
+  if(!focusables.length) return;
   const first = focusables[0];
-  const last = focusables[focusables.length - 1];
-  if (e.shiftKey && document.activeElement === first) {
-    e.preventDefault();
-    last.focus();
-  } else if (!e.shiftKey && document.activeElement === last) {
-    e.preventDefault();
-    first.focus();
-  }
+  const last = focusables[focusables.length-1];
+  if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus()}
 }
 
-function createSkinViewer(container, skinUrl, opts = {}) {
-  if (typeof skinview3d === 'undefined' || typeof THREE === 'undefined') {
+function createSkinViewer(container,skinUrl,opts={}){
+  if(typeof skinview3d==='undefined' || typeof THREE==='undefined'){
     const img = document.createElement('img');
-    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
+    img.src = skinRenderUrl(skinUrl.split('/').pop(),0);
     img.alt = 'Skin preview';
-    img.onerror = () => { img.src = NO_IMG; };
+    img.onerror = ()=>{img.src=NO_IMG};
     container.appendChild(img);
     return null;
   }
-  try {
-    const viewer = new skinview3d.SkinViewer({
-      canvas: document.createElement('canvas'),
-      width: container.clientWidth || 400,
-      height: container.clientHeight || 400,
-      skin: skinUrl
-    });
-    viewer.controls.enableZoom = opts.zoom !== false;
+  try{
+    const viewer = new skinview3d.SkinViewer({canvas:document.createElement('canvas'),width:container.clientWidth||400,height:container.clientHeight||400,skin:skinUrl});
+    viewer.controls.enableZoom = opts.zoom!==false;
     viewer.controls.enableRotate = true;
     viewer.controls.enablePan = false;
     viewer.camera.position.z = 60;
-    if (opts.animation) {
-      viewer.animation = new skinview3d.WalkingAnimation();
-      viewer.animation.speed = 1;
-    }
-    try {
-      viewer.renderer.setClearColor(0x000000, 0);
-      viewer.renderer.setClearAlpha(0);
-    } catch {}
+    if(opts.animation){viewer.animation = new skinview3d.WalkingAnimation();viewer.animation.speed = 1}
+    try{viewer.renderer.setClearColor(0x000000,0);viewer.renderer.setClearAlpha(0)}catch{}
     viewer.canvas.style.background = 'transparent';
     container.appendChild(viewer.canvas);
-    viewer.renderer.setAnimationLoop(() => {
-      viewer.renderer.render(viewer.scene, viewer.camera);
-    });
+    viewer.renderer.setAnimationLoop(()=>{viewer.renderer.render(viewer.scene,viewer.camera)});
     return viewer;
-  } catch (e) {
-    console.warn('skinview3d failed:', e);
+  }catch(e){
+    console.warn('skinview3d failed:',e);
     const img = document.createElement('img');
-    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
+    img.src = skinRenderUrl(skinUrl.split('/').pop(),0);
     img.alt = 'Skin preview';
-    img.onerror = () => { img.src = NO_IMG; };
+    img.onerror = ()=>{img.src=NO_IMG};
     container.appendChild(img);
     return null;
   }
 }
 
-async function showDetails(item) {
-  if (!item) return;
+async function showDetails(item){
+  if(!item) return;
   let html;
-  const isSkin = item.source === 'skin';
-
-  if (isSkin) {
+  const isSkin = item.source==='skin';
+  if(isSkin){
     $('modalTitle').textContent = item.name;
-    html = `
-      <div class="modal-3d-viewport" id="modal3d"></div>
-      <div class="modal-actions">
-        <button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}">Скачать скин</button>
-        <button class="btn btn-secondary" id="editSkinBtn" data-skin-name="${esc(item.name)}">✏️ Редактировать</button>
-      </div>`;
-  } else {
+    html = `<div class="modal-3d-viewport" id="modal3d"></div><div class="modal-actions"><button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}">Скачать скин</button><button class="btn btn-secondary" id="editSkinBtn" data-skin-name="${esc(item.name)}">✏️ Редактировать</button></div>`;
+  }else{
     const n = normalizeItem(item);
     const date = n.updated ? new Date(n.updated).toLocaleDateString('ru-RU') : '—';
     const web = safeUrl(n.web);
     $('modalTitle').textContent = n.title;
-    html = `
-      <img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="card-image" style="height:300px;border-radius:1.5rem;margin-bottom:1.5rem" referrerpolicy="no-referrer" data-fallback>
-      <div class="version-picker">
-        <div class="version-picker-title">Выберите версию:</div>
-        <div class="version-picker-row">
-          <select class="filter-select" id="modalVersion"><option>Загрузка...</option></select>
-          <select class="filter-select" id="modalLoader"><option>Загрузка...</option></select>
-        </div>
-      </div>
-      <p class="modal-description" id="modalDesc">${esc(n.desc || 'Описание отсутствует')}</p>
-      <div class="modal-actions">
-        <button class="btn" id="dlBtn" data-source="${item.source}" data-id="${esc(safeId(n.id))}">Скачать</button>
-        ${web ? `<a class="btn btn-secondary" href="${esc(web)}" target="_blank" rel="noopener noreferrer">Открыть на сайте</a>` : ''}
-      </div>`;
+    html = `<img src="${esc(safeUrl(n.icon)||NO_IMG)}" alt="${esc(n.title)}" class="card-image" style="height:300px;border-radius:1.5rem;margin-bottom:1.5rem" referrerpolicy="no-referrer" data-fallback><div class="version-picker"><div class="version-picker-title">Выберите версию:</div><div class="version-picker-row"><select class="filter-select" id="modalVersion"><option>Загрузка...</option></select><select class="filter-select" id="modalLoader"><option>Загрузка...</option></select></div></div><p class="modal-description" id="modalDesc">${esc(n.desc||'Описание отсутствует')}</p><div class="modal-actions"><button class="btn" id="dlBtn" data-source="${item.source}" data-id="${esc(safeId(n.id))}">Скачать</button>${web?`<a class="btn btn-secondary" href="${esc(web)}" target="_blank" rel="noopener noreferrer">Открыть на сайте</a>`:''}</div>`;
   }
-
   $('modalBody').innerHTML = html;
   lastFocused = document.activeElement;
   $('detailModal').classList.add('active');
   document.body.classList.add('lock');
   $('modalClose').focus();
-
-  if (isSkin) {
+  if(isSkin){
     const vp = $('modal3d');
-    if (vp) {
-      setTimeout(() => {
-        modalViewer = createSkinViewer(vp, skinTextureUrl(item.name), {
-          animation: true,
-          zoom: true
-        });
-      }, 50);
-    }
-  } else {
-    const d = item.source === 'modrinth' ? item.description : item.summary;
-    const ru = await translate(d || '');
+    if(vp) setTimeout(()=>{modalViewer = createSkinViewer(vp,skinTextureUrl(item.name),{animation:true,zoom:true})},50);
+  }else{
+    const d = item.source==='modrinth' ? item.description : item.summary;
+    const ru = await translate(d||'');
     const el = $('modalDesc');
-    if (el && d) el.textContent = ru;
-    loadVersions(item).catch(err => console.warn(err));
+    if(el && d) el.textContent = ru;
+    loadVersions(item).catch(err=>console.warn(err));
   }
 }
 
-async function loadVersions(item) {
+async function loadVersions(item){
   const vSel = $('modalVersion');
   const lSel = $('modalLoader');
-  if (!vSel) return;
-  const id = safeId(item.source === 'modrinth' ? (item.project_id || item.slug) : item.id);
-  if (!id) return;
-  try {
+  if(!vSel) return;
+  const id = safeId(item.source==='modrinth' ? (item.project_id||item.slug) : item.id);
+  if(!id) return;
+  try{
     let versions = [];
-    if (item.source === 'modrinth') {
+    if(item.source==='modrinth'){
       const v = await fetchJson(`${MR_API}/project/${id}/version`);
-      versions = (v || []).map(x => ({ id: x.id, mc: x.game_versions || [], loaders: x.loaders || [] }));
-    } else {
+      versions = (v||[]).map(x=>({id:x.id,mc:x.game_versions||[],loaders:x.loaders||[]}));
+    }else{
       const f = await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
-      versions = (f.data || []).map(x => ({
-        id: x.id,
-        mc: (x.gameVersions || []).filter(g => /^\d/.test(g)),
-        loaders: x.modLoader ? [x.modLoader] : []
-      }));
+      versions = (f.data||[]).map(x=>({id:x.id,mc:(x.gameVersions||[]).filter(g=>/^\d/.test(g)),loaders:x.modLoader?[x.modLoader]:[]}));
     }
     const mcSet = new Set();
     const loaderSet = new Set();
-    versions.forEach(v => {
-      v.mc.forEach(m => mcSet.add(m));
-      v.loaders.forEach(l => loaderSet.add(l));
-    });
-    const mcs = [...mcSet].sort((a, b) => compareVersions(b, a));
+    versions.forEach(v=>{v.mc.forEach(m=>mcSet.add(m));v.loaders.forEach(l=>loaderSet.add(l))});
+    const mcs = [...mcSet].sort((a,b)=>compareVersions(b,a));
     const loaders = [...loaderSet].sort();
-
-    vSel.innerHTML = mcs.length ? mcs.map(m => `<option>${esc(m)}</option>`).join('') : '<option value="">—</option>';
-    lSel.innerHTML = '<option value="">Любой</option>' + loaders.map(l => `<option>${esc(l)}</option>`).join('');
-
+    vSel.innerHTML = mcs.length ? mcs.map(m=>`<option>${esc(m)}</option>`).join('') : '<option value="">—</option>';
+    lSel.innerHTML = '<option value="">Любой</option>' + loaders.map(l=>`<option>${esc(l)}</option>`).join('');
     const userMc = $('mcVersion').value.trim();
-    if (userMc && mcs.includes(userMc)) vSel.value = userMc;
+    if(userMc && mcs.includes(userMc)) vSel.value = userMc;
     const userLoader = $('loaderSelect').value;
-    if (userLoader && loaders.includes(userLoader)) lSel.value = userLoader;
-  } catch {
+    if(userLoader && loaders.includes(userLoader)) lSel.value = userLoader;
+  }catch{
     vSel.innerHTML = '<option value="">Ошибка</option>';
     lSel.innerHTML = '<option value="">—</option>';
   }
 }
 
-function compareVersions(a, b) {
-  const pa = String(a).split('.').map(Number);
-  const pb = String(b).split('.').map(Number);
-  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-    const d = (pa[i] || 0) - (pb[i] || 0);
-    if (d) return d;
-  }
-  return 0;
-}
+function compareVersions(a,b){const pa=String(a).split('.').map(Number);const pb=String(b).split('.').map(Number);for(let i=0;i<Math.max(pa.length,pb.length);i++){const d=(pa[i]||0)-(pb[i]||0);if(d)return d}return 0}
 
-function closeModal() {
+function closeModal(){
   $('detailModal').classList.remove('active');
   document.body.classList.remove('lock');
-  if (modalViewer) {
-    try {
-      modalViewer.renderer.setAnimationLoop(null);
-      modalViewer.dispose();
-    } catch {}
-    modalViewer = null;
-  }
+  if(modalViewer){try{modalViewer.renderer.setAnimationLoop(null);modalViewer.dispose()}catch{};modalViewer=null}
   $('modalBody').innerHTML = '';
-  if (lastFocused && document.contains(lastFocused)) lastFocused.focus();
+  if(lastFocused && document.contains(lastFocused)) lastFocused.focus();
   lastFocused = null;
 }
-
-$('modalClose').addEventListener('click', closeModal);
-$('detailModal').addEventListener('click', e => {
-  if (e.target.id === 'detailModal') closeModal();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeModal();
-    closeThemeEditor(true);
-  }
+$('modalClose').addEventListener('click',closeModal);
+$('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal') closeModal()});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeModal();closeThemeEditor(true)}
   trapFocus(e);
 });
-
-$('modalBody').addEventListener('click', e => {
+$('modalBody').addEventListener('click',e=>{
   const b = e.target.closest('#dlBtn');
-  if (b) downloadDirect(b.dataset.source, b.dataset.id, b);
+  if(b) downloadDirect(b.dataset.source,b.dataset.id,b);
   const editBtn = e.target.closest('#editSkinBtn');
-  if (editBtn) {
-    const name = editBtn.dataset.skinName;
-    closeModal();
-    setTimeout(() => openEditor(name), 100);
-  }
+  if(editBtn){const name = editBtn.dataset.skinName;closeModal();setTimeout(()=>openEditor(name),100)}
 });
+$('themeModalClose').addEventListener('click',()=>closeThemeEditor(true));
+$('themeModal').addEventListener('click',e=>{if(e.target.id==='themeModal') closeThemeEditor(true)});
+$('ct-cancel').addEventListener('click',()=>closeThemeEditor(true));
+$('ct-save').addEventListener('click',saveCustomTheme);
 
-$('themeModalClose').addEventListener('click', () => closeThemeEditor(true));
-$('themeModal').addEventListener('click', e => {
-  if (e.target.id === 'themeModal') closeThemeEditor(true);
-});
-$('ct-cancel').addEventListener('click', () => closeThemeEditor(true));
-$('ct-save').addEventListener('click', saveCustomTheme);
-
-/* ============================================================
-   СКАЧИВАНИЕ
-   ============================================================ */
-async function downloadDirect(source, id, btn) {
-  if (!id) { toast('Некорректный ID', 'error'); return; }
+/* СКАЧИВАНИЕ */
+async function downloadDirect(source,id,btn){
+  if(!id){toast('Некорректный ID','error');return}
   const old = btn.textContent;
   btn.disabled = true;
   btn.textContent = 'Подготовка...';
-  try {
+  try{
     let url = '', filename = 'download';
-
-    if (source === 'skin') {
-      url = skinDownloadUrl(id);
-      filename = id + '.png';
-    } else if (source === 'modrinth') {
+    if(source==='skin'){url = skinDownloadUrl(id);filename = id+'.png'}
+    else if(source==='modrinth'){
       const v = await fetchJson(`${MR_API}/project/${id}/version`);
-      if (!v?.length) { toast('Файлы не найдены', 'error'); return; }
-      const wantMc = $('modalVersion')?.value || '';
-      const wantLoader = $('modalLoader')?.value || '';
-      let pick = v.find(x =>
-        (!wantMc || (x.game_versions || []).includes(wantMc)) &&
-        (!wantLoader || (x.loaders || []).includes(wantLoader))
-      );
-      if (!pick) { toast('Беру последнюю версию', 'info'); pick = v[0]; }
-      const file = (pick.files || []).find(x => x.primary) || (pick.files || [])[0];
-      if (!file) { toast('Файл не найден', 'error'); return; }
-      url = file.url;
-      filename = file.filename || 'mod.jar';
-    } else {
+      if(!v?.length){toast('Файлы не найдены','error');return}
+      const wantMc = $('modalVersion')?.value||'';
+      const wantLoader = $('modalLoader')?.value||'';
+      let pick = v.find(x=>(!wantMc||(x.game_versions||[]).includes(wantMc))&&(!wantLoader||(x.loaders||[]).includes(wantLoader)));
+      if(!pick){toast('Беру последнюю версию','info');pick=v[0]}
+      const file = (pick.files||[]).find(x=>x.primary)||(pick.files||[])[0];
+      if(!file){toast('Файл не найден','error');return}
+      url = file.url;filename = file.filename||'mod.jar';
+    }else{
       const f = await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
-      if (!f.data?.length) { toast('Файлы не найдены', 'error'); return; }
-      const wantMc = $('modalVersion')?.value || '';
-      const wantLoader = $('modalLoader')?.value || '';
-      let pick = f.data.find(x => {
-        const mcOk = !wantMc || (x.gameVersions || []).includes(wantMc);
-        const ldOk = !wantLoader || x.modLoader === wantLoader;
-        return mcOk && ldOk;
-      });
-      if (!pick) { toast('Беру последнюю версию', 'info'); pick = f.data[0]; }
-      const fid = safeId(pick.id);
-      if (!fid) { toast('Некорректный ID', 'error'); return; }
-      filename = pick.fileName || 'mod.jar';
+      if(!f.data?.length){toast('Файлы не найдены','error');return}
+      const wantMc = $('modalVersion')?.value||'';
+      const wantLoader = $('modalLoader')?.value||'';
+      let pick = f.data.find(x=>{const mcOk=!wantMc||(x.gameVersions||[]).includes(wantMc);const ldOk=!wantLoader||x.modLoader===wantLoader;return mcOk&&ldOk});
+      if(!pick){toast('Беру последнюю версию','info');pick=f.data[0]}
+      const fid = safeId(pick.id);if(!fid){toast('Некорректный ID','error');return}
+      filename = pick.fileName||'mod.jar';
       const dl = await fetchJson(`${MCIM_API}/mods/${id}/files/${fid}/download-url`);
-      if (!dl.data) { toast('Автор запретил скачивание', 'error'); return; }
+      if(!dl.data){toast('Автор запретил скачивание','error');return}
       url = dl.data;
     }
-
     const safe = safeUrl(url);
-    if (!safe) { toast('Некорректная ссылка', 'error'); return; }
+    if(!safe){toast('Некорректная ссылка','error');return}
     const a = document.createElement('a');
-    a.href = safe;
-    a.download = filename;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    toast('Скачивание: ' + filename, 'ok');
-  } catch (e) {
-    console.error(e);
-    toast('Ошибка: ' + (e.message || 'не удалось'), 'error');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = old;
-  }
+    a.href = safe;a.download = filename;a.target = '_blank';a.rel = 'noopener';
+    document.body.appendChild(a);a.click();a.remove();
+    toast('Скачивание: '+filename,'ok');
+  }catch(e){console.error(e);toast('Ошибка: '+(e.message||'не удалось'),'error')}
+  finally{btn.disabled=false;btn.textContent=old}
 }
 
-/* ============================================================
-   ФОРМАТИРОВАНИЕ
-   ============================================================ */
-function formatNumber(n) {
-  n = Number(n) || 0;
-  if (n >= 1e6) {
-    const v = n / 1e6;
-    return (v >= 100 ? Math.round(v) : (Math.round(v * 10) / 10).toString().replace(/\.0$/, '')) + 'M';
-  }
-  if (n >= 1000) {
-    const v = n / 1000;
-    return (v >= 999.5
-      ? (Math.round(n / 1e5) / 10).toString().replace(/\.0$/, '') + 'M'
-      : (Math.round(v * 10) / 10).toString().replace(/\.0$/, '') + 'K');
-  }
+/* ФОРМАТ */
+function formatNumber(n){
+  n = Number(n)||0;
+  if(n>=1e6){const v=n/1e6;return(v>=100?Math.round(v):(Math.round(v*10)/10).toString().replace(/\.0$/,''))+'M'}
+  if(n>=1000){const v=n/1000;return(v>=999.5?(Math.round(n/1e5)/10).toString().replace(/\.0$/,'')+'M':(Math.round(v*10)/10).toString().replace(/\.0$/,'')+'K')}
   return String(n);
 }
 
-/* ============================================================
-   ИСТОЧНИК СКИНОВ
-   ============================================================ */
-async function fetchNamemcTrending(page = 1) {
+/* ИСТОЧНИК СКИНОВ */
+async function fetchNamemcTrending(page=1){
   const html = await fetchViaProxy(`https://namemc.com/skins/trending?page=${page}`);
-  const names = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m => m[1]);
-  return [...new Set(names)].filter(n => isValidNick(n)).slice(0, 60);
+  const names = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m=>m[1]);
+  return [...new Set(names)].filter(n=>isValidNick(n)).slice(0,60);
 }
-
-async function fetchNamemcSearch(query) {
+async function fetchNamemcSearch(query){
   const html = await fetchViaProxy(`https://namemc.com/search?q=${encodeURIComponent(query)}`);
-  const matches = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m => m[1]);
-  const uniq = [...new Set(matches)].filter(n => isValidNick(n));
+  const matches = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m=>m[1]);
+  const uniq = [...new Set(matches)].filter(n=>isValidNick(n));
   return uniq.length ? uniq : [query];
 }
-   /* ============================================================
-   РЕДАКТОР СКИНОВ — v4 (PMCSkin3D-style)
-   ============================================================ */
+/* РЕДАКТОР СКИНОВ — v7 */
 const SKIN_SIZE = 64;
 const SKIN_PIXEL = 8;
 let editorState = null;
 
-async function openEditor(skinName) {
+async function openEditor(skinName){
   editorActive = true;
   $('searchContainer').classList.add('hidden');
   sentinel.classList.add('hidden');
@@ -1757,16 +1154,24 @@ async function openEditor(skinName) {
           </div>
           <div id="ed-3d"></div>
           <div id="ed-2d" style="display:none"></div>
-          <p class="editor-hint" id="ed-hint">Рисуй прямо на 3D-модели. Клик по руке — пиксель руки. ЛКМ рисует, ПКМ вращает.</p>
+          <p class="editor-hint" id="ed-hint">Рисуй прямо на 3D-модели. ЛКМ рисует, ПКМ вращает. На слое «Оверлей» появляются кубики-границы.</p>
         </div>
         <div class="editor-sidebar">
           <div class="editor-section">
             <div class="editor-section-title">Инструменты</div>
             <div class="editor-tools">
-              <button class="editor-tool active" data-tool="pencil" title="Карандаш">✏️</button>
-              <button class="editor-tool" data-tool="eraser" title="Ластик">🧹</button>
-              <button class="editor-tool" data-tool="fill" title="Заливка">🪣</button>
-              <button class="editor-tool" data-tool="picker" title="Пипетка">🎯</button>
+              <button class="editor-tool active" data-tool="pencil" title="Карандаш">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+              </button>
+              <button class="editor-tool" data-tool="eraser" title="Ластик">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16c-.6-.6-.6-1.6 0-2.2L14.4 2.4c.6-.6 1.6-.6 2.2 0l5 5c.6.6.6 1.6 0 2.2L10 21"/><path d="M6 20l8-8"/></svg>
+              </button>
+              <button class="editor-tool" data-tool="fill" title="Заливка">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11l-8-8-8.6 8.6c-.8.8-.8 2 0 2.8L7 19c.8.8 2 .8 2.8 0L19 9.8V11z"/><path d="M5 2l3 3"/><path d="M2 21h18"/><path d="M11 15c0 2 1 3 3 3s3-1 3-3c0-1-1.5-2.5-3-4-1.5 1.5-3 3-3 4z" fill="currentColor" stroke="none"/></svg>
+              </button>
+              <button class="editor-tool" data-tool="picker" title="Пипетка">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22l1-3 7-7 3 3-7 7-3 1z"/><path d="M17 8l2-2 3 3-2 2-3-3z"/><path d="M13 12l5-5-3-3-5 5 3 3z"/><circle cx="17" cy="7" r="3"/></svg>
+              </button>
             </div>
           </div>
           <div class="editor-section">
@@ -1787,7 +1192,7 @@ async function openEditor(skinName) {
                 <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
               </button>
             </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4">Базовый — тело, оверлей — шапка и куртка.</p>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4">Базовый — тело. Оверлей — шапка и куртка (с подсветкой границ).</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
@@ -1809,7 +1214,6 @@ async function openEditor(skinName) {
       <input type="file" id="ed-file" accept="image/png" hidden>
     </div>`;
 
-  // === ГЛАВНЫЙ КАНВАС 64×64 ===
   const canvas = document.createElement('canvas');
   canvas.width = SKIN_SIZE;
   canvas.height = SKIN_SIZE;
@@ -1830,12 +1234,10 @@ async function openEditor(skinName) {
     refreshTimer: null,
     flatCanvas: null,
     flatCtx: null,
-    outerMeshes: [],
-    innerMeshes: [],
+    wireframes: [],
     mousemoveThrottle: null
   };
 
-  // === Палитра ===
   const palette = [
     '#000000','#3F3F3F','#7F7F7F','#BFBFBF','#FFFFFF',
     '#7F0000','#FF0000','#FF7F00','#FFBF00','#FFFF00',
@@ -1860,7 +1262,7 @@ async function openEditor(skinName) {
     palEl.appendChild(b);
   });
 
-  function setColor(c) {
+  function setColor(c){
     editorState.color = c;
     $('ed-color').value = c;
     $('ed-color-label').textContent = c;
@@ -1877,7 +1279,7 @@ async function openEditor(skinName) {
     b.classList.add('active');
   }));
 
-  // === 3D VIEWER ===
+  /* 3D VIEWER */
   const ed3d = $('ed-3d');
   let viewer = null;
 
@@ -1892,12 +1294,19 @@ async function openEditor(skinName) {
       viewer.controls.enableZoom = true;
       viewer.controls.enableRotate = true;
       viewer.controls.enablePan = false;
-      // ПКМ для вращения (PMCSkin3D стиль)
-      viewer.controls.mouseButtons = {
-        LEFT: null,
-        MIDDLE: THREE.MOUSE.DOLLY,
-        RIGHT: THREE.MOUSE.ROTATE
-      };
+      try {
+        viewer.controls.mouseButtons = {
+          LEFT: -1,
+          MIDDLE: THREE.MOUSE.DOLLY,
+          RIGHT: THREE.MOUSE.ROTATE
+        };
+        viewer.controls.touches = {
+          ONE: -1,
+          TWO: THREE.TOUCH.DOLLY_ROTATE
+        };
+      } catch (e) {
+        console.warn('mouseButtons config failed:', e);
+      }
       viewer.camera.position.z = 70;
       try {
         viewer.renderer.setClearColor(0x000000, 0);
@@ -1907,104 +1316,65 @@ async function openEditor(skinName) {
       viewer.canvas.style.cursor = 'crosshair';
       viewer.canvas.addEventListener('contextmenu', e => e.preventDefault());
       ed3d.appendChild(viewer.canvas);
-      viewer.renderer.setAnimationLoop(() => {
-        viewer.renderer.render(viewer.scene, viewer.camera);
-      });
       editorState.viewer = viewer;
       editorState.raycaster = new THREE.Raycaster();
       editorState.mouseVec = new THREE.Vector2();
     } catch (e) {
       console.warn('viewer failed:', e);
-      ed3d.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">3D недоступно. Работай в режиме «Сетка».</p>';
+      ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно. Работай в режиме «Сетка».</p>';
     }
   } else {
-    ed3d.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">3D недоступно.</p>';
+    ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно.</p>';
   }
 
-  // === КЛАССИФИКАЦИЯ МЕШЕЙ ===
-  function classifyMeshes() {
+  /* КУБИКИ-ГРАНИЦЫ ЧЕРЕЗ BoxHelper */
+  function updateOverlayWireframe(show){
     const v = editorState.viewer;
-    if (!v || !v.playerObject) return;
-    const outer = [], inner = [];
+    if (!v) return;
 
-    // В skinview3d у playerObject есть ссылки на части скина
-    // Формат: { head, body, rightArm, leftArm, rightLeg, leftLeg }
-    // У каждой части материал — массив из двух элементов: [inner, outer]
-    const tryPart = (part) => {
-      if (!part) return;
-      part.traverse(obj => {
-        if (!obj.isMesh) return;
-        const n = (obj.name || '').toLowerCase();
-        if (n.includes('cape') || n.includes('elytra')) return;
-        // По имени
-        if (/outer|hat|jacket|sleeve|overlay/i.test(n)) outer.push(obj);
-        else inner.push(obj);
-      });
-    };
-
-    const skin = v.playerObject.skin;
-    if (skin) {
-      tryPart(skin.head);
-      tryPart(skin.body);
-      tryPart(skin.rightArm || skin.armR);
-      tryPart(skin.leftArm || skin.armL);
-      tryPart(skin.rightLeg || skin.legR);
-      tryPart(skin.leftLeg || skin.legL);
-    } else {
-      // Фолбэк — traverse всё
-      tryPart(v.playerObject);
-    }
-
-    // Если нашли ноль outer — попробуем через material массив
-    if (outer.length === 0) {
-      v.playerObject.traverse(obj => {
-        if (!obj.isMesh) return;
-        const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-        if (mats.length > 1) outer.push(obj);
-        else inner.push(obj);
-      });
-    }
-
-    editorState.outerMeshes = outer;
-    editorState.innerMeshes = inner;
-    console.log('[Editor] meshes — inner:', inner.length, 'outer:', outer.length);
-  }
-
-  function setOuterVisible(visible) {
-    const v = editorState.viewer;
-    if (!v || !v.playerObject) return;
-
-    // Метод 1: скрыть меши из списка outerMeshes
-    editorState.outerMeshes.forEach(obj => {
-      obj.visible = visible;
+    // Убираем старые
+    editorState.wireframes.forEach(w => {
+      try {
+        v.scene.remove(w);
+        if (w.geometry) w.geometry.dispose();
+        if (w.material) {
+          if (Array.isArray(w.material)) w.material.forEach(m => m.dispose());
+          else w.material.dispose();
+        }
+      } catch (e) {}
     });
+    editorState.wireframes = [];
 
-    // Метод 2: для мешей с двумя материалами — скрыть второй
+    if (!show) return;
+
+    // Рисуем BoxHelper вокруг каждого меша
     v.playerObject.traverse(obj => {
       if (!obj.isMesh) return;
       const n = (obj.name || '').toLowerCase();
       if (n.includes('cape') || n.includes('elytra')) return;
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      if (mats.length > 1) {
-        for (let i = 1; i < mats.length; i++) {
-          if (mats[i]) mats[i].visible = visible;
-        }
+
+      try {
+        const helper = new THREE.BoxHelper(obj, 0x38BDF8);
+        helper.material.transparent = true;
+        helper.material.opacity = 0.9;
+        helper.material.depthTest = false;
+        helper.renderOrder = 999;
+        v.scene.add(helper);
+        editorState.wireframes.push(helper);
+      } catch (e) {
+        console.warn('BoxHelper failed:', e);
       }
     });
+
+    console.log('[Editor] wireframes created:', editorState.wireframes.length);
   }
 
-  function applyLayerVisibility() {
-    // При работе с базовым — скрываем outer, чтобы клик попадал в тело.
-    // При работе с overlay — показываем outer.
-    if (editorState.activeLayer === 'base') {
-      setOuterVisible(false);
-    } else {
-      setOuterVisible(true);
-    }
+  function applyLayerVisibility(){
+    updateOverlayWireframe(editorState.activeLayer === 'overlay');
   }
 
-  // === ЗАГРУЗКА СКИНА ===
-  async function loadSkinToCanvas(url) {
+  /* ЗАГРУЗКА СКИНА */
+  async function loadSkinToCanvas(url){
     return new Promise(resolve => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
@@ -2027,8 +1397,27 @@ async function openEditor(skinName) {
   }
 
   await loadSkinToCanvas(skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve'));
-  classifyMeshes();
-  applyLayerVisibility();
+
+  /* РЕНДЕР-ЦИКЛ — только рендер, обновление wireframe по событию */
+  if (viewer) {
+    viewer.renderer.setAnimationLoop(() => {
+      viewer.renderer.render(viewer.scene, viewer.camera);
+    });
+
+    // Обновляем wireframe только когда камера меняется (вращение/зум)
+    if (viewer.controls && viewer.controls.addEventListener) {
+      viewer.controls.addEventListener('change', () => {
+        if (editorState?.wireframes?.length) {
+          editorState.wireframes.forEach(w => {
+            try { w.update && w.update(); } catch {}
+          });
+        }
+      });
+    }
+
+    // Применяем wireframe после загрузки
+    applyLayerVisibility();
+  }
 
   $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
     editorState.activeLayer = b.dataset.layer;
@@ -2037,8 +1426,8 @@ async function openEditor(skinName) {
     applyLayerVisibility();
   }));
 
-  // === ЯДРО РИСОВАНИЯ ===
-  function paintPx(px, py) {
+  /* ЯДРО РИСОВАНИЯ */
+  function paintPx(px, py){
     if (px < 0 || py < 0 || px >= SKIN_SIZE || py >= SKIN_SIZE) return;
 
     if (editorState.tool === 'fill') {
@@ -2076,7 +1465,7 @@ async function openEditor(skinName) {
     }
   }
 
-  function bresenhamLine(x0, y0, x1, y1) {
+  function bresenhamLine(x0, y0, x1, y1){
     const dx = Math.abs(x1 - x0);
     const dy = Math.abs(y1 - y0);
     const sx = x0 < x1 ? 1 : -1;
@@ -2093,7 +1482,7 @@ async function openEditor(skinName) {
     }
   }
 
-  function floodFill(sx, sy, color) {
+  function floodFill(sx, sy, color){
     const img = ctx.getImageData(0, 0, SKIN_SIZE, SKIN_SIZE);
     const d = img.data;
     const idx = (sy * SKIN_SIZE + sx) * 4;
@@ -2122,8 +1511,8 @@ async function openEditor(skinName) {
     ctx.putImageData(img, 0, 0);
   }
 
-  // === 3D РИСОВАНИЕ ===
-  function handle3DDraw(clientX, clientY) {
+  /* 3D РИСОВАНИЕ */
+  function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
@@ -2141,16 +1530,10 @@ async function openEditor(skinName) {
       return;
     }
 
-    // Ищем первый видимый хит (у которого есть uv)
     let hit = null;
     for (const h of hits) {
       if (!h.object.visible) continue;
       if (!h.uv) continue;
-      // Проверка: меш из outer набора?
-      const isOuter = editorState.outerMeshes.includes(h.object);
-      const isInner = editorState.innerMeshes.includes(h.object);
-      if (editorState.activeLayer === 'base' && isOuter) continue;
-      if (editorState.activeLayer === 'overlay' && isInner) continue;
       hit = h;
       break;
     }
@@ -2177,7 +1560,6 @@ async function openEditor(skinName) {
 
   if (viewer) {
     viewer.canvas.addEventListener('mousedown', e => {
-      // Только ЛКМ рисует
       if (e.button !== 0) return;
       editorState.drawing = true;
       editorState.lastPx = null;
@@ -2222,8 +1604,8 @@ async function openEditor(skinName) {
     viewer.canvas.addEventListener('touchend', stop);
   }
 
-  // === 2D СЕТКА ===
-  function initFlatCanvas() {
+  /* 2D СЕТКА */
+  function initFlatCanvas(){
     const wrap = $('ed-2d');
     wrap.innerHTML = '';
     const cv = document.createElement('canvas');
@@ -2261,7 +1643,7 @@ async function openEditor(skinName) {
     cv.addEventListener('contextmenu', e => e.preventDefault());
   }
 
-  function drawCheckerboard(cx, w, h, size) {
+  function drawCheckerboard(cx, w, h, size){
     for (let y = 0; y < h; y += size) {
       for (let x = 0; x < w; x += size) {
         cx.fillStyle = ((x / size + y / size) % 2 === 0) ? '#1a1f2b' : '#252b38';
@@ -2270,7 +1652,7 @@ async function openEditor(skinName) {
     }
   }
 
-  function redrawFlat() {
+  function redrawFlat(){
     const cv = editorState.flatCanvas;
     const cx = editorState.flatCtx;
     if (!cv || !cx) return;
@@ -2279,7 +1661,7 @@ async function openEditor(skinName) {
     cx.drawImage(editorState.canvas, 0, 0, cv.width, cv.height);
   }
 
-  function handleFlatDraw(clientX, clientY) {
+  function handleFlatDraw(clientX, clientY){
     const cv = editorState.flatCanvas;
     if (!cv) return;
     const r = cv.getBoundingClientRect();
@@ -2298,16 +1680,15 @@ async function openEditor(skinName) {
     schedule3DRefresh();
   }
 
-  // === ОБНОВЛЕНИЕ 3D ===
-  function schedule3DRefresh() {
+  /* ОБНОВЛЕНИЕ 3D */
+  function schedule3DRefresh(){
     if (editorState.refreshTimer) return;
     editorState.refreshTimer = setTimeout(() => {
       editorState.refreshTimer = null;
       refresh3D();
     }, 100);
   }
-
-  function refresh3D() {
+  function refresh3D(){
     const v = editorState.viewer;
     if (!v) return;
     try {
@@ -2316,12 +1697,10 @@ async function openEditor(skinName) {
     } catch {}
   }
 
-  // === ИСТОРИЯ ===
-  function pushHistory() {
+  /* ИСТОРИЯ */
+  function pushHistory(){
     try {
-      const snap = {
-        url: editorState.canvas.toDataURL('image/png')
-      };
+      const snap = { url: editorState.canvas.toDataURL('image/png') };
       editorState.history = editorState.history.slice(0, editorState.historyIdx + 1);
       editorState.history.push(snap);
       editorState.historyIdx++;
@@ -2331,8 +1710,7 @@ async function openEditor(skinName) {
       }
     } catch {}
   }
-
-  function restoreFromSnapshot(snap) {
+  function restoreFromSnapshot(snap){
     return new Promise(resolve => {
       const img = new Image();
       img.onload = () => {
@@ -2358,7 +1736,6 @@ async function openEditor(skinName) {
     await restoreFromSnapshot(editorState.history[editorState.historyIdx]);
   });
 
-  // === СОХРАНИТЬ ===
   $('ed-save').addEventListener('click', () => {
     const a = document.createElement('a');
     a.download = (skinName || 'my-skin') + '.png';
@@ -2367,7 +1744,6 @@ async function openEditor(skinName) {
     toast('Скин скачан', 'ok');
   });
 
-  // === ЗАГРУЗИТЬ ===
   $('ed-upload').addEventListener('click', () => $('ed-file').click());
   $('ed-file').addEventListener('change', async e => {
     const file = e.target.files[0];
@@ -2391,7 +1767,7 @@ async function openEditor(skinName) {
     toast('Steve загружен', 'ok');
   });
 
-  // === ПЕРЕКЛЮЧЕНИЕ РЕЖИМОВ ===
+  /* ПЕРЕКЛЮЧЕНИЕ РЕЖИМОВ */
   $$('[data-mode]').forEach(b => b.addEventListener('click', () => {
     const mode = b.dataset.mode;
     $$('[data-mode]').forEach(x => x.classList.remove('active'));
@@ -2399,17 +1775,15 @@ async function openEditor(skinName) {
     $('ed-3d').style.display = mode === '3d' ? 'flex' : 'none';
     $('ed-2d').style.display = mode === '2d' ? 'flex' : 'none';
     $('ed-hint').textContent = mode === '3d'
-      ? 'Рисуй прямо на 3D-модели. Клик по руке — пиксель руки. ЛКМ рисует, ПКМ вращает.'
+      ? 'Рисуй прямо на 3D-модели. ЛКМ рисует, ПКМ вращает. На слое «Оверлей» появляются кубики-границы.'
       : 'Рисуй на сетке 64×64 — плоская развёртка скина.';
     if (mode === '2d') {
       if (!editorState.flatCanvas) initFlatCanvas();
       else redrawFlat();
-    } else {
-      refresh3D();
     }
   }));
 
-  // === ШОРТКАТЫ ===
+  /* ШОРТКАТЫ */
   const keyHandler = e => {
     if (!editorState) return;
     if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
@@ -2425,9 +1799,23 @@ async function openEditor(skinName) {
   };
   document.addEventListener('keydown', keyHandler);
 
-  // === ЗАКРЫТЬ ===
+  /* ЗАКРЫТИЕ */
   const cleanup = () => {
     document.removeEventListener('keydown', keyHandler);
+    if (editorState?.wireframes) {
+      const v = editorState.viewer;
+      editorState.wireframes.forEach(w => {
+        try {
+          if (v) v.scene.remove(w);
+          if (w.geometry) w.geometry.dispose();
+          if (w.material) {
+            if (Array.isArray(w.material)) w.material.forEach(m => m.dispose());
+            else w.material.dispose();
+          }
+        } catch {}
+      });
+      editorState.wireframes = [];
+    }
     if (editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
     if (editorState?.mousemoveThrottle) clearTimeout(editorState.mousemoveThrottle);
     if (editorState?.viewer) {
@@ -2450,12 +1838,10 @@ async function openEditor(skinName) {
   });
 }
 
-/* ============================================================
-   РЕДАКТОР РЕСУРСПАКОВ
-   ============================================================ */
+/* РЕДАКТОР РЕСУРСПАКОВ */
 let packEditorState = null;
 
-function openPackEditor() {
+function openPackEditor(){
   editorActive = true;
   $('searchContainer').classList.add('hidden');
   sentinel.classList.add('hidden');
@@ -2469,9 +1855,7 @@ function openPackEditor() {
           <button class="btn btn-secondary" id="rp-close">← К списку</button>
         </div>
       </div>
-      <p style="color:var(--tdim);margin-bottom:1.5rem;font-size:.9rem">
-        Загрузи .zip ресурспака, посмотри содержимое, замени текстуры, скачай обратно. Всё работает в браузере — файлы никуда не отправляются.
-      </p>
+      <p style="color:var(--tdim);margin-bottom:1.5rem;font-size:.9rem">Загрузи .zip ресурспака, посмотри содержимое, замени текстуры, скачай обратно. Всё работает в браузере — файлы никуда не отправляются.</p>
       <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
         <button class="btn" id="rp-upload">📁 Загрузить .zip</button>
         <button class="btn btn-secondary" id="rp-new-pack">🆕 Создать с нуля</button>
@@ -2481,18 +1865,12 @@ function openPackEditor() {
       <div class="editor-layout">
         <div>
           <div class="editor-section-title">Файлы в паке</div>
-          <div class="rp-file-list" id="rp-file-list">
-            <p style="color:var(--tdim);text-align:center;padding:2rem">Пак не загружен</p>
-          </div>
+          <div class="rp-file-list" id="rp-file-list"><p style="color:var(--tdim);text-align:center;padding:2rem">Пак не загружен</p></div>
         </div>
         <div>
           <div class="editor-section-title">Предпросмотр</div>
-          <div class="rp-preview-area" id="rp-preview">
-            <p style="color:var(--tdim)">Выбери файл слева</p>
-          </div>
-          <div style="margin-top:.75rem">
-            <button class="btn btn-secondary" id="rp-replace" disabled>✏️ Заменить выбранную текстуру</button>
-          </div>
+          <div class="rp-preview-area" id="rp-preview"><p style="color:var(--tdim)">Выбери файл слева</p></div>
+          <div style="margin-top:.75rem"><button class="btn btn-secondary" id="rp-replace" disabled>✏️ Заменить выбранную текстуру</button></div>
         </div>
       </div>
     </div>`;
@@ -2503,10 +1881,7 @@ function openPackEditor() {
   $('rp-file').addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
-    if (typeof JSZip === 'undefined') {
-      toast('JSZip не загрузился', 'error');
-      return;
-    }
+    if (typeof JSZip === 'undefined') { toast('JSZip не загрузился', 'error'); return; }
     try {
       const zip = await JSZip.loadAsync(file);
       packEditorState.zip = zip;
@@ -2514,16 +1889,12 @@ function openPackEditor() {
       renderPackFiles(names);
       $('rp-save').disabled = false;
       toast('Пак загружен: ' + file.name, 'ok');
-    } catch (err) {
-      toast('Ошибка: ' + err.message, 'error');
-    }
+    } catch (err) { toast('Ошибка: ' + err.message, 'error'); }
   });
 
   $('rp-new-pack').addEventListener('click', () => {
     packEditorState.zip = new JSZip();
-    packEditorState.zip.file('pack.mcmeta', JSON.stringify({
-      pack: { pack_format: 15, description: 'My Resource Pack' }
-    }, null, 2));
+    packEditorState.zip.file('pack.mcmeta', JSON.stringify({ pack: { pack_format: 15, description: 'My Resource Pack' } }, null, 2));
     renderPackFiles(['pack.mcmeta']);
     $('rp-save').disabled = false;
     toast('Новый пак создан', 'ok');
@@ -2531,10 +1902,7 @@ function openPackEditor() {
 
   $('rp-save').addEventListener('click', async () => {
     if (!packEditorState.zip) return;
-    const blob = await packEditorState.zip.generateAsync({
-      type: 'blob',
-      compression: 'DEFLATE'
-    });
+    const blob = await packEditorState.zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
     const a = document.createElement('a');
     a.download = 'my-resource-pack.zip';
     a.href = URL.createObjectURL(blob);
@@ -2546,16 +1914,11 @@ function openPackEditor() {
   $('rp-close').addEventListener('click', () => {
     editorActive = false;
     packEditorState = null;
-    $$('.tab').forEach(t => {
-      if (t.classList.contains('active')) t.click();
-    });
+    $$('.tab').forEach(t => { if (t.classList.contains('active')) t.click(); });
   });
 
   $('rp-replace').addEventListener('click', () => {
-    if (!packEditorState.selectedPath) {
-      toast('Сначала выбери файл', 'error');
-      return;
-    }
+    if (!packEditorState.selectedPath) { toast('Сначала выбери файл', 'error'); return; }
     $('rp-imgfile').click();
   });
 
@@ -2567,21 +1930,14 @@ function openPackEditor() {
       const buf = await file.arrayBuffer();
       showPackPreview(buf, packEditorState.selectedPath);
       toast('Файл заменён: ' + packEditorState.selectedPath, 'ok');
-    } catch (err) {
-      toast('Ошибка: ' + err.message, 'error');
-    }
+    } catch (err) { toast('Ошибка: ' + err.message, 'error'); }
   });
 }
 
-function renderPackFiles(names) {
+function renderPackFiles(names){
   const list = $('rp-file-list');
-  if (!names.length) {
-    list.innerHTML = '<p style="color:var(--tdim);text-align:center;padding:2rem">Пусто</p>';
-    return;
-  }
-  list.innerHTML = names.map(f =>
-    `<div class="file-item" data-path="${esc(f)}">${esc(f)}</div>`
-  ).join('');
+  if (!names.length) { list.innerHTML = '<p style="color:var(--tdim);text-align:center;padding:2rem">Пусто</p>'; return; }
+  list.innerHTML = names.map(f => `<div class="file-item" data-path="${esc(f)}">${esc(f)}</div>`).join('');
   list.querySelectorAll('.file-item').forEach(el => {
     el.addEventListener('click', async () => {
       const path = el.dataset.path;
@@ -2599,16 +1955,13 @@ function renderPackFiles(names) {
   });
 }
 
-function showPackPreview(arrayBuffer, path) {
+function showPackPreview(arrayBuffer, path){
   const ext = path.split('.').pop().toLowerCase();
   const prev = $('rp-preview');
   if (!['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
     let text;
-    try {
-      text = new TextDecoder().decode(arrayBuffer).slice(0, 3000);
-    } catch {
-      text = '[бинарный файл]';
-    }
+    try { text = new TextDecoder().decode(arrayBuffer).slice(0, 3000); }
+    catch { text = '[бинарный файл]'; }
     prev.innerHTML = `<pre>${esc(text)}</pre>`;
     return;
   }
@@ -2617,15 +1970,12 @@ function showPackPreview(arrayBuffer, path) {
   prev.innerHTML = `<img src="${url}" alt="preview"><p style="color:var(--tdim);font-size:.8rem">${esc(path)}</p>`;
 }
 
-/* ============================================================
-   ИНИЦИАЛИЗАЦИЯ
-   ============================================================ */
+/* ИНИЦИАЛИЗАЦИЯ */
 try {
   initThemes();
 } catch (e) {
   console.error('initThemes failed:', e);
 }
-
 io.observe(sentinel);
 resetAndLoad();
 </script>
