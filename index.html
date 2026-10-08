@@ -7,23 +7,10 @@
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-<link rel="dns-prefetch" href="https://minotar.net">
-<link rel="dns-prefetch" href="https://crafatar.com">
-<title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
+<title>Minecraft Hub</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --s0:#05070C;--s2:#0F131C;--s3:#161D2B;--s4:#1E2636;
-  --accent:#38BDF8;--accent-2:#6EE7B7;--dim:#1E3A5F;
-  --text:#E8EDF4;--tdim:#9CA3AF;
-  --error:#EF4444;--ok:#10B981;
-  --r:999px;--rl:1.5rem;--blur:8px;
-  --tr-fast:.14s;--tr-norm:.28s;--tr-slow:.45s;
-  --ease:cubic-bezier(.25,.46,.45,.94);
-  --card-glow:rgba(56,189,248,.15);
-  --aurora-1:rgba(56,189,248,.35);--aurora-2:rgba(110,231,183,.28);
-}
+:root{--s0:#05070C;--s2:#0F131C;--s3:#161D2B;--s4:#1E2636;--accent:#38BDF8;--accent-2:#6EE7B7;--dim:#1E3A5F;--text:#E8EDF4;--tdim:#9CA3AF;--error:#EF4444;--ok:#10B981;--r:999px;--rl:1.5rem;--tr-fast:.14s;--tr-norm:.28s;--tr-slow:.45s;--ease:cubic-bezier(.25,.46,.45,.94);--card-glow:rgba(56,189,248,.15);--aurora-1:rgba(56,189,248,.35);--aurora-2:rgba(110,231,183,.28)}
 [data-theme="midnight"]{--s0:#02040A;--s2:#0A0E18;--s3:#111624;--s4:#1A2132;--accent:#818CF8;--accent-2:#A78BFA;--dim:#1E1B4B;--text:#E0E7FF;--tdim:#8B95B8;--card-glow:rgba(129,140,248,.2);--aurora-1:rgba(129,140,248,.35);--aurora-2:rgba(167,139,250,.28)}
 [data-theme="light"]{--s0:#F0F4FA;--s2:#FFFFFF;--s3:#E8EDF5;--s4:#DDE4EE;--accent:#0284C7;--accent-2:#10B981;--dim:#DBEAFE;--text:#0F172A;--tdim:#64748B;--card-glow:rgba(2,132,199,.15);--aurora-1:rgba(2,132,199,.2);--aurora-2:rgba(16,185,129,.15)}
 [data-theme="ocean"]{--s0:#041220;--s2:#081A2B;--s3:#0D2438;--s4:#133049;--accent:#06B6D4;--accent-2:#22D3EE;--dim:#0E4D64;--text:#DBEEF7;--tdim:#7BA3B8;--card-glow:rgba(6,182,212,.2);--aurora-1:rgba(6,182,212,.4);--aurora-2:rgba(34,211,238,.3)}
@@ -37,63 +24,65 @@ html{background:var(--s0);transition:background var(--tr-slow) var(--ease)}
 body{background:transparent;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;transition:color var(--tr-slow) var(--ease);overflow-x:hidden}
 body.lock{overflow:hidden}
 .bg-aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.9}
-.bg-aurora::before,.bg-aurora::after{content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px);will-change:transform}
-.bg-aurora::before{background:radial-gradient(circle,var(--aurora-1) 0%,transparent 65%);top:-25vmax;left:-20vmax;animation:auroraA 28s ease-in-out infinite}
-.bg-aurora::after{background:radial-gradient(circle,var(--aurora-2) 0%,transparent 65%);bottom:-25vmax;right:-20vmax;animation:auroraB 34s ease-in-out infinite}
-@keyframes auroraA{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(15vmax,8vmax) scale(1.15)}66%{transform:translate(5vmax,20vmax) scale(.95)}}
-@keyframes auroraB{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-12vmax,-10vmax) scale(1.1)}66%{transform:translate(-20vmax,5vmax) scale(1.05)}}
-body.no-bg .bg-aurora{opacity:0}
-.container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:2rem}
-header{margin-bottom:2rem;text-align:center;animation:fadeInUp .5s var(--ease)}
+.bg-aurora::before,.bg-aurora::after{content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px)}
+.bg-aurora::before{background:radial-gradient(circle,var(--aurora-1) 0%,transparent 65%);top:-25vmax;left:-20vmax;animation:aA 28s ease-in-out infinite}
+.bg-aurora::after{background:radial-gradient(circle,var(--aurora-2) 0%,transparent 65%);bottom:-25vmax;right:-20vmax;animation:aB 34s ease-in-out infinite}
+@keyframes aA{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(15vmax,8vmax) scale(1.15)}66%{transform:translate(5vmax,20vmax) scale(.95)}}
+@keyframes aB{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-12vmax,-10vmax) scale(1.1)}66%{transform:translate(-20vmax,5vmax) scale(1.05)}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
-h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientShift 8s ease infinite}
 @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+body.no-bg .bg-aurora{opacity:0}
+.container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:2rem}
+header{margin-bottom:2rem;text-align:center;animation:fadeInUp .5s var(--ease)}
+h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientShift 8s ease infinite}
 .subtitle{color:var(--tdim);font-size:1.1rem}
 .tabs{display:flex;gap:.75rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap}
 .tab{background:var(--s2);color:var(--tdim);padding:.75rem 1.5rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;white-space:nowrap;transition:all var(--tr-norm) var(--ease);backdrop-filter:blur(10px);border:1px solid transparent}
-.tab:hover{background:var(--s3);color:var(--text);transform:translateY(-2px);box-shadow:0 6px 18px var(--card-glow)}
+.tab:hover{background:var(--s3);color:var(--text);transform:translateY(-2px)}
 .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);box-shadow:0 4px 16px var(--card-glow)}
 .search-container{background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);box-shadow:0 8px 32px rgba(0,0,0,.15)}
 .search-row{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
-.search-input,.filter-select{background:var(--s3);border:2px solid transparent;color:var(--text);padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem;transition:border-color var(--tr-norm) var(--ease)}
+.search-input,.filter-select{background:var(--s3);border:2px solid transparent;color:var(--text);padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem}
 .search-input{flex:1;min-width:250px}
 .filter-select{padding:.5rem 1rem;cursor:pointer}
 .search-input:focus,.filter-select:focus{outline:none;border-color:var(--accent)}
-#editorBtn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;box-shadow:0 4px 16px var(--card-glow);transition:all var(--tr-norm) var(--ease);white-space:nowrap;position:relative;overflow:hidden}
-#editorBtn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 28px var(--card-glow)}
+#editorBtn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;box-shadow:0 4px 16px var(--card-glow);transition:all var(--tr-norm) var(--ease);white-space:nowrap}
+#editorBtn:hover{transform:translateY(-2px) scale(1.02)}
 #randomBtn{background:var(--s3);color:var(--text);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;transition:all var(--tr-norm) var(--ease);white-space:nowrap}
-#randomBtn:hover{background:var(--s4);transform:translateY(-2px)}
+#randomBtn:hover{background:var(--s4)}
 .filters{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
 .filters label{color:var(--tdim);font-size:.9rem}
 .hidden{display:none!important}
 .btn,.search-btn{background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;transition:all var(--tr-norm) var(--ease);text-align:center}
 .btn{width:100%;display:inline-block}
-.btn:hover,.search-btn:hover{filter:brightness(1.1);transform:scale(1.02);box-shadow:0 6px 20px var(--card-glow)}
+.btn:hover,.search-btn:hover{filter:brightness(1.1);transform:scale(1.02)}
 .btn-secondary{background:var(--s3);color:var(--text)}
 .btn-secondary:hover{background:var(--s4)}
+.btn-danger{background:var(--error);color:#fff}
 .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;margin-bottom:2rem}
-.card{background:var(--s2);border-radius:var(--rl);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;animation:fadeInUp .45s var(--ease) both;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);transition:transform var(--tr-norm) var(--ease),box-shadow var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease);position:relative}
+.card{background:var(--s2);border-radius:var(--rl);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;animation:fadeInUp .45s var(--ease) both;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);transition:transform var(--tr-norm) var(--ease),box-shadow var(--tr-norm) var(--ease)}
 .card:hover,.card:focus-visible{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 32px var(--card-glow);outline:none;border-color:rgba(255,255,255,.1)}
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .card-image{width:100%;height:180px;object-fit:cover;background:var(--s4)}
-.card-image.skin{object-fit:contain;padding:.5rem;background:linear-gradient(135deg,var(--s3),var(--s4));image-rendering:auto}
+.card-image.skin{object-fit:contain;padding:.5rem;background:linear-gradient(135deg,var(--s3) 0%,var(--s4) 100%)}
 .card-content{padding:1.25rem;flex:1;display:flex;flex-direction:column}
 .card-title{font-size:1.05rem;font-weight:600;margin-bottom:.5rem;line-height:1.3;word-break:break-word}
 .card-description{color:var(--tdim);font-size:.9rem;margin-bottom:1rem;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .tag{display:inline-block;background:var(--dim);color:var(--accent);padding:.25rem .75rem;border-radius:var(--r);font-size:.8rem;font-weight:500;margin-bottom:1rem;align-self:flex-start}
 .card-stats{display:flex;justify-content:space-between;gap:.5rem;color:var(--tdim);font-size:.85rem}
 .skeleton-card{cursor:default!important;pointer-events:none}
-.skeleton-card:hover{transform:none!important;box-shadow:none!important}
+.skeleton-card:hover{transform:none!important}
 .skeleton-shimmer{background:linear-gradient(90deg,var(--s3) 25%,var(--s4) 50%,var(--s3) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
 .skeleton-line{height:.85rem;border-radius:.4rem;margin-bottom:.6rem}
 .skeleton-line.big{height:1.2rem;width:70%}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(var(--blur));z-index:1000;overflow-y:auto;animation:fadeIn .2s var(--ease)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:1000;overflow-y:auto;animation:fadeIn .2s var(--ease)}
 .modal.active{display:flex;align-items:center;justify-content:center;padding:2rem}
 .modal-content{background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;max-height:90vh;overflow-y:auto;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);animation:fadeInUp .3s var(--ease)}
+.modal-content.small{max-width:520px}
 .modal-header{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;gap:1rem;align-items:center}
 .modal-title{font-size:1.5rem;font-weight:700;line-height:1.3;word-break:break-word}
 .modal-close{background:none;border:none;color:var(--tdim);font-size:2rem;cursor:pointer;width:40px;height:40px;border-radius:50%;flex-shrink:0;transition:all var(--tr-fast) var(--ease);display:flex;align-items:center;justify-content:center}
@@ -101,7 +90,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .modal-body{padding:2rem}
 .modal-3d-viewport{width:100%;height:400px;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .modal-3d-viewport canvas{display:block;cursor:grab}
-.modal-3d-viewport canvas:active{cursor:grabbing}
 .modal-3d-viewport img{max-height:100%;max-width:100%;object-fit:contain}
 .modal-description{color:var(--tdim);line-height:1.7;margin-bottom:1.5rem;white-space:pre-line}
 .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
@@ -114,22 +102,25 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .info-note{color:var(--accent);background:var(--s2);border-radius:var(--rl);text-align:center;padding:1rem;margin-bottom:1.5rem;font-size:.95rem}
 #sentinel{height:40px;display:flex;align-items:center;justify-content:center;color:var(--tdim);font-size:.9rem}
 #toasts{position:fixed;bottom:1.5rem;right:1.5rem;display:flex;flex-direction:column;gap:.75rem;z-index:2000;max-width:min(360px,calc(100vw - 3rem))}
-.toast{background:var(--s3);color:var(--text);padding:1rem 1.25rem;border-radius:1rem;box-shadow:0 8px 24px rgba(0,0,0,.4);border-left:4px solid var(--accent);animation:slideIn .25s var(--ease);font-size:.95rem;backdrop-filter:blur(12px)}
+.toast{background:var(--s3);color:var(--text);padding:1rem 1.25rem;border-radius:1rem;box-shadow:0 8px 24px rgba(0,0,0,.4);border-left:4px solid var(--accent);animation:slideIn .25s var(--ease);font-size:.95rem}
 .toast.error{border-left-color:var(--error)}
 .toast.ok{border-left-color:var(--ok)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .settings-panel{position:fixed;bottom:1.5rem;left:1.5rem;z-index:3000;display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
-.settings-toggle{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:var(--s2);color:var(--text);font-size:1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.4);backdrop-filter:blur(12px);transition:all var(--tr-norm) var(--ease);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.08)}
+.settings-toggle{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:var(--s2);color:var(--text);font-size:1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:all var(--tr-norm) var(--ease);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.08)}
 .settings-toggle:hover{transform:scale(1.1) rotate(20deg);background:var(--s3)}
-.settings-menu{background:var(--s2);padding:1.25rem;border-radius:var(--rl);box-shadow:0 12px 40px rgba(0,0,0,.5);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);opacity:0;transform:translateY(10px) scale(.95);pointer-events:none;transition:all var(--tr-norm) var(--ease);min-width:280px}
+.settings-menu{background:var(--s2);padding:1.25rem;border-radius:var(--rl);box-shadow:0 12px 40px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);opacity:0;transform:translateY(10px) scale(.95);pointer-events:none;transition:all var(--tr-norm) var(--ease);min-width:320px;max-width:90vw}
 .settings-panel.open .settings-menu{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
 .settings-section{margin-bottom:1rem}
 .settings-section:last-child{margin-bottom:0}
 .settings-label{font-size:.75rem;color:var(--tdim);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.6rem}
-.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
-.theme-opt{width:100%;aspect-ratio:1;border-radius:.75rem;border:2px solid transparent;cursor:pointer;transition:all var(--tr-fast) var(--ease)}
+.theme-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-bottom:.75rem}
+.theme-opt{width:100%;aspect-ratio:1;border-radius:.75rem;border:2px solid transparent;cursor:pointer;transition:all var(--tr-fast) var(--ease);position:relative;overflow:hidden}
 .theme-opt:hover{transform:scale(1.08)}
 .theme-opt.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--s0) inset,0 0 12px var(--accent)}
+.theme-opt .del-badge{position:absolute;top:2px;right:2px;width:16px;height:16px;background:var(--error);border-radius:50%;color:#fff;font-size:.7rem;line-height:16px;text-align:center;display:none;cursor:pointer}
+.theme-opt.custom .del-badge{display:block}
+.theme-opt .del-badge:hover{transform:scale(1.2)}
 .theme-opt[data-theme="dark"]{background:linear-gradient(135deg,#05070C 50%,#38BDF8)}
 .theme-opt[data-theme="midnight"]{background:linear-gradient(135deg,#02040A 50%,#818CF8)}
 .theme-opt[data-theme="light"]{background:linear-gradient(135deg,#F0F4FA 50%,#0284C7)}
@@ -139,19 +130,25 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .theme-opt[data-theme="cyber"]{background:linear-gradient(135deg,#0A0512 50%,#D946EF)}
 .theme-opt[data-theme="nord"]{background:linear-gradient(135deg,#2E3440 50%,#88C0D0)}
 .theme-opt[data-theme="rose"]{background:linear-gradient(135deg,#1A0A15 50%,#F472B6)}
+.add-theme-btn{width:100%;background:var(--s3);color:var(--text);border:2px dashed var(--s4);border-radius:.75rem;padding:.6rem;cursor:pointer;font-size:.85rem;font-weight:600;transition:all var(--tr-fast) var(--ease)}
+.add-theme-btn:hover{background:var(--s4);border-color:var(--accent);color:var(--accent)}
 .settings-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;color:var(--text);font-size:.9rem;cursor:pointer;user-select:none}
 .switch{position:relative;width:42px;height:24px;background:var(--s4);border-radius:999px;transition:background var(--tr-norm) var(--ease);flex-shrink:0}
 .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:var(--text);border-radius:50%;transition:transform var(--tr-norm) var(--ease)}
 .switch.on{background:var(--accent)}
 .switch.on::after{transform:translateX(18px);background:var(--s0)}
-.editor-wrap{background:var(--s2);border-radius:var(--rl);padding:2rem;animation:fadeInUp .4s var(--ease);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05)}
+.color-row{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:.5rem}
+.color-row label{color:var(--tdim);font-size:.85rem;flex:1}
+.color-row input[type=color]{width:48px;height:32px;border:none;border-radius:.5rem;cursor:pointer;background:transparent}
+.color-row input[type=text]{width:80px;background:var(--s3);border:1px solid var(--s4);color:var(--text);padding:.35rem .5rem;border-radius:.4rem;font-size:.75rem;font-family:ui-monospace,monospace}
+.editor-wrap{background:var(--s2);border-radius:var(--rl);padding:2rem;animation:fadeInUp .4s var(--ease)}
 .editor-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
 .editor-header h2{font-size:1.5rem}
 .editor-header-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 .editor-header-actions .btn,.editor-header-actions .btn-secondary{padding:.6rem 1rem;font-size:.9rem;width:auto}
 .editor-layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
 @media(max-width:1000px){.editor-layout{grid-template-columns:1fr}}
-.editor-canvas-area{position:relative;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.editor-canvas-area{position:relative;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:1rem;flex-direction:column}
 .editor-canvas-area canvas{display:block;cursor:crosshair}
 .editor-mode-toggle{position:absolute;top:1rem;right:1rem;z-index:10;display:flex;gap:.25rem;background:var(--s2);padding:.25rem;border-radius:var(--r);border:1px solid rgba(255,255,255,.08)}
 .editor-mode-toggle button{background:transparent;color:var(--tdim);border:none;padding:.5rem 1rem;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.85rem;transition:all var(--tr-fast) var(--ease)}
@@ -174,22 +171,17 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .editor-layer-btn.active{background:var(--accent);color:var(--s0);border-color:var(--accent)}
 .editor-action-row{display:flex;gap:.5rem}
 .editor-action-row .btn,.editor-action-row .btn-secondary{width:auto;flex:1;padding:.6rem .75rem;font-size:.85rem}
-.editor-flat-wrap{overflow:auto;max-width:100%;padding:.5rem}
-.editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:transparent;border-radius:.5rem;display:block}
-.editor-hint{color:var(--tdim);font-size:.8rem;line-height:1.5}
-#ed-3d-hint{color:var(--tdim);font-size:.8rem;margin-top:.5rem;text-align:center}
-@media(max-width:768px){.container{padding:1rem}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.search-row{flex-direction:column;align-items:stretch}.modal-actions{grid-template-columns:1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}#toasts{right:1rem;left:1rem;max-width:none}.editor-layout{grid-template-columns:1fr}.settings-panel{bottom:1rem;left:1rem}.settings-menu{min-width:240px}}
+.editor-hint{color:var(--tdim);font-size:.8rem;line-height:1.5;text-align:center;margin-top:.75rem;max-width:500px}
+.editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:transparent;border-radius:.5rem;display:block;max-width:100%;touch-action:none}
+@media(max-width:768px){.container{padding:1rem}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.search-row{flex-direction:column;align-items:stretch}.modal-actions{grid-template-columns:1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}#toasts{right:1rem;left:1rem;max-width:none}.editor-layout{grid-template-columns:1fr}.settings-panel{bottom:1rem;left:1rem}.settings-menu{min-width:260px}.theme-grid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 <div class="bg-aurora"></div>
 
 <div class="container">
-  <header>
-    <h1>Minecraft Hub</h1>
-    <p class="subtitle">Все для Minecraft в одном месте</p>
-  </header>
-  <div class="tabs" role="tablist" aria-label="Категории">
+  <header><h1>Minecraft Hub</h1><p class="subtitle">Все для Minecraft в одном месте</p></header>
+  <div class="tabs" role="tablist">
     <button class="tab active" role="tab" aria-selected="true" data-tab="mods">Моды</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="modpacks">Модпаки</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="resourcepacks">Ресурспаки</button>
@@ -200,43 +192,44 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
     <div class="search-row">
       <input type="text" class="search-input" id="searchInput" placeholder="Поиск..." maxlength="64" autocomplete="off">
       <button class="search-btn" id="searchBtn">Искать</button>
-      <button id="randomBtn" title="Случайные скины">🎲 Случайно</button>
+      <button id="randomBtn">🎲 Случайно</button>
       <button id="editorBtn"><span>✏️</span> Редактор</button>
     </div>
     <div class="filters" id="filters">
-      <select class="filter-select" id="sortSelect" aria-label="Сортировка">
-        <option value="relevance">По релевантности</option>
-        <option value="downloads">По загрузкам</option>
-        <option value="updated">По обновлению</option>
-        <option value="newest">Новые</option>
-      </select>
+      <select class="filter-select" id="sortSelect"><option value="relevance">По релевантности</option><option value="downloads">По загрузкам</option><option value="updated">По обновлению</option><option value="newest">Новые</option></select>
       <label for="mcVersion">Версия MC:</label>
       <input type="text" class="filter-select" id="mcVersion" placeholder="напр. 1.20.1" maxlength="12" autocomplete="off" style="width:130px">
       <label for="loaderSelect">Загрузчик:</label>
-      <select class="filter-select" id="loaderSelect" aria-label="Загрузчик">
-        <option value="">Любой</option>
-        <option value="forge">Forge</option>
-        <option value="fabric">Fabric</option>
-        <option value="quilt">Quilt</option>
-        <option value="neoforge">NeoForge</option>
-      </select>
+      <select class="filter-select" id="loaderSelect"><option value="">Любой</option><option value="forge">Forge</option><option value="fabric">Fabric</option><option value="quilt">Quilt</option><option value="neoforge">NeoForge</option></select>
     </div>
   </div>
   <div id="content"></div>
   <div id="sentinel"></div>
 </div>
 
-<div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<div class="modal" id="detailModal" role="dialog" aria-modal="true">
   <div class="modal-content">
-    <div class="modal-header">
-      <h2 class="modal-title" id="modalTitle">Детали</h2>
-      <button class="modal-close" id="modalClose" aria-label="Закрыть">&times;</button>
-    </div>
+    <div class="modal-header"><h2 class="modal-title" id="modalTitle">Детали</h2><button class="modal-close" id="modalClose" aria-label="Закрыть">&times;</button></div>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
-<div id="toasts" aria-live="polite" aria-atomic="false"></div>
+<div class="modal" id="themeModal" role="dialog" aria-modal="true">
+  <div class="modal-content small">
+    <div class="modal-header"><h2 class="modal-title" id="themeModalTitle">Своя тема</h2><button class="modal-close" id="themeModalClose" aria-label="Закрыть">&times;</button></div>
+    <div class="modal-body">
+      <label style="display:block;color:var(--tdim);font-size:.85rem;margin-bottom:.35rem">Название темы</label>
+      <input type="text" id="ct-name" maxlength="24" placeholder="Моя тема" style="width:100%;background:var(--s3);border:2px solid var(--s4);color:var(--text);padding:.6rem 1rem;border-radius:1rem;font-size:.95rem;margin-bottom:1rem">
+      <div id="ct-colors"></div>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:.5rem;margin-top:1rem">
+        <button class="btn" id="ct-save">💾 Сохранить</button>
+        <button class="btn btn-secondary" id="ct-cancel">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
 <div class="sr-only" id="liveStatus" aria-live="polite"></div>
 
 <div class="settings-panel" id="settingsPanel">
@@ -244,24 +237,12 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
   <div class="settings-menu">
     <div class="settings-section">
       <div class="settings-label">Тема</div>
-      <div class="theme-grid" id="themeGrid">
-        <button class="theme-opt active" data-theme="dark" title="Dark"></button>
-        <button class="theme-opt" data-theme="midnight" title="Midnight"></button>
-        <button class="theme-opt" data-theme="light" title="Light"></button>
-        <button class="theme-opt" data-theme="ocean" title="Ocean"></button>
-        <button class="theme-opt" data-theme="sunset" title="Sunset"></button>
-        <button class="theme-opt" data-theme="forest" title="Forest"></button>
-        <button class="theme-opt" data-theme="cyber" title="Cyberpunk"></button>
-        <button class="theme-opt" data-theme="nord" title="Nord"></button>
-        <button class="theme-opt" data-theme="rose" title="Rose"></button>
-      </div>
+      <div class="theme-grid" id="themeGrid"></div>
+      <button class="add-theme-btn" id="addThemeBtn">+ Создать свою тему</button>
     </div>
     <div class="settings-section">
       <div class="settings-label">Эффекты</div>
-      <div class="settings-toggle-row" id="bgToggleRow">
-        <span>Аврора-фон</span>
-        <div class="switch on" id="bgSwitch"></div>
-      </div>
+      <div class="settings-toggle-row" id="bgToggleRow"><span>Аврора-фон</span><div class="switch on" id="bgSwitch"></div></div>
     </div>
   </div>
 </div>
@@ -270,258 +251,457 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
 <script>
 'use strict';
-
-const MR_API = 'https://api.modrinth.com/v2';
-const MCIM_API = 'https://mod.mcimirror.top/curseforge/v1';
-const LIMIT = 20;
-const SKIN_LIMIT = 24;
-const NO_IMG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#1E2636"/><text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text></svg>');
-
-const pageCache = new Map();
-const CACHE_TTL = 5 * 60 * 1000;
-function cacheGet(k){const e=pageCache.get(k);return e&&Date.now()-e.ts<CACHE_TTL?e.data:null}
-function cacheSet(k,v){pageCache.set(k,{data:v,ts:Date.now()});if(pageCache.size>120)pageCache.delete(pageCache.keys().next().value)}
-
-async function fetchJson(url){
-  const r = await fetch(url);
-  if(!r.ok) throw new Error('HTTP '+r.status);
-  return r.json();
-}
-
-/* === NameMC через публичные CORS-прокси === */
-const CORS_PROXIES = [
-  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-  u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
-];
-async function fetchViaProxy(url){
-  for(const wrap of CORS_PROXIES){
-    try{
-      const r = await fetch(wrap(url));
-      if(r.ok){
-        const text = await r.text();
-        if(text && text.length > 100) return text;
-      }
-    }catch(e){continue}
-  }
-  throw new Error('all proxies failed');
-}
-async function fetchNamemcTrending(page=1){
-  const url = `https://namemc.com/skins/trending?page=${page}`;
-  const html = await fetchViaProxy(url);
-  const names = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m=>m[1]);
-  return [...new Set(names)];
-}
-async function fetchNamemcSearch(query){
-  const url = `https://namemc.com/search?q=${encodeURIComponent(query)}`;
-  const html = await fetchViaProxy(url);
-  // Ищем ник в результатах
-  const matches = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m=>m[1]);
-  const uniq = [...new Set(matches)];
-  return uniq.length ? uniq : [query];
-}
-
-/* === Скин-рендеры (прозрачный фон — minotar и crafatar первыми) === */
-function skinRenderUrl(name, step=0){
-  const n = encodeURIComponent(name);
-  const urls = [
-    `https://minotar.net/armor/body/${n}/180`,
-    `https://crafatar.com/renders/body/${n}?scale=6&overlay`,
-    `https://mc-heads.net/body/${n}/180`,
-    `https://api.mineatar.io/body/full/${n}?scale=6`
-  ];
-  return urls[Math.min(step, urls.length-1)];
-}
-function skinTextureUrl(name){
-  return `https://minotar.net/skin/${encodeURIComponent(name)}`;
-}
-function skinDownloadUrl(name){
-  return `https://minotar.net/download/${encodeURIComponent(name)}`;
-}
-
-/* === skinview3d === */
-let modalViewer = null;
-function createSkinViewer(container, skinUrl, opts={}){
-  if(typeof skinview3d === 'undefined' || typeof THREE === 'undefined') return null;
-  try{
-    const viewer = new skinview3d.SkinViewer({
-      canvas: document.createElement('canvas'),
-      width: container.clientWidth || 400,
-      height: container.clientHeight || 400,
-      skin: skinUrl,
-      background: 'transparent'
-    });
-    viewer.controls.enableZoom = opts.zoom !== false;
-    viewer.controls.enableRotate = true;
-    viewer.controls.enablePan = false;
-    viewer.camera.position.z = 60;
-    if(opts.animation){
-      viewer.animation = new skinview3d.WalkingAnimation();
-      viewer.animation.speed = 1;
-    }
-    try{viewer.renderer.setClearColor(0x000000, 0);viewer.renderer.setClearAlpha(0);}catch{}
-    viewer.canvas.style.background = 'transparent';
-    container.appendChild(viewer.canvas);
-    viewer.renderer.setAnimationLoop(()=>{viewer.renderer.render(viewer.scene, viewer.camera)});
-    return viewer;
-  }catch(e){
-    console.warn('skinview3d failed:', e);
-    const img = document.createElement('img');
-    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
-    img.onerror = () => { img.src = NO_IMG; };
-    container.appendChild(img);
-    return null;
-  }
-}
-
-function randomNick(){
-  const a = ['Epic','Dark','Fire','Ice','Shadow','Light','Red','Blue','Green','Gold','Diamond','Nether','Ender','Void','Storm','Frost','Blaze','Aqua','Toxic','Neon','Pixel','Retro','Craft','Mine','Block'];
-  const n = ['Warrior','Mage','Knight','Archer','Ninja','Pirate','King','Queen','Dragon','Wolf','Tiger','Phoenix','Golem','Slime','Creeper','Zombie','Skeleton','Wizard','Rogue','Paladin','Craft','Mine','Block','Steve','Alex','Bob'];
-  return a[Math.floor(Math.random()*a.length)] + n[Math.floor(Math.random()*n.length)] + Math.floor(Math.random()*100);
-}
-
-const SKIN_NAMES = [
-  'Notch','jeb_','Dinnerbone','Grumm','_Grum','Herobrine','Steve','Alex',
-  'Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','WilburSoot','Ph1LzA','Quackity',
-  'Grian','MumboJumbo','GoodTimesWithScar','Renthedog','impulseSV','TangoTek','Zedaph','BdoubleO100',
-  'Docm77','Keralis','EthosLab','VintageBeef','iskall85','Xisumavoid','Welsknight','Cubfan135',
-  'FalseSymmetry','Stressmonster101','ZombieCleo','JoeHills','Hypnotizd','xBCrafted','TinfoilChef',
-  'Skeppy','BadBoyHalo','a6d','CaptainSparklez','DanTDM','PopularMMOs','SkyDoesMinecraft',
-  'Stampylonghead','iBallisticSquid','LDShadowLady','Smallishbeans','SolidarityGaming','Smajor1995',
-  'Fwhip','GeminiTay','Shubble','PearlescentMoon','Jimmy','Pixlriffs','MythicalSausage',
-  'AntVenom','SethBling','Noxcrew','Illumina','Fruitberries','Punz','Hbomb94','TapL',
-  'Purpled','Wallibear','Ranboo','KarlJacobs','CorpseHusband','Fundy','Eret','Nihachu',
-  'JackManifoldTV','Niki','FoolishGamers','Ponk','Hannahxxrose','PurpledMC','Boosfer','Devon',
-  'Krtzyy','PeteZahHutt','Quig','Mefs','Krinios','Michaelmcchill','KingBurren','KaraCorvus',
-  'Wisp','ShubbleYT','Ldshadowlady','Seapeekay','InTheLittleWood','SB737','FWhip','Falsesymmetry',
-  'PrestonPlayz','UnspeakableGaming','SSundee','JeromeASF','BajanCanadian','Vikkstar123',
-  'Logdotzip','TheDiamondMinecart','SimonHoneydew','LewisXephos','Strippin','Rythian','Northerlion',
-  'NanoSounds','Crainer','TrueTriz','DrTrayaurus','SkyDoesMineCraft','Bodil40','CavemanFilms',
-  'AntVenomMC','CreeperFarts','ZexyZek','EeOneGuy','IvanGrozny','Marmok','Kuplinov','Letalis',
-  'Windy31','Buster','GamerVlad','SashaPlay','Dimasik','Lexa','Bratishkinoff','KarinaKross',
-  'Ender','Ghost','Phantom','Shadow','Wolf','Fox','Cat','Panda','Tiger','Lion','Dragon','Eagle'
-];
-
-const tabConfig = {
-  mods:{type:'mod',cf:'6'},
-  modpacks:{type:'modpack',cf:'4471'},
-  resourcepacks:{type:'resourcepack',cf:'12'},
-  shaders:{type:'shader',cf:'6552'}
-};
-
-let currentTab='mods', currentQuery='';
-let items=[];
-let offset=0, hasMore=true, isLoading=false, reqId=0, lastSearch=0;
-let editorActive=false;
-let randomMode=false;
-let namemcNames = null;  // кэш
+/* ============================================================
+   БЕЗОПАСНЫЕ ХЕЛПЕРЫ
+   ============================================================ */
 const $=id=>document.getElementById(id);
-
+const $$=(sel,root=document)=>[...root.querySelectorAll(sel)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function safeUrl(u){try{const x=new URL(u);return x.protocol==='https:'?x.href:''}catch{return ''}}
 const safeId=v=>/^[\w-]{1,64}$/.test(String(v))?String(v):'';
 const isValidNick=n=>/^[A-Za-z0-9_]{3,16}$/.test(n);
 const isValidVersion=v=>/^\d{1,2}(\.\d{1,2}){1,2}$/.test(v);
+const isValidHex=c=>/^#[0-9a-fA-F]{6}$/.test(c);
 
+function safeSetLocalStorage(key, val){
+  try{
+    let str = typeof val === 'string' ? val : JSON.stringify(val);
+    if(str.length > 500000) str = str.slice(0, 500000);
+    localStorage.setItem(key, str);
+    return true;
+  }catch(e){
+    try{ localStorage.removeItem(key); }catch{}
+    return false;
+  }
+}
+function safeGetLocalStorage(key){
+  try{ return localStorage.getItem(key); }catch{ return null; }
+}
+
+/* ============================================================
+   КОНСТАНТЫ
+   ============================================================ */
+const MR_API='https://api.modrinth.com/v2';
+const MCIM_API='https://mod.mcimirror.top/curseforge/v1';
+const LIMIT=20,SKIN_LIMIT=24;
+const NO_IMG='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#1E2636"/><text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text></svg>');
+
+/* ============================================================
+   КЭШ (LRU через Map)
+   ============================================================ */
+const pageCache=new Map(),CACHE_TTL=5*60*1000;
+function cacheGet(k){const e=pageCache.get(k);if(!e)return null;if(Date.now()-e.ts>CACHE_TTL){pageCache.delete(k);return null}return e.data}
+function cacheSet(k,v){if(pageCache.size>=120){const first=pageCache.keys().next().value;pageCache.delete(first)}pageCache.set(k,{data:v,ts:Date.now()})}
+
+/* ============================================================
+   FETCH С РЕТРАЕМ
+   ============================================================ */
+async function fetchJson(url){
+  let lastErr;
+  for(let i=0;i<2;i++){
+    try{
+      const ctrl = new AbortController();
+      const tm = setTimeout(()=>ctrl.abort(), 15000);
+      const r = await fetch(url, {signal: ctrl.signal});
+      clearTimeout(tm);
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return await r.json();
+    }catch(e){ lastErr = e; if(i===0) await new Promise(res=>setTimeout(res,300)); }
+  }
+  throw lastErr || new Error('fetch failed');
+}
+
+/* ============================================================
+   ПУБЛИЧНЫЕ CORS-ПРОКСИ (для NameMC)
+   ============================================================ */
+const CORS_PROXIES=[
+  u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u=>`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
+];
+async function fetchViaProxy(url){
+  for(const w of CORS_PROXIES){
+    try{
+      const ctrl = new AbortController();
+      const tm = setTimeout(()=>ctrl.abort(), 8000);
+      const r = await fetch(w(url), {signal: ctrl.signal});
+      clearTimeout(tm);
+      if(r.ok){const t=await r.text();if(t&&t.length>100)return t}
+    }catch(e){continue}
+  }
+  throw new Error('all proxies failed');
+}
+async function fetchNamemcTrending(page=1){
+  const html=await fetchViaProxy(`https://namemc.com/skins/trending?page=${page}`);
+  const names=[...html.matchAll(/data-player-name="([^"]+)"/g)].map(m=>m[1]);
+  return [...new Set(names)].filter(n=>isValidNick(n)).slice(0,60);
+}
+async function fetchNamemcSearch(q){
+  const html=await fetchViaProxy(`https://namemc.com/search?q=${encodeURIComponent(q)}`);
+  const m=[...new Set([...html.matchAll(/data-player-name="([^"]+)"/g)].map(x=>x[1]))].filter(n=>isValidNick(n));
+  return m.length?m:[q];
+}
+
+/* ============================================================
+   СКИН-РЕНДЕРЫ
+   ============================================================ */
+function skinRenderUrl(name,step=0){
+  const n=encodeURIComponent(name);
+  const u=[
+    `https://minotar.net/armor/body/${n}/180`,
+    `https://crafatar.com/renders/body/${n}?scale=6&overlay`,
+    `https://mc-heads.net/body/${n}/180`,
+    `https://api.mineatar.io/body/full/${n}?scale=6`
+  ];
+  return u[Math.min(Math.max(0,step|0), u.length-1)];
+}
+const skinTextureUrl=n=>`https://minotar.net/skin/${encodeURIComponent(n)}`;
+const skinDownloadUrl=n=>`https://minotar.net/download/${encodeURIComponent(n)}`;
+
+/* ============================================================
+   СПИСОК СКИНОВ (фолбэк)
+   ============================================================ */
+const SKIN_NAMES=['Notch','jeb_','Dinnerbone','Grumm','_Grum','Herobrine','Steve','Alex','Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','WilburSoot','Ph1LzA','Quackity','Grian','MumboJumbo','GoodTimesWithScar','Renthedog','impulseSV','TangoTek','Zedaph','BdoubleO100','Docm77','Keralis','EthosLab','VintageBeef','iskall85','Xisumavoid','Welsknight','Cubfan135','FalseSymmetry','Stressmonster101','ZombieCleo','JoeHills','Hypnotizd','xBCrafted','TinfoilChef','Skeppy','BadBoyHalo','a6d','CaptainSparklez','DanTDM','PopularMMOs','SkyDoesMinecraft','Stampylonghead','iBallisticSquid','LDShadowLady','Smallishbeans','SolidarityGaming','Smajor1995','Fwhip','GeminiTay','Shubble','PearlescentMoon','Jimmy','Pixlriffs','MythicalSausage','AntVenom','SethBling','Noxcrew','Illumina','Fruitberries','Punz','Hbomb94','TapL','Purpled','Wallibear','Ranboo','KarlJacobs','CorpseHusband','Fundy','Eret','Nihachu','JackManifoldTV','Niki','FoolishGamers','Ponk','Hannahxxrose','Boosfer','Krtzyy','PeteZahHutt','Quig','Mefs','Krinios','Michaelmcchill','KingBurren','KaraCorvus','Wisp','Seapeekay','InTheLittleWood','SB737','PrestonPlayz','UnspeakableGaming','SSundee','JeromeASF','BajanCanadian','Vikkstar123','Logdotzip','SimonHoneydew','LewisXephos','Strippin','Rythian','Crainer','SkyDoesMineCraft','EeOneGuy','IvanGrozny','Marmok','Kuplinov','Letalis','Windy31','Buster','GamerVlad','SashaPlay','Dimasik','Lexa','Bratishkinoff','KarinaKross','Ender','Ghost','Phantom','Shadow','Wolf','Fox','Cat','Panda','Tiger','Lion','Dragon','Eagle'];
+
+/* ============================================================
+   СОСТОЯНИЕ
+   ============================================================ */
+const tabConfig={mods:{type:'mod',cf:'6'},modpacks:{type:'modpack',cf:'4471'},resourcepacks:{type:'resourcepack',cf:'12'},shaders:{type:'shader',cf:'6552'}};
+let currentTab='mods',currentQuery='',items=[],offset=0,hasMore=true,isLoading=false,reqId=0,lastSearch=0,editorActive=false,randomMode=false,namemcNames=null;
+
+/* ============================================================
+   TOAST
+   ============================================================ */
 function toast(msg,kind='info',ms=4000){
   const el=document.createElement('div');
   el.className='toast '+(kind==='error'?'error':kind==='ok'?'ok':'');
   el.textContent=msg;
-  $('toasts').appendChild(el);
+  const container=$('toasts');
+  if(!container)return;
+  container.appendChild(el);
   setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},ms);
 }
 
+/* ============================================================
+   ПЕРЕВОД — ОЧЕРЕДЬ С BACKOFF
+   ============================================================ */
 const trCache=new Map();
-try{Object.entries(JSON.parse(localStorage.getItem('trCache')||'{}')).forEach(([k,v])=>trCache.set(k,v))}catch{}
+try{const raw=safeGetLocalStorage('trCache');if(raw)Object.entries(JSON.parse(raw)).forEach(([k,v])=>trCache.set(k,v))}catch{}
 let cacheSaveTimer=null;
-function scheduleCacheSave(){if(cacheSaveTimer)return;cacheSaveTimer=setTimeout(()=>{try{localStorage.setItem('trCache',JSON.stringify(Object.fromEntries([...trCache].slice(-300))))}catch{};cacheSaveTimer=null},1500)}
+function scheduleCacheSave(){
+  if(cacheSaveTimer)return;
+  cacheSaveTimer=setTimeout(()=>{
+    try{
+      const entries=[...trCache].slice(-300);
+      safeSetLocalStorage('trCache', JSON.stringify(Object.fromEntries(entries)));
+    }catch{}
+    cacheSaveTimer=null;
+  },2000);
+}
 const needsTranslation=t=>t&&t.length>2&&(t.match(/[а-яё]/gi)||[]).length<t.length*0.2;
-async function translate(text,signal){
+async function translate(text){
   if(!needsTranslation(text))return text;
   const cut=text.slice(0,450);
   if(trCache.has(cut))return trCache.get(cut);
   try{
-    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q='+encodeURIComponent(cut),{signal});
-    if(!r.ok)throw 0;
+    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q='+encodeURIComponent(cut));
+    if(r.status===429){await new Promise(res=>setTimeout(res,1500));throw new Error('rate limited')}
+    if(!r.ok)throw new Error('translate http '+r.status);
     const d=await r.json();
     const out=d[0].map(p=>p[0]).join('');
     trCache.set(cut,out);scheduleCacheSave();
     return out;
   }catch{return text}
 }
+async function translateQueue(items, token){
+  let idx=0;
+  const worker = async () => {
+    while(idx < items.length && token === reqId){
+      const el = items[idx++];
+      if(!el || !el.dataset || !el.dataset.orig) continue;
+      const ru = await translate(el.dataset.orig);
+      if(token===reqId && document.contains(el)) el.textContent = ru;
+      await new Promise(res=>setTimeout(res,80));
+    }
+  };
+  await Promise.all([worker(),worker()]);
+}
 
-function initSettings(){
-  const savedTheme = localStorage.getItem('mch-theme') || 'dark';
-  const savedBg = localStorage.getItem('mch-bg') !== 'off';
-  document.documentElement.setAttribute('data-theme', savedTheme);
+/* ============================================================
+   ТЕМЫ — ВСТРОЕННЫЕ + КАСТОМНЫЕ
+   ============================================================ */
+const BUILTIN_THEMES=[
+  {id:'dark', name:'Dark'},
+  {id:'midnight', name:'Midnight'},
+  {id:'light', name:'Light'},
+  {id:'ocean', name:'Ocean'},
+  {id:'sunset', name:'Sunset'},
+  {id:'forest', name:'Forest'},
+  {id:'cyber', name:'Cyberpunk'},
+  {id:'nord', name:'Nord'},
+  {id:'rose', name:'Rose'}
+];
+const THEME_COLORS=[
+  {key:'s0', label:'Фон'},
+  {key:'s2', label:'Карточки'},
+  {key:'s3', label:'Поля'},
+  {key:'s4', label:'Hover'},
+  {key:'accent', label:'Акцент'},
+  {key:'accent-2', label:'Градиент'},
+  {key:'text', label:'Текст'},
+  {key:'tdim', label:'Тусклый текст'},
+  {key:'dim', label:'Тег'}
+];
+let customThemes = [];
+try{
+  const raw = safeGetLocalStorage('mch-custom-themes');
+  if(raw){
+    const arr = JSON.parse(raw);
+    if(Array.isArray(arr)){
+      customThemes = arr.filter(t=>t && typeof t === 'object' && typeof t.id === 'string' && /^custom_[a-z0-9]+$/.test(t.id) && /^[\w\s\-А-Яа-яЁё]{1,24}$/.test(t.name||'') && t.colors && typeof t.colors === 'object');
+    }
+  }
+}catch{ customThemes = []; }
+
+function saveCustomThemes(){
+  safeSetLocalStorage('mch-custom-themes', customThemes);
+}
+
+function applyTheme(themeId){
+  document.documentElement.setAttribute('data-theme', themeId);
+  // Кастомная тема — применяем CSS-переменные вручную
+  const custom = customThemes.find(t=>t.id === themeId);
+  if(custom){
+    for(const [k,v] of Object.entries(custom.colors)){
+      if(isValidHex(v)) document.documentElement.style.setProperty('--'+k, v);
+    }
+    // Производные
+    if(custom.colors.accent){
+      const rgb = hexToRgb(custom.colors.accent);
+      document.documentElement.style.setProperty('--card-glow', `rgba(${rgb.r},${rgb.g},${rgb.b},.18)`);
+      document.documentElement.style.setProperty('--aurora-1', `rgba(${rgb.r},${rgb.g},${rgb.b},.35)`);
+    }
+    if(custom.colors['accent-2']){
+      const rgb = hexToRgb(custom.colors['accent-2']);
+      document.documentElement.style.setProperty('--aurora-2', `rgba(${rgb.r},${rgb.g},${rgb.b},.28)`);
+    }
+  } else {
+    // Сброс inline-стилей (встроенная тема через data-theme)
+    THEME_COLORS.forEach(c=>document.documentElement.style.removeProperty('--'+c.key));
+    document.documentElement.style.removeProperty('--card-glow');
+    document.documentElement.style.removeProperty('--aurora-1');
+    document.documentElement.style.removeProperty('--aurora-2');
+  }
+}
+function hexToRgb(hex){
+  const h = hex.replace('#','');
+  return {r:parseInt(h.slice(0,2),16), g:parseInt(h.slice(2,4),16), b:parseInt(h.slice(4,6),16)};
+}
+
+function renderThemeGrid(){
+  const grid = $('themeGrid');
+  if(!grid) return;
+  let html = BUILTIN_THEMES.map(t => `<button class="theme-opt" data-theme="${t.id}" title="${esc(t.name)}"></button>`).join('');
+  html += customThemes.map(t => {
+    const c = t.colors;
+    const bg = `background:linear-gradient(135deg,${esc(c.s0||'#000')} 50%,${esc(c.accent||'#fff')})`;
+    return `<button class="theme-opt custom" data-theme="${t.id}" title="${esc(t.name)}" style="${bg}"><span class="del-badge" data-del="${t.id}" title="Удалить">×</span></button>`;
+  }).join('');
+  grid.innerHTML = html;
+}
+function initThemes(){
+  renderThemeGrid();
+  const savedTheme = safeGetLocalStorage('mch-theme') || 'dark';
+  const savedBg = safeGetLocalStorage('mch-bg') !== 'off';
+  applyTheme(savedTheme);
   if(!savedBg) document.body.classList.add('no-bg');
   $('bgSwitch').classList.toggle('on', savedBg);
-  document.querySelectorAll('.theme-opt').forEach(b=>b.classList.toggle('active', b.dataset.theme===savedTheme));
-  $('settingsToggle').addEventListener('click', e=>{
+  // Метка активной
+  const markActive = () => {
+    $$('.theme-opt').forEach(b=>b.classList.toggle('active', b.dataset.theme === (safeGetLocalStorage('mch-theme')||'dark')));
+  };
+  markActive();
+
+  $('settingsToggle').addEventListener('click', e => {
     e.stopPropagation();
     $('settingsPanel').classList.toggle('open');
   });
-  document.querySelectorAll('.theme-opt').forEach(b=>b.addEventListener('click', ()=>{
-    const t=b.dataset.theme;
-    document.documentElement.setAttribute('data-theme',t);
-    localStorage.setItem('mch-theme',t);
-    document.querySelectorAll('.theme-opt').forEach(x=>x.classList.toggle('active',x===b));
-    toast('Тема: '+t,'ok',1500);
-  }));
-  $('bgToggleRow').addEventListener('click', ()=>{
+  $('themeGrid').addEventListener('click', e => {
+    const delBtn = e.target.closest('[data-del]');
+    if(delBtn){
+      e.stopPropagation();
+      const id = delBtn.dataset.del;
+      const theme = customThemes.find(t=>t.id===id);
+      if(!theme) return;
+      if(!confirm(`Удалить тему «${theme.name}»?`)) return;
+      customThemes = customThemes.filter(t=>t.id !== id);
+      saveCustomThemes();
+      if(safeGetLocalStorage('mch-theme') === id){
+        applyTheme('dark');
+        safeSetLocalStorage('mch-theme','dark');
+      }
+      renderThemeGrid();
+      markActive();
+      return;
+    }
+    const btn = e.target.closest('.theme-opt');
+    if(!btn) return;
+    const th = btn.dataset.theme;
+    if(!th) return;
+    applyTheme(th);
+    safeSetLocalStorage('mch-theme', th);
+    markActive();
+  });
+  $('bgToggleRow').addEventListener('click', () => {
     const on = !$('bgSwitch').classList.contains('on');
     $('bgSwitch').classList.toggle('on', on);
     document.body.classList.toggle('no-bg', !on);
-    localStorage.setItem('mch-bg', on ? 'on' : 'off');
+    safeSetLocalStorage('mch-bg', on ? 'on' : 'off');
   });
-  document.addEventListener('click',e=>{
-    if(!e.target.closest('#settingsPanel'))$('settingsPanel').classList.remove('open');
+  document.addEventListener('click', e => {
+    if(!e.target.closest('#settingsPanel')) $('settingsPanel').classList.remove('open');
   });
+  $('addThemeBtn').addEventListener('click', openThemeEditor);
 }
 
+/* ============================================================
+   КОНСТРУКТОР ТЕМ
+   ============================================================ */
+let themeEditState = null;
+function openThemeEditor(existingId){
+  const existing = existingId ? customThemes.find(t=>t.id === existingId) : null;
+  const defaults = existing ? existing.colors : {
+    's0':'#05070C','s2':'#0F131C','s3':'#161D2B','s4':'#1E2636',
+    'accent':'#38BDF8','accent-2':'#6EE7B7',
+    'text':'#E8EDF4','tdim':'#9CA3AF','dim':'#1E3A5F'
+  };
+  themeEditState = {id: existing ? existing.id : null, colors: {...defaults}, name: existing ? existing.name : ''};
+
+  $('themeModalTitle').textContent = existing ? 'Редактировать тему' : 'Своя тема';
+  $('ct-name').value = themeEditState.name;
+
+  const colorsEl = $('ct-colors');
+  colorsEl.innerHTML = THEME_COLORS.map(c => `
+    <div class="color-row">
+      <label for="ct-${c.key}">${c.label}</label>
+      <input type="text" id="ct-txt-${c.key}" value="${esc(themeEditState.colors[c.key])}" maxlength="7">
+      <input type="color" id="ct-${c.key}" value="${esc(themeEditState.colors[c.key])}">
+    </div>
+  `).join('');
+
+  THEME_COLORS.forEach(c => {
+    $('ct-'+c.key).addEventListener('input', e => {
+      const v = e.target.value;
+      themeEditState.colors[c.key] = v;
+      $('ct-txt-'+c.key).value = v;
+      previewCustomTheme();
+    });
+    $('ct-txt-'+c.key).addEventListener('input', e => {
+      const v = e.target.value.trim();
+      if(isValidHex(v)){
+        themeEditState.colors[c.key] = v;
+        $('ct-'+c.key).value = v;
+        previewCustomTheme();
+      }
+    });
+  });
+
+  $('themeModal').classList.add('active');
+}
+function previewCustomTheme(){
+  for(const [k,v] of Object.entries(themeEditState.colors)){
+    if(isValidHex(v)) document.documentElement.style.setProperty('--'+k, v);
+  }
+  if(themeEditState.colors.accent){
+    const rgb = hexToRgb(themeEditState.colors.accent);
+    document.documentElement.style.setProperty('--card-glow', `rgba(${rgb.r},${rgb.g},${rgb.b},.18)`);
+    document.documentElement.style.setProperty('--aurora-1', `rgba(${rgb.r},${rgb.g},${rgb.b},.35)`);
+  }
+}
+function closeThemeEditor(revert){
+  if(revert){
+    // Возвращаем сохранённую тему
+    applyTheme(safeGetLocalStorage('mch-theme') || 'dark');
+  }
+  $('themeModal').classList.remove('active');
+  themeEditState = null;
+}
+function saveCustomTheme(){
+  if(!themeEditState) return;
+  const name = ($('ct-name').value || '').trim().slice(0, 24);
+  if(!name){ toast('Введи название темы','error'); return; }
+  if(!/^[\w\s\-А-Яа-яЁё]{1,24}$/.test(name)){ toast('Только буквы, цифры, пробелы, дефис','error'); return; }
+  const id = themeEditState.id || ('custom_' + Math.random().toString(36).slice(2,10));
+  // Проверка на дубликаты имён
+  if(customThemes.some(t=>t.id !== id && t.name.toLowerCase() === name.toLowerCase())){
+    toast('Такое имя уже есть','error'); return;
+  }
+  // Санитизация цветов
+  const colors = {};
+  for(const [k,v] of Object.entries(themeEditState.colors)){
+    if(isValidHex(v)) colors[k] = v;
+  }
+  if(Object.keys(colors).length < THEME_COLORS.length){
+    toast('Некорректные цвета','error'); return;
+  }
+  if(themeEditState.id){
+    const idx = customThemes.findIndex(t=>t.id === id);
+    if(idx >= 0) customThemes[idx] = {id, name, colors};
+    else customThemes.push({id, name, colors});
+  } else {
+    customThemes.push({id, name, colors});
+  }
+  saveCustomThemes();
+  renderThemeGrid();
+  applyTheme(id);
+  safeSetLocalStorage('mch-theme', id);
+  toast('Тема сохранена: ' + name,'ok');
+  closeThemeEditor(false);
+}
+
+/* ============================================================
+   СКЕЛЕТОНЫ
+   ============================================================ */
 function showSkeletons(n=8){
   let grid=$('content').querySelector('.grid');
   if(!grid){grid=document.createElement('div');grid.className='grid';$('content').appendChild(grid)}
-  const html=Array.from({length:n},()=>`
-    <article class="card skeleton-card" aria-hidden="true">
-      <div class="card-image skeleton-shimmer"></div>
-      <div class="card-content">
-        <div class="skeleton-line big skeleton-shimmer"></div>
-        <div class="skeleton-line skeleton-shimmer" style="width:90%"></div>
-        <div class="skeleton-line skeleton-shimmer" style="width:60%"></div>
-      </div>
-    </article>`).join('');
-  grid.insertAdjacentHTML('beforeend',html);
+  const h=Array.from({length:n},()=>`<article class="card skeleton-card"><div class="card-image skeleton-shimmer"></div><div class="card-content"><div class="skeleton-line big skeleton-shimmer"></div><div class="skeleton-line skeleton-shimmer" style="width:90%"></div><div class="skeleton-line skeleton-shimmer" style="width:60%"></div></div></article>`).join('');
+  grid.insertAdjacentHTML('beforeend',h);
 }
-function removeSkeletons(){document.querySelectorAll('.skeleton-card').forEach(el=>el.remove())}
+function removeSkeletons(){$$('.skeleton-card').forEach(el=>el.remove())}
 
+/* ============================================================
+   SENTINEL + ЗАГРУЗКА
+   ============================================================ */
 const sentinel=$('sentinel');
-const io=new IntersectionObserver(entries=>{
-  if(entries[0].isIntersecting && !isLoading && hasMore && !editorActive)loadMore();
-},{rootMargin:'400px'});
-
+const io=new IntersectionObserver(entries=>{if(entries[0].isIntersecting&&!isLoading&&hasMore&&!editorActive)loadMore()},{rootMargin:'400px'});
 function setSentinel(state){
+  if(!sentinel)return;
   if(state==='loading'){sentinel.textContent='';sentinel.classList.remove('end')}
   else if(state==='end'){sentinel.textContent='— Конец списка —';sentinel.classList.add('end')}
   else{sentinel.textContent='';sentinel.classList.remove('end')}
 }
 
-document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false')});
+/* ============================================================
+   ВКЛАДКИ
+   ============================================================ */
+$$('.tab').forEach(tab=>tab.addEventListener('click',()=>{
+  if(editorActive){
+    if(editorState?.viewer){try{editorState.viewer.renderer.setAnimationLoop(null);editorState.viewer.dispose()}catch{}}
+    editorState = null;
+    editorActive = false;
+  }
+  $$('.tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false')});
   tab.classList.add('active');tab.setAttribute('aria-selected','true');
   currentTab=tab.dataset.tab;currentQuery='';randomMode=false;
   $('searchInput').value='';
-  editorActive=false;
-
-  // ВАЖНО: вернуть поиск и sentinel, даже если были скрыты редактором
   $('searchContainer').classList.remove('hidden');
   sentinel.classList.remove('hidden');
-
   const sk=currentTab==='skins';
   $('filters').classList.toggle('hidden',sk);
   $('editorBtn').style.display=sk?'inline-flex':'none';
   $('randomBtn').style.display=sk?'inline-flex':'none';
-  $('searchInput').placeholder=sk?'Введи ник и Enter — покажем скин':'Поиск...';
+  $('searchInput').placeholder=sk?'Введи ник и Enter':'Поиск...';
   resetAndLoad();
 }));
 
@@ -536,18 +716,16 @@ $('randomBtn').addEventListener('click',()=>{randomMode=true;currentQuery='';$('
 function performSearch(){
   const now=Date.now();if(now-lastSearch<600)return;lastSearch=now;
   currentQuery=$('searchInput').value.trim().slice(0,64);
-  randomMode=false;
-  resetAndLoad();
+  randomMode=false;resetAndLoad();
 }
-
 function resetAndLoad(){
-  reqId++;
-  items=[];offset=0;hasMore=true;isLoading=false;
-  $('content').innerHTML='';
-  setSentinel('idle');
-  loadMore();
+  reqId++;items=[];offset=0;hasMore=true;isLoading=false;
+  $('content').innerHTML='';setSentinel('idle');loadMore();
 }
 
+/* ============================================================
+   МОДЫ / CF
+   ============================================================ */
 function buildModrinthQuery(){
   const cfg=tabConfig[currentTab],sort=$('sortSelect').value;
   const mc=$('mcVersion').value.trim(),loader=$('loaderSelect').value;
@@ -567,74 +745,66 @@ async function fetchModrinthPage(){
   const {qs,key}=buildModrinthQuery();
   const c=cacheGet(key);if(c)return c;
   const data=await fetchJson(`${MR_API}/search?${qs}`);
-  const result={list:(data.hits||[]).map(i=>({source:'modrinth',...i})),total:data.total_hits??0};
-  cacheSet(key,result);return result;
+  const r={list:(data.hits||[]).map(i=>({source:'modrinth',...i})),total:data.total_hits??0};
+  cacheSet(key,r);return r;
 }
 async function fetchCurseForgePage(){
   const {qs,key}=buildCurseForgeQuery();
   const c=cacheGet(key);if(c)return c;
   const data=await fetchJson(`${MCIM_API}/mods/search?${qs}`);
-  const result={list:(data.data||[]).map(i=>({source:'curseforge',...i})),total:data.pagination?.totalCount??0};
-  cacheSet(key,result);return result;
+  const r={list:(data.data||[]).map(i=>({source:'curseforge',...i})),total:data.pagination?.totalCount??0};
+  cacheSet(key,r);return r;
 }
 
 async function loadMore(){
   if(isLoading||!hasMore)return;
-  isLoading=true;
-  const token=reqId;
-
+  isLoading=true;const token=reqId;
   try{
     if(currentTab==='skins'){
       showSkeletons(8);
       let list=[];
-      if(currentQuery && isValidNick(currentQuery)){
-        // Поиск по нику — пробуем NameMC search через прокси
-        let names = [currentQuery];
-        try{ names = await fetchNamemcSearch(currentQuery); }catch(e){}
-        list = names.slice(0,SKIN_LIMIT).map(n=>({source:'skin',name:n}));
+      if(currentQuery&&isValidNick(currentQuery)){
+        let names=[currentQuery];
+        try{names=await fetchNamemcSearch(currentQuery)}catch(e){}
+        list=names.slice(0,SKIN_LIMIT).map(n=>({source:'skin',name:n}));
         hasMore=false;
-      } else if(randomMode){
-        list=Array.from({length:SKIN_LIMIT},()=>({source:'skin',name:randomNick()}));
+      }else if(randomMode){
+        const a=['Epic','Dark','Fire','Ice','Shadow','Light','Red','Blue','Green','Gold','Diamond','Nether','Ender','Void','Storm','Frost','Blaze','Pixel','Retro','Craft'];
+        const n=['Warrior','Mage','Knight','Archer','Ninja','Pirate','King','Dragon','Wolf','Tiger','Phoenix','Golem','Slime','Creeper','Zombie','Skeleton','Wizard','Steve','Alex'];
+        list=Array.from({length:SKIN_LIMIT},()=>({source:'skin',name:a[Math.floor(Math.random()*a.length)]+n[Math.floor(Math.random()*n.length)]+Math.floor(Math.random()*100)}));
         hasMore=false;
-      } else {
-        // Пробуем NameMC trending через прокси
-        if(namemcNames === null){
-          try{
-            const trending = await fetchNamemcTrending(1);
-            namemcNames = trending.length > 20 ? trending : SKIN_NAMES;
-          }catch(e){
-            namemcNames = SKIN_NAMES;
-          }
+      }else{
+        if(namemcNames===null){
+          try{const t=await fetchNamemcTrending(1);namemcNames=t.length>20?t:SKIN_NAMES}
+          catch{namemcNames=SKIN_NAMES}
         }
         const start=offset;
         list=namemcNames.slice(start,start+SKIN_LIMIT).map(n=>({source:'skin',name:n}));
-        hasMore = (offset+SKIN_LIMIT) < namemcNames.length;
+        hasMore=(offset+SKIN_LIMIT)<namemcNames.length;
       }
       removeSkeletons();
       if(token!==reqId)return;
       if(!list.length){hasMore=false;setSentinel('end');return}
       appendCards(list,token);
-      offset += list.length;
+      offset+=list.length;
       setSentinel(hasMore?'idle':'end');
       return;
     }
-
-    showSkeletons(8);
-    setSentinel('loading');
-    let mrResult=null,cfResult=null,rendered=false;
-    const handleMr=async()=>{try{const r=await fetchModrinthPage();if(token!==reqId)return null;mrResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){return null}};
-    const handleCf=async()=>{try{const r=await fetchCurseForgePage();if(token!==reqId)return null;cfResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){return null}};
+    showSkeletons(8);setSentinel('loading');
+    let mr=null,cf=null,rendered=false;
+    const handleMr=async()=>{try{const r=await fetchModrinthPage();if(token!==reqId)return null;mr=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){console.warn('MR:',e.message);return null}};
+    const handleCf=async()=>{try{const r=await fetchCurseForgePage();if(token!==reqId)return null;cf=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){console.warn('CF:',e.message);return null}};
     await Promise.all([handleMr(),handleCf()]);
     if(token!==reqId)return;
     removeSkeletons();
-    if(!mrResult&&!cfResult)throw new Error('Оба источника недоступны');
-    const mrTotal=mrResult?.total??0,cfTotal=cfResult?.total??0;
-    hasMore=(offset+LIMIT)<Math.max(mrTotal,cfTotal);
+    if(!mr&&!cf)throw new Error('Оба источника недоступны');
+    const mrT=mr?.total??0,cfT=cf?.total??0;
+    hasMore=(offset+LIMIT)<Math.max(mrT,cfT);
     offset+=LIMIT;
     setSentinel(hasMore?'idle':'end');
   }catch(e){
     if(token!==reqId)return;
-    removeSkeletons();hasMore=false;
+    console.error(e);removeSkeletons();hasMore=false;
     const errEl=document.createElement('div');errEl.className='error';
     errEl.innerHTML=`Не удалось загрузить.<div class="error-detail">${esc(e.message||'')}</div>`;
     $('content').appendChild(errEl);
@@ -642,118 +812,103 @@ async function loadMore(){
   }finally{if(token===reqId)isLoading=false}
 }
 
-const norm=it=>it.source==='modrinth'?{
-  title:it.title,desc:it.description,icon:it.icon_url,downloads:it.downloads,author:it.author,
-  updated:it.date_modified,id:it.project_id||it.slug,
-  web:`https://modrinth.com/${tabConfig[currentTab]?.type||'mod'}/${encodeURIComponent(it.slug)}`
-}:{
-  title:it.name,desc:it.summary,icon:it.logo?.url,downloads:it.downloadCount,author:it.authors?.[0]?.name||'Неизвестно',
-  updated:it.dateModified,id:it.id,web:it.links?.websiteUrl
-};
+const norm=it=>it.source==='modrinth'?{title:it.title,desc:it.description,icon:it.icon_url,downloads:it.downloads,author:it.author,updated:it.date_modified,id:it.project_id||it.slug,web:`https://modrinth.com/${tabConfig[currentTab]?.type||'mod'}/${encodeURIComponent(it.slug)}`}:{title:it.name,desc:it.summary,icon:it.logo?.url,downloads:it.downloadCount,author:it.authors?.[0]?.name||'Неизвестно',updated:it.dateModified,id:it.id,web:it.links?.websiteUrl};
 
-function buildCardHTML(it,globalIndex){
+function buildCardHTML(it,gi){
   if(it.source==='skin'){
-    const name = it.name;
-    return `<article class="card" data-i="${globalIndex}" tabindex="0">
-      <img src="${esc(skinRenderUrl(name, 0))}" alt="${esc(name)}" class="card-image skin" loading="lazy" data-skin-name="${esc(name)}" data-skin-step="0" data-skin-fallback>
-      <div class="card-content">
-        <h3 class="card-title">${esc(name)}</h3>
-        <p class="card-description">Клик — 3D-просмотр и скачивание</p>
-      </div>
-    </article>`;
+    return`<article class="card" data-i="${gi}" tabindex="0"><img src="${esc(skinRenderUrl(it.name,0))}" alt="${esc(it.name)}" class="card-image skin" loading="lazy" data-skin-name="${esc(it.name)}" data-skin-step="0" data-skin-fallback onload="this.dataset.skinStep='0'"><div class="card-content"><h3 class="card-title">${esc(it.name)}</h3><p class="card-description">Клик — 3D-просмотр и скачивание</p></div></article>`;
   }
   const n=norm(it);
-  return `<article class="card" data-i="${globalIndex}" tabindex="0">
-    <img src="${esc(safeUrl(n.icon)||NO_IMG)}" alt="${esc(n.title)}" class="card-image" loading="lazy" referrerpolicy="no-referrer" data-fallback>
-    <div class="card-content"><h3 class="card-title">${esc(n.title)}</h3>
-    <p class="card-description" data-orig="${esc(n.desc||'')}">${esc(n.desc||'Описание отсутствует')}</p>
-    <span class="tag">${it.source==='modrinth'?'Modrinth':'CurseForge'}</span>
-    <div class="card-stats"><span>📥 ${formatNumber(n.downloads)}</span><span>👤 ${esc(n.author)}</span></div></div></article>`;
+  return`<article class="card" data-i="${gi}" tabindex="0"><img src="${esc(safeUrl(n.icon)||NO_IMG)}" alt="${esc(n.title)}" class="card-image" loading="lazy" referrerpolicy="no-referrer" data-fallback><div class="card-content"><h3 class="card-title">${esc(n.title)}</h3><p class="card-description" data-orig="${esc(n.desc||'')}">${esc(n.desc||'Описание отсутствует')}</p><span class="tag">${it.source==='modrinth'?'Modrinth':'CurseForge'}</span><div class="card-stats"><span>📥 ${formatNumber(n.downloads)}</span><span>👤 ${esc(n.author)}</span></div></div></article>`;
 }
-
 function appendCards(list,token){
   let grid=$('content').querySelector('.grid');
   if(!grid){grid=document.createElement('div');grid.className='grid';$('content').appendChild(grid)}
   const startIdx=items.length;
-  const html=list.map((it,i)=>buildCardHTML(it,startIdx+i)).join('');
-  grid.insertAdjacentHTML('beforeend',html);
+  grid.insertAdjacentHTML('beforeend',list.map((it,i)=>buildCardHTML(it,startIdx+i)).join(''));
   items.push(...list);
-  if(currentTab!=='skins') translateNew(token,startIdx);
-}
-
-async function translateNew(token,fromIdx){
-  const cards=[...$('content').querySelectorAll('.card')].slice(fromIdx);
-  const queue=cards.map(c=>c.querySelector('.card-description[data-orig]')).filter(Boolean);
-  const worker=async()=>{while(queue.length&&token===reqId){const el=queue.shift();const ru=await translate(el.dataset.orig);if(token===reqId)el.textContent=ru}};
-  await Promise.all([worker(),worker(),worker(),worker()]);
+  if(currentTab!=='skins'){
+    const cards=[...grid.children].slice(startIdx);
+    const queue=cards.map(c=>c.querySelector('.card-description[data-orig]')).filter(Boolean);
+    translateQueue(queue, token);
+  }
 }
 
 document.addEventListener('error',e=>{
   const img=e.target;
-  if(img.tagName!=='IMG')return;
+  if(!img || img.tagName!=='IMG')return;
   if(img.hasAttribute('data-skin-fallback')){
-    const step = +img.dataset.skinStep + 1;
-    if(step < 4){
-      img.dataset.skinStep = step;
-      img.src = skinRenderUrl(img.dataset.skinName, step);
-      return;
-    }
-    img.src = NO_IMG;
-    return;
+    const step=+img.dataset.skinStep+1;
+    if(step<4){img.dataset.skinStep=step;img.src=skinRenderUrl(img.dataset.skinName,step);return}
+    img.src=NO_IMG;return;
   }
-  if(img.hasAttribute('data-fallback') && img.src !== NO_IMG){
-    img.src = NO_IMG;
-  }
+  if(img.hasAttribute('data-fallback')&&img.src!==NO_IMG)img.src=NO_IMG;
 },true);
 
-$('content').addEventListener('click',e=>{
-  const card=e.target.closest('.card');
-  if(card&&!card.classList.contains('skeleton-card'))showDetails(items[+card.dataset.i]);
-});
-$('content').addEventListener('keydown',e=>{
-  const card=e.target.closest('.card');
-  if(card&&!card.classList.contains('skeleton-card')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();showDetails(items[+card.dataset.i])}
-});
+$('content').addEventListener('click',e=>{const c=e.target.closest('.card');if(c&&!c.classList.contains('skeleton-card'))showDetails(items[+c.dataset.i])});
+$('content').addEventListener('keydown',e=>{const c=e.target.closest('.card');if(c&&!c.classList.contains('skeleton-card')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();showDetails(items[+c.dataset.i])}});
 
-let lastFocused=null;
+/* ============================================================
+   МОДАЛКА
+   ============================================================ */
+let lastFocused=null,modalViewer=null;
 function trapFocus(e){
   if(e.key!=='Tab')return;
-  const modal=$('detailModal');
-  if(!modal.classList.contains('active'))return;
-  const focusables=[...modal.querySelectorAll('button:not([disabled]),[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);
-  if(!focusables.length)return;
-  const first=focusables[0],last=focusables[focusables.length-1];
-  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
-  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+  const activeModal = $$('.modal.active').pop();
+  if(!activeModal)return;
+  const f=[...activeModal.querySelectorAll('button:not([disabled]),[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);
+  if(!f.length)return;
+  const fi=f[0],la=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===fi){e.preventDefault();la.focus()}
+  else if(!e.shiftKey&&document.activeElement===la){e.preventDefault();fi.focus()}
+}
+
+function createSkinViewer(container,skinUrl,opts={}){
+  if(typeof skinview3d==='undefined'||typeof THREE==='undefined'){
+    const img=document.createElement('img');
+    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
+    img.alt = 'Skin preview';
+    img.onerror = () => { img.src = NO_IMG; };
+    container.appendChild(img);
+    return null;
+  }
+  try{
+    const v=new skinview3d.SkinViewer({
+      canvas:document.createElement('canvas'),
+      width:container.clientWidth||400,
+      height:container.clientHeight||400,
+      skin:skinUrl,
+      background:'transparent'
+    });
+    v.controls.enableZoom=opts.zoom!==false;v.controls.enableRotate=true;v.controls.enablePan=false;
+    v.camera.position.z=60;
+    if(opts.animation){v.animation=new skinview3d.WalkingAnimation();v.animation.speed=1}
+    try{v.renderer.setClearColor(0x000000,0);v.renderer.setClearAlpha(0)}catch{}
+    v.canvas.style.background='transparent';
+    container.appendChild(v.canvas);
+    v.renderer.setAnimationLoop(()=>{v.renderer.render(v.scene,v.camera)});
+    return v;
+  }catch(e){
+    console.warn('skinview3d failed:',e);
+    const img=document.createElement('img');
+    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
+    img.alt = 'Skin preview';
+    img.onerror = () => { img.src = NO_IMG; };
+    container.appendChild(img);
+    return null;
+  }
 }
 
 async function showDetails(item){
   if(!item)return;
-  let html;
-  const isSkin=item.source==='skin';
+  let html;const isSkin=item.source==='skin';
   if(isSkin){
     $('modalTitle').textContent=item.name;
-    html = `<div class="modal-3d-viewport" id="modal3d"></div>
-      <div class="modal-actions">
-        <button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}">Скачать скин</button>
-        <button class="btn btn-secondary" id="editSkinBtn" data-skin-name="${esc(item.name)}">✏️ Редактировать</button>
-      </div>`;
-  } else {
-    const n=norm(item);
-    const date=n.updated?new Date(n.updated).toLocaleDateString('ru-RU'):'—';
-    const web=safeUrl(n.web);
+    html=`<div class="modal-3d-viewport" id="modal3d"></div><div class="modal-actions"><button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}">Скачать скин</button><button class="btn btn-secondary" id="editSkinBtn" data-skin-name="${esc(item.name)}">✏️ Редактировать</button></div>`;
+  }else{
+    const n=norm(item);const date=n.updated?new Date(n.updated).toLocaleDateString('ru-RU'):'—';const web=safeUrl(n.web);
     $('modalTitle').textContent=n.title;
-    html=`<img src="${esc(safeUrl(n.icon)||NO_IMG)}" alt="${esc(n.title)}" class="card-image" style="height:300px;border-radius:1.5rem;margin-bottom:1.5rem" referrerpolicy="no-referrer" data-fallback>
-      <div class="version-picker"><div class="version-picker-title">Выберите версию:</div>
-        <div class="version-picker-row">
-          <select class="filter-select" id="modalVersion"><option>Загрузка...</option></select>
-          <select class="filter-select" id="modalLoader"><option>Загрузка...</option></select>
-        </div></div>
-      <p class="modal-description" id="modalDesc">${esc(n.desc||'Описание отсутствует')}</p>
-      <div class="modal-actions">
-        <button class="btn" id="dlBtn" data-source="${item.source}" data-id="${esc(safeId(n.id))}">Скачать</button>
-        ${web?`<a class="btn btn-secondary" href="${esc(web)}" target="_blank" rel="noopener noreferrer">Открыть на сайте</a>`:''}
-      </div>`;
+    html=`<img src="${esc(safeUrl(n.icon)||NO_IMG)}" alt="${esc(n.title)}" class="card-image" style="height:300px;border-radius:1.5rem;margin-bottom:1.5rem" referrerpolicy="no-referrer" data-fallback><div class="version-picker"><div class="version-picker-title">Выберите версию:</div><div class="version-picker-row"><select class="filter-select" id="modalVersion"><option>Загрузка...</option></select><select class="filter-select" id="modalLoader"><option>Загрузка...</option></select></div></div><p class="modal-description" id="modalDesc">${esc(n.desc||'Описание отсутствует')}</p><div class="modal-actions"><button class="btn" id="dlBtn" data-source="${item.source}" data-id="${esc(safeId(n.id))}">Скачать</button>${web?`<a class="btn btn-secondary" href="${esc(web)}" target="_blank" rel="noopener noreferrer">Открыть на сайте</a>`:''}</div>`;
   }
   $('modalBody').innerHTML=html;
   lastFocused=document.activeElement;
@@ -761,64 +916,415 @@ async function showDetails(item){
   document.body.classList.add('lock');
   $('modalClose').focus();
   if(isSkin){
-    const vp = $('modal3d');
-    const skinUrl = skinTextureUrl(item.name);
-    if(vp) setTimeout(()=>{modalViewer = createSkinViewer(vp, skinUrl, {animation:true, zoom:true})}, 50);
-  } else {
+    const vp=$('modal3d');
+    if(vp)setTimeout(()=>{modalViewer=createSkinViewer(vp,skinTextureUrl(item.name),{animation:true,zoom:true})},50);
+  }else{
     const d=item.source==='modrinth'?item.description:item.summary;
-    const ru=await translate(d||'');
-    const el=$('modalDesc');if(el&&d)el.textContent=ru;
+    const ru=await translate(d||'');const el=$('modalDesc');if(el&&d)el.textContent=ru;
     loadVersions(item).catch(err=>console.warn(err));
   }
 }
 
 async function loadVersions(item){
-  const vSel=$('modalVersion'),lSel=$('modalLoader');
-  if(!vSel)return;
-  const id=safeId(item.source==='modrinth'?(item.project_id||item.slug):item.id);
-  if(!id)return;
+  const vSel=$('modalVersion'),lSel=$('modalLoader');if(!vSel)return;
+  const id=safeId(item.source==='modrinth'?(item.project_id||item.slug):item.id);if(!id)return;
   try{
     let versions=[];
-    if(item.source==='modrinth'){
-      const v=await fetchJson(`${MR_API}/project/${id}/version`);
-      versions=(v||[]).map(x=>({id:x.id,mc:x.game_versions||[],loaders:x.loaders||[]}));
-    } else {
-      const f=await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
-      versions=(f.data||[]).map(x=>({id:x.id,mc:(x.gameVersions||[]).filter(g=>/^\d/.test(g)),loaders:x.modLoader?[x.modLoader]:[]}));
-    }
-    const mcSet=new Set(),loaderSet=new Set();
-    versions.forEach(v=>{v.mc.forEach(m=>mcSet.add(m));v.loaders.forEach(l=>loaderSet.add(l))});
-    const mcs=[...mcSet].sort((a,b)=>compareVersions(b,a));
-    const loaders=[...loaderSet].sort();
+    if(item.source==='modrinth'){const v=await fetchJson(`${MR_API}/project/${id}/version`);versions=(v||[]).map(x=>({id:x.id,mc:x.game_versions||[],loaders:x.loaders||[]}))}
+    else{const f=await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);versions=(f.data||[]).map(x=>({id:x.id,mc:(x.gameVersions||[]).filter(g=>/^\d/.test(g)),loaders:x.modLoader?[x.modLoader]:[]}))}
+    const mcS=new Set(),loS=new Set();
+    versions.forEach(v=>{v.mc.forEach(m=>mcS.add(m));v.loaders.forEach(l=>loS.add(l))});
+    const mcs=[...mcS].sort((a,b)=>compareVersions(b,a));
+    const loaders=[...loS].sort();
     vSel.innerHTML=mcs.length?mcs.map(m=>`<option>${esc(m)}</option>`).join(''):'<option value="">—</option>';
     lSel.innerHTML='<option value="">Любой</option>'+loaders.map(l=>`<option>${esc(l)}</option>`).join('');
-    const userMc=$('mcVersion').value.trim();if(userMc&&mcs.includes(userMc))vSel.value=userMc;
-    const userLoader=$('loaderSelect').value;if(userLoader&&loaders.includes(userLoader))lSel.value=userLoader;
-  }catch(e){
-    vSel.innerHTML='<option value="">Ошибка</option>';lSel.innerHTML='<option value="">—</option>';
-  }
+    const uMc=$('mcVersion').value.trim();if(uMc&&mcs.includes(uMc))vSel.value=uMc;
+    const uL=$('loaderSelect').value;if(uL&&loaders.includes(uL))lSel.value=uL;
+  }catch(e){vSel.innerHTML='<option value="">Ошибка</option>';lSel.innerHTML='<option value="">—</option>'}
 }
 function compareVersions(a,b){const pa=String(a).split('.').map(Number),pb=String(b).split('.').map(Number);for(let i=0;i<Math.max(pa.length,pb.length);i++){const d=(pa[i]||0)-(pb[i]||0);if(d)return d}return 0}
 
 function closeModal(){
   $('detailModal').classList.remove('active');
   document.body.classList.remove('lock');
-  if(modalViewer){
-    try{modalViewer.renderer.setAnimationLoop(null);modalViewer.dispose()}catch{}
-    modalViewer=null;
-  }
+  if(modalViewer){try{modalViewer.renderer.setAnimationLoop(null);modalViewer.dispose()}catch{};modalViewer=null}
   $('modalBody').innerHTML='';
   if(lastFocused&&document.contains(lastFocused))lastFocused.focus();
   lastFocused=null;
 }
 $('modalClose').addEventListener('click',closeModal);
 $('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();trapFocus(e)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeThemeEditor(true)}trapFocus(e)});
 $('modalBody').addEventListener('click',e=>{
   const b=e.target.closest('#dlBtn');if(b)downloadDirect(b.dataset.source,b.dataset.id,b);
-  const ebtn=e.target.closest('#editSkinBtn');
-  if(ebtn){const name=ebtn.dataset.skinName;closeModal();setTimeout(()=>openEditor(name),100)}
+  const eb=e.target.closest('#editSkinBtn');
+  if(eb){const n=eb.dataset.skinName;closeModal();setTimeout(()=>openEditor(n),100)}
 });
+$('themeModalClose').addEventListener('click',()=>closeThemeEditor(true));
+$('themeModal').addEventListener('click',e=>{if(e.target.id==='themeModal')closeThemeEditor(true)});
+$('ct-cancel').addEventListener('click',()=>closeThemeEditor(true));
+$('ct-save').addEventListener('click',saveCustomTheme);
 
 async function downloadDirect(source,id,btn){
-  if(!id){toast('Некорректный
+  if(!id){toast('Некорректный ID','error');return}
+  const old=btn.textContent;btn.disabled=true;btn.textContent='Подготовка...';
+  try{
+    let url='',filename='download';
+    if(source==='skin'){url=skinDownloadUrl(id);filename=id+'.png'}
+    else if(source==='modrinth'){
+      const v=await fetchJson(`${MR_API}/project/${id}/version`);
+      if(!v?.length){toast('Файлы не найдены','error');return}
+      const wMc=$('modalVersion')?.value||'',wL=$('modalLoader')?.value||'';
+      let pick=v.find(x=>(!wMc||(x.game_versions||[]).includes(wMc))&&(!wL||(x.loaders||[]).includes(wL)));
+      if(!pick){toast('Беру последнюю','info');pick=v[0]}
+      const file=(pick.files||[]).find(x=>x.primary)||(pick.files||[])[0];
+      if(!file){toast('Файл не найден','error');return}
+      url=file.url;filename=file.filename||'mod.jar';
+    }else{
+      const f=await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
+      if(!f.data?.length){toast('Файлы не найдены','error');return}
+      const wMc=$('modalVersion')?.value||'',wL=$('modalLoader')?.value||'';
+      let pick=f.data.find(x=>{const m=!wMc||(x.gameVersions||[]).includes(wMc);const l=!wL||x.modLoader===wL;return m&&l});
+      if(!pick){toast('Беру последнюю','info');pick=f.data[0]}
+      const fid=safeId(pick.id);if(!fid){toast('Некорректный ID','error');return}
+      filename=pick.fileName||'mod.jar';
+      const dl=await fetchJson(`${MCIM_API}/mods/${id}/files/${fid}/download-url`);
+      if(!dl.data){toast('Автор запретил скачивание','error');return}
+      url=dl.data;
+    }
+    const safe=safeUrl(url);if(!safe){toast('Некорректная ссылка','error');return}
+    const a=document.createElement('a');a.href=safe;a.download=filename;a.target='_blank';a.rel='noopener';
+    document.body.appendChild(a);a.click();a.remove();
+    toast('Скачивание: '+filename,'ok');
+  }catch(e){console.error(e);toast('Ошибка: '+(e.message||'не удалось'),'error')}
+  finally{btn.disabled=false;btn.textContent=old}
+}
+
+function formatNumber(n){
+  n=Number(n)||0;
+  if(n>=1e6){const v=n/1e6;return(v>=100?Math.round(v):(Math.round(v*10)/10).toString().replace(/\.0$/,''))+'M'}
+  if(n>=1000){const v=n/1000;return(v>=999.5?(Math.round(n/1e5)/10).toString().replace(/\.0$/,'')+'M':(Math.round(v*10)/10).toString().replace(/\.0$/,'')+'K')}
+  return String(n);
+}
+
+/* ============================================================
+   РЕДАКТОР СКИНОВ (v2 — без лагов, с интерполяцией линии)
+   ============================================================ */
+const SKIN_SIZE=64;
+const SKIN_PIXEL=8;
+let editorState=null;
+
+async function openEditor(skinName){
+  editorActive=true;
+  $('searchContainer').classList.add('hidden');
+  sentinel.classList.add('hidden');
+  $('content').innerHTML=`
+    <div class="editor-wrap">
+      <div class="editor-header">
+        <h2>🎨 Редактор скинов ${skinName?'— '+esc(skinName):''}</h2>
+        <div class="editor-header-actions">
+          <button class="btn" id="ed-save">💾 Скачать PNG</button>
+          <button class="btn btn-secondary" id="ed-close">← К списку</button>
+        </div>
+      </div>
+      <div class="editor-layout">
+        <div class="editor-canvas-area">
+          <div class="editor-mode-toggle">
+            <button class="active" data-mode="2d">Сетка</button>
+            <button data-mode="3d">3D-превью</button>
+          </div>
+          <div id="ed-2d" style="display:flex;align-items:center;justify-content:center;flex-direction:column"></div>
+          <div id="ed-3d" style="display:none;align-items:center;justify-content:center;width:100%;height:100%"></div>
+          <p class="editor-hint">Рисуй на сетке 64×64 — это скин в развёртке. Верх-лево голова, центр тело, ниже руки и ноги.</p>
+        </div>
+        <div class="editor-sidebar">
+          <div class="editor-section"><div class="editor-section-title">Инструменты</div><div class="editor-tools"><button class="editor-tool active" data-tool="pencil">✏️</button><button class="editor-tool" data-tool="eraser">🧹</button><button class="editor-tool" data-tool="fill">🪣</button><button class="editor-tool" data-tool="picker">🎯</button></div></div>
+          <div class="editor-section"><div class="editor-section-title">Цвет</div><div class="editor-color-row"><input type="color" id="ed-color" value="#38BDF8"><span style="color:var(--tdim);font-size:.85rem" id="ed-color-label">#38BDF8</span></div><div class="skin-palette" id="ed-palette" style="margin-top:.75rem"></div></div>
+          <div class="editor-section"><div class="editor-section-title">Слой</div><div class="editor-layer-row"><button class="editor-layer-btn active" data-layer="base">Базовый</button><button class="editor-layer-btn" data-layer="overlay">Оверлей</button></div></div>
+          <div class="editor-section"><div class="editor-section-title">История</div><div class="editor-action-row"><button class="btn btn-secondary" id="ed-undo">↶</button><button class="btn btn-secondary" id="ed-redo">↷</button></div></div>
+          <div class="editor-section"><div class="editor-section-title">Файл</div><div class="editor-action-row" style="flex-direction:column"><button class="btn btn-secondary" id="ed-upload">📁 Загрузить PNG</button><button class="btn btn-secondary" id="ed-blank">⬜ Чистое тело</button><button class="btn btn-secondary" id="ed-steve">👕 Steve</button></div></div>
+        </div>
+      </div>
+      <input type="file" id="ed-file" accept="image/png" hidden>
+    </div>`;
+
+  const baseC=document.createElement('canvas');baseC.width=SKIN_SIZE;baseC.height=SKIN_SIZE;
+  const baseX=baseC.getContext('2d');baseX.imageSmoothingEnabled=false;
+  const ovlC=document.createElement('canvas');ovlC.width=SKIN_SIZE;ovlC.height=SKIN_SIZE;
+  const ovlX=ovlC.getContext('2d');ovlX.imageSmoothingEnabled=false;
+
+  editorState={
+    baseCanvas:baseC,baseCtx:baseX,overlayCanvas:ovlC,overlayCtx:ovlX,
+    activeLayer:'base',tool:'pencil',color:'#38BDF8',drawing:false,
+    lastPx:null,lastPy:null,
+    history:[],historyIdx:-1,
+    viewer:null,
+    flatCanvas:null, flatCtx:null,
+    refreshTimer:null
+  };
+
+  const palette=['#000000','#3F3F3F','#7F7F7F','#BFBFBF','#FFFFFF','#7F0000','#FF0000','#FF7F00','#FFBF00','#FFFF00','#007F00','#00FF00','#00FF7F','#00FFFF','#007FFF','#0000FF','#7F00FF','#FF00FF','#FF007F','#7F3F00','#D2B48C','#8B4513','#F5DEB3','#FFE4B5','#FFD700','#38BDF8','#6EE7B7','#A78BFA','#F472B6','#FB923C','#1E3A5F','#0F131C','#161D2B','#1E2636','#05070C','#10B981','#EF4444','#F59E0B','#8B5CF6','#EC4899'];
+  const palEl=$('ed-palette');
+  palette.forEach(c=>{const b=document.createElement('button');b.style.background=c;b.type='button';b.setAttribute('aria-label','Color '+c);b.addEventListener('click',()=>{setColor(c);palEl.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active')});palEl.appendChild(b)});
+
+  function setColor(c){editorState.color=c;$('ed-color').value=c;$('ed-color-label').textContent=c}
+  $('ed-color').addEventListener('input',e=>{setColor(e.target.value);palEl.querySelectorAll('button').forEach(x=>x.classList.remove('active'))});
+
+  document.querySelectorAll('[data-tool]').forEach(b=>b.addEventListener('click',()=>{editorState.tool=b.dataset.tool;document.querySelectorAll('[data-tool]').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));
+  document.querySelectorAll('[data-layer]').forEach(b=>b.addEventListener('click',()=>{editorState.activeLayer=b.dataset.layer;document.querySelectorAll('[data-layer]').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));
+
+  // === Инициализация плоской сетки (рисуем напрямую в один канвас) ===
+  function initFlatCanvas(){
+    const wrap=$('ed-2d');
+    wrap.innerHTML='';
+    const cv=document.createElement('canvas');
+    cv.width=SKIN_SIZE*SKIN_PIXEL;
+    cv.height=SKIN_SIZE*SKIN_PIXEL;
+    cv.className='editor-flat-canvas';
+    const cx=cv.getContext('2d');
+    cx.imageSmoothingEnabled=false;
+    wrap.appendChild(cv);
+    editorState.flatCanvas=cv;
+    editorState.flatCtx=cx;
+    redrawFlat();
+
+    // Mouse
+    cv.addEventListener('mousedown',e=>{editorState.drawing=true;editorState.lastPx=null;handleFlatDraw(e.clientX,e.clientY)});
+    cv.addEventListener('mousemove',e=>{if(editorState.drawing)handleFlatDraw(e.clientX,e.clientY)});
+    const stopDraw=()=>{if(editorState.drawing){editorState.drawing=false;editorState.lastPx=null;pushHistory();schedule3DRefresh()}};
+    cv.addEventListener('mouseup',stopDraw);
+    cv.addEventListener('mouseleave',stopDraw);
+    // Touch
+    cv.addEventListener('touchstart',e=>{e.preventDefault();editorState.drawing=true;editorState.lastPx=null;const t=e.touches[0];handleFlatDraw(t.clientX,t.clientY)},{passive:false});
+    cv.addEventListener('touchmove',e=>{e.preventDefault();if(!editorState.drawing)return;const t=e.touches[0];handleFlatDraw(t.clientX,t.clientY)},{passive:false});
+    cv.addEventListener('touchend',stopDraw);
+    cv.addEventListener('touchcancel',stopDraw);
+  }
+
+  // === Полная перерисовка из буферов (только при переключении слоёв / загрузке) ===
+  function redrawFlat(){
+    const cv=editorState.flatCanvas,cx=editorState.flatCtx;
+    if(!cv||!cx)return;
+    cx.clearRect(0,0,cv.width,cv.height);
+    // Шахматный фон под прозрачностью
+    drawCheckerboard(cx, cv.width, cv.height, 8);
+    cx.drawImage(editorState.baseCanvas,0,0,cv.width,cv.height);
+    cx.globalAlpha=0.75;
+    cx.drawImage(editorState.overlayCanvas,0,0,cv.width,cv.height);
+    cx.globalAlpha=1;
+  }
+  function drawCheckerboard(cx,w,h,size){
+    for(let y=0;y<h;y+=size){
+      for(let x=0;x<w;x+=size){
+        cx.fillStyle = ((x/size + y/size) % 2 === 0) ? '#1a1f2b' : '#252b38';
+        cx.fillRect(x,y,size,size);
+      }
+    }
+  }
+
+  // === Отрисовка ОДНОГО пикселя прямо в буфер И в экранный канвас ===
+  function paintPx(px,py){
+    const isBase=editorState.activeLayer==='base';
+    const bufCtx=isBase?editorState.baseCtx:editorState.overlayCtx;
+    const screenCtx=editorState.flatCtx;
+    const S=SKIN_PIXEL;
+    const x=px*S, y=py*S;
+
+    if(editorState.tool==='fill'){
+      floodFill(bufCtx,px,py,editorState.color);
+      redrawFlat();
+      return;
+    }
+    if(editorState.tool==='picker'){
+      const d=bufCtx.getImageData(px,py,1,1).data;
+      if(d[3]>0) setColor('#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join(''));
+      return;
+    }
+    if(editorState.tool==='eraser'){
+      bufCtx.clearRect(px,py,1,1);
+      // На экране — вернуть шахматку
+      const bg=((px+py)%2===0)?'#1a1f2b':'#252b38';
+      screenCtx.fillStyle=bg;
+      screenCtx.fillRect(x,y,S,S);
+      return;
+    }
+    // pencil
+    bufCtx.fillStyle=editorState.color;
+    bufCtx.fillRect(px,py,1,1);
+    // На экране — сразу этот пиксель + альфа оверлея
+    screenCtx.fillStyle=editorState.color;
+    screenCtx.globalAlpha = isBase ? 1 : 0.75;
+    screenCtx.fillRect(x,y,S,S);
+    screenCtx.globalAlpha = 1;
+  }
+
+  // === Обработка рисования с интерполяцией линии между пикселями ===
+  function handleFlatDraw(clientX,clientY){
+    const cv=editorState.flatCanvas;
+    if(!cv)return;
+    const r=cv.getBoundingClientRect();
+    const scaleX=SKIN_SIZE/r.width;
+    const scaleY=SKIN_SIZE/r.height;
+    const px=Math.floor((clientX-r.left)*scaleX);
+    const py=Math.floor((clientY-r.top)*scaleY);
+    if(px<0||py<0||px>=SKIN_SIZE||py>=SKIN_SIZE)return;
+
+    // Если это продолжение линии — интерполируем
+    if(editorState.lastPx!==null && editorState.lastPy!==null){
+      const x0=editorState.lastPx, y0=editorState.lastPy, x1=px, y1=py;
+      const dx=Math.abs(x1-x0), dy=Math.abs(y1-y0);
+      const sx=x0<x1?1:-1, sy=y0<y1?1:-1;
+      let err=dx-dy, x=x0, y=y0;
+      let safety=0;
+      while(safety++<200){
+        paintPx(x,y);
+        if(x===x1&&y===y1)break;
+        const e2=2*err;
+        if(e2>-dy){err-=dy;x+=sx}
+        if(e2<dx){err+=dx;y+=sy}
+      }
+    } else {
+      paintPx(px,py);
+    }
+    editorState.lastPx=px;
+    editorState.lastPy=py;
+    schedule3DRefresh();
+  }
+
+  function floodFill(ctx,sx,sy,color){
+    const img=ctx.getImageData(0,0,SKIN_SIZE,SKIN_SIZE);const d=img.data;
+    const idx=(sy*SKIN_SIZE+sx)*4;const tgt=[d[idx],d[idx+1],d[idx+2],d[idx+3]];
+    const fill=[parseInt(color.slice(1,3),16),parseInt(color.slice(3,5),16),parseInt(color.slice(5,7),16),255];
+    if(tgt[0]===fill[0]&&tgt[1]===fill[1]&&tgt[2]===fill[2]&&tgt[3]===fill[3])return;
+    const stack=[[sx,sy]],vis=new Set();
+    while(stack.length){
+      const[x,y]=stack.pop();
+      if(x<0||y<0||x>=SKIN_SIZE||y>=SKIN_SIZE)continue;
+      const k=x+','+y;if(vis.has(k))continue;vis.add(k);
+      const i=(y*SKIN_SIZE+x)*4;
+      if(d[i]!==tgt[0]||d[i+1]!==tgt[1]||d[i+2]!==tgt[2]||d[i+3]!==tgt[3])continue;
+      d[i]=fill[0];d[i+1]=fill[1];d[i+2]=fill[2];d[i+3]=fill[3];
+      stack.push([x+1,y],[x-1,y],[x,y+1],[x,y-1]);
+    }
+    ctx.putImageData(img,0,0);
+  }
+
+  // === 3D-превью (throttled refresh) ===
+  const ed3d=$('ed-3d');
+  if(typeof skinview3d!=='undefined'&&typeof THREE!=='undefined'){
+    try{
+      const v=new skinview3d.SkinViewer({canvas:document.createElement('canvas'),width:460,height:520,skin:skinName?skinTextureUrl(skinName):skinTextureUrl('Steve'),background:'transparent'});
+      v.controls.enableZoom=true;v.controls.enableRotate=true;v.controls.enablePan=false;
+      v.camera.position.z=70;
+      try{v.renderer.setClearColor(0x000000,0);v.renderer.setClearAlpha(0)}catch{}
+      v.canvas.style.background='transparent';
+      ed3d.appendChild(v.canvas);
+      v.renderer.setAnimationLoop(()=>{v.renderer.render(v.scene,v.camera)});
+      editorState.viewer=v;
+    }catch(e){ed3d.innerHTML='<p style="color:var(--tdim);padding:2rem">3D-превью недоступно</p>'}
+  }else{ed3d.innerHTML='<p style="color:var(--tdim);padding:2rem">3D-превью недоступно</p>'}
+
+  function schedule3DRefresh(){
+    if(editorState.refreshTimer)return;
+    editorState.refreshTimer=setTimeout(()=>{
+      editorState.refreshTimer=null;
+      refresh3D();
+    },150);
+  }
+  function refresh3D(){
+    if(!editorState.viewer)return;
+    const m=document.createElement('canvas');m.width=SKIN_SIZE;m.height=SKIN_SIZE;
+    const mx=m.getContext('2d');mx.imageSmoothingEnabled=false;
+    mx.drawImage(editorState.baseCanvas,0,0);
+    mx.drawImage(editorState.overlayCanvas,0,0);
+    try{editorState.viewer.loadSkin(m.toDataURL('image/png')).catch(()=>{})}catch{}
+  }
+
+  async function loadStarter(url){
+    return new Promise(res=>{
+      const img=new Image();
+      img.crossOrigin='anonymous';
+      img.onload=()=>{
+        baseX.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);
+        ovlX.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);
+        baseX.drawImage(img,0,0,SKIN_SIZE,SKIN_SIZE);
+        pushHistory();
+        redrawFlat();
+        refresh3D();
+        res();
+      };
+      img.onerror=()=>{pushHistory();redrawFlat();refresh3D();res()};
+      img.src=url;
+    });
+  }
+
+  // === ИСТОРИЯ через ImageData (компактнее и быстрее dataURL) ===
+  function pushHistory(){
+    const s=editorState;
+    try{
+      const snap={
+        base: s.baseCtx.getImageData(0,0,SKIN_SIZE,SKIN_SIZE),
+        overlay: s.overlayCtx.getImageData(0,0,SKIN_SIZE,SKIN_SIZE)
+      };
+      s.history=s.history.slice(0,s.historyIdx+1);
+      s.history.push(snap);
+      s.historyIdx++;
+      if(s.history.length>20){s.history.shift();s.historyIdx--}
+    }catch(e){console.warn('history push failed:',e)}
+  }
+  function restore(snap){
+    try{
+      editorState.baseCtx.putImageData(snap.base,0,0);
+      editorState.overlayCtx.putImageData(snap.overlay,0,0);
+      redrawFlat();
+      refresh3D();
+    }catch(e){console.warn('restore failed:',e)}
+  }
+
+  $('ed-undo').addEventListener('click',()=>{if(editorState.historyIdx<=0)return;editorState.historyIdx--;restore(editorState.history[editorState.historyIdx])});
+  $('ed-redo').addEventListener('click',()=>{if(editorState.historyIdx>=editorState.history.length-1)return;editorState.historyIdx++;restore(editorState.history[editorState.historyIdx])});
+
+  $('ed-save').addEventListener('click',()=>{
+    const m=document.createElement('canvas');m.width=SKIN_SIZE;m.height=SKIN_SIZE;
+    const mx=m.getContext('2d');mx.imageSmoothingEnabled=false;
+    mx.drawImage(editorState.baseCanvas,0,0);
+    mx.drawImage(editorState.overlayCanvas,0,0);
+    const a=document.createElement('a');a.download='my-skin.png';a.href=m.toDataURL('image/png');a.click();
+    toast('Скин скачан','ok');
+  });
+
+  $('ed-upload').addEventListener('click',()=>$('ed-file').click());
+  $('ed-file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;const u=URL.createObjectURL(f);await loadStarter(u);URL.revokeObjectURL(u);toast('Загружен','ok')});
+  $('ed-blank').addEventListener('click',()=>{baseX.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);ovlX.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);pushHistory();redrawFlat();refresh3D();toast('Чистое тело','info')});
+  $('ed-steve').addEventListener('click',async()=>{await loadStarter(skinTextureUrl('Steve'));toast('Steve','ok')});
+
+  document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{
+    const m=b.dataset.mode;
+    document.querySelectorAll('[data-mode]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    $('ed-2d').style.display=m==='2d'?'flex':'none';
+    $('ed-3d').style.display=m==='3d'?'flex':'none';
+    if(m==='2d')redrawFlat();else refresh3D();
+  }));
+
+  $('ed-close').addEventListener('click',()=>{
+    if(editorState?.refreshTimer)clearTimeout(editorState.refreshTimer);
+    if(editorState?.viewer){try{editorState.viewer.renderer.setAnimationLoop(null);editorState.viewer.dispose()}catch{}}
+    editorState=null;editorActive=false;
+    document.querySelectorAll('.tab').forEach(t=>{if(t.classList.contains('active'))t.click()});
+  });
+
+  // Инициализация
+  initFlatCanvas();
+  await loadStarter(skinName?skinTextureUrl(skinName):skinTextureUrl('Steve'));
+}
+
+/* ============================================================
+   ИНИЦИАЛИЗАЦИЯ
+   ============================================================ */
+try{ initThemes(); }catch(e){ console.error('initThemes failed:',e); }
+io.observe(sentinel);
+resetAndLoad();
+</script>
+</body>
+</html>
