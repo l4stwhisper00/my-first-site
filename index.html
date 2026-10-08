@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://crafatar.com https://mc-heads.net https://minecraft-proxy.zxcdedinside944.workers.dev data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://api.cors.lol https://cors.eu.org https://proxy.cors.sh https://api.curse.tools https://cfproxy.fly.dev https://cdn.jsdelivr.net https://minecraft-proxy.zxcdedinside944.workers.dev; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://crafatar.com https://mc-heads.net https://minecraft-proxy.zxcdedinside944.workers.dev data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://api.cors.lol https://cors.eu.org https://proxy.cors.sh https://api.curse.tools https://cfproxy.fly.dev https://cdn.jsdelivr.net https://minecraft-proxy.zxcdedinside944.workers.dev https://minotar.net https://mc-heads.net; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
@@ -217,7 +217,7 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .card:hover{transform:translateY(-3px);border-color:color-mix(in oklab, var(--line-strong), var(--accent) 25%);box-shadow:var(--shadow-lg)}
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .card-image{width:100%;height:170px;object-fit:cover;background:var(--s4);border-bottom:var(--border-w) solid var(--line);display:block}
-.card-image.skin{object-fit:contain;padding:1rem .5rem;background:radial-gradient(ellipse at center, var(--s3) 0%, var(--s4) 100%)}
+.card-image.skin{object-fit:contain;padding:1rem .5rem;background:radial-gradient(ellipse at center, var(--s3) 0%, var(--s4) 100%);image-rendering:pixelated}
 .card-content{padding:.95rem 1.1rem 1.15rem;flex:1;display:flex;flex-direction:column;position:relative}
 .card-title{font-family:var(--font-display);font-size:.98rem;font-weight:600;letter-spacing:-.015em;line-height:1.3;margin-bottom:.4rem;word-break:break-word;padding-right:1.5rem;color:var(--text)}
 .card:hover .card-title::after{content:'→';position:absolute;top:.95rem;right:1.1rem;font-family:var(--font-mono);font-size:.9rem;color:var(--accent);animation:arrowIn .25s var(--ease-out)}
@@ -393,10 +393,6 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .skin-palette button:hover{transform:scale(1.08)}
 .skin-palette button.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
 .skin-palette button.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;font-weight:900;text-shadow:0 1px 3px rgba(0,0,0,.9)}
-.editor-layer-row{display:flex;gap:.5rem}
-.editor-layer-btn{flex:1;background:var(--s2);color:var(--tdim);border:var(--border-w) solid var(--line);border-radius:var(--r-sm);padding:.6rem;cursor:pointer;font-size:.85rem;font-weight:600;transition:all var(--tf) var(--ease);display:flex;align-items:center;justify-content:center;gap:.35rem}
-.editor-layer-btn.active{background:var(--accent);color:var(--s0);border-color:var(--accent)}
-.editor-layer-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--s0);flex-shrink:0}
 .editor-action-row{display:flex;gap:.5rem}
 .editor-action-row .btn,.editor-action-row .btn-secondary{width:auto;flex:1;padding:.6rem .75rem;font-size:.85rem}
 .editor-action-col{display:flex;flex-direction:column;gap:.5rem}
@@ -430,7 +426,7 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .rp-preview-area pre{background:var(--s0);padding:1rem;border-radius:var(--r-sm);font-size:.8rem;max-height:200px;overflow:auto;width:100%;text-align:left;font-family:var(--font-mono);border:var(--border-w) solid var(--line)}
 
 /* ============================================================
-   ЗАПРЕТ ВЫДЕЛЕНИЯ (не открывается поиск по двойному клику)
+   ЗАПРЕТ ВЫДЕЛЕНИЯ
    ============================================================ */
 .settings-label,.settings-section-title,.editor-section-title,.settings-toggle-row,.filters label,.version-picker-title,.modal-title,.subtitle,h1,h2{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 
@@ -599,11 +595,12 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
+<script>
 'use strict';
 
 try{
-  if(localStorage.getItem('mch-cache-v') !== 'v15'){
-    localStorage.setItem('mch-cache-v','v15');
+  if(localStorage.getItem('mch-cache-v') !== 'v16'){
+    localStorage.setItem('mch-cache-v','v16');
     sessionStorage.clear();
   }
 }catch{}
@@ -901,7 +898,6 @@ function initThemes(){
     $('settingsPanel').classList.toggle('open');
   });
 
-  // Запрет открытия поиска по двойному клику
   $('settingsPanel').addEventListener('mousedown', e => {
     if(e.detail > 1) e.preventDefault();
   });
@@ -1290,6 +1286,18 @@ async function loadMore(){
             }
           }
         }catch(e){ console.warn('trending failed:', e); }
+        if(!list.length){
+          try{
+            const r2 = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('https://minecraft-api.vercel.app/api/skins')}`);
+            if(r2.ok){
+              const d2 = await r2.json();
+              if(Array.isArray(d2)){
+                const page = Math.floor(offset / SKIN_LIMIT);
+                list = d2.slice(page*SKIN_LIMIT, page*SKIN_LIMIT + SKIN_LIMIT).map(x => ({source:'skin', name: x.name || x.uuid || String(Math.random()).slice(2,10)}));
+              }
+            }
+          }catch{}
+        }
         if(!list.length){ hasMore = false; setSentinel('end'); return; }
         hasMore = list.length >= SKIN_LIMIT;
       }
@@ -1377,23 +1385,55 @@ const normalizeItem = item => item.source === 'modrinth' ? {
   web:item.links?.websiteUrl
 };
 
-/* SKIN URLS */
+/* SKIN URLS — теперь 3D-тело */
 function skinTextureUrl(name){
   return `${WORKER_URL}/skins/get?nick=${encodeURIComponent(name)}&source=${encodeURIComponent(skinSource)}`;
 }
 function skinDownloadUrl(name){
   return `${WORKER_URL}/skins/get?nick=${encodeURIComponent(name)}&source=${encodeURIComponent(skinSource)}`;
 }
-function skinRenderUrl(name, step = 0){
-  return `${WORKER_URL}/skins/get?nick=${encodeURIComponent(name)}&source=${encodeURIComponent(skinSource)}`;
+function skinRenderUrl(name){
+  return `https://minotar.net/armor/body/${encodeURIComponent(name)}/400.png`;
+}
+function skinRenderFallback(name){
+  return `https://mc-heads.net/body/${encodeURIComponent(name)}/right`;
+}
+
+/* Загрузка скина в dataURL (для 3D-модели) */
+async function loadSkinDataUrl(sources){
+  for(const url of sources){
+    if(!url) continue;
+    try{
+      const dataUrl = await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          try{
+            const cv = document.createElement('canvas');
+            cv.width = 64; cv.height = 64;
+            const cx = cv.getContext('2d');
+            cx.imageSmoothingEnabled = false;
+            cx.drawImage(img, 0, 0, 64, 64);
+            resolve(cv.toDataURL('image/png'));
+          }catch(e){ reject(e); }
+        };
+        img.onerror = () => reject(new Error('load failed'));
+        img.src = url;
+      });
+      return dataUrl;
+    }catch(e){ console.warn('skin source failed:', url.split('?')[0], e.message); }
+  }
+  return null;
 }
 
 /* CARD HTML */
 function buildCardHTML(item, globalIndex){
   if(item.source === 'skin'){
-    const src = skinRenderUrl(item.name, 0);
+    const src = skinRenderUrl(item.name);
+    const fb = skinRenderFallback(item.name);
     return `<article class="card" data-i="${globalIndex}" tabindex="0">
-      <img src="${esc(src)}" alt="${esc(item.name)}" class="card-image skin" loading="lazy" onerror="this.src='${NO_IMG}'">
+      <img src="${esc(src)}" alt="${esc(item.name)}" class="card-image skin" loading="lazy"
+           onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='${esc(fb)}'}else{this.onerror=null;this.src='${NO_IMG}'}">
       <div class="card-content">
         <h3 class="card-title">${esc(item.name)}</h3>
         <p class="card-description">Нажми для 3D-просмотра и скачивания</p>
@@ -1544,7 +1584,21 @@ async function showDetails(item){
 
   if(isSkin){
     const vp = $('modal3d');
-    if(vp) setTimeout(() => { modalViewer = createSkinViewer(vp, skinTextureUrl(item.name), {animation:true, zoom:true}); }, 50);
+    if(vp){
+      setTimeout(async () => {
+        const dataUrl = await loadSkinDataUrl([
+          skinTextureUrl(item.name),
+          `https://minotar.net/skin/${encodeURIComponent(item.name)}`,
+          `https://mc-heads.net/skin/${encodeURIComponent(item.name)}`
+        ]);
+        if(!document.contains(vp)) return;
+        if(!dataUrl){
+          vp.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">Не удалось загрузить скин</p>';
+          return;
+        }
+        modalViewer = createSkinViewer(vp, dataUrl, {animation:true, zoom:true});
+      }, 50);
+    }
   }else{
     const d = item.source === 'modrinth' ? item.description : item.summary;
     const ru = await translate(d || '');
@@ -1901,18 +1955,6 @@ async function openEditor(skinName){
             <div class="skin-palette" id="ed-palette"></div>
           </div>
           <div class="editor-section">
-            <div class="editor-section-title">Слой</div>
-            <div class="editor-layer-row">
-              <button class="editor-layer-btn active" data-layer="base">
-                <span class="editor-layer-dot" style="background:var(--accent)"></span>Базовый
-              </button>
-              <button class="editor-layer-btn" data-layer="overlay">
-                <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
-              </button>
-            </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый — тело. Оверлей — шапка и куртка.</p>
-          </div>
-          <div class="editor-section">
             <div class="editor-section-title">Тема</div>
             <div id="ed-theme-mini"></div>
           </div>
@@ -1944,7 +1986,6 @@ async function openEditor(skinName){
 
   editorState = {
     canvas, ctx,
-    activeLayer: 'base',
     tool: 'pencil',
     color: '#38BDF8',
     drawing: false,
@@ -2019,207 +2060,7 @@ async function openEditor(skinName){
     });
   }
 
-  /* 3D VIEWER */
-  const ed3d = $('ed-3d');
-  let viewer = null;
-
-  if(typeof skinview3d !== 'undefined' && typeof THREE !== 'undefined'){
-    try{
-      const skinUrl = skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve');
-      viewer = new skinview3d.SkinViewer({
-        canvas: document.createElement('canvas'),
-        width: 400,
-        height: 400,
-        skin: skinUrl
-      });
-      viewer.controls.enableZoom = true;
-      viewer.controls.enableRotate = true;
-      viewer.controls.enablePan = false;
-      try{
-        viewer.controls.mouseButtons = {
-          LEFT: -1,
-          MIDDLE: THREE.MOUSE.DOLLY,
-          RIGHT: THREE.MOUSE.ROTATE
-        };
-        viewer.controls.touches = {
-          ONE: -1,
-          TWO: THREE.TOUCH.DOLLY_ROTATE
-        };
-      }catch(e){ console.warn('mouseButtons config failed:', e); }
-      viewer.camera.position.z = 70;
-      try{
-        viewer.renderer.setClearColor(0x000000, 0);
-        viewer.renderer.setClearAlpha(0);
-      }catch{}
-      viewer.canvas.style.background = 'transparent';
-      viewer.canvas.style.cursor = 'crosshair';
-      viewer.canvas.addEventListener('contextmenu', e => e.preventDefault());
-      ed3d.appendChild(viewer.canvas);
-      editorState.viewer = viewer;
-      editorState.raycaster = new THREE.Raycaster();
-      editorState.mouseVec = new THREE.Vector2();
-    }catch(e){
-      console.warn('viewer failed:', e);
-      ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно. Работай в режиме «Сетка».</p>';
-    }
-  }else{
-    ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно.</p>';
-  }
-
-  /* RESIZE */
-  const doResize = () => {
-    if(!editorState?.viewer) return;
-    try{
-      const r = ed3d.getBoundingClientRect();
-      const w = Math.max(300, Math.floor(r.width));
-      const h = Math.max(400, Math.floor(r.height));
-      editorState.viewer.setSize(w, h);
-      if(editorState.viewer.camera){
-        editorState.viewer.camera.aspect = w / h;
-        editorState.viewer.camera.updateProjectionMatrix();
-      }
-    }catch(e){ console.warn('setSize failed:', e); }
-  };
-  setTimeout(doResize, 200);
-  setTimeout(doResize, 600);
-  window.addEventListener('resize', doResize);
-  editorState._resizeHandler = doResize;
-
-  /* Сетка UV-шейдер на оверлее */
-  function applyGridShader(show){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
-
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      if((n + ' ' + p).includes('cape') || (n + ' ' + p).includes('elytra')) return;
-
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      mats.forEach(mat => {
-        if(!mat) return;
-        if(show && !mat.userData.__gridApplied){
-          mat.userData.__gridApplied = true;
-          mat.userData.__origOBC = mat.onBeforeCompile;
-          mat.onBeforeCompile = (shader) => {
-            if(mat.userData.__origOBC) mat.userData.__origOBC(shader);
-            shader.fragmentShader = shader.fragmentShader.replace(
-              '#include <map_fragment>',
-              `#include <map_fragment>
-              #ifdef USE_MAP
-                vec2 __gUV = vMapUv * 64.0;
-                vec2 __gF = abs(fract(__gUV - 0.5) - 0.5);
-                vec2 __gD = fwidth(__gUV);
-                vec2 __gL = __gF / max(__gD, vec2(0.0001));
-                float __gA = 1.0 - min(min(__gL.x, __gL.y), 1.0);
-                gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.38, 0.83, 1.0), __gA * 0.75);
-              #endif
-              `
-            );
-          };
-          mat.customProgramCacheKey = () => 'grid-v1-on';
-          mat.needsUpdate = true;
-        }else if(!show && mat.userData.__gridApplied){
-          mat.userData.__gridApplied = false;
-          mat.onBeforeCompile = mat.userData.__origOBC || function(){};
-          mat.customProgramCacheKey = () => 'grid-v1-off-' + Math.random();
-          mat.needsUpdate = true;
-        }
-      });
-    });
-  }
-
-  function applyLayerVisibility(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
-    const isBase = editorState.activeLayer === 'base';
-
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
-
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-
-      if(mats.length >= 2){
-        obj.userData.__multiLayer = true;
-        mats[0].visible = true;
-        mats[0].transparent = !isBase;
-        mats[0].opacity = isBase ? 1 : 0.65;
-        mats[0].depthWrite = isBase;
-        mats[0].needsUpdate = true;
-        for(let i = 1; i < mats.length; i++){
-          mats[i].visible = !isBase;
-          mats[i].transparent = false;
-          mats[i].opacity = 1;
-          mats[i].depthWrite = true;
-          mats[i].needsUpdate = true;
-        }
-        return;
-      }
-
-      const isOuter = /outer|hat|jacket|sleeve|overlay|second/i.test(combined);
-      obj.userData.__isOuter = isOuter;
-      if(isOuter){
-        obj.visible = !isBase;
-      }else{
-        obj.visible = true;
-        const mat = obj.material;
-        if(mat){
-          mat.transparent = !isBase;
-          mat.opacity = isBase ? 1 : 0.65;
-          mat.depthWrite = isBase;
-          mat.needsUpdate = true;
-        }
-      }
-    });
-
-    applyGridShader(!isBase);
-  }
-
-  /* LOAD SKIN */
-  async function loadSkinToCanvas(url){
-    return new Promise(resolve => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-        ctx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
-        pushHistory();
-        redrawFlat();
-        refresh3D();
-        resolve();
-      };
-      img.onerror = () => {
-        pushHistory();
-        redrawFlat();
-        refresh3D();
-        resolve();
-      };
-      img.src = url;
-    });
-  }
-
-  await loadSkinToCanvas(skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve'));
-
-  if(viewer){
-    viewer.renderer.setAnimationLoop(() => {
-      viewer.renderer.render(viewer.scene, viewer.camera);
-    });
-    applyLayerVisibility();
-  }
-
-  $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
-    editorState.activeLayer = b.dataset.layer;
-    $$('[data-layer]').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    applyLayerVisibility();
-  }));
-
-  /* EDITOR BG */
+  /* EDITOR BG — ВАЖНО: до await, чтобы работал всегда */
   const canvasArea = document.querySelector('.editor-canvas-area');
   const savedBg = safeGetLocalStorage('mch-editor-bg') || 'theme';
   const savedCustomBg = safeGetLocalStorage('mch-editor-bg-custom');
@@ -2274,6 +2115,130 @@ async function openEditor(skinName){
     reader.readAsDataURL(file);
   });
 
+  /* 3D VIEWER */
+  const ed3d = $('ed-3d');
+  let viewer = null;
+
+  const initialSkinUrl = skinName
+    ? `https://minotar.net/skin/${encodeURIComponent(skinName)}`
+    : 'https://minotar.net/skin/Steve';
+
+  if(typeof skinview3d !== 'undefined' && typeof THREE !== 'undefined'){
+    try{
+      viewer = new skinview3d.SkinViewer({
+        canvas: document.createElement('canvas'),
+        width: 400,
+        height: 400,
+        skin: initialSkinUrl
+      });
+      viewer.controls.enableZoom = true;
+      viewer.controls.enableRotate = true;
+      viewer.controls.enablePan = false;
+      try{
+        viewer.controls.mouseButtons = {
+          LEFT: -1,
+          MIDDLE: THREE.MOUSE.DOLLY,
+          RIGHT: THREE.MOUSE.ROTATE
+        };
+        viewer.controls.touches = {
+          ONE: -1,
+          TWO: THREE.TOUCH.DOLLY_ROTATE
+        };
+      }catch(e){ console.warn('mouseButtons config failed:', e); }
+      viewer.camera.position.z = 70;
+      try{
+        viewer.renderer.setClearColor(0x000000, 0);
+        viewer.renderer.setClearAlpha(0);
+      }catch{}
+      viewer.canvas.style.background = 'transparent';
+      viewer.canvas.style.cursor = 'crosshair';
+      viewer.canvas.addEventListener('contextmenu', e => e.preventDefault());
+      ed3d.appendChild(viewer.canvas);
+      editorState.viewer = viewer;
+      editorState.raycaster = new THREE.Raycaster();
+      editorState.mouseVec = new THREE.Vector2();
+    }catch(e){
+      console.warn('viewer failed:', e);
+      ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно. Работай в режиме «Сетка».</p>';
+    }
+  }else{
+    ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно.</p>';
+  }
+
+  /* RESIZE */
+  const doResize = () => {
+    if(!editorState?.viewer) return;
+    try{
+      const r = ed3d.getBoundingClientRect();
+      const w = Math.max(300, Math.floor(r.width));
+      const h = Math.max(400, Math.floor(r.height));
+      editorState.viewer.setSize(w, h);
+      if(editorState.viewer.camera){
+        editorState.viewer.camera.aspect = w / h;
+        editorState.viewer.camera.updateProjectionMatrix();
+      }
+    }catch(e){ console.warn('setSize failed:', e); }
+  };
+  setTimeout(doResize, 200);
+  setTimeout(doResize, 600);
+  window.addEventListener('resize', doResize);
+  editorState._resizeHandler = doResize;
+
+  /* Включаем все меши (без слоёв) */
+  function applyLayerVisibility(){
+    const v = editorState.viewer;
+    if(!v || !v.playerObject) return;
+    v.playerObject.traverse(obj => {
+      if(!obj.isMesh) return;
+      obj.visible = true;
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+      mats.forEach(m => {
+        if(!m) return;
+        m.visible = true;
+        m.opacity = 1;
+        m.transparent = false;
+        m.depthWrite = true;
+        m.needsUpdate = true;
+      });
+    });
+  }
+
+  /* LOAD SKIN с фолбэком */
+  async function loadSkinToCanvas(url, fallbackUrl){
+    const draw = (img) => {
+      ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
+      ctx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
+      pushHistory();
+      redrawFlat();
+      refresh3D();
+    };
+    const tryLoad = (u) => new Promise(res => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => { draw(img); res(true); };
+      img.onerror = () => res(false);
+      img.src = u;
+    });
+    if(await tryLoad(url)) return true;
+    if(fallbackUrl && await tryLoad(fallbackUrl)) return true;
+    pushHistory(); redrawFlat(); refresh3D();
+    return false;
+  }
+
+  const primarySkin = skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve');
+  const fallbackSkin = skinName
+    ? `https://minotar.net/skin/${encodeURIComponent(skinName)}`
+    : 'https://minotar.net/skin/Steve';
+  const loaded = await loadSkinToCanvas(primarySkin, fallbackSkin);
+  if(!loaded) toast('Скин не загрузился, используется пустой холст','error');
+
+  if(viewer){
+    viewer.renderer.setAnimationLoop(() => {
+      viewer.renderer.render(viewer.scene, viewer.camera);
+    });
+    applyLayerVisibility();
+  }
+
   /* PAINT */
   function paintPx(px, py){
     if(px < 0 || py < 0 || px >= SKIN_SIZE || py >= SKIN_SIZE) return;
@@ -2290,7 +2255,6 @@ async function openEditor(skinName){
       return;
     }
     const S = SKIN_PIXEL;
-    const isBase = editorState.activeLayer === 'base';
     const flatBg = ((px + py) % 2 === 0) ? '#1a1f2b' : '#252b38';
 
     if(editorState.tool === 'eraser'){
@@ -2303,7 +2267,7 @@ async function openEditor(skinName){
       ctx.fillStyle = editorState.color;
       ctx.fillRect(px, py, 1, 1);
       if(editorState.flatCtx){
-        editorState.flatCtx.globalAlpha = isBase ? 1 : 0.75;
+        editorState.flatCtx.globalAlpha = 1;
         editorState.flatCtx.fillStyle = editorState.color;
         editorState.flatCtx.fillRect(px*S, py*S, S, S);
         editorState.flatCtx.globalAlpha = 1;
@@ -2362,7 +2326,6 @@ async function openEditor(skinName){
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
     if(!v || !ray || !mv) return;
-    const isBase = editorState.activeLayer === 'base';
 
     const rect = v.canvas.getBoundingClientRect();
     mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
@@ -2381,22 +2344,6 @@ async function openEditor(skinName){
       if(!h.object.visible) continue;
       if(!h.uv) continue;
       if(h.object.isLine || h.object.isLineSegments) continue;
-
-      const obj = h.object;
-
-      if(obj.userData.__multiLayer){
-        const matIdx = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
-        if(isBase && matIdx > 0) continue;
-        if(!isBase && matIdx === 0) continue;
-        hit = h;
-        break;
-      }
-
-      if(typeof obj.userData.__isOuter === 'boolean'){
-        if(isBase && obj.userData.__isOuter) continue;
-        if(!isBase && !obj.userData.__isOuter) continue;
-      }
-
       hit = h;
       break;
     }
@@ -2608,7 +2555,7 @@ async function openEditor(skinName){
     const file = e.target.files[0];
     if(!file) return;
     const url = URL.createObjectURL(file);
-    await loadSkinToCanvas(url);
+    await loadSkinToCanvas(url, fallbackSkin);
     URL.revokeObjectURL(url);
     toast('Скин загружен','ok');
   });
@@ -2622,7 +2569,7 @@ async function openEditor(skinName){
   });
 
   $('ed-steve').addEventListener('click', async () => {
-    await loadSkinToCanvas(skinTextureUrl('Steve'));
+    await loadSkinToCanvas('https://minotar.net/skin/Steve', skinTextureUrl('Steve'));
     toast('Steve загружен','ok');
   });
 
