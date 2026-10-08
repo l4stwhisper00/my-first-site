@@ -308,8 +308,8 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 'use strict';
 
 try{
-  if(localStorage.getItem('mch-cache-v') !== 'v10'){
-    localStorage.setItem('mch-cache-v','v10');
+  if(localStorage.getItem('mch-cache-v') !== 'v11'){
+    localStorage.setItem('mch-cache-v','v11');
     sessionStorage.clear();
   }
 }catch{}
@@ -381,26 +381,36 @@ async function fetchJson(url){
   throw lastError || new Error('fetch failed');
 }
 
-/* CORS PROXIES */
+/* CORS PROXIES — RACE ВМЕСТО ПООЧЕРЁДНО */
 const CORS_PROXIES = [
   u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
   u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
 ];
+
 async function fetchViaProxy(url){
-  for(const wrap of CORS_PROXIES){
-    try{
+  const attempts = CORS_PROXIES.map(wrap => {
+    return (async () => {
       const ctrl = new AbortController();
-      const tm = setTimeout(() => ctrl.abort(), 10000);
-      const r = await fetch(wrap(url), {signal: ctrl.signal});
-      clearTimeout(tm);
-      if(r.ok){
+      const tm = setTimeout(() => ctrl.abort(), 4000);
+      try{
+        const r = await fetch(wrap(url), {signal: ctrl.signal});
+        clearTimeout(tm);
+        if(!r.ok) throw new Error('HTTP ' + r.status);
         const t = await r.text();
         if(t && t.length > 100) return t;
+        throw new Error('empty');
+      }catch(e){
+        clearTimeout(tm);
+        throw e;
       }
-    }catch{continue}
+    })();
+  });
+  try{
+    return await Promise.any(attempts);
+  }catch{
+    throw new Error('all proxies failed');
   }
-  throw new Error('all proxies failed');
 }
 
 /* NICK POOL */
@@ -427,6 +437,7 @@ let lastSearch = 0;
 let editorActive = false;
 let randomMode = false;
 let namemcNames = null;
+let namemcFetching = false;
 
 /* TOAST */
 function toast(msg, kind='info', ms=4000){
@@ -821,6 +832,12 @@ $$('.tab').forEach(tab => tab.addEventListener('click', () => {
     if(window._editorCleanup){ try{ window._editorCleanup(); }catch{}; window._editorCleanup = null; }
     editorActive = false;
   }
+  if(document.body.classList.contains('editor-lock')){
+    const scrollY = -parseInt(document.body.style.top || '0', 10) || 0;
+    document.body.classList.remove('editor-lock');
+    document.body.style.top = '';
+    window.scrollTo(0, scrollY);
+  }
   $$('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
   tab.classList.add('active');
   tab.setAttribute('aria-selected','true');
@@ -956,10 +973,26 @@ async function loadMore(){
         hasMore = false;
       }else{
         if(namemcNames === null){
-          try{
-            const trending = await fetchNamemcTrending(1);
-            namemcNames = trending.length > 20 ? trending : NICK_POOL;
-          }catch{ namemcNames = NICK_POOL; }
+          // МГНОВЕННО показываем локальный список
+          namemcNames = NICK_POOL;
+
+          // NameMC тянем в ФОНЕ — когда ответит, обновим список
+          if(!namemcFetching){
+            namemcFetching = true;
+            fetchNamemcTrending(1).then(trending => {
+              if(trending && trending.length > 20 && namemcNames === NICK_POOL){
+                const merged = [...new Set([...trending, ...NICK_POOL])];
+                namemcNames = merged;
+                // Обновляем список если всё ещё на первой странице
+                if(offset === 0 && currentTab === 'skins' && !currentQuery && !randomMode){
+                  $('content').innerHTML = '';
+                  items = [];
+                  offset = 0;
+                  loadMore();
+                }
+              }
+            }).catch(() => {}).finally(() => { namemcFetching = false; });
+          }
         }
         const start = offset;
         list = namemcNames.slice(start, start + SKIN_LIMIT).map(n => ({source:'skin', name:n}));
