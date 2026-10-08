@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://mc-heads.net https://api.mineatar.io https://starlightskins.lunareclipse.studio https://crafatar.com data: blob:; connect-src https://minecraft-proxy.zxcdedinside944.workers.dev https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://mc-heads.net https://crafatar.com https://api.mineatar.io data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-<link rel="dns-prefetch" href="https://starlightskins.lunareclipse.studio">
 <link rel="dns-prefetch" href="https://mc-heads.net">
+<link rel="dns-prefetch" href="https://minotar.net">
 <title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -18,264 +18,95 @@
   --accent:#38BDF8;--accent-2:#6EE7B7;--dim:#1E3A5F;
   --text:#E8EDF4;--tdim:#9CA3AF;
   --error:#EF4444;--ok:#10B981;
-  --r:999px;--rl:1.5rem;
-  --blur:8px;
+  --r:999px;--rl:1.5rem;--blur:8px;
   --tr-fast:.14s;--tr-norm:.28s;--tr-slow:.45s;
   --ease:cubic-bezier(.25,.46,.45,.94);
   --card-glow:rgba(56,189,248,.15);
-  --aurora-1:rgba(56,189,248,.35);
-  --aurora-2:rgba(110,231,183,.28);
+  --aurora-1:rgba(56,189,248,.35);--aurora-2:rgba(110,231,183,.28);
 }
-[data-theme="midnight"]{
-  --s0:#02040A;--s2:#0A0E18;--s3:#111624;--s4:#1A2132;
-  --accent:#818CF8;--accent-2:#A78BFA;--dim:#1E1B4B;
-  --text:#E0E7FF;--tdim:#8B95B8;
-  --card-glow:rgba(129,140,248,.2);
-  --aurora-1:rgba(129,140,248,.35);--aurora-2:rgba(167,139,250,.28);
-}
-[data-theme="light"]{
-  --s0:#F0F4FA;--s2:#FFFFFF;--s3:#E8EDF5;--s4:#DDE4EE;
-  --accent:#0284C7;--accent-2:#10B981;--dim:#DBEAFE;
-  --text:#0F172A;--tdim:#64748B;
-  --card-glow:rgba(2,132,199,.15);
-  --aurora-1:rgba(2,132,199,.2);--aurora-2:rgba(16,185,129,.15);
-}
-[data-theme="ocean"]{
-  --s0:#041220;--s2:#081A2B;--s3:#0D2438;--s4:#133049;
-  --accent:#06B6D4;--accent-2:#22D3EE;--dim:#0E4D64;
-  --text:#DBEEF7;--tdim:#7BA3B8;
-  --card-glow:rgba(6,182,212,.2);
-  --aurora-1:rgba(6,182,212,.4);--aurora-2:rgba(34,211,238,.3);
-}
-[data-theme="sunset"]{
-  --s0:#14070F;--s2:#1E0A18;--s3:#2A0F22;--s4:#38152C;
-  --accent:#FB7185;--accent-2:#FBBF24;--dim:#5B1F3A;
-  --text:#FDE4EC;--tdim:#C99AAB;
-  --card-glow:rgba(251,113,133,.22);
-  --aurora-1:rgba(251,113,133,.4);--aurora-2:rgba(251,191,36,.3);
-}
-[data-theme="forest"]{
-  --s0:#071510;--s2:#0C1E17;--s3:#122A20;--s4:#1A3629;
-  --accent:#10B981;--accent-2:#84CC16;--dim:#14532D;
-  --text:#DCFCE7;--tdim:#7FA089;
-  --card-glow:rgba(16,185,129,.22);
-  --aurora-1:rgba(16,185,129,.4);--aurora-2:rgba(132,204,22,.28);
-}
-[data-theme="cyber"]{
-  --s0:#0A0512;--s2:#100820;--s3:#180D2E;--s4:#211340;
-  --accent:#D946EF;--accent-2:#22D3EE;--dim:#4A1060;
-  --text:#F5E4FF;--tdim:#B096C5;
-  --card-glow:rgba(217,70,239,.25);
-  --aurora-1:rgba(217,70,239,.45);--aurora-2:rgba(34,211,238,.35);
-}
-[data-theme="nord"]{
-  --s0:#242933;--s2:#2E3440;--s3:#3B4252;--s4:#434C5E;
-  --accent:#88C0D0;--accent-2:#A3BE8C;--dim:#4C566A;
-  --text:#ECEFF4;--tdim:#9099A8;
-  --card-glow:rgba(136,192,208,.2);
-  --aurora-1:rgba(136,192,208,.3);--aurora-2:rgba(163,190,140,.25);
-}
-[data-theme="rose"]{
-  --s0:#1A0A15;--s2:#280F20;--s3:#37162C;--s4:#471C39;
-  --accent:#F472B6;--accent-2:#FCD34D;--dim:#5E1F41;
-  --text:#FFE4F1;--tdim:#C493AD;
-  --card-glow:rgba(244,114,182,.22);
-  --aurora-1:rgba(244,114,182,.4);--aurora-2:rgba(252,211,77,.3);
-}
-
+[data-theme="midnight"]{--s0:#02040A;--s2:#0A0E18;--s3:#111624;--s4:#1A2132;--accent:#818CF8;--accent-2:#A78BFA;--dim:#1E1B4B;--text:#E0E7FF;--tdim:#8B95B8;--card-glow:rgba(129,140,248,.2);--aurora-1:rgba(129,140,248,.35);--aurora-2:rgba(167,139,250,.28)}
+[data-theme="light"]{--s0:#F0F4FA;--s2:#FFFFFF;--s3:#E8EDF5;--s4:#DDE4EE;--accent:#0284C7;--accent-2:#10B981;--dim:#DBEAFE;--text:#0F172A;--tdim:#64748B;--card-glow:rgba(2,132,199,.15);--aurora-1:rgba(2,132,199,.2);--aurora-2:rgba(16,185,129,.15)}
+[data-theme="ocean"]{--s0:#041220;--s2:#081A2B;--s3:#0D2438;--s4:#133049;--accent:#06B6D4;--accent-2:#22D3EE;--dim:#0E4D64;--text:#DBEEF7;--tdim:#7BA3B8;--card-glow:rgba(6,182,212,.2);--aurora-1:rgba(6,182,212,.4);--aurora-2:rgba(34,211,238,.3)}
+[data-theme="sunset"]{--s0:#14070F;--s2:#1E0A18;--s3:#2A0F22;--s4:#38152C;--accent:#FB7185;--accent-2:#FBBF24;--dim:#5B1F3A;--text:#FDE4EC;--tdim:#C99AAB;--card-glow:rgba(251,113,133,.22);--aurora-1:rgba(251,113,133,.4);--aurora-2:rgba(251,191,36,.3)}
+[data-theme="forest"]{--s0:#071510;--s2:#0C1E17;--s3:#122A20;--s4:#1A3629;--accent:#10B981;--accent-2:#84CC16;--dim:#14532D;--text:#DCFCE7;--tdim:#7FA089;--card-glow:rgba(16,185,129,.22);--aurora-1:rgba(16,185,129,.4);--aurora-2:rgba(132,204,22,.28)}
+[data-theme="cyber"]{--s0:#0A0512;--s2:#100820;--s3:#180D2E;--s4:#211340;--accent:#D946EF;--accent-2:#22D3EE;--dim:#4A1060;--text:#F5E4FF;--tdim:#B096C5;--card-glow:rgba(217,70,239,.25);--aurora-1:rgba(217,70,239,.45);--aurora-2:rgba(34,211,238,.35)}
+[data-theme="nord"]{--s0:#242933;--s2:#2E3440;--s3:#3B4252;--s4:#434C5E;--accent:#88C0D0;--accent-2:#A3BE8C;--dim:#4C566A;--text:#ECEFF4;--tdim:#9099A8;--card-glow:rgba(136,192,208,.2);--aurora-1:rgba(136,192,208,.3);--aurora-2:rgba(163,190,140,.25)}
+[data-theme="rose"]{--s0:#1A0A15;--s2:#280F20;--s3:#37162C;--s4:#471C39;--accent:#F472B6;--accent-2:#FCD34D;--dim:#5E1F41;--text:#FFE4F1;--tdim:#C493AD;--card-glow:rgba(244,114,182,.22);--aurora-1:rgba(244,114,182,.4);--aurora-2:rgba(252,211,77,.3)}
 html,body{min-height:100vh}
 html{background:var(--s0);transition:background var(--tr-slow) var(--ease)}
-body{
-  background:transparent;color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-  line-height:1.6;
-  transition:color var(--tr-slow) var(--ease);
-  overflow-x:hidden;
-}
+body{background:transparent;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;transition:color var(--tr-slow) var(--ease);overflow-x:hidden}
 body.lock{overflow:hidden}
-
-/* === ФОН: AURORA === */
-.bg-aurora{
-  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-  opacity:.9;transition:opacity var(--tr-slow) var(--ease);
-}
-.bg-aurora::before,.bg-aurora::after{
-  content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;
-  filter:blur(90px);will-change:transform;
-}
-.bg-aurora::before{
-  background:radial-gradient(circle,var(--aurora-1) 0%,transparent 65%);
-  top:-25vmax;left:-20vmax;
-  animation:auroraA 28s ease-in-out infinite;
-}
-.bg-aurora::after{
-  background:radial-gradient(circle,var(--aurora-2) 0%,transparent 65%);
-  bottom:-25vmax;right:-20vmax;
-  animation:auroraB 34s ease-in-out infinite;
-}
-@keyframes auroraA{
-  0%,100%{transform:translate(0,0) scale(1)}
-  33%{transform:translate(15vmax,8vmax) scale(1.15)}
-  66%{transform:translate(5vmax,20vmax) scale(.95)}
-}
-@keyframes auroraB{
-  0%,100%{transform:translate(0,0) scale(1)}
-  33%{transform:translate(-12vmax,-10vmax) scale(1.1)}
-  66%{transform:translate(-20vmax,5vmax) scale(1.05)}
-}
+.bg-aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.9;transition:opacity var(--tr-slow) var(--ease)}
+.bg-aurora::before,.bg-aurora::after{content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px);will-change:transform}
+.bg-aurora::before{background:radial-gradient(circle,var(--aurora-1) 0%,transparent 65%);top:-25vmax;left:-20vmax;animation:auroraA 28s ease-in-out infinite}
+.bg-aurora::after{background:radial-gradient(circle,var(--aurora-2) 0%,transparent 65%);bottom:-25vmax;right:-20vmax;animation:auroraB 34s ease-in-out infinite}
+@keyframes auroraA{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(15vmax,8vmax) scale(1.15)}66%{transform:translate(5vmax,20vmax) scale(.95)}}
+@keyframes auroraB{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-12vmax,-10vmax) scale(1.1)}66%{transform:translate(-20vmax,5vmax) scale(1.05)}}
 body.no-bg .bg-aurora{opacity:0}
-
 .container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:2rem}
-
 header{margin-bottom:2rem;text-align:center;animation:fadeInUp .5s var(--ease)}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-h1{
-  font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;
-  background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  transition:background var(--tr-slow) var(--ease);
-  background-size:200% 200%;
-  animation:gradientShift 8s ease infinite;
-}
-@keyframes gradientShift{
-  0%,100%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-}
+h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientShift 8s ease infinite}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .subtitle{color:var(--tdim);font-size:1.1rem}
-
 .tabs{display:flex;gap:.75rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap}
-.tab{
-  background:var(--s2);color:var(--tdim);padding:.75rem 1.5rem;
-  border:none;border-radius:var(--r);font-weight:600;cursor:pointer;
-  font-size:1rem;white-space:nowrap;
-  transition:all var(--tr-norm) var(--ease);
-  backdrop-filter:blur(10px);
-  border:1px solid transparent;
-}
+.tab{background:var(--s2);color:var(--tdim);padding:.75rem 1.5rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;white-space:nowrap;transition:all var(--tr-norm) var(--ease);backdrop-filter:blur(10px);border:1px solid transparent}
 .tab:hover{background:var(--s3);color:var(--text);transform:translateY(-2px);box-shadow:0 6px 18px var(--card-glow)}
-.tab.active{
-  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);
-  box-shadow:0 4px 16px var(--card-glow);
-}
-
-.search-container{
-  background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem;
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.05);
-  box-shadow:0 8px 32px rgba(0,0,0,.15);
-  transition:background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease);
-}
+.tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);box-shadow:0 4px 16px var(--card-glow)}
+.search-container{background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);box-shadow:0 8px 32px rgba(0,0,0,.15);transition:background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease)}
 .search-row{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
-.search-input,.filter-select{
-  background:var(--s3);border:2px solid transparent;color:var(--text);
-  padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem;
-  transition:border-color var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease);
-}
+.search-input,.filter-select{background:var(--s3);border:2px solid transparent;color:var(--text);padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem;transition:border-color var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease)}
 .search-input{flex:1;min-width:250px}
 .filter-select{padding:.5rem 1rem;cursor:pointer}
 .search-input:focus,.filter-select:focus{outline:none;border-color:var(--accent)}
-
-/* === КНОПКА РЕДАКТОРА === */
-#editorBtn{
-  background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  color:var(--s0);border:none;border-radius:var(--r);
-  padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;
-  cursor:pointer;display:none;align-items:center;gap:.55rem;
-  box-shadow:0 4px 16px var(--card-glow);
-  transition:all var(--tr-norm) var(--ease);
-  white-space:nowrap;position:relative;overflow:hidden;
-}
-#editorBtn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);
-  transform:translateX(-100%);transition:transform .6s var(--ease);
-}
+#editorBtn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;box-shadow:0 4px 16px var(--card-glow);transition:all var(--tr-norm) var(--ease);white-space:nowrap;position:relative;overflow:hidden}
+#editorBtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);transform:translateX(-100%);transition:transform .6s var(--ease)}
 #editorBtn:hover::before{transform:translateX(100%)}
 #editorBtn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 28px var(--card-glow)}
 #editorBtn .ico{font-size:1.15rem;line-height:1;display:inline-block;transition:transform var(--tr-norm) var(--ease)}
 #editorBtn:hover .ico{transform:rotate(-15deg) scale(1.15)}
-
+#randomBtn{background:var(--s3);color:var(--text);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;transition:all var(--tr-norm) var(--ease);white-space:nowrap}
+#randomBtn:hover{background:var(--s4);transform:translateY(-2px)}
 .filters{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
 .filters label{color:var(--tdim);font-size:.9rem}
 .hidden{display:none!important}
-
-.btn,.search-btn{
-  background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;
-  border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;
-  transition:all var(--tr-norm) var(--ease);text-align:center;
-}
+.btn,.search-btn{background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;transition:all var(--tr-norm) var(--ease);text-align:center}
 .btn{width:100%;display:inline-block}
 .btn:hover,.search-btn:hover{filter:brightness(1.1);transform:scale(1.02);box-shadow:0 6px 20px var(--card-glow)}
 .btn-secondary{background:var(--s3);color:var(--text)}
 .btn-secondary:hover{background:var(--s4)}
 .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;margin-bottom:2rem}
-.card{
-  background:var(--s2);border-radius:var(--rl);overflow:hidden;
-  cursor:pointer;display:flex;flex-direction:column;
-  animation:fadeInUp .45s var(--ease) both;
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.05);
-  transition:transform var(--tr-norm) var(--ease),box-shadow var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease);
-  position:relative;
-}
-.card::after{
-  content:'';position:absolute;inset:0;border-radius:var(--rl);
-  background:linear-gradient(135deg,var(--accent),transparent 60%);
-  opacity:0;transition:opacity var(--tr-norm) var(--ease);
-  pointer-events:none;mix-blend-mode:overlay;
-}
-.card:hover::after,.card:focus-visible::after{opacity:.06}
-.card:hover,.card:focus-visible{
-  transform:translateY(-6px) scale(1.01);
-  box-shadow:0 12px 32px var(--card-glow);
-  outline:none;
-  border-color:rgba(255,255,255,.1);
-}
+.card{background:var(--s2);border-radius:var(--rl);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;animation:fadeInUp .45s var(--ease) both;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);transition:transform var(--tr-norm) var(--ease),box-shadow var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease);position:relative}
+.card:hover,.card:focus-visible{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 32px var(--card-glow);outline:none;border-color:rgba(255,255,255,.1)}
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .card-image{width:100%;height:180px;object-fit:cover;background:var(--s4);transition:background var(--tr-slow) var(--ease)}
-.card-image.skin{object-fit:contain;padding:.5rem;background:linear-gradient(135deg,var(--s3),var(--s4))}
+.card-image.skin{object-fit:contain;padding:.5rem;background:linear-gradient(135deg,var(--s3),var(--s4));image-rendering:auto}
 .card-content{padding:1.25rem;flex:1;display:flex;flex-direction:column}
 .card-title{font-size:1.05rem;font-weight:600;margin-bottom:.5rem;line-height:1.3;word-break:break-word}
 .card-description{color:var(--tdim);font-size:.9rem;margin-bottom:1rem;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .tag{display:inline-block;background:var(--dim);color:var(--accent);padding:.25rem .75rem;border-radius:var(--r);font-size:.8rem;font-weight:500;margin-bottom:1rem;align-self:flex-start}
 .card-stats{display:flex;justify-content:space-between;gap:.5rem;color:var(--tdim);font-size:.85rem}
-
 .skeleton-card{cursor:default!important;pointer-events:none}
 .skeleton-card:hover{transform:none!important;box-shadow:none!important}
-.skeleton-card:hover::after{opacity:0}
 .skeleton-shimmer{background:linear-gradient(90deg,var(--s3) 25%,var(--s4) 50%,var(--s3) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
 .skeleton-line{height:.85rem;border-radius:.4rem;margin-bottom:.6rem}
 .skeleton-line.big{height:1.2rem;width:70%}
-
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(var(--blur));z-index:1000;overflow-y:auto;animation:fadeIn .2s var(--ease)}
 .modal.active{display:flex;align-items:center;justify-content:center;padding:2rem}
-.modal-content{
-  background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;
-  max-height:90vh;overflow-y:auto;backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.08);
-  animation:fadeInUp .3s var(--ease);
-  transition:background var(--tr-slow) var(--ease);
-}
+.modal-content{background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;max-height:90vh;overflow-y:auto;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);animation:fadeInUp .3s var(--ease);transition:background var(--tr-slow) var(--ease)}
 .modal-header{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;gap:1rem;align-items:center}
 .modal-title{font-size:1.5rem;font-weight:700;line-height:1.3;word-break:break-word}
 .modal-close{background:none;border:none;color:var(--tdim);font-size:2rem;cursor:pointer;width:40px;height:40px;border-radius:50%;flex-shrink:0;transition:all var(--tr-fast) var(--ease);display:flex;align-items:center;justify-content:center}
 .modal-close:hover{background:var(--s3);color:var(--text);transform:rotate(90deg)}
 .modal-body{padding:2rem}
-.modal-3d-viewport{
-  width:100%;height:400px;background:linear-gradient(135deg,var(--s3),var(--s4));
-  border-radius:var(--rl);margin-bottom:1.5rem;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
-}
+.modal-3d-viewport{width:100%;height:400px;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .modal-3d-viewport canvas{display:block;cursor:grab}
 .modal-3d-viewport canvas:active{cursor:grabbing}
-.modal-3d-viewport img{max-height:100%;object-fit:contain}
+.modal-3d-viewport img{max-height:100%;max-width:100%;object-fit:contain}
 .modal-description{color:var(--tdim);line-height:1.7;margin-bottom:1.5rem;white-space:pre-line}
 .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .version-picker{background:var(--s3);border-radius:var(--rl);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:.75rem}
@@ -291,36 +122,16 @@ h1{
 .toast.error{border-left-color:var(--error)}
 .toast.ok{border-left-color:var(--ok)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-/* === ПАНЕЛЬ НАСТРОЕК === */
 .settings-panel{position:fixed;bottom:1.5rem;left:1.5rem;z-index:3000;display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
-.settings-toggle{
-  width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
-  background:var(--s2);color:var(--text);font-size:1.4rem;
-  box-shadow:0 8px 24px rgba(0,0,0,.4);backdrop-filter:blur(12px);
-  transition:all var(--tr-norm) var(--ease);
-  display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.08);
-}
+.settings-toggle{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:var(--s2);color:var(--text);font-size:1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.4);backdrop-filter:blur(12px);transition:all var(--tr-norm) var(--ease);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.08)}
 .settings-toggle:hover{transform:scale(1.1) rotate(20deg);background:var(--s3)}
-.settings-menu{
-  background:var(--s2);padding:1.25rem;border-radius:var(--rl);
-  box-shadow:0 12px 40px rgba(0,0,0,.5);backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.08);
-  opacity:0;transform:translateY(10px) scale(.95);pointer-events:none;
-  transition:all var(--tr-norm) var(--ease);
-  min-width:280px;
-}
+.settings-menu{background:var(--s2);padding:1.25rem;border-radius:var(--rl);box-shadow:0 12px 40px rgba(0,0,0,.5);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);opacity:0;transform:translateY(10px) scale(.95);pointer-events:none;transition:all var(--tr-norm) var(--ease);min-width:280px}
 .settings-panel.open .settings-menu{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
 .settings-section{margin-bottom:1rem}
 .settings-section:last-child{margin-bottom:0}
 .settings-label{font-size:.75rem;color:var(--tdim);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.6rem}
 .theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
-.theme-opt{
-  width:100%;aspect-ratio:1;border-radius:.75rem;border:2px solid transparent;
-  cursor:pointer;transition:all var(--tr-fast) var(--ease);
-  position:relative;overflow:hidden;
-}
+.theme-opt{width:100%;aspect-ratio:1;border-radius:.75rem;border:2px solid transparent;cursor:pointer;transition:all var(--tr-fast) var(--ease);position:relative;overflow:hidden}
 .theme-opt:hover{transform:scale(1.08)}
 .theme-opt.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--s0) inset,0 0 12px var(--accent)}
 .theme-opt[data-theme="dark"]{background:linear-gradient(135deg,#05070C 50%,#38BDF8)}
@@ -333,19 +144,10 @@ h1{
 .theme-opt[data-theme="nord"]{background:linear-gradient(135deg,#2E3440 50%,#88C0D0)}
 .theme-opt[data-theme="rose"]{background:linear-gradient(135deg,#1A0A15 50%,#F472B6)}
 .settings-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;color:var(--text);font-size:.9rem;cursor:pointer;user-select:none}
-.switch{
-  position:relative;width:42px;height:24px;background:var(--s4);border-radius:999px;
-  transition:background var(--tr-norm) var(--ease);flex-shrink:0;
-}
-.switch::after{
-  content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
-  background:var(--text);border-radius:50%;
-  transition:transform var(--tr-norm) var(--ease);
-}
+.switch{position:relative;width:42px;height:24px;background:var(--s4);border-radius:999px;transition:background var(--tr-norm) var(--ease);flex-shrink:0}
+.switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:var(--text);border-radius:50%;transition:transform var(--tr-norm) var(--ease)}
 .switch.on{background:var(--accent)}
 .switch.on::after{transform:translateX(18px);background:var(--s0)}
-
-/* === РЕДАКТОР === */
 .editor-wrap{background:var(--s2);border-radius:var(--rl);padding:2rem;animation:fadeInUp .4s var(--ease);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05)}
 .editor-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
 .editor-header h2{font-size:1.5rem}
@@ -378,18 +180,7 @@ h1{
 .editor-action-row .btn,.editor-action-row .btn-secondary{width:auto;flex:1;padding:.6rem .75rem;font-size:.85rem}
 .editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:var(--s3);border-radius:.5rem;max-width:100%;display:block}
 .editor-hint{color:var(--tdim);font-size:.8rem;line-height:1.5}
-
-@media(max-width:768px){
-  .container{padding:1rem}
-  .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}
-  .search-row{flex-direction:column;align-items:stretch}
-  .modal-actions{grid-template-columns:1fr}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
-  #toasts{right:1rem;left:1rem;max-width:none}
-  .editor-layout{grid-template-columns:1fr}
-  .settings-panel{bottom:1rem;left:1rem}
-  .settings-menu{min-width:240px}
-}
+@media(max-width:768px){.container{padding:1rem}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.search-row{flex-direction:column;align-items:stretch}.modal-actions{grid-template-columns:1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}#toasts{right:1rem;left:1rem;max-width:none}.editor-layout{grid-template-columns:1fr}.settings-panel{bottom:1rem;left:1rem}.settings-menu{min-width:240px}}
 </style>
 </head>
 <body>
@@ -411,6 +202,7 @@ h1{
     <div class="search-row">
       <input type="text" class="search-input" id="searchInput" placeholder="Поиск..." maxlength="64" autocomplete="off">
       <button class="search-btn" id="searchBtn">Искать</button>
+      <button id="randomBtn" title="Случайные скины">🎲 Случайно</button>
       <button id="editorBtn"><span class="ico">✏️</span> Редактор</button>
     </div>
     <div class="filters" id="filters">
@@ -449,7 +241,6 @@ h1{
 <div id="toasts" aria-live="polite" aria-atomic="false"></div>
 <div class="sr-only" id="liveStatus" aria-live="polite"></div>
 
-<!-- НАСТРОЙКИ -->
 <div class="settings-panel" id="settingsPanel">
   <button class="settings-toggle" id="settingsToggle" aria-label="Настройки">⚙️</button>
   <div class="settings-menu">
@@ -479,14 +270,11 @@ h1{
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
 'use strict';
 
-const WORKER_URL = 'https://minecraft-proxy.zxcdedinside944.workers.dev';
 const MR_API = 'https://api.modrinth.com/v2';
 const MCIM_API = 'https://mod.mcimirror.top/curseforge/v1';
-
 const LIMIT = 20;
 const SKIN_LIMIT = 24;
 const NO_IMG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#1E2636"/><text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text></svg>');
@@ -496,18 +284,15 @@ const CACHE_TTL = 5 * 60 * 1000;
 function cacheGet(k){const e=pageCache.get(k);return e&&Date.now()-e.ts<CACHE_TTL?e.data:null}
 function cacheSet(k,v){pageCache.set(k,{data:v,ts:Date.now()});if(pageCache.size>120)pageCache.delete(pageCache.keys().next().value)}
 
-async function raceJson(...urls){
-  const controllers = urls.map(() => new AbortController());
-  const promises = urls.map((u,i) =>
-    fetch(u,{signal:controllers[i].signal})
-      .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
-      .then(d=>{controllers.forEach((c,j)=>{if(j!==i)c.abort()});return d})
-  );
-  try{return await Promise.any(promises)}catch{throw new Error('Все источники недоступны')}
+async function fetchJson(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  return r.json();
 }
 
+// Расширенный список ников — зарубежные + русские стримеры
 const SKIN_NAMES = [
-  'Notch','jeb_','Dinnerbone','Grumm','_Grum','Herobrine','Steve',
+  'Notch','jeb_','Dinnerbone','Grumm','_Grum','Herobrine','Steve','Alex',
   'Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','WilburSoot','Ph1LzA','Quackity',
   'Grian','MumboJumbo','GoodTimesWithScar','Renthedog','impulseSV','TangoTek','Zedaph','BdoubleO100',
   'Docm77','Keralis','EthosLab','VintageBeef','iskall85','Xisumavoid','Welsknight','Cubfan135',
@@ -519,7 +304,17 @@ const SKIN_NAMES = [
   'Purpled','Wallibear','Ranboo','KarlJacobs','CorpseHusband','Fundy','Eret','Nihachu',
   'JackManifoldTV','Niki','FoolishGamers','Ponk','Hannahxxrose','PurpledMC','Boosfer','Devon',
   'Krtzyy','PeteZahHutt','Quig','Mefs','Krinios','Michaelmcchill','KingBurren','KaraCorvus',
-  'Wisp','ShubbleYT','Ldshadowlady','Seapeekay','InTheLittleWood','SB737','FWhip','Falsesymmetry'
+  'Wisp','ShubbleYT','Ldshadowlady','Seapeekay','InTheLittleWood','SB737','FWhip','Falsesymmetry',
+  'PrestonPlayz','UnspeakableGaming','SSundee','JeromeASF','BajanCanadian','Vikkstar123','KSI',
+  'Logdotzip','TheDiamondMinecart','Yogscast','SimonHoneydew','LewisXephos','Strippin','Rythian',
+  'Northerlion','NanoSounds','Crainer','Sundee','TrueTriz','DrTrayaurus','LittleLizard',
+  'SmoshGames','SkyDoesMineCraft','Bodil40','CavemanFilms','AntVenomMC','CreeperFarts','ZexyZek',
+  'MinecraftRussian','EeOneGuy','IvanGrozny','Marmok','Kuplinov','Letalis','Windy31','Buster',
+  'GamerVlad','SashaPlay','Dimasik','Lexa','Bratishkinoff','Vitalya','KarinaKross','Klime',
+  'Lolik','Kot','Yzy','Vlad','Tolyan','Zhenya','Boris','Nikita','Maks','Dima',
+  'Anton','Igor','Sergey','Pavel','Oleg','Roman','Andrey','Kirill','Artem','Vladimir',
+  'Ender','Ghost','Phantom','Shadow','Wolf','Fox','Cat','Panda','Tiger','Lion',
+  'Dragon','Eagle','Falcon','Raven','Cobra','Viper','Bear','Lynx','Owl','Hawk'
 ];
 
 const tabConfig = {
@@ -532,14 +327,14 @@ const tabConfig = {
 let currentTab='mods', currentQuery='';
 let items=[];
 let offset=0, hasMore=true, isLoading=false, reqId=0, lastSearch=0;
-let skinPage=1;
 let editorActive=false;
+let randomMode=false;
 const $=id=>document.getElementById(id);
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function safeUrl(u){try{const x=new URL(u);return x.protocol==='https:'?x.href:''}catch{return ''}}
 const safeId=v=>/^[\w-]{1,64}$/.test(String(v))?String(v):'';
-const isValidNick=n=>/^\w{3,16}$/.test(n);
+const isValidNick=n=>/^[A-Za-z0-9_]{3,16}$/.test(n);
 const isValidVersion=v=>/^\d{1,2}(\.\d{1,2}){1,2}$/.test(v);
 
 function toast(msg,kind='info',ms=4000){
@@ -569,7 +364,6 @@ async function translate(text,signal){
   }catch{return text}
 }
 
-/* === НАСТРОЙКИ === */
 function initSettings(){
   const savedTheme = localStorage.getItem('mch-theme') || 'dark';
   const savedBg = localStorage.getItem('mch-bg') !== 'off';
@@ -600,26 +394,31 @@ function initSettings(){
   });
 }
 
-/* === СКИН-РЕНДЕРЫ (статика в списке) === */
-const SKIN_3D_SOURCES = [
-  n => `https://starlightskins.lunareclipse.studio/render/default/${encodeURIComponent(n)}/full`,
-  n => `https://mc-heads.net/body/${encodeURIComponent(n)}/180`,
-  n => `https://minotar.net/armor/body/${encodeURIComponent(n)}/180`,
-  n => `https://crafatar.com/renders/body/${encodeURIComponent(n)}?scale=6&overlay`
-];
-const skin3DSrc = (n, i=0) => SKIN_3D_SOURCES[Math.min(i, SKIN_3D_SOURCES.length-1)](n);
+/* === Скин-рендеры (несколько CDN, работают в РФ) === */
+function skinRenderUrl(name, step=0){
+  const n = encodeURIComponent(name);
+  const urls = [
+    `https://mc-heads.net/body/${n}/180`,
+    `https://minotar.net/armor/body/${n}/180`,
+    `https://crafatar.com/renders/body/${n}?scale=6&overlay`,
+    `https://api.mineatar.io/body/full/${n}?scale=6`
+  ];
+  return urls[Math.min(step, urls.length-1)];
+}
+function skinHeadUrl(name){
+  return `https://mc-heads.net/avatar/${encodeURIComponent(name)}/64`;
+}
+function skinDownloadUrl(name){
+  return `https://minotar.net/download/${encodeURIComponent(name)}`;
+}
+function skinTextureUrl(name){
+  return `https://minotar.net/skin/${encodeURIComponent(name)}`;
+}
 
-/* === skinview3d только для модалки === */
+/* === skinview3d для модалки === */
+let modalViewer = null;
 function createSkinViewer(container, skinUrl, opts={}){
-  if(typeof skinview3d === 'undefined' || typeof THREE === 'undefined'){
-    // Фолбэк: статичная 3D-картинка
-    const img = document.createElement('img');
-    img.src = skinUrl.startsWith('http') ? skinUrl : `https://mc-heads.net/body/${encodeURIComponent(skinUrl)}/300`;
-    img.style.cssText = 'max-height:100%;object-fit:contain';
-    img.onerror = () => { img.src = NO_IMG; };
-    container.appendChild(img);
-    return null;
-  }
+  if(typeof skinview3d === 'undefined' || typeof THREE === 'undefined') return null;
   try{
     const viewer = new skinview3d.SkinViewer({
       canvas: document.createElement('canvas'),
@@ -636,73 +435,33 @@ function createSkinViewer(container, skinUrl, opts={}){
       viewer.animation = new skinview3d.WalkingAnimation();
       viewer.animation.speed = 1;
     }
-    // Прозрачный фон канваса
     try{viewer.renderer.setClearColor(0x000000, 0);viewer.renderer.setClearAlpha(0);}catch{}
     viewer.canvas.style.background = 'transparent';
     container.appendChild(viewer.canvas);
-    // Запускаем цикл рендера
     viewer.renderer.setAnimationLoop(()=>{
       viewer.renderer.render(viewer.scene, viewer.camera);
     });
     return viewer;
   }catch(e){
-    console.warn('skinview3d init failed:', e);
-    // Фолбэк на картинку
+    console.warn('skinview3d failed:', e);
     const img = document.createElement('img');
-    img.src = `https://mc-heads.net/body/${encodeURIComponent(skinUrl.split('/').pop())}/300`;
-    img.style.cssText = 'max-height:100%;object-fit:contain';
+    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
     img.onerror = () => { img.src = NO_IMG; };
     container.appendChild(img);
     return null;
   }
 }
 
-/* === ЗАГРУЗКА СКИНОВ === */
-async function loadSkinsPage(page, query=''){
-  const cacheKey = `skins|${page}|${query}`;
-  const cached = cacheGet(cacheKey);
-  if(cached)return cached;
-
-  // MegaSkins
-  try{
-    const qs = new URLSearchParams({page:String(page), limit:String(SKIN_LIMIT)});
-    if(query)qs.set('query',query);
-    const r = await fetch(`${WORKER_URL}/skins/list?${qs}`);
-    if(r.ok){
-      const d = await r.json();
-      if(d.skins && d.skins.length){
-        const list = d.skins.map(s=>({
-          source:'skin',
-          name: s.name || s.username || s.id,
-          skinUrl: s.skin_url || s.url || `https://minotar.net/skin/${encodeURIComponent(s.name||'Steve')}`
-        }));
-        cacheSet(cacheKey,list);
-        return list;
-      }
-    }
-  }catch(e){console.warn('megaskins:',e)}
-
-  // NameMC trending
-  try{
-    const r = await fetch(`${WORKER_URL}/skins/trending?page=${page}`);
-    if(r.ok){
-      const d = await r.json();
-      if(d.names && d.names.length){
-        const list = d.names.map(n=>({source:'skin',name:n,skinUrl:`https://minotar.net/skin/${encodeURIComponent(n)}`}));
-        cacheSet(cacheKey,list);
-        return list;
-      }
-    }
-  }catch(e){console.warn('namemc:',e)}
-
-  // Локальный список (страница 1) — для старта
-  if(page===1 && !query){
-    return SKIN_NAMES.map(n=>({source:'skin',name:n,skinUrl:`https://minotar.net/skin/${encodeURIComponent(n)}`}));
-  }
-  return [];
+function randomNick(){
+  const adjectives = ['Epic','Dark','Fire','Ice','Shadow','Light','Red','Blue','Green','Gold','Diamond','Nether','Ender','Void','Storm','Frost','Blaze','Aqua','Toxic','Neon'];
+  const nouns = ['Warrior','Mage','Knight','Archer','Ninja','Pirate','King','Queen','Dragon','Wolf','Tiger','Phoenix','Golem','Slime','Creeper','Zombie','Skeleton','Wizard','Rogue','Paladin'];
+  const a = adjectives[Math.floor(Math.random()*adjectives.length)];
+  const n = nouns[Math.floor(Math.random()*nouns.length)];
+  const num = Math.floor(Math.random()*100);
+  return a + n + num;
 }
 
-/* === СКЕЛЕТОНЫ === */
+/* === Скелетоны === */
 function showSkeletons(n=8){
   let grid=$('content').querySelector('.grid');
   if(!grid){grid=document.createElement('div');grid.className='grid';$('content').appendChild(grid)}
@@ -730,17 +489,17 @@ function setSentinel(state){
   else{sentinel.textContent='';sentinel.classList.remove('end')}
 }
 
-/* === ВКЛАДКИ === */
 document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false')});
   tab.classList.add('active');tab.setAttribute('aria-selected','true');
-  currentTab=tab.dataset.tab;currentQuery='';
+  currentTab=tab.dataset.tab;currentQuery='';randomMode=false;
   $('searchInput').value='';
   editorActive=false;
   const sk=currentTab==='skins';
   $('filters').classList.toggle('hidden',sk);
   $('editorBtn').style.display=sk?'inline-flex':'none';
-  $('searchInput').placeholder=sk?'Поиск скина по нику...':'Поиск...';
+  $('randomBtn').style.display=sk?'inline-flex':'none';
+  $('searchInput').placeholder=sk?'Введи ник и Enter — покажем скин':'Поиск...';
   resetAndLoad();
 }));
 
@@ -750,17 +509,18 @@ $('sortSelect').addEventListener('change',resetAndLoad);
 $('mcVersion').addEventListener('change',resetAndLoad);
 $('loaderSelect').addEventListener('change',resetAndLoad);
 $('editorBtn').addEventListener('click',()=>openEditor());
+$('randomBtn').addEventListener('click',()=>{randomMode=true;currentQuery='';$('searchInput').value='';resetAndLoad()});
 
 function performSearch(){
   const now=Date.now();if(now-lastSearch<600)return;lastSearch=now;
   currentQuery=$('searchInput').value.trim().slice(0,64);
+  randomMode=false;
   resetAndLoad();
 }
 
 function resetAndLoad(){
   reqId++;
   items=[];offset=0;hasMore=true;isLoading=false;
-  skinPage=1;
   $('content').innerHTML='';
   setSentinel('idle');
   loadMore();
@@ -785,14 +545,14 @@ function buildCurseForgeQuery(){
 async function fetchModrinthPage(){
   const {qs,key}=buildModrinthQuery();
   const c=cacheGet(key);if(c)return c;
-  const data=await raceJson(`${MR_API}/search?${qs}`,`${WORKER_URL}/modrinth/search?${qs}`);
+  const data=await fetchJson(`${MR_API}/search?${qs}`);
   const result={list:(data.hits||[]).map(i=>({source:'modrinth',...i})),total:data.total_hits??0};
   cacheSet(key,result);return result;
 }
 async function fetchCurseForgePage(){
   const {qs,key}=buildCurseForgeQuery();
   const c=cacheGet(key);if(c)return c;
-  const data=await raceJson(`${MCIM_API}/mods/search?${qs}`,`${WORKER_URL}/curseforge/search?${qs}`);
+  const data=await fetchJson(`${MCIM_API}/mods/search?${qs}`);
   const result={list:(data.data||[]).map(i=>({source:'curseforge',...i})),total:data.pagination?.totalCount??0};
   cacheSet(key,result);return result;
 }
@@ -804,20 +564,25 @@ async function loadMore(){
 
   try{
     if(currentTab==='skins'){
-      const page=skinPage;
+      showSkeletons(8);
+      await new Promise(r=>setTimeout(r,200));
       let list;
-      if(page===1 && currentQuery && isValidNick(currentQuery)){
-        list=[{source:'skin',name:currentQuery,skinUrl:`https://minotar.net/skin/${encodeURIComponent(currentQuery)}`}];
+      if(currentQuery && isValidNick(currentQuery)){
+        list=[{source:'skin',name:currentQuery}];
+      } else if(randomMode){
+        list=Array.from({length:SKIN_LIMIT},()=>({source:'skin',name:randomNick()}));
       } else {
-        showSkeletons(8);
-        list=await loadSkinsPage(page,currentQuery);
-        removeSkeletons();
+        const start=offset;
+        list=SKIN_NAMES.slice(start,start+SKIN_LIMIT).map(n=>({source:'skin',name:n}));
+        if(list.length < SKIN_LIMIT) hasMore=false;
+        else hasMore = (offset+SKIN_LIMIT) < SKIN_NAMES.length;
       }
+      removeSkeletons();
       if(token!==reqId)return;
       if(!list.length){hasMore=false;setSentinel('end');return}
       appendCards(list,token);
-      skinPage++;
-      hasMore = list.length >= SKIN_LIMIT;
+      offset += list.length;
+      if(currentQuery || randomMode) hasMore=false;
       setSentinel(hasMore?'idle':'end');
       return;
     }
@@ -841,7 +606,7 @@ async function loadMore(){
     if(token!==reqId)return;
     console.error(e);removeSkeletons();hasMore=false;
     const errEl=document.createElement('div');errEl.className='error';
-    errEl.innerHTML=`Не удалось загрузить данные.<div class="error-detail">${esc(e.message||'')}</div>`;
+    errEl.innerHTML=`Не удалось загрузить.<div class="error-detail">${esc(e.message||'')}</div>`;
     $('content').appendChild(errEl);
     setSentinel('');
   }finally{if(token===reqId)isLoading=false}
@@ -859,9 +624,8 @@ const norm=it=>it.source==='modrinth'?{
 function buildCardHTML(it,globalIndex){
   if(it.source==='skin'){
     const name = it.name;
-    const src = skin3DSrc(name, 0);
     return `<article class="card" data-i="${globalIndex}" tabindex="0">
-      <img src="${esc(src)}" alt="${esc(name)}" class="card-image skin" loading="lazy" data-skin-name="${esc(name)}" data-skin-step="0" data-skin-fallback>
+      <img src="${esc(skinRenderUrl(name, 0))}" alt="${esc(name)}" class="card-image skin" loading="lazy" data-skin-name="${esc(name)}" data-skin-step="0" data-skin-fallback>
       <div class="card-content">
         <h3 class="card-title">${esc(name)}</h3>
         <p class="card-description">Клик — 3D-просмотр и скачивание</p>
@@ -897,18 +661,16 @@ async function translateNew(token,fromIdx){
 document.addEventListener('error',e=>{
   const img=e.target;
   if(img.tagName!=='IMG')return;
-  // Скины: пройтись по цепочке фолбэков
   if(img.hasAttribute('data-skin-fallback')){
     const step = +img.dataset.skinStep + 1;
-    if(step < SKIN_3D_SOURCES.length){
+    if(step < 4){
       img.dataset.skinStep = step;
-      img.src = skin3DSrc(img.dataset.skinName, step);
+      img.src = skinRenderUrl(img.dataset.skinName, step);
       return;
     }
     img.src = NO_IMG;
     return;
   }
-  // Обычные картинки
   if(img.hasAttribute('data-fallback') && img.src !== NO_IMG){
     img.src = NO_IMG;
   }
@@ -924,7 +686,6 @@ $('content').addEventListener('keydown',e=>{
 });
 
 let lastFocused=null;
-let modalViewer=null;
 function trapFocus(e){
   if(e.key!=='Tab')return;
   const modal=$('detailModal');
@@ -942,7 +703,6 @@ async function showDetails(item){
   const isSkin=item.source==='skin';
   if(isSkin){
     $('modalTitle').textContent=item.name;
-    const skinUrl = `https://minotar.net/skin/${encodeURIComponent(item.name)}`;
     html = `<div class="modal-3d-viewport" id="modal3d"></div>
       <div class="modal-actions">
         <button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}">Скачать скин</button>
@@ -973,7 +733,7 @@ async function showDetails(item){
 
   if(isSkin){
     const vp = $('modal3d');
-    const skinUrl = `https://minotar.net/skin/${encodeURIComponent(item.name)}`;
+    const skinUrl = skinTextureUrl(item.name);
     if(vp){
       setTimeout(()=>{
         modalViewer = createSkinViewer(vp, skinUrl, {animation:true, zoom:true});
@@ -995,10 +755,10 @@ async function loadVersions(item){
   try{
     let versions=[];
     if(item.source==='modrinth'){
-      const v=await raceJson(`${MR_API}/project/${id}/version`,`${WORKER_URL}/modrinth/project/${id}/version`);
+      const v=await fetchJson(`${MR_API}/project/${id}/version`);
       versions=(v||[]).map(x=>({id:x.id,mc:x.game_versions||[],loaders:x.loaders||[]}));
     } else {
-      const f=await raceJson(`${MCIM_API}/mods/${id}/files?pageSize=20`,`${WORKER_URL}/curseforge/mod/${id}/files`);
+      const f=await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
       versions=(f.data||[]).map(x=>({id:x.id,mc:(x.gameVersions||[]).filter(g=>/^\d/.test(g)),loaders:x.modLoader?[x.modLoader]:[]}));
     }
     const mcSet=new Set(),loaderSet=new Set();
@@ -1037,31 +797,31 @@ $('modalBody').addEventListener('click',e=>{
 });
 
 async function downloadDirect(source,id,btn){
-  if(!id){toast('Некорректный идентификатор','error');return}
+  if(!id){toast('Некорректный ID','error');return}
   const old=btn.textContent;btn.disabled=true;btn.textContent='Подготовка...';
   try{
     let url='',filename='download';
     if(source==='skin'){
-      url=`https://minotar.net/download/${encodeURIComponent(id)}`;
+      url=skinDownloadUrl(id);
       filename=id+'.png';
     } else if(source==='modrinth'){
-      const v=await raceJson(`${MR_API}/project/${id}/version`,`${WORKER_URL}/modrinth/project/${id}/version`);
+      const v=await fetchJson(`${MR_API}/project/${id}/version`);
       if(!v?.length){toast('Файлы не найдены','error');return}
       const wantMc=$('modalVersion')?.value||'';const wantLoader=$('modalLoader')?.value||'';
       let pick=v.find(x=>(!wantMc||(x.game_versions||[]).includes(wantMc))&&(!wantLoader||(x.loaders||[]).includes(wantLoader)));
-      if(!pick){toast('Беру последнюю версию','info');pick=v[0]}
+      if(!pick){toast('Беру последнюю','info');pick=v[0]}
       const file=(pick.files||[]).find(x=>x.primary)||(pick.files||[])[0];
       if(!file){toast('Файл не найден','error');return}
       url=file.url;filename=file.filename||'mod.jar';
     } else {
-      const f=await raceJson(`${MCIM_API}/mods/${id}/files?pageSize=20`,`${WORKER_URL}/curseforge/mod/${id}/files`);
+      const f=await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
       if(!f.data?.length){toast('Файлы не найдены','error');return}
       const wantMc=$('modalVersion')?.value||'';const wantLoader=$('modalLoader')?.value||'';
       let pick=f.data.find(x=>{const mcOk=!wantMc||(x.gameVersions||[]).includes(wantMc);const ldOk=!wantLoader||x.modLoader===wantLoader;return mcOk&&ldOk});
-      if(!pick){toast('Беру последнюю версию','info');pick=f.data[0]}
+      if(!pick){toast('Беру последнюю','info');pick=f.data[0]}
       const fid=safeId(pick.id);if(!fid){toast('Некорректный ID','error');return}
       filename=pick.fileName||'mod.jar';
-      const dl=await raceJson(`${MCIM_API}/mods/${id}/files/${fid}/download-url`,`${WORKER_URL}/curseforge/download-url/${id}/${fid}`);
+      const dl=await fetchJson(`${MCIM_API}/mods/${id}/files/${fid}/download-url`);
       if(!dl.data){toast('Автор запретил скачивание','error');return}
       url=dl.data;
     }
@@ -1069,7 +829,7 @@ async function downloadDirect(source,id,btn){
     const a=document.createElement('a');a.href=safe;a.download=filename;a.target='_blank';a.rel='noopener';
     document.body.appendChild(a);a.click();a.remove();
     toast('Скачивание: '+filename,'ok');
-  }catch(e){console.error(e);toast('Не удалось: '+(e.message||'ошибка'),'error')}
+  }catch(e){console.error(e);toast('Ошибка: '+(e.message||'не удалось'),'error')}
   finally{btn.disabled=false;btn.textContent=old}
 }
 
@@ -1165,17 +925,11 @@ async function openEditor(skinName){
 
   editorState = {
     baseCanvas, baseCtx, overlayCanvas, overlayCtx,
-    activeLayer: 'base',
-    tool: 'pencil',
-    color: '#38BDF8',
-    drawing: false,
-    history: [],
-    historyIdx: -1,
-    viewer: null,
-    flatCanvas: null
+    activeLayer: 'base', tool: 'pencil', color: '#38BDF8',
+    drawing: false, history: [], historyIdx: -1,
+    viewer: null, flatCanvas: null
   };
 
-  // Палитра
   const palette = [
     '#000000','#3F3F3F','#7F7F7F','#BFBFBF','#FFFFFF',
     '#7F0000','#FF0000','#FF7F00','#FFBF00','#FFFF00',
@@ -1189,8 +943,7 @@ async function openEditor(skinName){
   const palEl = $('ed-palette');
   palette.forEach(c=>{
     const b = document.createElement('button');
-    b.style.background = c;
-    b.type = 'button';
+    b.style.background = c; b.type = 'button';
     b.addEventListener('click', ()=>{
       setColor(c);
       palEl.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
@@ -1231,10 +984,11 @@ async function openEditor(skinName){
   let viewer = null;
   if(typeof skinview3d !== 'undefined' && typeof THREE !== 'undefined'){
     try{
+      const skinUrl = skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve');
       viewer = new skinview3d.SkinViewer({
         canvas: document.createElement('canvas'),
         width: 460, height: 520,
-        skin: skinName ? `https://minotar.net/skin/${encodeURIComponent(skinName)}` : 'https://minotar.net/skin/Steve',
+        skin: skinUrl,
         background: 'transparent'
       });
       viewer.controls.enableZoom = true;
@@ -1254,14 +1008,13 @@ async function openEditor(skinName){
     ed3d.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">3D-превью недоступно. Работай в режиме «Сетка».</p>';
   }
 
-  await loadStarterSkin(skinName ? `https://minotar.net/skin/${encodeURIComponent(skinName)}` : 'https://minotar.net/skin/Steve');
+  await loadStarterSkin(skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve'));
 
   function renderFlat(){
     const flat = $('ed-2d');
     flat.innerHTML = '';
     const canvas = document.createElement('canvas');
-    canvas.width = SKIN_SIZE * 8;
-    canvas.height = SKIN_SIZE * 8;
+    canvas.width = SKIN_SIZE * 8; canvas.height = SKIN_SIZE * 8;
     canvas.className = 'editor-flat-canvas';
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
@@ -1289,7 +1042,6 @@ async function openEditor(skinName){
     renderFlat();
   }
 
-  // Raycast на 3D
   let raycaster = null, mouseVec = null;
   if(typeof THREE !== 'undefined'){
     raycaster = new THREE.Raycaster();
@@ -1335,9 +1087,8 @@ async function openEditor(skinName){
   function paintTexel(px, py){
     const isBase = editorState.activeLayer === 'base';
     const ctx = isBase ? editorState.baseCtx : editorState.overlayCtx;
-    const canvas = isBase ? editorState.baseCanvas : editorState.overlayCanvas;
     if(editorState.tool === 'fill'){
-      floodFill(canvas, ctx, px, py, editorState.color);
+      floodFill(ctx, px, py, editorState.color);
     } else if(editorState.tool === 'picker'){
       const data = ctx.getImageData(px, py, 1, 1).data;
       const hex = '#' + [data[0],data[1],data[2]].map(v=>v.toString(16).padStart(2,'0')).join('');
@@ -1350,13 +1101,13 @@ async function openEditor(skinName){
     }
   }
 
-  function floodFill(canvas, ctx, sx, sy, color){
+  function floodFill(ctx, sx, sy, color){
     const img = ctx.getImageData(0, 0, SKIN_SIZE, SKIN_SIZE);
     const data = img.data;
     const idx = (sy * SKIN_SIZE + sx) * 4;
     const target = [data[idx], data[idx+1], data[idx+2], data[idx+3]];
     const fill = hexToRgbA(color);
-    if(target[0]===fill[0] && target[1]===fill[1] && target[2]===fill[2] && target[3]===fill[3]) return;
+    if(target[0]===fill[0]&&target[1]===fill[1]&&target[2]===fill[2]&&target[3]===fill[3]) return;
     const stack = [[sx,sy]], visited = new Set();
     while(stack.length){
       const [x,y] = stack.pop();
@@ -1394,9 +1145,9 @@ async function openEditor(skinName){
 
   function pushHistory(){
     const s = editorState;
-    const snapshot = {base:s.baseCanvas.toDataURL(), overlay:s.overlayCanvas.toDataURL()};
+    const snap = {base:s.baseCanvas.toDataURL(), overlay:s.overlayCanvas.toDataURL()};
     s.history = s.history.slice(0, s.historyIdx + 1);
-    s.history.push(snapshot);
+    s.history.push(snap);
     s.historyIdx++;
     if(s.history.length > 30){s.history.shift();s.historyIdx--}
   }
@@ -1433,4 +1184,57 @@ async function openEditor(skinName){
     const a = document.createElement('a');
     a.download = 'my-skin.png';
     a.href = merged.toDataURL('image/png');
-   
+    a.click();
+    toast('Скин скачан','ok');
+  });
+
+  $('ed-upload').addEventListener('click', ()=>$('ed-file').click());
+  $('ed-file').addEventListener('change', async e=>{
+    const file = e.target.files[0]; if(!file) return;
+    const url = URL.createObjectURL(file);
+    await loadStarterSkin(url);
+    URL.revokeObjectURL(url);
+    toast('Загружен','ok');
+  });
+
+  $('ed-blank').addEventListener('click', ()=>{
+    baseCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
+    overlayCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
+    pushHistory(); refresh3D(); renderFlat();
+    toast('Чистое тело','info');
+  });
+
+  $('ed-steve').addEventListener('click', async ()=>{
+    await loadStarterSkin(skinTextureUrl('Steve'));
+    toast('Steve загружен','ok');
+  });
+
+  document.querySelectorAll('[data-mode]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const mode = btn.dataset.mode;
+      document.querySelectorAll('[data-mode]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      $('ed-3d').style.display = mode === '3d' ? 'flex' : 'none';
+      $('ed-2d').style.display = mode === '2d' ? 'block' : 'none';
+      if(mode === '2d') renderFlat(); else refresh3D();
+    });
+  });
+
+  $('ed-close').addEventListener('click', ()=>{
+    editorActive = false;
+    if(editorState?.viewer){
+      try{editorState.viewer.renderer.setAnimationLoop(null);editorState.viewer.dispose()}catch{}
+    }
+    editorState = null;
+    document.querySelectorAll('.tab').forEach(t=>{
+      if(t.classList.contains('active')) t.click();
+    });
+  });
+}
+
+initSettings();
+io.observe(sentinel);
+resetAndLoad();
+</script>
+</body>
+</html>
