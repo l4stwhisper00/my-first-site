@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://crafatar.com https://mc-heads.net data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com https://api.curse.tools https://cfproxy.fly.dev https://api.spiget.org; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://crafatar.com https://mc-heads.net data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com https://api.curse.tools https://cfproxy.fly.dev; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
@@ -19,10 +19,10 @@
 [data-theme="cyber"]{--s0:#0A0512;--s2:#100820;--s3:#180D2E;--s4:#211340;--accent:#D946EF;--accent-2:#22D3EE;--dim:#4A1060;--text:#F5E4FF;--tdim:#B096C5;--glow:rgba(217,70,239,.25);--a1:rgba(217,70,239,.45);--a2:rgba(34,211,238,.35)}
 [data-theme="nord"]{--s0:#242933;--s2:#2E3440;--s3:#3B4252;--s4:#434C5E;--accent:#88C0D0;--accent-2:#A3BE8C;--dim:#4C566A;--text:#ECEFF4;--tdim:#9099A8;--glow:rgba(136,192,208,.2);--a1:rgba(136,192,208,.3);--a2:rgba(163,190,140,.25)}
 [data-theme="rose"]{--s0:#1A0A15;--s2:#280F20;--s3:#37162C;--s4:#471C39;--accent:#F472B6;--accent-2:#FCD34D;--dim:#5E1F41;--text:#FFE4F1;--tdim:#C493AD;--glow:rgba(244,114,182,.22);--a1:rgba(244,114,182,.4);--a2:rgba(252,211,77,.3)}
-html,body{min-height:100vh}
-html{background:var(--s0);transition:background var(--ts) var(--ease)}
-body{background:transparent;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;transition:color var(--ts) var(--ease);overflow-x:hidden}
-body.lock{overflow:hidden;position:fixed;width:100%;top:0;left:0;right:0;bottom:0}
+html{background:var(--s0);scrollbar-gutter:stable;transition:background var(--ts) var(--ease)}
+body{min-height:100vh;background:transparent;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;transition:color var(--ts) var(--ease);overflow-x:hidden}
+body.lock{overflow:hidden}
+body.editor-lock{overflow:hidden;position:fixed;width:100%;left:0;right:0}
 body.no-bg .aurora{opacity:0}
 .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.9;transition:opacity var(--ts) var(--ease)}
 .aurora::before,.aurora::after{content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px);will-change:transform}
@@ -308,8 +308,8 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 'use strict';
 
 try{
-  if(localStorage.getItem('mch-cache-v') !== 'v9'){
-    localStorage.setItem('mch-cache-v','v9');
+  if(localStorage.getItem('mch-cache-v') !== 'v10'){
+    localStorage.setItem('mch-cache-v','v10');
     sessionStorage.clear();
   }
 }catch{}
@@ -343,7 +343,6 @@ const MCIM_API = 'https://mod.mcimirror.top/curseforge/v1';
 const MCIM_MR = 'https://mod.mcimirror.top/modrinth/v2';
 const CURSE_TOOLS = 'https://api.curse.tools/v1/cf';
 const CFPROXY = 'https://cfproxy.fly.dev';
-const SPIGET_API = 'https://api.spiget.org/v2';
 const LIMIT = 40;
 const SKIN_LIMIT = 40;
 const VERSIONS_MAX = 500;
@@ -721,6 +720,9 @@ function previewCustomTheme(){
 function closeThemeEditor(revert){
   if(revert) applyTheme(safeGetLocalStorage('mch-theme') || 'dark');
   $('themeModal').classList.remove('active');
+  if(!document.querySelector('.modal.active') && !document.body.classList.contains('editor-lock')){
+    document.body.classList.remove('lock');
+  }
   themeEditState = null;
 }
 
@@ -1222,7 +1224,6 @@ async function showDetails(item){
       </div>`;
   }else{
     const n = normalizeItem(item);
-    const date = n.updated ? new Date(n.updated).toLocaleDateString('ru-RU') : '—';
     const web = safeUrl(n.web);
     $('modalTitle').textContent = n.title;
     html = `
@@ -1387,7 +1388,9 @@ function compareVersions(a, b){
 
 function closeModal(){
   $('detailModal').classList.remove('active');
-  document.body.classList.remove('lock');
+  if(!document.querySelector('.modal.active') && !document.body.classList.contains('editor-lock')){
+    document.body.classList.remove('lock');
+  }
   if(modalViewer){
     try{
       modalViewer.renderer.setAnimationLoop(null);
@@ -1566,7 +1569,9 @@ let editorState = null;
 
 async function openEditor(skinName){
   editorActive = true;
-  document.body.classList.add('lock');
+  const savedScroll = window.scrollY || 0;
+  document.body.classList.add('editor-lock');
+  document.body.style.top = `-${savedScroll}px`;
   $('searchContainer').classList.add('hidden');
   sentinel.classList.add('hidden');
   $('content').innerHTML = '';
@@ -1768,7 +1773,7 @@ async function openEditor(skinName){
     ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно.</p>';
   }
 
-  /* RESIZE — без обрезки */
+  /* RESIZE */
   const doResize = () => {
     if(!editorState?.viewer) return;
     try{
@@ -1836,25 +1841,32 @@ async function openEditor(skinName){
     });
   }
 
-  /* WIREFRAME GRID — сетка кубиков на оверлее */
+  /* WIREFRAME GRID */
   function updateOverlayWireframe(show){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
 
-    // Убираем старую сетку
     if(editorState.wireframeGroup){
       try{
-        v.scene.remove(editorState.wireframeGroup);
         editorState.wireframeGroup.traverse(o => {
+          if(o.parent && o.parent !== v.scene && o.parent.userData && o.userData.__wireClone){
+            delete o.parent.userData.__wireClone;
+            o.parent.remove(o);
+          }
           if(o.geometry) o.geometry.dispose();
           if(o.material){
             if(Array.isArray(o.material)) o.material.forEach(m => m.dispose());
             else o.material.dispose();
           }
         });
+        v.scene.remove(editorState.wireframeGroup);
       }catch{}
       editorState.wireframeGroup = null;
     }
+
+    v.playerObject.traverse(obj => {
+      if(obj.isMesh && obj.userData) delete obj.userData.__wireClone;
+    });
 
     if(!show) return;
 
@@ -1884,11 +1896,12 @@ async function openEditor(skinName){
           depthWrite: false
         }));
         clone.renderOrder = 999;
-        clone.matrixAutoUpdate = false;
-        clone.matrix.copy(obj.matrixWorld);
-        clone.matrixWorldNeedsUpdate = true;
-        group.add(clone);
+        clone.position.set(0, 0, 0);
+        clone.rotation.set(0, 0, 0);
+        clone.scale.set(1, 1, 1);
+        obj.add(clone);
         obj.userData.__wireClone = clone;
+        group.add(clone);
       }catch(e){ console.warn('wireframe failed:', e); }
     });
 
@@ -1897,20 +1910,6 @@ async function openEditor(skinName){
       editorState.wireframeGroup = group;
       console.log('[Editor] wireframe cubes:', group.children.length);
     }
-  }
-
-  function refreshWireframeMatrices(){
-    const v = editorState.viewer;
-    const g = editorState.wireframeGroup;
-    if(!v || !g) return;
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
-      if(!obj.userData.__wireClone) return;
-      const clone = obj.userData.__wireClone;
-      clone.matrix.copy(obj.matrixWorld);
-      clone.matrixWorldNeedsUpdate = true;
-      clone.visible = obj.visible;
-    });
   }
 
   /* LOAD SKIN */
@@ -1942,7 +1941,6 @@ async function openEditor(skinName){
   if(viewer){
     viewer.renderer.setAnimationLoop(() => {
       viewer.renderer.render(viewer.scene, viewer.camera);
-      if(editorState?.wireframeGroup) refreshWireframeMatrices();
     });
     applyLayerVisibility();
   }
@@ -2395,7 +2393,10 @@ async function openEditor(skinName){
 
   /* CLEANUP */
   const cleanup = () => {
-    document.body.classList.remove('lock');
+    const scrollY = -parseInt(document.body.style.top || '0', 10) || 0;
+    document.body.classList.remove('editor-lock');
+    document.body.style.top = '';
+    window.scrollTo(0, scrollY);
     document.removeEventListener('keydown', keyHandler);
     if(bgUploadInput && bgUploadInput.parentNode) bgUploadInput.parentNode.removeChild(bgUploadInput);
     if(editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
@@ -2403,14 +2404,18 @@ async function openEditor(skinName){
     if(editorState?.mousemoveThrottle) clearTimeout(editorState.mousemoveThrottle);
     if(editorState?.wireframeGroup && editorState?.viewer){
       try{
-        editorState.viewer.scene.remove(editorState.wireframeGroup);
         editorState.wireframeGroup.traverse(o => {
+          if(o.parent && o.parent !== editorState.viewer.scene && o.parent.userData && o.userData.__wireClone){
+            delete o.parent.userData.__wireClone;
+            o.parent.remove(o);
+          }
           if(o.geometry) o.geometry.dispose();
           if(o.material){
             if(Array.isArray(o.material)) o.material.forEach(m => m.dispose());
             else o.material.dispose();
           }
         });
+        editorState.viewer.scene.remove(editorState.wireframeGroup);
       }catch{}
     }
     if(editorState?.viewer){
@@ -2438,7 +2443,9 @@ let packEditorState = null;
 
 function openPackEditor(){
   editorActive = true;
-  document.body.classList.add('lock');
+  const savedScroll = window.scrollY || 0;
+  document.body.classList.add('editor-lock');
+  document.body.style.top = `-${savedScroll}px`;
   $('searchContainer').classList.add('hidden');
   sentinel.classList.add('hidden');
   $('content').innerHTML = '';
@@ -2510,7 +2517,10 @@ function openPackEditor(){
 
   $('rp-close').addEventListener('click', () => {
     editorActive = false;
-    document.body.classList.remove('lock');
+    const scrollY = -parseInt(document.body.style.top || '0', 10) || 0;
+    document.body.classList.remove('editor-lock');
+    document.body.style.top = '';
+    window.scrollTo(0, scrollY);
     packEditorState = null;
     $$('.tab').forEach(t => { if(t.classList.contains('active')) t.click(); });
   });
