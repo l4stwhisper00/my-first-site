@@ -3,27 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://crafatar.com https://mc-heads.net data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://crafatar.com https://mc-heads.net data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com https://api.curse.tools https://cfproxy.fly.dev https://api.spiget.org; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
 <title>Minecraft Hub</title>
 <style>
-/* RESET */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
-/* THEMES */
-:root{
-  --s0:#05070C;--s2:#0F131C;--s3:#161D2B;--s4:#1E2636;
-  --accent:#38BDF8;--accent-2:#6EE7B7;--dim:#1E3A5F;
-  --text:#E8EDF4;--tdim:#9CA3AF;
-  --error:#EF4444;--ok:#10B981;
-  --r:999px;--rl:1.5rem;
-  --tf:.14s;--tn:.28s;--ts:.45s;
-  --ease:cubic-bezier(.25,.46,.45,.94);
-  --glow:rgba(56,189,248,.15);
-  --a1:rgba(56,189,248,.35);--a2:rgba(110,231,183,.28);
-}
+:root{--s0:#05070C;--s2:#0F131C;--s3:#161D2B;--s4:#1E2636;--accent:#38BDF8;--accent-2:#6EE7B7;--dim:#1E3A5F;--text:#E8EDF4;--tdim:#9CA3AF;--error:#EF4444;--ok:#10B981;--r:999px;--rl:1.5rem;--tf:.14s;--tn:.28s;--ts:.45s;--ease:cubic-bezier(.25,.46,.45,.94);--glow:rgba(56,189,248,.15);--a1:rgba(56,189,248,.35);--a2:rgba(110,231,183,.28)}
 [data-theme="midnight"]{--s0:#02040A;--s2:#0A0E18;--s3:#111624;--s4:#1A2132;--accent:#818CF8;--accent-2:#A78BFA;--dim:#1E1B4B;--text:#E0E7FF;--tdim:#8B95B8;--glow:rgba(129,140,248,.2);--a1:rgba(129,140,248,.35);--a2:rgba(167,139,250,.28)}
 [data-theme="light"]{--s0:#F0F4FA;--s2:#FFF;--s3:#E8EDF5;--s4:#DDE4EE;--accent:#0284C7;--accent-2:#10B981;--dim:#DBEAFE;--text:#0F172A;--tdim:#64748B;--glow:rgba(2,132,199,.15);--a1:rgba(2,132,199,.2);--a2:rgba(16,185,129,.15)}
 [data-theme="ocean"]{--s0:#041220;--s2:#081A2B;--s3:#0D2438;--s4:#133049;--accent:#06B6D4;--accent-2:#22D3EE;--dim:#0E4D64;--text:#DBEEF7;--tdim:#7BA3B8;--glow:rgba(6,182,212,.2);--a1:rgba(6,182,212,.4);--a2:rgba(34,211,238,.3)}
@@ -32,15 +19,11 @@
 [data-theme="cyber"]{--s0:#0A0512;--s2:#100820;--s3:#180D2E;--s4:#211340;--accent:#D946EF;--accent-2:#22D3EE;--dim:#4A1060;--text:#F5E4FF;--tdim:#B096C5;--glow:rgba(217,70,239,.25);--a1:rgba(217,70,239,.45);--a2:rgba(34,211,238,.35)}
 [data-theme="nord"]{--s0:#242933;--s2:#2E3440;--s3:#3B4252;--s4:#434C5E;--accent:#88C0D0;--accent-2:#A3BE8C;--dim:#4C566A;--text:#ECEFF4;--tdim:#9099A8;--glow:rgba(136,192,208,.2);--a1:rgba(136,192,208,.3);--a2:rgba(163,190,140,.25)}
 [data-theme="rose"]{--s0:#1A0A15;--s2:#280F20;--s3:#37162C;--s4:#471C39;--accent:#F472B6;--accent-2:#FCD34D;--dim:#5E1F41;--text:#FFE4F1;--tdim:#C493AD;--glow:rgba(244,114,182,.22);--a1:rgba(244,114,182,.4);--a2:rgba(252,211,77,.3)}
-
-/* BASE */
 html,body{min-height:100vh}
 html{background:var(--s0);transition:background var(--ts) var(--ease)}
 body{background:transparent;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;transition:color var(--ts) var(--ease);overflow-x:hidden}
-body.lock{overflow:hidden}
+body.lock{overflow:hidden;position:fixed;width:100%;top:0;left:0;right:0;bottom:0}
 body.no-bg .aurora{opacity:0}
-
-/* AURORA */
 .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.9;transition:opacity var(--ts) var(--ease)}
 .aurora::before,.aurora::after{content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px);will-change:transform}
 .aurora::before{background:radial-gradient(circle,var(--a1) 0%,transparent 65%);top:-25vmax;left:-20vmax;animation:aA 28s ease-in-out infinite}
@@ -52,20 +35,14 @@ body.no-bg .aurora{opacity:0}
 @keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes slIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes gSh{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-
-/* LAYOUT */
 .wrap{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:2rem}
 header{margin-bottom:2rem;text-align:center;animation:fIU .5s var(--ease)}
 h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gSh 8s ease infinite}
 .subtitle{color:var(--tdim);font-size:1.1rem}
-
-/* TABS */
 .tabs{display:flex;gap:.75rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap}
 .tab{background:var(--s2);color:var(--tdim);padding:.75rem 1.5rem;border:1px solid transparent;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;white-space:nowrap;transition:all var(--tn) var(--ease);backdrop-filter:blur(10px)}
 .tab:hover{background:var(--s3);color:var(--text);transform:translateY(-2px)}
 .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);box-shadow:0 4px 16px var(--glow)}
-
-/* SEARCH */
 .search-container{background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);box-shadow:0 8px 32px rgba(0,0,0,.15)}
 .search-row{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
 .search-input,.filter-select{background:var(--s3);border:2px solid transparent;color:var(--text);padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem;transition:border-color var(--tn) var(--ease)}
@@ -75,8 +52,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .filters{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
 .filters label{color:var(--tdim);font-size:.9rem}
 .hidden{display:none!important}
-
-/* BUTTONS */
 .btn,.search-btn{background:var(--accent);color:var(--s0);padding:.75rem 2rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;transition:all var(--tn) var(--ease);text-align:center}
 .btn{width:100%;display:inline-block}
 .btn:hover,.search-btn:hover{filter:brightness(1.1);transform:scale(1.02);box-shadow:0 6px 20px var(--glow)}
@@ -88,8 +63,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 #editorBtn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 28px var(--glow)}
 #randomBtn{background:var(--s3);color:var(--text);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;transition:all var(--tn) var(--ease);white-space:nowrap}
 #randomBtn:hover{background:var(--s4);transform:translateY(-2px)}
-
-/* GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;margin-bottom:2rem}
 .card{background:var(--s2);border-radius:var(--rl);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;animation:fIU .45s var(--ease) both;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);transition:transform var(--tn) var(--ease),box-shadow var(--tn) var(--ease),border-color var(--ts) var(--ease)}
 .card:hover,.card:focus-visible{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 32px var(--glow);outline:none;border-color:rgba(255,255,255,.1)}
@@ -101,15 +74,11 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .card-description{color:var(--tdim);font-size:.9rem;margin-bottom:1rem;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .tag{display:inline-block;background:var(--dim);color:var(--accent);padding:.25rem .75rem;border-radius:var(--r);font-size:.8rem;font-weight:500;margin-bottom:1rem;align-self:flex-start}
 .card-stats{display:flex;justify-content:space-between;gap:.5rem;color:var(--tdim);font-size:.85rem}
-
-/* SKELETONS */
 .skeleton-card{cursor:default!important;pointer-events:none}
 .skeleton-card:hover{transform:none!important;box-shadow:none!important}
 .skeleton-shimmer{background:linear-gradient(90deg,var(--s3) 25%,var(--s4) 50%,var(--s3) 75%);background-size:200% 100%;animation:shim 1.4s infinite}
 .skeleton-line{height:.85rem;border-radius:.4rem;margin-bottom:.6rem}
 .skeleton-line.big{height:1.2rem;width:70%}
-
-/* MODALS */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:1000;overflow-y:auto;animation:fI .2s var(--ease)}
 .modal.active{display:flex;align-items:center;justify-content:center;padding:2rem}
 .modal-content{background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;max-height:90vh;overflow-y:auto;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);animation:fIU .3s var(--ease)}
@@ -129,8 +98,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .version-picker-title{font-size:.9rem;color:var(--tdim)}
 .version-picker-row{display:flex;gap:.75rem;flex-wrap:wrap}
 .version-picker select{flex:1;min-width:140px}
-
-/* MESSAGES */
 .error{text-align:center;padding:2rem;font-size:1.1rem;color:var(--error);background:var(--s2);border-radius:var(--rl)}
 .error-detail{color:var(--tdim);font-size:.85rem;margin-top:.5rem;word-break:break-word}
 #sentinel{height:40px;display:flex;align-items:center;justify-content:center;color:var(--tdim);font-size:.9rem}
@@ -139,8 +106,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .toast.error{border-left-color:var(--error)}
 .toast.ok{border-left-color:var(--ok)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-/* SETTINGS */
 .settings-panel{position:fixed;bottom:1.5rem;left:1.5rem;z-index:3000;display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
 .settings-toggle{width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.08);cursor:pointer;background:var(--s2);color:var(--text);font-size:1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:all var(--tn) var(--ease);display:flex;align-items:center;justify-content:center}
 .settings-toggle:hover{transform:scale(1.1) rotate(20deg);background:var(--s3)}
@@ -178,16 +143,12 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .bg-upload-row{display:flex;align-items:center;gap:.5rem;margin-top:.5rem}
 .bg-upload-btn{flex:1;background:var(--s3);color:var(--text);border:1px dashed var(--s4);border-radius:.75rem;padding:.5rem;cursor:pointer;font-size:.8rem;font-weight:600;transition:all var(--tf) var(--ease)}
 .bg-upload-btn:hover{background:var(--s4);border-color:var(--accent);color:var(--accent)}
-
-/* CONFIRM */
 .confirm-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:4000;align-items:center;justify-content:center;padding:2rem}
 .confirm-modal.active{display:flex}
 .confirm-box{background:var(--s2);border-radius:var(--rl);padding:2rem;max-width:400px;width:100%;text-align:center;border:1px solid rgba(255,255,255,.08);animation:fIU .25s var(--ease)}
 .confirm-box h3{font-size:1.2rem;margin-bottom:.75rem}
 .confirm-box p{color:var(--tdim);margin-bottom:1.5rem;font-size:.95rem}
 .confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-
-/* EDITOR */
 .editor-wrap{background:var(--s2);border-radius:var(--rl);padding:2rem;animation:fIU .4s var(--ease)}
 .editor-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
 .editor-header h2{font-size:1.5rem}
@@ -214,8 +175,8 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .editor-bg-btn[data-bg="none"]{background:linear-gradient(135deg,#161D2B,#1E2636)}
 .editor-bg-btn[data-bg="none"]::after{content:'⊘';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9CA3AF;font-size:1rem}
 .editor-bg-btn.upload{background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text)}
-#ed-3d{width:100%;height:100%;min-height:520px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;overflow:hidden}
-#ed-3d canvas{display:block;touch-action:none;cursor:crosshair;background:transparent}
+#ed-3d{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;overflow:visible}
+#ed-3d canvas{display:block;touch-action:none;cursor:crosshair;background:transparent;max-width:100%;height:auto;object-fit:contain}
 #ed-2d{padding:1rem;max-width:100%;overflow:auto;position:relative;z-index:1}
 .editor-mode-toggle{position:absolute;top:1rem;right:1rem;z-index:10;display:flex;gap:.25rem;background:rgba(15,19,28,.85);padding:.3rem;border-radius:var(--r);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px)}
 .editor-mode-toggle button{background:transparent;color:#E8EDF4;border:none;padding:.5rem 1rem;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.85rem;transition:all var(--tf) var(--ease)}
@@ -248,8 +209,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .editor-action-col .btn,.editor-action-col .btn-secondary{width:100%}
 .editor-hint{color:#fff;font-size:.8rem;line-height:1.5;text-align:center;margin-top:.75rem;max-width:500px;text-shadow:0 1px 3px rgba(0,0,0,.9);background:rgba(0,0,0,.35);padding:.4rem .75rem;border-radius:var(--r);backdrop-filter:blur(6px);position:relative;z-index:1}
 .editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:transparent;border-radius:.5rem;display:block;touch-action:none}
-
-/* RESOURCE PACK EDITOR */
 .rp-file-list{background:var(--s3);border-radius:var(--rl);padding:1rem;max-height:400px;overflow-y:auto;font-family:ui-monospace,monospace;font-size:.85rem}
 .rp-file-list .file-item{padding:.4rem .6rem;border-radius:.4rem;cursor:pointer;color:var(--tdim);transition:all var(--tf) var(--ease);word-break:break-all}
 .rp-file-list .file-item:hover{background:var(--s4);color:var(--text)}
@@ -257,7 +216,6 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .rp-preview-area{background:var(--s3);border-radius:var(--rl);padding:1rem;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem}
 .rp-preview-area img{max-width:100%;max-height:300px;image-rendering:pixelated;border-radius:.5rem}
 .rp-preview-area pre{background:var(--s0);padding:1rem;border-radius:.5rem;font-size:.8rem;max-height:200px;overflow:auto;width:100%;text-align:left}
-
 @media(max-width:768px){.wrap{padding:1rem}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.search-row{flex-direction:column;align-items:stretch}.modal-actions{grid-template-columns:1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}#toasts{right:1rem;left:1rem;max-width:none}.editor-layout{grid-template-columns:1fr}.settings-panel{bottom:1rem;left:1rem}.settings-menu{min-width:260px}.theme-grid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
@@ -271,6 +229,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
     <button class="tab" role="tab" aria-selected="false" data-tab="resourcepacks">Ресурспаки</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="shaders">Шейдеры</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="skins">Скины</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="plugins">🔌 Плагины</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="packeditor">📦 Редактор паков</button>
   </div>
   <div class="search-container" id="searchContainer">
@@ -285,7 +244,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
       <label for="mcVersion">Версия MC:</label>
       <input type="text" class="filter-select" id="mcVersion" placeholder="напр. 1.20.1" maxlength="12" autocomplete="off" style="width:130px">
       <label for="loaderSelect">Загрузчик:</label>
-      <select class="filter-select" id="loaderSelect"><option value="">Любой</option><option value="forge">Forge</option><option value="fabric">Fabric</option><option value="quilt">Quilt</option><option value="neoforge">NeoForge</option></select>
+      <select class="filter-select" id="loaderSelect"><option value="">Любой</option><option value="forge">Forge</option><option value="fabric">Fabric</option><option value="quilt">Quilt</option><option value="neoforge">NeoForge</option><option value="liteloader">LiteLoader</option><option value="rift">Rift</option><option value="modloader">ModLoader</option></select>
     </div>
   </div>
   <div id="content"></div>
@@ -348,6 +307,13 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 <script>
 'use strict';
 
+try{
+  if(localStorage.getItem('mch-cache-v') !== 'v9'){
+    localStorage.setItem('mch-cache-v','v9');
+    sessionStorage.clear();
+  }
+}catch{}
+
 /* HELPERS */
 const $ = id => document.getElementById(id);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -374,8 +340,13 @@ function safeGetLocalStorage(key){try{return localStorage.getItem(key)}catch{ret
 /* CONSTANTS */
 const MR_API = 'https://api.modrinth.com/v2';
 const MCIM_API = 'https://mod.mcimirror.top/curseforge/v1';
-const LIMIT = 20;
-const SKIN_LIMIT = 24;
+const MCIM_MR = 'https://mod.mcimirror.top/modrinth/v2';
+const CURSE_TOOLS = 'https://api.curse.tools/v1/cf';
+const CFPROXY = 'https://cfproxy.fly.dev';
+const SPIGET_API = 'https://api.spiget.org/v2';
+const LIMIT = 40;
+const SKIN_LIMIT = 40;
+const VERSIONS_MAX = 500;
 const NO_IMG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#1E2636"/><text x="150" y="155" fill="#9CA3AF" font-size="20" text-anchor="middle" font-family="sans-serif">Нет фото</text></svg>');
 
 /* CACHE */
@@ -441,7 +412,8 @@ const TAB_CONFIG = {
   mods:{type:'mod',cf:'6'},
   modpacks:{type:'modpack',cf:'4471'},
   resourcepacks:{type:'resourcepack',cf:'12'},
-  shaders:{type:'shader',cf:'6552'}
+  shaders:{type:'shader',cf:'6552'},
+  plugins:{type:'plugin',cf:'5'}
 };
 
 /* STATE */
@@ -923,19 +895,42 @@ async function fetchModrinthPage(){
   const {qs, key} = buildModrinthQuery();
   const cached = cacheGet(key);
   if(cached) return cached;
-  const data = await fetchJson(`${MR_API}/search?${qs}`);
-  const result = {list:(data.hits||[]).map(i => ({source:'modrinth', ...i})), total:data.total_hits ?? 0};
-  cacheSet(key, result);
-  return result;
+  const endpoints = [`${MR_API}/search?${qs}`, `${MCIM_MR}/search?${qs}`];
+  for(const url of endpoints){
+    try{
+      const data = await fetchJson(url);
+      if(data && data.hits){
+        const result = {list:data.hits.map(i => ({source:'modrinth', ...i})), total:data.total_hits ?? 0};
+        cacheSet(key, result);
+        return result;
+      }
+    }catch(e){ console.warn('MR mirror failed:', url.split('/')[2], e.message); }
+  }
+  return {list: [], total: 0};
 }
 async function fetchCurseForgePage(){
   const {qs, key} = buildCurseForgeQuery();
   const cached = cacheGet(key);
   if(cached) return cached;
-  const data = await fetchJson(`${MCIM_API}/mods/search?${qs}`);
-  const result = {list:(data.data||[]).map(i => ({source:'curseforge', ...i})), total:data.pagination?.totalCount ?? 0};
-  cacheSet(key, result);
-  return result;
+  const endpoints = [
+    `${MCIM_API}/mods/search?${qs}`,
+    `${CURSE_TOOLS}/mods/search?${qs}`,
+    `${CFPROXY}/v1/mods/search?${qs}`
+  ];
+  for(const url of endpoints){
+    try{
+      const data = await fetchJson(url);
+      if(data && data.data && data.data.length){
+        const result = {
+          list: data.data.map(i => ({source:'curseforge', ...i})),
+          total: data.pagination?.totalCount ?? data.data.length
+        };
+        cacheSet(key, result);
+        return result;
+      }
+    }catch(e){ console.warn('CF mirror failed:', url.split('/')[2], e.message); }
+  }
+  return {list: [], total: 0};
 }
 
 /* LOAD MORE */
@@ -1008,6 +1003,19 @@ async function loadMore(){
 
     await Promise.all([handleMr(), handleCf()]);
     if(token !== reqId) return;
+
+    if(offset === 0 && mrResult && mrResult.list.length === 0 && !$('mcVersion').value.trim() && !$('loaderSelect').value){
+      try{
+        const fuzzyQs = new URLSearchParams({query: currentQuery, limit: LIMIT, offset: 0});
+        const fuzzyData = await fetchJson(`${MR_API}/search?${fuzzyQs}`);
+        if(fuzzyData.hits && fuzzyData.hits.length){
+          mrResult = {list: fuzzyData.hits.map(i => ({source:'modrinth', ...i})), total: fuzzyData.total_hits ?? 0};
+          removeSkeletons();
+          appendCards(mrResult.list, token);
+        }
+      }catch(e){ console.warn('fuzzy retry failed:', e.message); }
+    }
+
     removeSkeletons();
     if(!mrResult && !cfResult) throw new Error('Оба источника недоступны');
     const mrTotal = mrResult?.total ?? 0;
@@ -1220,7 +1228,10 @@ async function showDetails(item){
     html = `
       <img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="card-image" style="height:300px;border-radius:1.5rem;margin-bottom:1.5rem" referrerpolicy="no-referrer" data-fallback>
       <div class="version-picker">
-        <div class="version-picker-title">Выберите версию:</div>
+        <div class="version-picker-title" style="display:flex;justify-content:space-between;align-items:center;gap:.75rem">
+          <span>Выберите версию мода:</span>
+          <button id="toggleVersionMode" data-mode="mod" style="background:var(--s3);border:none;color:var(--text);font-size:.75rem;padding:.35rem .7rem;border-radius:999px;cursor:pointer;font-weight:600;white-space:nowrap">Режим: версия мода</button>
+        </div>
         <div class="version-picker-row">
           <select class="filter-select" id="modalVersion"><option>Загрузка...</option></select>
           <select class="filter-select" id="modalLoader"><option>Загрузка...</option></select>
@@ -1250,6 +1261,9 @@ async function showDetails(item){
   }
 }
 
+/* VERSION PICKER */
+let versionMode = 'mod';
+
 async function loadVersions(item){
   const vSel = $('modalVersion');
   const lSel = $('modalLoader');
@@ -1258,27 +1272,106 @@ async function loadVersions(item){
   if(!id) return;
   try{
     let versions = [];
+
     if(item.source === 'modrinth'){
       const v = await fetchJson(`${MR_API}/project/${id}/version`);
-      versions = (v || []).map(x => ({id:x.id, mc:x.game_versions || [], loaders:x.loaders || []}));
+      versions = (v || []).map(x => ({
+        id: x.id,
+        name: x.version_number || x.name || 'unknown',
+        type: x.version_type || 'release',
+        date: x.date_published || '',
+        mc: x.game_versions || [],
+        loaders: x.loaders || []
+      }));
     }else{
-      const f = await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
-      versions = (f.data || []).map(x => ({id:x.id, mc:(x.gameVersions || []).filter(g => /^\d/.test(g)), loaders:x.modLoader ? [x.modLoader] : []}));
+      const bases = [MCIM_API, CURSE_TOOLS, CFPROXY];
+      for(const base of bases){
+        try{
+          let idx = 0;
+          let guard = 0;
+          const collected = [];
+          while(guard++ < 20){
+            const f = await fetchJson(`${base}/mods/${id}/files?pageSize=50&index=${idx}`);
+            const chunk = f.data || [];
+            if(!chunk.length) break;
+            collected.push(...chunk.map(x => ({
+              id: x.id,
+              name: x.displayName || x.fileName || 'unknown',
+              type: (x.releaseType === 1 ? 'release' : x.releaseType === 2 ? 'beta' : 'alpha'),
+              date: x.fileDate || '',
+              mc: (x.gameVersions || []).filter(g => /^\d/.test(g)),
+              loaders: x.modLoader ? [x.modLoader] : []
+            })));
+            if(chunk.length < 50 || collected.length >= VERSIONS_MAX) break;
+            idx += 50;
+          }
+          if(collected.length){ versions = collected; break; }
+        }catch(e){
+          console.warn('CF versions mirror failed:', base, e.message);
+        }
+      }
     }
+
+    versions.sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+
+    if(!versions.length){
+      vSel.innerHTML = '<option value="">Нет версий</option>';
+      lSel.innerHTML = '<option value="">—</option>';
+      return;
+    }
+
     const mcSet = new Set();
     const loaderSet = new Set();
-    versions.forEach(v => { v.mc.forEach(m => mcSet.add(m)); v.loaders.forEach(l => loaderSet.add(l)); });
+    versions.forEach(v => {
+      v.mc.forEach(m => mcSet.add(m));
+      v.loaders.forEach(l => loaderSet.add(l));
+    });
     const mcs = [...mcSet].sort((a,b) => compareVersions(b, a));
     const loaders = [...loaderSet].sort();
-    vSel.innerHTML = mcs.length ? mcs.map(m => `<option>${esc(m)}</option>`).join('') : '<option value="">—</option>';
-    lSel.innerHTML = '<option value="">Любой</option>' + loaders.map(l => `<option>${esc(l)}</option>`).join('');
-    const userMc = $('mcVersion').value.trim();
-    if(userMc && mcs.includes(userMc)) vSel.value = userMc;
-    const userLoader = $('loaderSelect').value;
-    if(userLoader && loaders.includes(userLoader)) lSel.value = userLoader;
-  }catch{
+
+    renderVersionOptions(versions, mcs, loaders);
+
+    const toggleBtn = $('toggleVersionMode');
+    if(toggleBtn && !toggleBtn.__bound){
+      toggleBtn.__bound = true;
+      toggleBtn.addEventListener('click', () => {
+        versionMode = versionMode === 'mod' ? 'game' : 'mod';
+        toggleBtn.dataset.mode = versionMode;
+        toggleBtn.textContent = versionMode === 'mod' ? 'Режим: версия мода' : 'Режим: версия игры';
+        renderVersionOptions(versions, mcs, loaders);
+      });
+    }
+  }catch(e){
+    console.warn('loadVersions failed:', e);
     vSel.innerHTML = '<option value="">Ошибка</option>';
     lSel.innerHTML = '<option value="">—</option>';
+  }
+}
+
+function renderVersionOptions(versions, mcs, loaders){
+  const vSel = $('modalVersion');
+  const lSel = $('modalLoader');
+  if(!vSel) return;
+
+  if(versionMode === 'mod'){
+    vSel.innerHTML = versions.map(v => {
+      const tag = v.type === 'release' ? '' : v.type === 'beta' ? ' (beta)' : ' (alpha)';
+      return `<option value="${esc(v.id)}">${esc(v.name)}${tag}</option>`;
+    }).join('');
+    const updateMcList = () => {
+      const picked = versions.find(v => String(v.id) === String(vSel.value)) || versions[0];
+      if(picked && picked.mc.length){
+        lSel.innerHTML = picked.mc.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
+      }else{
+        lSel.innerHTML = '<option value="">—</option>';
+      }
+    };
+    updateMcList();
+    vSel.onchange = updateMcList;
+  }else{
+    vSel.innerHTML = mcs.length ? mcs.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') : '<option value="">—</option>';
+    lSel.innerHTML = '<option value="">Любой</option>' + loaders.map(l => `<option value="${esc(l)}">${esc(l)}</option>`).join('');
+    vSel.onchange = null;
   }
 }
 
@@ -1342,31 +1435,81 @@ async function downloadDirect(source, id, btn){
     }else if(source === 'modrinth'){
       const v = await fetchJson(`${MR_API}/project/${id}/version`);
       if(!v?.length){ toast('Файлы не найдены','error'); return; }
-      const wantMc = $('modalVersion')?.value || '';
-      const wantLoader = $('modalLoader')?.value || '';
-      let pick = v.find(x => (!wantMc || (x.game_versions || []).includes(wantMc)) && (!wantLoader || (x.loaders || []).includes(wantLoader)));
+      let pick = null;
+      if(versionMode === 'mod'){
+        const wantId = $('modalVersion')?.value || '';
+        pick = v.find(x => String(x.id) === String(wantId));
+      }else{
+        const wantMc = $('modalVersion')?.value || '';
+        const wantLoader = $('modalLoader')?.value || '';
+        pick = v.find(x => (!wantMc || (x.game_versions || []).includes(wantMc)) && (!wantLoader || (x.loaders || []).includes(wantLoader)));
+      }
       if(!pick){ toast('Беру последнюю версию','info'); pick = v[0]; }
       const file = (pick.files || []).find(x => x.primary) || (pick.files || [])[0];
       if(!file){ toast('Файл не найден','error'); return; }
       url = file.url;
       filename = file.filename || 'mod.jar';
     }else{
-      const f = await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
-      if(!f.data?.length){ toast('Файлы не найдены','error'); return; }
-      const wantMc = $('modalVersion')?.value || '';
-      const wantLoader = $('modalLoader')?.value || '';
-      let pick = f.data.find(x => {
-        const mcOk = !wantMc || (x.gameVersions || []).includes(wantMc);
-        const ldOk = !wantLoader || x.modLoader === wantLoader;
-        return mcOk && ldOk;
-      });
-      if(!pick){ toast('Беру последнюю версию','info'); pick = f.data[0]; }
+      let pick = null;
+      const bases = [MCIM_API, CURSE_TOOLS, CFPROXY];
+
+      if(versionMode === 'mod'){
+        const wantId = $('modalVersion')?.value || '';
+        for(const base of bases){
+          try{
+            const f = await fetchJson(`${base}/mods/${id}/files/${wantId}`);
+            if(f && f.data){ pick = f.data; break; }
+          }catch{}
+        }
+      }
+
+      if(!pick){
+        const wantMc = versionMode === 'game' ? ($('modalVersion')?.value || '') : '';
+        const wantLoader = versionMode === 'game' ? ($('modalLoader')?.value || '') : '';
+        for(const base of bases){
+          try{
+            let idx = 0, guard = 0;
+            while(guard++ < 20){
+              const f = await fetchJson(`${base}/mods/${id}/files?pageSize=50&index=${idx}`);
+              const chunk = f.data || [];
+              if(!chunk.length) break;
+              const found = chunk.find(x => {
+                const mcOk = !wantMc || (x.gameVersions || []).includes(wantMc);
+                const ldOk = !wantLoader || x.modLoader === wantLoader;
+                return mcOk && ldOk;
+              });
+              if(found){ pick = found; break; }
+              if(chunk.length < 50) break;
+              idx += 50;
+            }
+            if(pick) break;
+          }catch{}
+        }
+      }
+
+      if(!pick){
+        for(const base of bases){
+          try{
+            const f0 = await fetchJson(`${base}/mods/${id}/files?pageSize=1&index=0`);
+            pick = (f0.data || [])[0];
+            if(pick) break;
+          }catch{}
+        }
+      }
+      if(!pick){ toast('Файлы не найдены','error'); return; }
+
       const fid = safeId(pick.id);
       if(!fid){ toast('Некорректный ID','error'); return; }
       filename = pick.fileName || 'mod.jar';
-      const dl = await fetchJson(`${MCIM_API}/mods/${id}/files/${fid}/download-url`);
-      if(!dl.data){ toast('Автор запретил скачивание','error'); return; }
-      url = dl.data;
+      let dlData = null;
+      for(const base of bases){
+        try{
+          const dl = await fetchJson(`${base}/mods/${id}/files/${fid}/download-url`);
+          if(dl && dl.data){ dlData = dl.data; break; }
+        }catch(e){ console.warn('download-url failed:', base, e.message); }
+      }
+      if(!dlData){ toast('Автор запретил скачивание','error'); return; }
+      url = dlData;
     }
     const safe = safeUrl(url);
     if(!safe){ toast('Некорректная ссылка','error'); return; }
@@ -1423,8 +1566,10 @@ let editorState = null;
 
 async function openEditor(skinName){
   editorActive = true;
+  document.body.classList.add('lock');
   $('searchContainer').classList.add('hidden');
   sentinel.classList.add('hidden');
+  $('content').innerHTML = '';
 
   $('content').innerHTML = `
     <div class="editor-wrap">
@@ -1489,7 +1634,7 @@ async function openEditor(skinName){
                 <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
               </button>
             </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4">Базовый — тело. Оверлей — шапка и куртка (тело станет полупрозрачным, появится сетка).</p>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4">Базовый — тело. Оверлей — шапка и куртка (появится сетка кубиков).</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
@@ -1529,11 +1674,11 @@ async function openEditor(skinName){
     mouseVec: null,
     history: [], historyIdx: -1,
     refreshTimer: null,
-    resizeTimer: null,
     flatCanvas: null,
     flatCtx: null,
     wireframeGroup: null,
-    mousemoveThrottle: null
+    mousemoveThrottle: null,
+    _resizeHandler: null
   };
 
   const palette = [
@@ -1602,9 +1747,7 @@ async function openEditor(skinName){
           ONE: -1,
           TWO: THREE.TOUCH.DOLLY_ROTATE
         };
-      }catch(e){
-        console.warn('mouseButtons config failed:', e);
-      }
+      }catch(e){ console.warn('mouseButtons config failed:', e); }
       viewer.camera.position.z = 70;
       try{
         viewer.renderer.setClearColor(0x000000, 0);
@@ -1625,16 +1768,24 @@ async function openEditor(skinName){
     ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно.</p>';
   }
 
-  /* RESIZE */
-  editorState.resizeTimer = setTimeout(() => {
+  /* RESIZE — без обрезки */
+  const doResize = () => {
     if(!editorState?.viewer) return;
     try{
       const r = ed3d.getBoundingClientRect();
-      const w = Math.max(280, Math.min(r.width - 10, 560));
-      const h = Math.max(400, Math.min(r.height - 10 || 520, 600));
-      editorState.viewer.setSize(w, h);
+      const w = Math.floor(r.width);
+      const h = Math.floor(r.height);
+      if(w > 50 && h > 50){
+        editorState.viewer.setSize(w, h);
+        if(editorState.activeLayer === 'overlay'){
+          setTimeout(() => updateOverlayWireframe(true), 50);
+        }
+      }
     }catch(e){ console.warn('setSize failed:', e); }
-  }, 80);
+  };
+  setTimeout(doResize, 100);
+  window.addEventListener('resize', doResize);
+  editorState._resizeHandler = doResize;
 
   /* LAYER VISIBILITY */
   function applyLayerVisibility(){
@@ -1655,7 +1806,7 @@ async function openEditor(skinName){
         obj.userData.__multiLayer = true;
         mats[0].visible = true;
         mats[0].transparent = !isBase;
-        mats[0].opacity = isBase ? 1 : 0.35;
+        mats[0].opacity = isBase ? 1 : 0.65;
         mats[0].depthWrite = isBase;
         mats[0].needsUpdate = true;
         for(let i = 1; i < mats.length; i++){
@@ -1677,7 +1828,7 @@ async function openEditor(skinName){
         const mat = obj.material;
         if(mat){
           mat.transparent = !isBase;
-          mat.opacity = isBase ? 1 : 0.35;
+          mat.opacity = isBase ? 1 : 0.65;
           mat.depthWrite = isBase;
           mat.needsUpdate = true;
         }
@@ -1685,7 +1836,7 @@ async function openEditor(skinName){
     });
   }
 
-  /* WIREFRAME GRID OVERLAY (сетка кубиков на оверлее) */
+  /* WIREFRAME GRID — сетка кубиков на оверлее */
   function updateOverlayWireframe(show){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
@@ -1719,56 +1870,46 @@ async function openEditor(skinName){
       if(combined.includes('cape') || combined.includes('elytra')) return;
       if(!obj.geometry) return;
 
-      // Только для outer-мешей (оверлей)
       const isMultiLayer = obj.userData.__multiLayer === true;
       const isOuter = obj.userData.__isOuter === true;
       if(!isMultiLayer && !isOuter) return;
 
       try{
-        // EdgesGeometry — решетка по всем рёбрам геометрии
-        const edgesGeo = new THREE.EdgesGeometry(obj.geometry, 1);
-        const edgesMat = new THREE.LineBasicMaterial({
-          color: 0x6EE7B7,
+        const clone = new THREE.Mesh(obj.geometry, new THREE.MeshBasicMaterial({
+          color: 0x38BDF8,
+          wireframe: true,
           transparent: true,
-          opacity: 0.85,
+          opacity: 0.65,
           depthTest: true,
           depthWrite: false
-        });
-        const line = new THREE.LineSegments(edgesGeo, edgesMat);
-        line.renderOrder = 998;
-        // Копируем трансформацию меша
-        line.matrixAutoUpdate = false;
-        line.matrix.copy(obj.matrixWorld);
-        line.matrixWorldNeedsUpdate = true;
-        group.add(line);
-      }catch(e){
-        console.warn('edges failed:', e);
-      }
+        }));
+        clone.renderOrder = 999;
+        clone.matrixAutoUpdate = false;
+        clone.matrix.copy(obj.matrixWorld);
+        clone.matrixWorldNeedsUpdate = true;
+        group.add(clone);
+        obj.userData.__wireClone = clone;
+      }catch(e){ console.warn('wireframe failed:', e); }
     });
 
     if(group.children.length > 0){
       v.scene.add(group);
       editorState.wireframeGroup = group;
-      console.log('[Editor] wireframe lines:', group.children.length);
+      console.log('[Editor] wireframe cubes:', group.children.length);
     }
   }
 
-  // Обновление матриц при вращении
   function refreshWireframeMatrices(){
     const v = editorState.viewer;
     const g = editorState.wireframeGroup;
     if(!v || !g) return;
-    let i = 0;
     v.playerObject.traverse(obj => {
       if(!obj.isMesh) return;
-      if(!obj.visible) return;
-      const isMultiLayer = obj.userData.__multiLayer === true;
-      const isOuter = obj.userData.__isOuter === true;
-      if(!isMultiLayer && !isOuter) return;
-      const line = g.children[i++];
-      if(!line) return;
-      line.matrix.copy(obj.matrixWorld);
-      line.matrixWorldNeedsUpdate = true;
+      if(!obj.userData.__wireClone) return;
+      const clone = obj.userData.__wireClone;
+      clone.matrix.copy(obj.matrixWorld);
+      clone.matrixWorldNeedsUpdate = true;
+      clone.visible = obj.visible;
     });
   }
 
@@ -1811,10 +1952,10 @@ async function openEditor(skinName){
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
     applyLayerVisibility();
-    updateOverlayWireframe(editorState.activeLayer === 'overlay');
+    setTimeout(() => updateOverlayWireframe(editorState.activeLayer === 'overlay'), 30);
   }));
 
-  /* EDITOR BACKGROUND */
+  /* EDITOR BG */
   const canvasArea = document.querySelector('.editor-canvas-area');
   const savedBg = safeGetLocalStorage('mch-editor-bg') || 'biome';
   const savedCustomBg = safeGetLocalStorage('mch-editor-bg-custom');
@@ -1975,7 +2116,6 @@ async function openEditor(skinName){
     for(const h of hits){
       if(!h.object.visible) continue;
       if(!h.uv) continue;
-      // Пропускаем wireframe (LineSegments)
       if(h.object.isLine || h.object.isLineSegments) continue;
 
       const obj = h.object;
@@ -2028,9 +2168,7 @@ async function openEditor(skinName){
     viewer.canvas.addEventListener('mousemove', e => {
       if(!editorState.drawing) return;
       if(editorState.mousemoveThrottle) return;
-      editorState.mousemoveThrottle = setTimeout(() => {
-        editorState.mousemoveThrottle = null;
-      }, 16);
+      editorState.mousemoveThrottle = setTimeout(() => { editorState.mousemoveThrottle = null; }, 16);
       handle3DDraw(e.clientX, e.clientY);
     });
     const stop = () => {
@@ -2044,7 +2182,6 @@ async function openEditor(skinName){
     };
     viewer.canvas.addEventListener('mouseup', stop);
     viewer.canvas.addEventListener('mouseleave', stop);
-
     viewer.canvas.addEventListener('touchstart', e => {
       e.preventDefault();
       if(e.touches.length !== 1) return;
@@ -2063,7 +2200,7 @@ async function openEditor(skinName){
     viewer.canvas.addEventListener('touchend', stop);
   }
 
-  /* 2D FLAT */
+  /* 2D */
   function initFlatCanvas(){
     const wrap = $('ed-2d');
     wrap.innerHTML = '';
@@ -2139,7 +2276,7 @@ async function openEditor(skinName){
     schedule3DRefresh();
   }
 
-  /* REFRESH 3D */
+  /* REFRESH */
   function schedule3DRefresh(){
     if(editorState.refreshTimer) return;
     editorState.refreshTimer = setTimeout(() => {
@@ -2147,16 +2284,14 @@ async function openEditor(skinName){
       refresh3D();
     }, 100);
   }
-
   function refresh3D(){
     const v = editorState.viewer;
     if(!v) return;
     try{
       const dataUrl = editorState.canvas.toDataURL('image/png');
       v.loadSkin(dataUrl).catch(() => {});
-      // Пересобираем wireframe после загрузки нового скина
       if(editorState.activeLayer === 'overlay'){
-        setTimeout(() => updateOverlayWireframe(true), 100);
+        setTimeout(() => updateOverlayWireframe(true), 150);
       }
     }catch{}
   }
@@ -2174,7 +2309,6 @@ async function openEditor(skinName){
       }
     }catch{}
   }
-
   function restoreFromSnapshot(snap){
     return new Promise(resolve => {
       const img = new Image();
@@ -2232,7 +2366,6 @@ async function openEditor(skinName){
     toast('Steve загружен','ok');
   });
 
-  /* MODE TOGGLE */
   $$('[data-mode]').forEach(b => b.addEventListener('click', () => {
     const mode = b.dataset.mode;
     $$('[data-mode]').forEach(x => x.classList.remove('active'));
@@ -2248,28 +2381,25 @@ async function openEditor(skinName){
     }
   }));
 
-  /* KEYBOARD SHORTCUTS */
   const keyHandler = e => {
     if(!editorState) return;
     if((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey){
-      e.preventDefault();
-      $('ed-undo').click();
+      e.preventDefault(); $('ed-undo').click();
     }else if((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))){
-      e.preventDefault();
-      $('ed-redo').click();
+      e.preventDefault(); $('ed-redo').click();
     }else if((e.ctrlKey || e.metaKey) && e.key === 's'){
-      e.preventDefault();
-      $('ed-save').click();
+      e.preventDefault(); $('ed-save').click();
     }
   };
   document.addEventListener('keydown', keyHandler);
 
   /* CLEANUP */
   const cleanup = () => {
+    document.body.classList.remove('lock');
     document.removeEventListener('keydown', keyHandler);
     if(bgUploadInput && bgUploadInput.parentNode) bgUploadInput.parentNode.removeChild(bgUploadInput);
     if(editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
-    if(editorState?.resizeTimer) clearTimeout(editorState.resizeTimer);
+    if(editorState?._resizeHandler) window.removeEventListener('resize', editorState._resizeHandler);
     if(editorState?.mousemoveThrottle) clearTimeout(editorState.mousemoveThrottle);
     if(editorState?.wireframeGroup && editorState?.viewer){
       try{
@@ -2308,8 +2438,10 @@ let packEditorState = null;
 
 function openPackEditor(){
   editorActive = true;
+  document.body.classList.add('lock');
   $('searchContainer').classList.add('hidden');
   sentinel.classList.add('hidden');
+  $('content').innerHTML = '';
 
   $('content').innerHTML = `
     <div class="editor-wrap">
@@ -2320,7 +2452,7 @@ function openPackEditor(){
           <button class="btn btn-secondary" id="rp-close">← К списку</button>
         </div>
       </div>
-      <p style="color:var(--tdim);margin-bottom:1.5rem;font-size:.9rem">Загрузи .zip ресурспака, посмотри содержимое, замени текстуры, скачай обратно. Всё работает в браузере.</p>
+      <p style="color:var(--tdim);margin-bottom:1.5rem;font-size:.9rem">Загрузи .zip ресурспака, посмотри содержимое, замени текстуры, скачай обратно.</p>
       <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
         <button class="btn" id="rp-upload">📁 Загрузить .zip</button>
         <button class="btn btn-secondary" id="rp-new-pack">🆕 Создать с нуля</button>
@@ -2335,7 +2467,7 @@ function openPackEditor(){
         <div>
           <div class="editor-section-title">Предпросмотр</div>
           <div class="rp-preview-area" id="rp-preview"><p style="color:var(--tdim)">Выбери файл слева</p></div>
-          <div style="margin-top:.75rem"><button class="btn btn-secondary" id="rp-replace" disabled>✏️ Заменить выбранную текстуру</button></div>
+          <div style="margin-top:.75rem"><button class="btn btn-secondary" id="rp-replace" disabled>✏️ Заменить текстуру</button></div>
         </div>
       </div>
     </div>`;
@@ -2354,9 +2486,7 @@ function openPackEditor(){
       renderPackFiles(names);
       $('rp-save').disabled = false;
       toast('Пак загружен: ' + file.name, 'ok');
-    }catch(err){
-      toast('Ошибка: ' + err.message, 'error');
-    }
+    }catch(err){ toast('Ошибка: ' + err.message, 'error'); }
   });
 
   $('rp-new-pack').addEventListener('click', () => {
@@ -2380,6 +2510,7 @@ function openPackEditor(){
 
   $('rp-close').addEventListener('click', () => {
     editorActive = false;
+    document.body.classList.remove('lock');
     packEditorState = null;
     $$('.tab').forEach(t => { if(t.classList.contains('active')) t.click(); });
   });
@@ -2397,9 +2528,7 @@ function openPackEditor(){
       const buf = await file.arrayBuffer();
       showPackPreview(buf, packEditorState.selectedPath);
       toast('Файл заменён: ' + packEditorState.selectedPath, 'ok');
-    }catch(err){
-      toast('Ошибка: ' + err.message, 'error');
-    }
+    }catch(err){ toast('Ошибка: ' + err.message, 'error'); }
   });
 }
 
