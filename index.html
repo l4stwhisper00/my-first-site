@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://mc-heads.net https://crafatar.com https://api.mineatar.io data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src https://cdn.modrinth.com https://media.forgecdn.net https://minotar.net https://mc-heads.net https://crafatar.com https://api.mineatar.io data: blob:; connect-src https://api.modrinth.com https://mod.mcimirror.top https://translate.googleapis.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://api.modrinth.com">
 <link rel="preconnect" href="https://mod.mcimirror.top">
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-<link rel="dns-prefetch" href="https://mc-heads.net">
 <link rel="dns-prefetch" href="https://minotar.net">
+<link rel="dns-prefetch" href="https://crafatar.com">
 <title>Minecraft Hub — Моды, Модпаки, Ресурспаки, Шейдеры, Скины</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -36,7 +36,7 @@ html,body{min-height:100vh}
 html{background:var(--s0);transition:background var(--tr-slow) var(--ease)}
 body{background:transparent;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;transition:color var(--tr-slow) var(--ease);overflow-x:hidden}
 body.lock{overflow:hidden}
-.bg-aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.9;transition:opacity var(--tr-slow) var(--ease)}
+.bg-aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.9}
 .bg-aurora::before,.bg-aurora::after{content:'';position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px);will-change:transform}
 .bg-aurora::before{background:radial-gradient(circle,var(--aurora-1) 0%,transparent 65%);top:-25vmax;left:-20vmax;animation:auroraA 28s ease-in-out infinite}
 .bg-aurora::after{background:radial-gradient(circle,var(--aurora-2) 0%,transparent 65%);bottom:-25vmax;right:-20vmax;animation:auroraB 34s ease-in-out infinite}
@@ -56,18 +56,14 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .tab{background:var(--s2);color:var(--tdim);padding:.75rem 1.5rem;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;font-size:1rem;white-space:nowrap;transition:all var(--tr-norm) var(--ease);backdrop-filter:blur(10px);border:1px solid transparent}
 .tab:hover{background:var(--s3);color:var(--text);transform:translateY(-2px);box-shadow:0 6px 18px var(--card-glow)}
 .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);box-shadow:0 4px 16px var(--card-glow)}
-.search-container{background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);box-shadow:0 8px 32px rgba(0,0,0,.15);transition:background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease)}
+.search-container{background:var(--s2);padding:2rem;border-radius:var(--rl);margin-bottom:2rem;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);box-shadow:0 8px 32px rgba(0,0,0,.15)}
 .search-row{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
-.search-input,.filter-select{background:var(--s3);border:2px solid transparent;color:var(--text);padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem;transition:border-color var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease)}
+.search-input,.filter-select{background:var(--s3);border:2px solid transparent;color:var(--text);padding:.75rem 1.25rem;border-radius:var(--r);font-size:1rem;transition:border-color var(--tr-norm) var(--ease)}
 .search-input{flex:1;min-width:250px}
 .filter-select{padding:.5rem 1rem;cursor:pointer}
 .search-input:focus,.filter-select:focus{outline:none;border-color:var(--accent)}
 #editorBtn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--s0);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;box-shadow:0 4px 16px var(--card-glow);transition:all var(--tr-norm) var(--ease);white-space:nowrap;position:relative;overflow:hidden}
-#editorBtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);transform:translateX(-100%);transition:transform .6s var(--ease)}
-#editorBtn:hover::before{transform:translateX(100%)}
 #editorBtn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 28px var(--card-glow)}
-#editorBtn .ico{font-size:1.15rem;line-height:1;display:inline-block;transition:transform var(--tr-norm) var(--ease)}
-#editorBtn:hover .ico{transform:rotate(-15deg) scale(1.15)}
 #randomBtn{background:var(--s3);color:var(--text);border:none;border-radius:var(--r);padding:.85rem 1.5rem;font-weight:700;font-size:.95rem;cursor:pointer;display:none;align-items:center;gap:.55rem;transition:all var(--tr-norm) var(--ease);white-space:nowrap}
 #randomBtn:hover{background:var(--s4);transform:translateY(-2px)}
 .filters{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
@@ -83,7 +79,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .card{background:var(--s2);border-radius:var(--rl);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;animation:fadeInUp .45s var(--ease) both;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);transition:transform var(--tr-norm) var(--ease),box-shadow var(--tr-norm) var(--ease),background var(--tr-slow) var(--ease),border-color var(--tr-slow) var(--ease);position:relative}
 .card:hover,.card:focus-visible{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 32px var(--card-glow);outline:none;border-color:rgba(255,255,255,.1)}
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.card-image{width:100%;height:180px;object-fit:cover;background:var(--s4);transition:background var(--tr-slow) var(--ease)}
+.card-image{width:100%;height:180px;object-fit:cover;background:var(--s4)}
 .card-image.skin{object-fit:contain;padding:.5rem;background:linear-gradient(135deg,var(--s3),var(--s4));image-rendering:auto}
 .card-content{padding:1.25rem;flex:1;display:flex;flex-direction:column}
 .card-title{font-size:1.05rem;font-weight:600;margin-bottom:.5rem;line-height:1.3;word-break:break-word}
@@ -97,7 +93,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .skeleton-line.big{height:1.2rem;width:70%}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(var(--blur));z-index:1000;overflow-y:auto;animation:fadeIn .2s var(--ease)}
 .modal.active{display:flex;align-items:center;justify-content:center;padding:2rem}
-.modal-content{background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;max-height:90vh;overflow-y:auto;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);animation:fadeInUp .3s var(--ease);transition:background var(--tr-slow) var(--ease)}
+.modal-content{background:var(--s2);border-radius:var(--rl);max-width:900px;width:100%;max-height:90vh;overflow-y:auto;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);animation:fadeInUp .3s var(--ease)}
 .modal-header{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;gap:1rem;align-items:center}
 .modal-title{font-size:1.5rem;font-weight:700;line-height:1.3;word-break:break-word}
 .modal-close{background:none;border:none;color:var(--tdim);font-size:2rem;cursor:pointer;width:40px;height:40px;border-radius:50%;flex-shrink:0;transition:all var(--tr-fast) var(--ease);display:flex;align-items:center;justify-content:center}
@@ -131,7 +127,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .settings-section:last-child{margin-bottom:0}
 .settings-label{font-size:.75rem;color:var(--tdim);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:.6rem}
 .theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
-.theme-opt{width:100%;aspect-ratio:1;border-radius:.75rem;border:2px solid transparent;cursor:pointer;transition:all var(--tr-fast) var(--ease);position:relative;overflow:hidden}
+.theme-opt{width:100%;aspect-ratio:1;border-radius:.75rem;border:2px solid transparent;cursor:pointer;transition:all var(--tr-fast) var(--ease)}
 .theme-opt:hover{transform:scale(1.08)}
 .theme-opt.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--s0) inset,0 0 12px var(--accent)}
 .theme-opt[data-theme="dark"]{background:linear-gradient(135deg,#05070C 50%,#38BDF8)}
@@ -155,7 +151,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .editor-header-actions .btn,.editor-header-actions .btn-secondary{padding:.6rem 1rem;font-size:.9rem;width:auto}
 .editor-layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
 @media(max-width:1000px){.editor-layout{grid-template-columns:1fr}}
-.editor-canvas-area{position:relative;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.editor-canvas-area{position:relative;background:linear-gradient(135deg,var(--s3),var(--s4));border-radius:var(--rl);min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
 .editor-canvas-area canvas{display:block;cursor:crosshair}
 .editor-mode-toggle{position:absolute;top:1rem;right:1rem;z-index:10;display:flex;gap:.25rem;background:var(--s2);padding:.25rem;border-radius:var(--r);border:1px solid rgba(255,255,255,.08)}
 .editor-mode-toggle button{background:transparent;color:var(--tdim);border:none;padding:.5rem 1rem;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.85rem;transition:all var(--tr-fast) var(--ease)}
@@ -178,8 +174,10 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
 .editor-layer-btn.active{background:var(--accent);color:var(--s0);border-color:var(--accent)}
 .editor-action-row{display:flex;gap:.5rem}
 .editor-action-row .btn,.editor-action-row .btn-secondary{width:auto;flex:1;padding:.6rem .75rem;font-size:.85rem}
-.editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:var(--s3);border-radius:.5rem;max-width:100%;display:block}
+.editor-flat-wrap{overflow:auto;max-width:100%;padding:.5rem}
+.editor-flat-canvas{image-rendering:pixelated;cursor:crosshair;background:transparent;border-radius:.5rem;display:block}
 .editor-hint{color:var(--tdim);font-size:.8rem;line-height:1.5}
+#ed-3d-hint{color:var(--tdim);font-size:.8rem;margin-top:.5rem;text-align:center}
 @media(max-width:768px){.container{padding:1rem}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.search-row{flex-direction:column;align-items:stretch}.modal-actions{grid-template-columns:1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}#toasts{right:1rem;left:1rem;max-width:none}.editor-layout{grid-template-columns:1fr}.settings-panel{bottom:1rem;left:1rem}.settings-menu{min-width:240px}}
 </style>
 </head>
@@ -203,7 +201,7 @@ h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin
       <input type="text" class="search-input" id="searchInput" placeholder="Поиск..." maxlength="64" autocomplete="off">
       <button class="search-btn" id="searchBtn">Искать</button>
       <button id="randomBtn" title="Случайные скины">🎲 Случайно</button>
-      <button id="editorBtn"><span class="ico">✏️</span> Редактор</button>
+      <button id="editorBtn"><span>✏️</span> Редактор</button>
     </div>
     <div class="filters" id="filters">
       <select class="filter-select" id="sortSelect" aria-label="Сортировка">
@@ -290,7 +288,98 @@ async function fetchJson(url){
   return r.json();
 }
 
-// Расширенный список ников — зарубежные + русские стримеры
+/* === NameMC через публичные CORS-прокси === */
+const CORS_PROXIES = [
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
+];
+async function fetchViaProxy(url){
+  for(const wrap of CORS_PROXIES){
+    try{
+      const r = await fetch(wrap(url));
+      if(r.ok){
+        const text = await r.text();
+        if(text && text.length > 100) return text;
+      }
+    }catch(e){continue}
+  }
+  throw new Error('all proxies failed');
+}
+async function fetchNamemcTrending(page=1){
+  const url = `https://namemc.com/skins/trending?page=${page}`;
+  const html = await fetchViaProxy(url);
+  const names = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m=>m[1]);
+  return [...new Set(names)];
+}
+async function fetchNamemcSearch(query){
+  const url = `https://namemc.com/search?q=${encodeURIComponent(query)}`;
+  const html = await fetchViaProxy(url);
+  // Ищем ник в результатах
+  const matches = [...html.matchAll(/data-player-name="([^"]+)"/g)].map(m=>m[1]);
+  const uniq = [...new Set(matches)];
+  return uniq.length ? uniq : [query];
+}
+
+/* === Скин-рендеры (прозрачный фон — minotar и crafatar первыми) === */
+function skinRenderUrl(name, step=0){
+  const n = encodeURIComponent(name);
+  const urls = [
+    `https://minotar.net/armor/body/${n}/180`,
+    `https://crafatar.com/renders/body/${n}?scale=6&overlay`,
+    `https://mc-heads.net/body/${n}/180`,
+    `https://api.mineatar.io/body/full/${n}?scale=6`
+  ];
+  return urls[Math.min(step, urls.length-1)];
+}
+function skinTextureUrl(name){
+  return `https://minotar.net/skin/${encodeURIComponent(name)}`;
+}
+function skinDownloadUrl(name){
+  return `https://minotar.net/download/${encodeURIComponent(name)}`;
+}
+
+/* === skinview3d === */
+let modalViewer = null;
+function createSkinViewer(container, skinUrl, opts={}){
+  if(typeof skinview3d === 'undefined' || typeof THREE === 'undefined') return null;
+  try{
+    const viewer = new skinview3d.SkinViewer({
+      canvas: document.createElement('canvas'),
+      width: container.clientWidth || 400,
+      height: container.clientHeight || 400,
+      skin: skinUrl,
+      background: 'transparent'
+    });
+    viewer.controls.enableZoom = opts.zoom !== false;
+    viewer.controls.enableRotate = true;
+    viewer.controls.enablePan = false;
+    viewer.camera.position.z = 60;
+    if(opts.animation){
+      viewer.animation = new skinview3d.WalkingAnimation();
+      viewer.animation.speed = 1;
+    }
+    try{viewer.renderer.setClearColor(0x000000, 0);viewer.renderer.setClearAlpha(0);}catch{}
+    viewer.canvas.style.background = 'transparent';
+    container.appendChild(viewer.canvas);
+    viewer.renderer.setAnimationLoop(()=>{viewer.renderer.render(viewer.scene, viewer.camera)});
+    return viewer;
+  }catch(e){
+    console.warn('skinview3d failed:', e);
+    const img = document.createElement('img');
+    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
+    img.onerror = () => { img.src = NO_IMG; };
+    container.appendChild(img);
+    return null;
+  }
+}
+
+function randomNick(){
+  const a = ['Epic','Dark','Fire','Ice','Shadow','Light','Red','Blue','Green','Gold','Diamond','Nether','Ender','Void','Storm','Frost','Blaze','Aqua','Toxic','Neon','Pixel','Retro','Craft','Mine','Block'];
+  const n = ['Warrior','Mage','Knight','Archer','Ninja','Pirate','King','Queen','Dragon','Wolf','Tiger','Phoenix','Golem','Slime','Creeper','Zombie','Skeleton','Wizard','Rogue','Paladin','Craft','Mine','Block','Steve','Alex','Bob'];
+  return a[Math.floor(Math.random()*a.length)] + n[Math.floor(Math.random()*n.length)] + Math.floor(Math.random()*100);
+}
+
 const SKIN_NAMES = [
   'Notch','jeb_','Dinnerbone','Grumm','_Grum','Herobrine','Steve','Alex',
   'Technoblade','Dream','GeorgeNotFound','Sapnap','TommyInnit','Tubbo_','WilburSoot','Ph1LzA','Quackity',
@@ -305,16 +394,12 @@ const SKIN_NAMES = [
   'JackManifoldTV','Niki','FoolishGamers','Ponk','Hannahxxrose','PurpledMC','Boosfer','Devon',
   'Krtzyy','PeteZahHutt','Quig','Mefs','Krinios','Michaelmcchill','KingBurren','KaraCorvus',
   'Wisp','ShubbleYT','Ldshadowlady','Seapeekay','InTheLittleWood','SB737','FWhip','Falsesymmetry',
-  'PrestonPlayz','UnspeakableGaming','SSundee','JeromeASF','BajanCanadian','Vikkstar123','KSI',
-  'Logdotzip','TheDiamondMinecart','Yogscast','SimonHoneydew','LewisXephos','Strippin','Rythian',
-  'Northerlion','NanoSounds','Crainer','Sundee','TrueTriz','DrTrayaurus','LittleLizard',
-  'SmoshGames','SkyDoesMineCraft','Bodil40','CavemanFilms','AntVenomMC','CreeperFarts','ZexyZek',
-  'MinecraftRussian','EeOneGuy','IvanGrozny','Marmok','Kuplinov','Letalis','Windy31','Buster',
-  'GamerVlad','SashaPlay','Dimasik','Lexa','Bratishkinoff','Vitalya','KarinaKross','Klime',
-  'Lolik','Kot','Yzy','Vlad','Tolyan','Zhenya','Boris','Nikita','Maks','Dima',
-  'Anton','Igor','Sergey','Pavel','Oleg','Roman','Andrey','Kirill','Artem','Vladimir',
-  'Ender','Ghost','Phantom','Shadow','Wolf','Fox','Cat','Panda','Tiger','Lion',
-  'Dragon','Eagle','Falcon','Raven','Cobra','Viper','Bear','Lynx','Owl','Hawk'
+  'PrestonPlayz','UnspeakableGaming','SSundee','JeromeASF','BajanCanadian','Vikkstar123',
+  'Logdotzip','TheDiamondMinecart','SimonHoneydew','LewisXephos','Strippin','Rythian','Northerlion',
+  'NanoSounds','Crainer','TrueTriz','DrTrayaurus','SkyDoesMineCraft','Bodil40','CavemanFilms',
+  'AntVenomMC','CreeperFarts','ZexyZek','EeOneGuy','IvanGrozny','Marmok','Kuplinov','Letalis',
+  'Windy31','Buster','GamerVlad','SashaPlay','Dimasik','Lexa','Bratishkinoff','KarinaKross',
+  'Ender','Ghost','Phantom','Shadow','Wolf','Fox','Cat','Panda','Tiger','Lion','Dragon','Eagle'
 ];
 
 const tabConfig = {
@@ -329,6 +414,7 @@ let items=[];
 let offset=0, hasMore=true, isLoading=false, reqId=0, lastSearch=0;
 let editorActive=false;
 let randomMode=false;
+let namemcNames = null;  // кэш
 const $=id=>document.getElementById(id);
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -371,7 +457,6 @@ function initSettings(){
   if(!savedBg) document.body.classList.add('no-bg');
   $('bgSwitch').classList.toggle('on', savedBg);
   document.querySelectorAll('.theme-opt').forEach(b=>b.classList.toggle('active', b.dataset.theme===savedTheme));
-
   $('settingsToggle').addEventListener('click', e=>{
     e.stopPropagation();
     $('settingsPanel').classList.toggle('open');
@@ -394,74 +479,6 @@ function initSettings(){
   });
 }
 
-/* === Скин-рендеры (несколько CDN, работают в РФ) === */
-function skinRenderUrl(name, step=0){
-  const n = encodeURIComponent(name);
-  const urls = [
-    `https://mc-heads.net/body/${n}/180`,
-    `https://minotar.net/armor/body/${n}/180`,
-    `https://crafatar.com/renders/body/${n}?scale=6&overlay`,
-    `https://api.mineatar.io/body/full/${n}?scale=6`
-  ];
-  return urls[Math.min(step, urls.length-1)];
-}
-function skinHeadUrl(name){
-  return `https://mc-heads.net/avatar/${encodeURIComponent(name)}/64`;
-}
-function skinDownloadUrl(name){
-  return `https://minotar.net/download/${encodeURIComponent(name)}`;
-}
-function skinTextureUrl(name){
-  return `https://minotar.net/skin/${encodeURIComponent(name)}`;
-}
-
-/* === skinview3d для модалки === */
-let modalViewer = null;
-function createSkinViewer(container, skinUrl, opts={}){
-  if(typeof skinview3d === 'undefined' || typeof THREE === 'undefined') return null;
-  try{
-    const viewer = new skinview3d.SkinViewer({
-      canvas: document.createElement('canvas'),
-      width: container.clientWidth || 400,
-      height: container.clientHeight || 400,
-      skin: skinUrl,
-      background: 'transparent'
-    });
-    viewer.controls.enableZoom = opts.zoom !== false;
-    viewer.controls.enableRotate = true;
-    viewer.controls.enablePan = false;
-    viewer.camera.position.z = 60;
-    if(opts.animation){
-      viewer.animation = new skinview3d.WalkingAnimation();
-      viewer.animation.speed = 1;
-    }
-    try{viewer.renderer.setClearColor(0x000000, 0);viewer.renderer.setClearAlpha(0);}catch{}
-    viewer.canvas.style.background = 'transparent';
-    container.appendChild(viewer.canvas);
-    viewer.renderer.setAnimationLoop(()=>{
-      viewer.renderer.render(viewer.scene, viewer.camera);
-    });
-    return viewer;
-  }catch(e){
-    console.warn('skinview3d failed:', e);
-    const img = document.createElement('img');
-    img.src = skinRenderUrl(skinUrl.split('/').pop(), 0);
-    img.onerror = () => { img.src = NO_IMG; };
-    container.appendChild(img);
-    return null;
-  }
-}
-
-function randomNick(){
-  const adjectives = ['Epic','Dark','Fire','Ice','Shadow','Light','Red','Blue','Green','Gold','Diamond','Nether','Ender','Void','Storm','Frost','Blaze','Aqua','Toxic','Neon'];
-  const nouns = ['Warrior','Mage','Knight','Archer','Ninja','Pirate','King','Queen','Dragon','Wolf','Tiger','Phoenix','Golem','Slime','Creeper','Zombie','Skeleton','Wizard','Rogue','Paladin'];
-  const a = adjectives[Math.floor(Math.random()*adjectives.length)];
-  const n = nouns[Math.floor(Math.random()*nouns.length)];
-  const num = Math.floor(Math.random()*100);
-  return a + n + num;
-}
-
-/* === Скелетоны === */
 function showSkeletons(n=8){
   let grid=$('content').querySelector('.grid');
   if(!grid){grid=document.createElement('div');grid.className='grid';$('content').appendChild(grid)}
@@ -495,6 +512,11 @@ document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>
   currentTab=tab.dataset.tab;currentQuery='';randomMode=false;
   $('searchInput').value='';
   editorActive=false;
+
+  // ВАЖНО: вернуть поиск и sentinel, даже если были скрыты редактором
+  $('searchContainer').classList.remove('hidden');
+  sentinel.classList.remove('hidden');
+
   const sk=currentTab==='skins';
   $('filters').classList.toggle('hidden',sk);
   $('editorBtn').style.display=sk?'inline-flex':'none';
@@ -541,7 +563,6 @@ function buildCurseForgeQuery(){
   const qs=new URLSearchParams({gameId:'432',classId:cfg.cf,searchFilter:currentQuery,pageSize:LIMIT,index:offset,sortField,sortOrder:'desc'});
   return {qs,key:['cf',currentTab,currentQuery,sort,offset].join('|')};
 }
-
 async function fetchModrinthPage(){
   const {qs,key}=buildModrinthQuery();
   const c=cacheGet(key);if(c)return c;
@@ -565,35 +586,44 @@ async function loadMore(){
   try{
     if(currentTab==='skins'){
       showSkeletons(8);
-      await new Promise(r=>setTimeout(r,200));
-      let list;
+      let list=[];
       if(currentQuery && isValidNick(currentQuery)){
-        list=[{source:'skin',name:currentQuery}];
+        // Поиск по нику — пробуем NameMC search через прокси
+        let names = [currentQuery];
+        try{ names = await fetchNamemcSearch(currentQuery); }catch(e){}
+        list = names.slice(0,SKIN_LIMIT).map(n=>({source:'skin',name:n}));
+        hasMore=false;
       } else if(randomMode){
         list=Array.from({length:SKIN_LIMIT},()=>({source:'skin',name:randomNick()}));
+        hasMore=false;
       } else {
+        // Пробуем NameMC trending через прокси
+        if(namemcNames === null){
+          try{
+            const trending = await fetchNamemcTrending(1);
+            namemcNames = trending.length > 20 ? trending : SKIN_NAMES;
+          }catch(e){
+            namemcNames = SKIN_NAMES;
+          }
+        }
         const start=offset;
-        list=SKIN_NAMES.slice(start,start+SKIN_LIMIT).map(n=>({source:'skin',name:n}));
-        if(list.length < SKIN_LIMIT) hasMore=false;
-        else hasMore = (offset+SKIN_LIMIT) < SKIN_NAMES.length;
+        list=namemcNames.slice(start,start+SKIN_LIMIT).map(n=>({source:'skin',name:n}));
+        hasMore = (offset+SKIN_LIMIT) < namemcNames.length;
       }
       removeSkeletons();
       if(token!==reqId)return;
       if(!list.length){hasMore=false;setSentinel('end');return}
       appendCards(list,token);
       offset += list.length;
-      if(currentQuery || randomMode) hasMore=false;
       setSentinel(hasMore?'idle':'end');
       return;
     }
 
     showSkeletons(8);
     setSentinel('loading');
-
     let mrResult=null,cfResult=null,rendered=false;
-    const handleMr=async()=>{try{const r=await fetchModrinthPage();if(token!==reqId)return null;mrResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){console.warn('MR:',e.message);return null}};
-    const handleCf=async()=>{try{const r=await fetchCurseForgePage();if(token!==reqId)return null;cfResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){console.warn('CF:',e.message);return null}};
-
+    const handleMr=async()=>{try{const r=await fetchModrinthPage();if(token!==reqId)return null;mrResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){return null}};
+    const handleCf=async()=>{try{const r=await fetchCurseForgePage();if(token!==reqId)return null;cfResult=r;if(r.list.length){if(!rendered){removeSkeletons();rendered=true}appendCards(r.list,token)}return r}catch(e){return null}};
     await Promise.all([handleMr(),handleCf()]);
     if(token!==reqId)return;
     removeSkeletons();
@@ -604,7 +634,7 @@ async function loadMore(){
     setSentinel(hasMore?'idle':'end');
   }catch(e){
     if(token!==reqId)return;
-    console.error(e);removeSkeletons();hasMore=false;
+    removeSkeletons();hasMore=false;
     const errEl=document.createElement('div');errEl.className='error';
     errEl.innerHTML=`Не удалось загрузить.<div class="error-detail">${esc(e.message||'')}</div>`;
     $('content').appendChild(errEl);
@@ -730,20 +760,15 @@ async function showDetails(item){
   $('detailModal').classList.add('active');
   document.body.classList.add('lock');
   $('modalClose').focus();
-
   if(isSkin){
     const vp = $('modal3d');
     const skinUrl = skinTextureUrl(item.name);
-    if(vp){
-      setTimeout(()=>{
-        modalViewer = createSkinViewer(vp, skinUrl, {animation:true, zoom:true});
-      }, 50);
-    }
+    if(vp) setTimeout(()=>{modalViewer = createSkinViewer(vp, skinUrl, {animation:true, zoom:true})}, 50);
   } else {
     const d=item.source==='modrinth'?item.description:item.summary;
     const ru=await translate(d||'');
     const el=$('modalDesc');if(el&&d)el.textContent=ru;
-    loadVersions(item).catch(err=>console.warn('versions:',err));
+    loadVersions(item).catch(err=>console.warn(err));
   }
 }
 
@@ -773,7 +798,6 @@ async function loadVersions(item){
     vSel.innerHTML='<option value="">Ошибка</option>';lSel.innerHTML='<option value="">—</option>';
   }
 }
-
 function compareVersions(a,b){const pa=String(a).split('.').map(Number),pb=String(b).split('.').map(Number);for(let i=0;i<Math.max(pa.length,pb.length);i++){const d=(pa[i]||0)-(pb[i]||0);if(d)return d}return 0}
 
 function closeModal(){
@@ -797,444 +821,4 @@ $('modalBody').addEventListener('click',e=>{
 });
 
 async function downloadDirect(source,id,btn){
-  if(!id){toast('Некорректный ID','error');return}
-  const old=btn.textContent;btn.disabled=true;btn.textContent='Подготовка...';
-  try{
-    let url='',filename='download';
-    if(source==='skin'){
-      url=skinDownloadUrl(id);
-      filename=id+'.png';
-    } else if(source==='modrinth'){
-      const v=await fetchJson(`${MR_API}/project/${id}/version`);
-      if(!v?.length){toast('Файлы не найдены','error');return}
-      const wantMc=$('modalVersion')?.value||'';const wantLoader=$('modalLoader')?.value||'';
-      let pick=v.find(x=>(!wantMc||(x.game_versions||[]).includes(wantMc))&&(!wantLoader||(x.loaders||[]).includes(wantLoader)));
-      if(!pick){toast('Беру последнюю','info');pick=v[0]}
-      const file=(pick.files||[]).find(x=>x.primary)||(pick.files||[])[0];
-      if(!file){toast('Файл не найден','error');return}
-      url=file.url;filename=file.filename||'mod.jar';
-    } else {
-      const f=await fetchJson(`${MCIM_API}/mods/${id}/files?pageSize=20`);
-      if(!f.data?.length){toast('Файлы не найдены','error');return}
-      const wantMc=$('modalVersion')?.value||'';const wantLoader=$('modalLoader')?.value||'';
-      let pick=f.data.find(x=>{const mcOk=!wantMc||(x.gameVersions||[]).includes(wantMc);const ldOk=!wantLoader||x.modLoader===wantLoader;return mcOk&&ldOk});
-      if(!pick){toast('Беру последнюю','info');pick=f.data[0]}
-      const fid=safeId(pick.id);if(!fid){toast('Некорректный ID','error');return}
-      filename=pick.fileName||'mod.jar';
-      const dl=await fetchJson(`${MCIM_API}/mods/${id}/files/${fid}/download-url`);
-      if(!dl.data){toast('Автор запретил скачивание','error');return}
-      url=dl.data;
-    }
-    const safe=safeUrl(url);if(!safe){toast('Некорректная ссылка','error');return}
-    const a=document.createElement('a');a.href=safe;a.download=filename;a.target='_blank';a.rel='noopener';
-    document.body.appendChild(a);a.click();a.remove();
-    toast('Скачивание: '+filename,'ok');
-  }catch(e){console.error(e);toast('Ошибка: '+(e.message||'не удалось'),'error')}
-  finally{btn.disabled=false;btn.textContent=old}
-}
-
-function formatNumber(n){
-  n=Number(n)||0;
-  if(n>=1e6){const v=n/1e6;return(v>=100?Math.round(v):(Math.round(v*10)/10).toString().replace(/\.0$/,''))+'M'}
-  if(n>=1000){const v=n/1000;return(v>=999.5?(Math.round(n/1e5)/10).toString().replace(/\.0$/,'')+'M':(Math.round(v*10)/10).toString().replace(/\.0$/,'')+'K')}
-  return String(n);
-}
-
-/* === РЕДАКТОР СКИНОВ === */
-const SKIN_SIZE = 64;
-let editorState = null;
-
-async function openEditor(skinName){
-  editorActive = true;
-  $('searchContainer').classList.add('hidden');
-  $('sentinel').classList.add('hidden');
-
-  $('content').innerHTML = `
-    <div class="editor-wrap">
-      <div class="editor-header">
-        <h2>🎨 Редактор скинов ${skinName?`— ${esc(skinName)}`:''}</h2>
-        <div class="editor-header-actions">
-          <button class="btn" id="ed-save">💾 Скачать PNG</button>
-          <button class="btn btn-secondary" id="ed-close">← К списку</button>
-        </div>
-      </div>
-      <div class="editor-layout">
-        <div class="editor-canvas-area">
-          <div class="editor-mode-toggle">
-            <button class="active" data-mode="3d">3D</button>
-            <button data-mode="2d">Сетка</button>
-          </div>
-          <div id="ed-3d" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%"></div>
-          <div id="ed-2d" style="display:none;padding:1rem;overflow:auto;max-height:520px;max-width:100%"></div>
-        </div>
-        <div class="editor-sidebar">
-          <div class="editor-section">
-            <div class="editor-section-title">Инструменты</div>
-            <div class="editor-tools">
-              <button class="editor-tool active" data-tool="pencil" title="Карандаш">✏️</button>
-              <button class="editor-tool" data-tool="eraser" title="Ластик">🧹</button>
-              <button class="editor-tool" data-tool="fill" title="Заливка">🪣</button>
-              <button class="editor-tool" data-tool="picker" title="Пипетка">🎯</button>
-            </div>
-          </div>
-          <div class="editor-section">
-            <div class="editor-section-title">Цвет</div>
-            <div class="editor-color-row">
-              <input type="color" id="ed-color" value="#38BDF8">
-              <span style="color:var(--tdim);font-size:.85rem" id="ed-color-label">#38BDF8</span>
-            </div>
-            <div class="skin-palette" id="ed-palette" style="margin-top:.75rem"></div>
-          </div>
-          <div class="editor-section">
-            <div class="editor-section-title">Слой</div>
-            <div class="editor-layer-row">
-              <button class="editor-layer-btn active" data-layer="base">Базовый</button>
-              <button class="editor-layer-btn" data-layer="overlay">Оверлей</button>
-            </div>
-          </div>
-          <div class="editor-section">
-            <div class="editor-section-title">История</div>
-            <div class="editor-action-row">
-              <button class="btn btn-secondary" id="ed-undo">↶ Отмена</button>
-              <button class="btn btn-secondary" id="ed-redo">↷ Повтор</button>
-            </div>
-          </div>
-          <div class="editor-section">
-            <div class="editor-section-title">Файл</div>
-            <div class="editor-action-row" style="flex-direction:column">
-              <button class="btn btn-secondary" id="ed-upload">📁 Загрузить PNG</button>
-              <button class="btn btn-secondary" id="ed-blank">⬜ Чистое тело</button>
-              <button class="btn btn-secondary" id="ed-steve">👕 Steve</button>
-            </div>
-          </div>
-          <p class="editor-hint">Рисуй прямо на 3D-модели — клик по руке красит пиксель руки. Переключись на «Сетку», чтобы редактировать плоскую развёртку 64×64.</p>
-        </div>
-      </div>
-      <input type="file" id="ed-file" accept="image/png" hidden>
-    </div>`;
-
-  const baseCanvas = document.createElement('canvas');
-  baseCanvas.width = SKIN_SIZE; baseCanvas.height = SKIN_SIZE;
-  const baseCtx = baseCanvas.getContext('2d');
-  baseCtx.imageSmoothingEnabled = false;
-
-  const overlayCanvas = document.createElement('canvas');
-  overlayCanvas.width = SKIN_SIZE; overlayCanvas.height = SKIN_SIZE;
-  const overlayCtx = overlayCanvas.getContext('2d');
-  overlayCtx.imageSmoothingEnabled = false;
-
-  editorState = {
-    baseCanvas, baseCtx, overlayCanvas, overlayCtx,
-    activeLayer: 'base', tool: 'pencil', color: '#38BDF8',
-    drawing: false, history: [], historyIdx: -1,
-    viewer: null, flatCanvas: null
-  };
-
-  const palette = [
-    '#000000','#3F3F3F','#7F7F7F','#BFBFBF','#FFFFFF',
-    '#7F0000','#FF0000','#FF7F00','#FFBF00','#FFFF00',
-    '#007F00','#00FF00','#00FF7F','#00FFFF','#007FFF',
-    '#0000FF','#7F00FF','#FF00FF','#FF007F','#7F3F00',
-    '#D2B48C','#8B4513','#F5DEB3','#FFE4B5','#FFD700',
-    '#38BDF8','#6EE7B7','#A78BFA','#F472B6','#FB923C',
-    '#1E3A5F','#0F131C','#161D2B','#1E2636','#05070C',
-    '#10B981','#EF4444','#F59E0B','#8B5CF6','#EC4899'
-  ];
-  const palEl = $('ed-palette');
-  palette.forEach(c=>{
-    const b = document.createElement('button');
-    b.style.background = c; b.type = 'button';
-    b.addEventListener('click', ()=>{
-      setColor(c);
-      palEl.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-    });
-    palEl.appendChild(b);
-  });
-
-  function setColor(c){
-    editorState.color = c;
-    $('ed-color').value = c;
-    $('ed-color-label').textContent = c;
-  }
-
-  $('ed-color').addEventListener('input', e=>{
-    setColor(e.target.value);
-    palEl.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
-  });
-
-  document.querySelectorAll('[data-tool]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      editorState.tool = btn.dataset.tool;
-      document.querySelectorAll('[data-tool]').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  document.querySelectorAll('[data-layer]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      editorState.activeLayer = btn.dataset.layer;
-      document.querySelectorAll('[data-layer]').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  // 3D-модель
-  const ed3d = $('ed-3d');
-  let viewer = null;
-  if(typeof skinview3d !== 'undefined' && typeof THREE !== 'undefined'){
-    try{
-      const skinUrl = skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve');
-      viewer = new skinview3d.SkinViewer({
-        canvas: document.createElement('canvas'),
-        width: 460, height: 520,
-        skin: skinUrl,
-        background: 'transparent'
-      });
-      viewer.controls.enableZoom = true;
-      viewer.controls.enableRotate = true;
-      viewer.controls.enablePan = false;
-      viewer.camera.position.z = 70;
-      try{viewer.renderer.setClearColor(0x000000, 0);viewer.renderer.setClearAlpha(0);}catch{}
-      viewer.canvas.style.background = 'transparent';
-      ed3d.appendChild(viewer.canvas);
-      viewer.renderer.setAnimationLoop(()=>{viewer.renderer.render(viewer.scene, viewer.camera)});
-      editorState.viewer = viewer;
-    }catch(e){
-      console.warn('editor viewer failed:', e);
-      ed3d.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">3D-превью недоступно. Работай в режиме «Сетка».</p>';
-    }
-  } else {
-    ed3d.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">3D-превью недоступно. Работай в режиме «Сетка».</p>';
-  }
-
-  await loadStarterSkin(skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve'));
-
-  function renderFlat(){
-    const flat = $('ed-2d');
-    flat.innerHTML = '';
-    const canvas = document.createElement('canvas');
-    canvas.width = SKIN_SIZE * 8; canvas.height = SKIN_SIZE * 8;
-    canvas.className = 'editor-flat-canvas';
-    const ctx = canvas.getContext('2d');
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(editorState.baseCanvas, 0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 0.6;
-    ctx.drawImage(editorState.overlayCanvas, 0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1;
-    flat.appendChild(canvas);
-    editorState.flatCanvas = canvas;
-
-    canvas.addEventListener('mousedown', e=>{editorState.drawing = true; handleFlatDraw(e.clientX, e.clientY)});
-    canvas.addEventListener('mousemove', e=>{if(editorState.drawing) handleFlatDraw(e.clientX, e.clientY)});
-    canvas.addEventListener('mouseup', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
-    canvas.addEventListener('mouseleave', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
-  }
-
-  function handleFlatDraw(clientX, clientY){
-    const canvas = editorState.flatCanvas;
-    if(!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const px = Math.floor((clientX - rect.left) * (SKIN_SIZE / rect.width));
-    const py = Math.floor((clientY - rect.top) * (SKIN_SIZE / rect.height));
-    if(px < 0 || py < 0 || px >= SKIN_SIZE || py >= SKIN_SIZE) return;
-    paintTexel(px, py);
-    renderFlat();
-  }
-
-  let raycaster = null, mouseVec = null;
-  if(typeof THREE !== 'undefined'){
-    raycaster = new THREE.Raycaster();
-    mouseVec = new THREE.Vector2();
-  }
-
-  if(viewer && raycaster){
-    viewer.canvas.addEventListener('mousedown', e=>{editorState.drawing = true; handle3DDraw(e)});
-    viewer.canvas.addEventListener('mousemove', e=>{if(editorState.drawing) handle3DDraw(e)});
-    viewer.canvas.addEventListener('mouseup', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
-    viewer.canvas.addEventListener('mouseleave', ()=>{if(editorState.drawing){editorState.drawing=false;pushHistory();refresh3D()}});
-  }
-
-  function handle3DDraw(e){
-    const canvas = viewer.canvas;
-    const rect = canvas.getBoundingClientRect();
-    mouseVec.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    mouseVec.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-    raycaster.setFromCamera(mouseVec, viewer.camera);
-    const hits = raycaster.intersectObject(viewer.playerObject, true);
-    if(!hits.length) return;
-    const hit = hits[0];
-    if(!hit.uv) return;
-    const px = Math.floor(hit.uv.x * SKIN_SIZE);
-    const py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
-    if(px < 0 || py < 0 || px >= SKIN_SIZE || py >= SKIN_SIZE) return;
-    paintTexel(px, py);
-    refresh3D();
-  }
-
-  function refresh3D(){
-    if(!editorState.viewer) return;
-    const merged = document.createElement('canvas');
-    merged.width = SKIN_SIZE; merged.height = SKIN_SIZE;
-    const mctx = merged.getContext('2d');
-    mctx.imageSmoothingEnabled = false;
-    mctx.drawImage(editorState.baseCanvas, 0, 0);
-    mctx.drawImage(editorState.overlayCanvas, 0, 0);
-    const dataUrl = merged.toDataURL('image/png');
-    try{editorState.viewer.loadSkin(dataUrl).catch(()=>{})}catch{}
-  }
-
-  function paintTexel(px, py){
-    const isBase = editorState.activeLayer === 'base';
-    const ctx = isBase ? editorState.baseCtx : editorState.overlayCtx;
-    if(editorState.tool === 'fill'){
-      floodFill(ctx, px, py, editorState.color);
-    } else if(editorState.tool === 'picker'){
-      const data = ctx.getImageData(px, py, 1, 1).data;
-      const hex = '#' + [data[0],data[1],data[2]].map(v=>v.toString(16).padStart(2,'0')).join('');
-      setColor(hex);
-    } else if(editorState.tool === 'eraser'){
-      ctx.clearRect(px, py, 1, 1);
-    } else {
-      ctx.fillStyle = editorState.color;
-      ctx.fillRect(px, py, 1, 1);
-    }
-  }
-
-  function floodFill(ctx, sx, sy, color){
-    const img = ctx.getImageData(0, 0, SKIN_SIZE, SKIN_SIZE);
-    const data = img.data;
-    const idx = (sy * SKIN_SIZE + sx) * 4;
-    const target = [data[idx], data[idx+1], data[idx+2], data[idx+3]];
-    const fill = hexToRgbA(color);
-    if(target[0]===fill[0]&&target[1]===fill[1]&&target[2]===fill[2]&&target[3]===fill[3]) return;
-    const stack = [[sx,sy]], visited = new Set();
-    while(stack.length){
-      const [x,y] = stack.pop();
-      if(x<0||y<0||x>=SKIN_SIZE||y>=SKIN_SIZE) continue;
-      const k = x+','+y;
-      if(visited.has(k)) continue;
-      visited.add(k);
-      const i = (y * SKIN_SIZE + x) * 4;
-      if(data[i]!==target[0]||data[i+1]!==target[1]||data[i+2]!==target[2]||data[i+3]!==target[3]) continue;
-      data[i]=fill[0]; data[i+1]=fill[1]; data[i+2]=fill[2]; data[i+3]=fill[3];
-      stack.push([x+1,y],[x-1,y],[x,y+1],[x,y-1]);
-    }
-    ctx.putImageData(img, 0, 0);
-  }
-
-  function hexToRgbA(hex){return [parseInt(hex.slice(1,3),16),parseInt(hex.slice(3,5),16),parseInt(hex.slice(5,7),16),255]}
-
-  async function loadStarterSkin(url){
-    return new Promise(resolve=>{
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = ()=>{
-        baseCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-        overlayCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-        baseCtx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
-        pushHistory();
-        refresh3D();
-        renderFlat();
-        resolve();
-      };
-      img.onerror = ()=>{pushHistory();refresh3D();renderFlat();resolve()};
-      img.src = url;
-    });
-  }
-
-  function pushHistory(){
-    const s = editorState;
-    const snap = {base:s.baseCanvas.toDataURL(), overlay:s.overlayCanvas.toDataURL()};
-    s.history = s.history.slice(0, s.historyIdx + 1);
-    s.history.push(snap);
-    s.historyIdx++;
-    if(s.history.length > 30){s.history.shift();s.historyIdx--}
-  }
-
-  function restoreFromSnapshot(snap){
-    return new Promise(resolve=>{
-      let loaded = 0;
-      const done = ()=>{if(++loaded===2){refresh3D();renderFlat();resolve()}};
-      const b = new Image(); b.onload = ()=>{baseCtx.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);baseCtx.drawImage(b,0,0,SKIN_SIZE,SKIN_SIZE);done()};
-      b.onerror = done; b.src = snap.base;
-      const o = new Image(); o.onload = ()=>{overlayCtx.clearRect(0,0,SKIN_SIZE,SKIN_SIZE);overlayCtx.drawImage(o,0,0,SKIN_SIZE,SKIN_SIZE);done()};
-      o.onerror = done; o.src = snap.overlay;
-    });
-  }
-
-  $('ed-undo').addEventListener('click', async ()=>{
-    if(editorState.historyIdx <= 0) return;
-    editorState.historyIdx--;
-    await restoreFromSnapshot(editorState.history[editorState.historyIdx]);
-  });
-  $('ed-redo').addEventListener('click', async ()=>{
-    if(editorState.historyIdx >= editorState.history.length - 1) return;
-    editorState.historyIdx++;
-    await restoreFromSnapshot(editorState.history[editorState.historyIdx]);
-  });
-
-  $('ed-save').addEventListener('click', ()=>{
-    const merged = document.createElement('canvas');
-    merged.width = SKIN_SIZE; merged.height = SKIN_SIZE;
-    const mctx = merged.getContext('2d');
-    mctx.imageSmoothingEnabled = false;
-    mctx.drawImage(editorState.baseCanvas, 0, 0);
-    mctx.drawImage(editorState.overlayCanvas, 0, 0);
-    const a = document.createElement('a');
-    a.download = 'my-skin.png';
-    a.href = merged.toDataURL('image/png');
-    a.click();
-    toast('Скин скачан','ok');
-  });
-
-  $('ed-upload').addEventListener('click', ()=>$('ed-file').click());
-  $('ed-file').addEventListener('change', async e=>{
-    const file = e.target.files[0]; if(!file) return;
-    const url = URL.createObjectURL(file);
-    await loadStarterSkin(url);
-    URL.revokeObjectURL(url);
-    toast('Загружен','ok');
-  });
-
-  $('ed-blank').addEventListener('click', ()=>{
-    baseCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-    overlayCtx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-    pushHistory(); refresh3D(); renderFlat();
-    toast('Чистое тело','info');
-  });
-
-  $('ed-steve').addEventListener('click', async ()=>{
-    await loadStarterSkin(skinTextureUrl('Steve'));
-    toast('Steve загружен','ok');
-  });
-
-  document.querySelectorAll('[data-mode]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const mode = btn.dataset.mode;
-      document.querySelectorAll('[data-mode]').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      $('ed-3d').style.display = mode === '3d' ? 'flex' : 'none';
-      $('ed-2d').style.display = mode === '2d' ? 'block' : 'none';
-      if(mode === '2d') renderFlat(); else refresh3D();
-    });
-  });
-
-  $('ed-close').addEventListener('click', ()=>{
-    editorActive = false;
-    if(editorState?.viewer){
-      try{editorState.viewer.renderer.setAnimationLoop(null);editorState.viewer.dispose()}catch{}
-    }
-    editorState = null;
-    document.querySelectorAll('.tab').forEach(t=>{
-      if(t.classList.contains('active')) t.click();
-    });
-  });
-}
-
-initSettings();
-io.observe(sentinel);
-resetAndLoad();
-</script>
-</body>
-</html>
+  if(!id){toast('Некорректный
