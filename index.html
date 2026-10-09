@@ -1778,11 +1778,129 @@ function formatNumber(n){
   return String(n);
 }
 /* ============================================================
-   РЕДАКТОР СКИНОВ
+   РЕДАКТОР СКИНОВ — свой рендер (точные UV)
    ============================================================ */
 const SKIN_SIZE = 64;
 const SKIN_PIXEL = 8;
 let editorState = null;
+
+/* UV-области всех частей скина 64×64
+   Формат: [x, y, ширина, высота] для каждой грани */
+const SKIN_UV = {
+  // inner
+  head: {
+    px: [0, 8, 8, 8],    // right (west)
+    nx: [16, 8, 8, 8],   // left (east)
+    py: [8, 0, 8, 8],    // top
+    ny: [16, 0, 8, 8],   // bottom
+    pz: [24, 8, 8, 8],   // back
+    nz: [8, 8, 8, 8]     // front
+  },
+  hat: {
+    px: [32, 8, 8, 8],
+    nx: [48, 8, 8, 8],
+    py: [40, 0, 8, 8],
+    ny: [48, 0, 8, 8],
+    pz: [56, 8, 8, 8],
+    nz: [40, 8, 8, 8]
+  },
+  body: {
+    px: [16, 20, 4, 12],
+    nx: [28, 20, 4, 12],
+    py: [20, 16, 8, 4],
+    ny: [28, 16, 8, 4],
+    pz: [32, 20, 8, 12],
+    nz: [20, 20, 8, 12]
+  },
+  jacket: {
+    px: [16, 36, 4, 12],
+    nx: [28, 36, 4, 12],
+    py: [20, 32, 8, 4],
+    ny: [28, 32, 8, 4],
+    pz: [32, 36, 8, 12],
+    nz: [20, 36, 8, 12]
+  },
+  rarm: {
+    px: [40, 20, 4, 12],
+    nx: [48, 20, 4, 12],
+    py: [44, 16, 4, 4],
+    ny: [48, 16, 4, 4],
+    pz: [52, 20, 4, 12],
+    nz: [44, 20, 4, 12]
+  },
+  rsleeve: {
+    px: [40, 36, 4, 12],
+    nx: [48, 36, 4, 12],
+    py: [44, 32, 4, 4],
+    ny: [48, 32, 4, 4],
+    pz: [52, 36, 4, 12],
+    nz: [44, 36, 4, 12]
+  },
+  larm: {
+    px: [32, 48, 4, 12],
+    nx: [40, 48, 4, 12],
+    py: [36, 44, 4, 4],
+    ny: [40, 44, 4, 4],
+    pz: [44, 48, 4, 12],
+    nz: [36, 48, 4, 12]
+  },
+  lsleeve: {
+    px: [48, 52, 4, 12],
+    nx: [56, 52, 4, 12],
+    py: [52, 48, 4, 4],
+    ny: [56, 48, 4, 4],
+    pz: [60, 52, 4, 12],
+    nz: [52, 52, 4, 12]
+  },
+  rleg: {
+    px: [0, 20, 4, 12],
+    nx: [8, 20, 4, 12],
+    py: [4, 16, 4, 4],
+    ny: [8, 16, 4, 4],
+    pz: [12, 20, 4, 12],
+    nz: [4, 20, 4, 12]
+  },
+  rpant: {
+    px: [0, 36, 4, 12],
+    nx: [8, 36, 4, 12],
+    py: [4, 32, 4, 4],
+    ny: [8, 32, 4, 4],
+    pz: [12, 36, 4, 12],
+    nz: [4, 36, 4, 12]
+  },
+  lleg: {
+    px: [16, 48, 4, 12],
+    nx: [24, 48, 4, 12],
+    py: [20, 44, 4, 4],
+    ny: [24, 44, 4, 4],
+    pz: [28, 48, 4, 12],
+    nz: [20, 48, 4, 12]
+  },
+  lpant: {
+    px: [0, 52, 4, 12],
+    nx: [8, 52, 4, 12],
+    py: [4, 48, 4, 4],
+    ny: [8, 48, 4, 4],
+    pz: [12, 52, 4, 12],
+    nz: [4, 52, 4, 12]
+  }
+};
+
+/* Размеры частей в юнитах (1 unit = 1 px скина) */
+const SKIN_PARTS = {
+  head:    {w:8, h:8,  d:8,  x:0,   y:24, z:0},
+  hat:     {w:8, h:8,  d:8,  x:0,   y:24, z:0},
+  body:    {w:8, h:12, d:4,  x:0,   y:12, z:0},
+  jacket:  {w:8, h:12, d:4,  x:0,   y:12, z:0},
+  rarm:    {w:4, h:12, d:4,  x:6,   y:12, z:0},
+  rsleeve: {w:4, h:12, d:4,  x:6,   y:12, z:0},
+  larm:    {w:4, h:12, d:4,  x:-6,  y:12, z:0},
+  lsleeve: {w:4, h:12, d:4,  x:-6,  y:12, z:0},
+  rleg:    {w:4, h:12, d:4,  x:2,   y:0,  z:0},
+  rpant:   {w:4, h:12, d:4,  x:2,   y:0,  z:0},
+  lleg:    {w:4, h:12, d:4,  x:-2,  y:0,  z:0},
+  lpant:   {w:4, h:12, d:4,  x:-2,  y:0,  z:0}
+};
 
 async function openEditor(skinName){
   editorActive = true;
@@ -1820,7 +1938,7 @@ async function openEditor(skinName){
           </div>
           <div id="ed-3d"></div>
           <div id="ed-2d" style="display:none"></div>
-          <p class="editor-hint" id="ed-hint">Рисуй прямо на 3D-модели. ЛКМ рисует, ПКМ вращает.</p>
+          <p class="editor-hint" id="ed-hint">ЛКМ рисует, ПКМ вращает, колесо — зум.</p>
         </div>
         <div class="editor-sidebar">
           <div class="editor-section">
@@ -1858,7 +1976,7 @@ async function openEditor(skinName){
                 <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
               </button>
             </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый — тело, оверлей — сетка 64×64, другой слой скрывается.</p>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Оверлей — сетка поверх скина.</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
@@ -1901,7 +2019,10 @@ async function openEditor(skinName){
     flatCanvas: null,
     flatCtx: null,
     mousemoveThrottle: null,
-    _resizeHandler: null
+    _resizeHandler: null,
+    meshes: [], // карта: mesh -> part key
+    skinTexture: null,
+    gridTexture: null
   };
 
   const palette = [
@@ -1999,79 +2120,58 @@ async function openEditor(skinName){
     reader.readAsDataURL(file);
   });
 
-  /* === 3D VIEWER === */
+  /* ============================================================
+     СВОЙ 3D РЕНДЕР — точный контроль UV
+     ============================================================ */
   const ed3d = $('ed-3d');
-  let viewer = null;
 
-  const initialSkinUrl = skinName
-    ? `https://minotar.net/skin/${encodeURIComponent(skinName)}`
-    : 'https://minotar.net/skin/Steve';
-
-  if(typeof skinview3d !== 'undefined' && typeof THREE !== 'undefined'){
-    try{
-      viewer = new skinview3d.SkinViewer({
-        canvas: document.createElement('canvas'),
-        width: 400,
-        height: 400,
-        skin: initialSkinUrl
-      });
-      viewer.controls.enableZoom = true;
-      viewer.controls.enableRotate = true;
-      viewer.controls.enablePan = false;
-      try{
-        viewer.controls.mouseButtons = {
-          LEFT: -1,
-          MIDDLE: THREE.MOUSE.DOLLY,
-          RIGHT: THREE.MOUSE.ROTATE
-        };
-        viewer.controls.touches = {
-          ONE: -1,
-          TWO: THREE.TOUCH.DOLLY_ROTATE
-        };
-      }catch(e){ console.warn('mouseButtons config failed:', e); }
-      viewer.camera.position.z = 70;
-      try{
-        viewer.renderer.setClearColor(0x000000, 0);
-        viewer.renderer.setClearAlpha(0);
-      }catch{}
-      viewer.canvas.style.background = 'transparent';
-      viewer.canvas.style.cursor = 'crosshair';
-      viewer.canvas.addEventListener('contextmenu', e => e.preventDefault());
-      ed3d.appendChild(viewer.canvas);
-      editorState.viewer = viewer;
-      editorState.raycaster = new THREE.Raycaster();
-      editorState.mouseVec = new THREE.Vector2();
-    }catch(e){
-      console.warn('viewer failed:', e);
-      ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно. Работай в режиме «Сетка».</p>';
-    }
-  }else{
-    ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.8)">3D недоступно.</p>';
+  if(typeof THREE === 'undefined'){
+    ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center">THREE.js не загрузился</p>';
+    return;
   }
 
-  /* === RESIZE === */
-  const doResize = () => {
-    if(!editorState?.viewer) return;
-    try{
-      const r = ed3d.getBoundingClientRect();
-      const w = Math.max(300, Math.floor(r.width));
-      const h = Math.max(400, Math.floor(r.height));
-      editorState.viewer.setSize(w, h);
-      if(editorState.viewer.camera){
-        editorState.viewer.camera.aspect = w / h;
-        editorState.viewer.camera.updateProjectionMatrix();
-      }
-    }catch(e){ console.warn('setSize failed:', e); }
-  };
-  setTimeout(doResize, 200);
-  setTimeout(doResize, 600);
-  window.addEventListener('resize', doResize);
-  editorState._resizeHandler = doResize;
+  // Загружаем текстуру скина как dataURL
+  async function loadSkinImage(){
+    const primary = skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve');
+    const fallback = skinName
+      ? `https://minotar.net/skin/${encodeURIComponent(skinName)}`
+      : 'https://minotar.net/skin/Steve';
 
-  /* ============================================================
-     Текстура с сеткой 64×64 — попиксельно
-     ============================================================ */
-  function makeGriddedTexture(){
+    const tryLoad = (u) => new Promise(res => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => res(img);
+      img.onerror = () => res(null);
+      img.src = u;
+    });
+
+    let img = await tryLoad(primary);
+    if(!img) img = await tryLoad(fallback);
+    if(!img) return null;
+
+    // Рисуем в canvas редактора
+    ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
+    ctx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
+    pushHistory();
+    redrawFlat();
+    return img;
+  }
+
+  // Создаём текстуру Three.js из канваса редактора
+  function updateSkinTexture(){
+    if(!editorState.skinTexture){
+      editorState.skinTexture = new THREE.CanvasTexture(editorState.canvas);
+    }else{
+      editorState.skinTexture.needsUpdate = true;
+    }
+    editorState.skinTexture.magFilter = THREE.NearestFilter;
+    editorState.skinTexture.minFilter = THREE.NearestFilter;
+    editorState.skinTexture.colorSpace = THREE.SRGBColorSpace;
+    return editorState.skinTexture;
+  }
+
+  // Создаём текстуру с сеткой
+  function updateGridTexture(){
     const tmp = document.createElement('canvas');
     tmp.width = SKIN_SIZE;
     tmp.height = SKIN_SIZE;
@@ -2079,103 +2179,432 @@ async function openEditor(skinName){
     tctx.imageSmoothingEnabled = false;
     tctx.drawImage(editorState.canvas, 0, 0);
 
-    // Полупрозрачные голубые линии на каждой границе пикселя
-    // Через каждые 2 пикселя — чтобы не закрывать сам рисунок
-    tctx.fillStyle = 'rgba(56, 189, 248, 0.65)';
-    for(let i = 0; i <= SKIN_SIZE; i += 2){
+    // Полупрозрачные линии на каждой границе пикселя (1px)
+    tctx.fillStyle = 'rgba(56, 189, 248, 0.55)';
+    for(let i = 0; i <= SKIN_SIZE; i++){
       tctx.fillRect(i, 0, 1, SKIN_SIZE);
       tctx.fillRect(0, i, SKIN_SIZE, 1);
     }
-    // Более тонкие линии каждые 4 пикселя (для читаемости)
-    tctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
-    for(let i = 0; i <= SKIN_SIZE; i += 1){
-      if(i % 2 !== 0){
-        tctx.fillRect(i, 0, 1, SKIN_SIZE);
-        tctx.fillRect(0, i, SKIN_SIZE, 1);
+
+    const tex = new THREE.CanvasTexture(tmp);
+    tex.magFilter = THREE.NearestFilter;
+    tex.minFilter = THREE.NearestFilter;
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+
+  // Создаём BoxGeometry с UV из области SKIN_UV
+  // У BoxGeometry 6 материалов: +X, -X, +Y, -Y, +Z, -Z
+  function makePartGeometry(part){
+    const s = SKIN_PARTS[part];
+    const geo = new THREE.BoxGeometry(s.w, s.h, s.d);
+    const uv = SKIN_UV[part];
+    if(!uv) return geo;
+
+    const uvAttr = geo.attributes.uv;
+    const arr = uvAttr.array;
+
+    // Порядок материалов в BoxGeometry: +X(right), -X(left), +Y(top), -Y(bottom), +Z(front), -Z(back)
+    // Каждая грань — 4 вершины, каждая вершина имеет UV (u,v) в диапазоне 0..1
+
+    // Переписываем UV попиксельно из области текстуры
+    // Проходим по 24 вершинам (6 граней × 4 вершины)
+    const faceMap = ['px', 'nx', 'py', 'ny', 'pz', 'nz'];
+
+    for(let faceIdx = 0; faceIdx < 6; faceIdx++){
+      const key = faceMap[faceIdx];
+      const area = uv[key];
+      if(!area) continue;
+      const [x, y, w, h] = area;
+      const u1 = x / SKIN_SIZE;
+      const u2 = (x + w) / SKIN_SIZE;
+      const v1 = 1 - (y + h) / SKIN_SIZE; // V инвертирован в Three.js
+      const v2 = 1 - y / SKIN_SIZE;
+
+      // 4 вершины этой грани в uvAttr
+      // Стандартные UV BoxGeometry (для +X грани): (0,1), (0,0), (0,0), (0,1) — перепишем
+      // Проще: определим порядок для каждой грани
+      // Стандарт Three.js BoxGeometry — UV: каждая грань имеет углы (0,1),(0,0),(1,1),(1,0)
+      const base = faceIdx * 4;
+      // Точное соответствие сторон: TL, BL, TR, BR или похожее
+
+      // UV BoxGeometry (проверено): грани идут в таком порядке UV вершин:
+      // +X: (0,1),(1,1),(0,0),(1,0)
+      // -X: (1,1),(0,1),(1,0),(0,0)
+      // +Y: (0,0),(0,1),(1,0),(1,1)
+      // -Y: (1,1),(1,0),(0,1),(0,0)
+      // +Z: (0,1),(1,1),(0,0),(1,0)
+      // -Z: (1,1),(0,1),(1,0),(0,0)
+
+      // Просто заменим всю пару (u,v) на вычисленные из области,
+      // сохранив относительный порядок как в оригинале
+
+      // Смотрим оригинальные UV
+      const origUVs = [];
+      for(let i = 0; i < 4; i++){
+        origUVs.push([arr[(base + i) * 2], arr[(base + i) * 2 + 1]]);
+      }
+      // Меняем в нужные нам значения
+      for(let i = 0; i < 4; i++){
+        const [ou, ov] = origUVs[i];
+        // ou, ov из {0, 1}. Используем для маппинга
+        const newU = ou === 0 ? u1 : u2;
+        const newV = ov === 0 ? v1 : v2;
+        arr[(base + i) * 2] = newU;
+        arr[(base + i) * 2 + 1] = newV;
       }
     }
-    return tmp.toDataURL('image/png');
+
+    uvAttr.needsUpdate = true;
+    return geo;
   }
 
-  /* ============================================================
-     ВИДИМОСТЬ СЛОЁВ — скрываем то что не нужно
-     ============================================================ */
-  function applyLayerVisibility(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
-    const isOverlay = editorState.activeLayer === 'overlay';
+  /* Инициализация сцены */
+  let scene, camera, renderer, playerGroup;
+  const meshToKey = new Map(); // mesh -> part key
 
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
+  function initScene(){
+    scene = new THREE.Scene();
 
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      const isMulti = mats.length >= 2;
+    const rect = ed3d.getBoundingClientRect();
+    const w = Math.max(300, rect.width || 400);
+    const h = Math.max(400, rect.height || 400);
 
-      if(isMulti){
-        // Меш содержит оба слоя — переключаем видимость материалов
-        obj.visible = true;
-        mats.forEach((mat, idx) => {
-          if(!mat) return;
-          const isOuter = idx > 0;
-          mat.visible = isOverlay ? isOuter : !isOuter;
-        });
-      }else{
-        // Single-material меш — целиком базовый или целиком оверлей
-        const isOuter = /outer|hat|jacket|sleeve|overlay|second/i.test(combined);
-        const wantVisible = isOverlay ? isOuter : !isOuter;
-        obj.visible = wantVisible;
+    camera = new THREE.PerspectiveCamera(45, w / h, 1, 500);
+    camera.position.set(0, 22, 55);
+    camera.lookAt(0, 18, 0);
+
+    renderer = new THREE.WebGLRenderer({antialias: true, alpha: true, canvas: document.createElement('canvas')});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(w, h);
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    ed3d.innerHTML = '';
+    ed3d.appendChild(renderer.domElement);
+    renderer.domElement.style.background = 'transparent';
+    renderer.domElement.style.cursor = 'crosshair';
+
+    // Свет — простой ambient, чтобы текстура не темнела
+    const amb = new THREE.AmbientLight(0xffffff, 1.6);
+    scene.add(amb);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.6);
+    dir.position.set(30, 50, 40);
+    scene.add(dir);
+
+    playerGroup = new THREE.Group();
+    playerGroup.position.set(0, 0, 0);
+    scene.add(playerGroup);
+
+    // Строим модель
+    buildPlayer();
+  }
+
+  function buildPlayer(){
+    // Очищаем старые меши
+    while(playerGroup.children.length){
+      const c = playerGroup.children.pop();
+      if(c.geometry) c.geometry.dispose();
+      if(c.material){
+        const mats = Array.isArray(c.material) ? c.material : [c.material];
+        mats.forEach(m => m.dispose && m.dispose());
       }
+    }
+    meshToKey.clear();
+
+    const skinTex = updateSkinTexture();
+
+    // Список частей: [key, name]
+    const allParts = [
+      'head', 'hat',
+      'body', 'jacket',
+      'rarm', 'rsleeve',
+      'larm', 'lsleeve',
+      'rleg', 'rpant',
+      'lleg', 'lpant'
+    ];
+
+    allParts.forEach(key => {
+      const s = SKIN_PARTS[key];
+      const geo = makePartGeometry(key);
+
+      // Материал — используем skinTex
+      const mat = new THREE.MeshBasicMaterial({
+        map: skinTex,
+        transparent: true,
+        alphaTest: 0.05,
+        side: THREE.FrontSide
+      });
+
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(s.x, s.y + s.h / 2, s.z);
+      mesh.name = key;
+      playerGroup.add(mesh);
+
+      // Оверлейные меши — чуть больше (как в реальном Minecraft)
+      if(['hat','jacket','rsleeve','lsleeve','rpant','lpant'].includes(key)){
+        mesh.scale.set(1.12, 1.04, 1.12);
+      }
+
+      meshToKey.set(mesh, key);
+    });
+
+    // Смещаем всю группу вниз, чтобы центр был в середине модели
+    playerGroup.position.y = -18;
+  }
+
+  // Обновляем текстуру и переключаем между skin/grid
+  function setTexture(useGrid){
+    const tex = useGrid ? updateGridTexture() : updateSkinTexture();
+    playerGroup.traverse(obj => {
+      if(!obj.isMesh || !obj.material) return;
+      if(obj.material.map) obj.material.map.dispose?.();
+      obj.material.map = tex;
+      obj.material.needsUpdate = true;
     });
   }
 
-  /* === LOAD SKIN === */
-  async function loadSkinToCanvas(url, fallbackUrl){
-    const draw = (img) => {
-      ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
-      ctx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
+  // Применяем видимость: в base — только inner, в overlay — только outer
+  function applyLayerVisibility(){
+    const isOverlay = editorState.activeLayer === 'overlay';
+    playerGroup.traverse(obj => {
+      if(!obj.isMesh) return;
+      const key = meshToKey.get(obj);
+      if(!key) return;
+      const isOuterKey = ['hat','jacket','rsleeve','lsleeve','rpant','lpant'].includes(key);
+      obj.visible = isOverlay ? isOuterKey : !isOuterKey;
+    });
+  }
+
+  /* === Загрузка скина === */
+  const loadedImg = await loadSkinImage();
+  if(!loadedImg) toast('Скин не загрузился','error');
+
+  initScene();
+  applyLayerVisibility();
+
+  /* === Управление камерой (своё, простое) === */
+  let rotX = 0, rotY = 0;
+  let dragging = false;
+  let lastMouse = {x: 0, y: 0};
+
+  const dom = renderer.domElement;
+
+  dom.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Орбитальная камера
+  function updateCameraOrbit(){
+    const r = 55;
+    const cx = Math.sin(rotY) * Math.cos(rotX) * r;
+    const cy = 18 + Math.sin(rotX) * r;
+    const cz = Math.cos(rotY) * Math.cos(rotX) * r;
+    camera.position.set(cx, cy, cz);
+    camera.lookAt(0, 0, 0);
+  }
+  updateCameraOrbit();
+
+  let orbitDragging = false;
+  let lastOrbit = {x: 0, y: 0};
+
+  dom.addEventListener('mousedown', e => {
+    if(e.button === 2 || e.button === 1){
+      orbitDragging = true;
+      lastOrbit = {x: e.clientX, y: e.clientY};
+      e.preventDefault();
+      return;
+    }
+    if(e.button === 0){
+      // рисование
+      editorState.drawing = true;
+      editorState.lastPx = null;
+      editorState.lastPy = null;
+      handle3DDraw(e.clientX, e.clientY);
+    }
+  });
+
+  dom.addEventListener('mousemove', e => {
+    if(orbitDragging){
+      const dx = e.clientX - lastOrbit.x;
+      const dy = e.clientY - lastOrbit.y;
+      lastOrbit = {x: e.clientX, y: e.clientY};
+      rotY -= dx * 0.01;
+      rotX += dy * 0.01;
+      rotX = Math.max(-1.4, Math.min(1.4, rotX));
+      updateCameraOrbit();
+      return;
+    }
+    if(!editorState.drawing) return;
+    if(editorState.mousemoveThrottle) return;
+    editorState.mousemoveThrottle = setTimeout(() => { editorState.mousemoveThrottle = null; }, 16);
+    handle3DDraw(e.clientX, e.clientY);
+  });
+
+  const stopAll = () => {
+    orbitDragging = false;
+    if(editorState.drawing){
+      editorState.drawing = false;
+      editorState.lastPx = null;
+      editorState.lastPy = null;
       pushHistory();
-      redrawFlat();
       refresh3D();
-    };
-    const tryLoad = (u) => new Promise(res => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => { draw(img); res(true); };
-      img.onerror = () => res(false);
-      img.src = u;
-    });
-    if(await tryLoad(url)) return true;
-    if(fallbackUrl && await tryLoad(fallbackUrl)) return true;
-    pushHistory(); redrawFlat(); refresh3D();
-    return false;
+    }
+  };
+  dom.addEventListener('mouseup', stopAll);
+  dom.addEventListener('mouseleave', stopAll);
+
+  // Колесо — зум
+  dom.addEventListener('wheel', e => {
+    e.preventDefault();
+    camera.fov = Math.max(20, Math.min(90, camera.fov + (e.deltaY > 0 ? 3 : -3)));
+    camera.updateProjectionMatrix();
+  }, {passive: false});
+
+  // Touch
+  let touchStart = null;
+  dom.addEventListener('touchstart', e => {
+    e.preventDefault();
+    if(e.touches.length === 1){
+      const t = e.touches[0];
+      editorState.drawing = true;
+      editorState.lastPx = null;
+      editorState.lastPy = null;
+      handle3DDraw(t.clientX, t.clientY);
+    }else if(e.touches.length === 2){
+      touchStart = {
+        x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+        y: (e.touches[0].clientY + e.touches[1].clientY) / 2
+      };
+    }
+  }, {passive: false});
+
+  dom.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if(e.touches.length === 1 && editorState.drawing){
+      const t = e.touches[0];
+      handle3DDraw(t.clientX, t.clientY);
+    }else if(e.touches.length === 2 && touchStart){
+      const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      rotY -= (cx - touchStart.x) * 0.01;
+      rotX += (cy - touchStart.y) * 0.01;
+      rotX = Math.max(-1.4, Math.min(1.4, rotX));
+      touchStart = {x: cx, y: cy};
+      updateCameraOrbit();
+    }
+  }, {passive: false});
+
+  dom.addEventListener('touchend', () => {
+    if(editorState.drawing){
+      editorState.drawing = false;
+      editorState.lastPx = null;
+      editorState.lastPy = null;
+      pushHistory();
+      refresh3D();
+    }
+    touchStart = null;
+  });
+
+  /* === Raycast + рисование === */
+  const raycaster = new THREE.Raycaster();
+  const mouseVec = new THREE.Vector2();
+
+  function handle3DDraw(clientX, clientY){
+    const rect = dom.getBoundingClientRect();
+    mouseVec.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    mouseVec.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(mouseVec, camera);
+
+    const hits = raycaster.intersectObjects(playerGroup.children, false);
+    if(!hits.length){
+      editorState.lastPx = null;
+      editorState.lastPy = null;
+      return;
+    }
+
+    let hit = null;
+    for(const h of hits){
+      if(h.object.visible === false) continue;
+      hit = h;
+      break;
+    }
+    if(!hit){
+      editorState.lastPx = null;
+      editorState.lastPy = null;
+      return;
+    }
+
+    // Получаем UV из интерсепта (у нас правильные UV из makePartGeometry)
+    const uv = hit.uv;
+    if(!uv) return;
+
+    let px = Math.floor(uv.x * SKIN_SIZE);
+    let py = Math.floor((1 - uv.y) * SKIN_SIZE);
+    px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
+    py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
+
+    if(editorState.lastPx !== null && editorState.lastPy !== null){
+      bresenhamLine(editorState.lastPx, editorState.lastPy, px, py);
+    }else{
+      paintPx(px, py);
+    }
+    editorState.lastPx = px;
+    editorState.lastPy = py;
+    schedule3DRefresh();
   }
 
-  const primarySkin = skinName ? skinTextureUrl(skinName) : skinTextureUrl('Steve');
-  const fallbackSkin = skinName
-    ? `https://minotar.net/skin/${encodeURIComponent(skinName)}`
-    : 'https://minotar.net/skin/Steve';
-  const loaded = await loadSkinToCanvas(primarySkin, fallbackSkin);
-  if(!loaded) toast('Скин не загрузился, используется пустой холст','error');
+  /* === Рендер-луп === */
+  let _raf = null;
+  function loop(){
+    renderer.render(scene, camera);
+    _raf = requestAnimationFrame(loop);
+  }
+  loop();
 
-  if(viewer){
-    viewer.renderer.setAnimationLoop(() => {
-      viewer.renderer.render(viewer.scene, viewer.camera);
-    });
-    applyLayerVisibility();
+  /* === Resize === */
+  const doResize = () => {
+    if(!renderer) return;
+    const r = ed3d.getBoundingClientRect();
+    const w = Math.max(300, Math.floor(r.width));
+    const h = Math.max(400, Math.floor(r.height));
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+  setTimeout(doResize, 200);
+  setTimeout(doResize, 600);
+  window.addEventListener('resize', doResize);
+  editorState._resizeHandler = doResize;
+
+  /* === Обновление 3D === */
+  function schedule3DRefresh(){
+    if(editorState.refreshTimer) return;
+    editorState.refreshTimer = setTimeout(() => {
+      editorState.refreshTimer = null;
+      refresh3D();
+    }, 100);
   }
 
-  /* === ПЕРЕКЛЮЧАТЕЛЬ СЛОЁВ === */
+  function refresh3D(){
+    if(!editorState.skinTexture) return;
+    editorState.skinTexture.needsUpdate = true;
+
+    if(editorState.activeLayer === 'overlay'){
+      const gridTex = updateGridTexture();
+      playerGroup.traverse(obj => {
+        if(!obj.isMesh || !obj.material) return;
+        obj.material.map = gridTex;
+        obj.material.needsUpdate = true;
+      });
+    }
+  }
+
+  /* === Переключение слоёв === */
   $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
     applyLayerVisibility();
     refresh3D();
-    toast(b.dataset.layer === 'base' ? 'Слой: базовый (тело)' : 'Слой: оверлей (сетка)', 'info', 1400);
+    toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (сетка)', 'info', 1400);
   }));
 
   /* === PAINT === */
@@ -2257,132 +2686,6 @@ async function openEditor(skinName){
     ctx.putImageData(img, 0, 0);
   }
 
-  function schedule3DRefresh(){
-    if(editorState.refreshTimer) return;
-    editorState.refreshTimer = setTimeout(() => {
-      editorState.refreshTimer = null;
-      refresh3D();
-    }, 120);
-  }
-
-  function refresh3D(){
-    const v = editorState.viewer;
-    if(!v) return;
-    try{
-      let dataUrl;
-      if(editorState.activeLayer === 'overlay'){
-        dataUrl = makeGriddedTexture();
-      }else{
-        dataUrl = editorState.canvas.toDataURL('image/png');
-      }
-      v.loadSkin(dataUrl).then(() => {
-        // после loadSkin переприменяем видимость (материалы могли сброситься)
-        applyLayerVisibility();
-      }).catch(() => {});
-    }catch(e){ console.warn('refresh3D failed:', e); }
-  }
-
-  /* === 3D DRAW — рисуем только в видимый материал === */
-  function handle3DDraw(clientX, clientY){
-    const v = editorState.viewer;
-    const ray = editorState.raycaster;
-    const mv = editorState.mouseVec;
-    if(!v || !ray || !mv) return;
-
-    const rect = v.canvas.getBoundingClientRect();
-    mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-    mv.y = -((clientY - rect.top) / rect.height) * 2 + 1;
-    ray.setFromCamera(mv, v.camera);
-
-    const hits = ray.intersectObject(v.playerObject, true);
-    if(!hits.length){
-      editorState.lastPx = null;
-      editorState.lastPy = null;
-      return;
-    }
-
-    let hit = null;
-    for(const h of hits){
-      if(!h.object.visible) continue;
-      if(!h.uv) continue;
-      if(h.object.isLine || h.object.isLineSegments) continue;
-
-      const obj = h.object;
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-
-      // Пропускаем попадания в невидимые материалы
-      if(mats.length >= 2){
-        const mi = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
-        if(!mats[mi] || mats[mi].visible === false) continue;
-      }
-
-      hit = h;
-      break;
-    }
-    if(!hit){
-      editorState.lastPx = null;
-      editorState.lastPy = null;
-      return;
-    }
-
-    let px = Math.floor(hit.uv.x * SKIN_SIZE);
-    let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
-    px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
-    py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
-
-    if(editorState.lastPx !== null && editorState.lastPy !== null){
-      bresenhamLine(editorState.lastPx, editorState.lastPy, px, py);
-    }else{
-      paintPx(px, py);
-    }
-    editorState.lastPx = px;
-    editorState.lastPy = py;
-    schedule3DRefresh();
-  }
-
-  if(viewer){
-    viewer.canvas.addEventListener('mousedown', e => {
-      if(e.button !== 0) return;
-      editorState.drawing = true;
-      editorState.lastPx = null;
-      editorState.lastPy = null;
-      handle3DDraw(e.clientX, e.clientY);
-    });
-    viewer.canvas.addEventListener('mousemove', e => {
-      if(!editorState.drawing) return;
-      if(editorState.mousemoveThrottle) return;
-      editorState.mousemoveThrottle = setTimeout(() => { editorState.mousemoveThrottle = null; }, 16);
-      handle3DDraw(e.clientX, e.clientY);
-    });
-    const stop = () => {
-      if(editorState.drawing){
-        editorState.drawing = false;
-        editorState.lastPx = null;
-        editorState.lastPy = null;
-        pushHistory();
-        schedule3DRefresh();
-      }
-    };
-    viewer.canvas.addEventListener('mouseup', stop);
-    viewer.canvas.addEventListener('mouseleave', stop);
-    viewer.canvas.addEventListener('touchstart', e => {
-      e.preventDefault();
-      if(e.touches.length !== 1) return;
-      editorState.drawing = true;
-      editorState.lastPx = null;
-      editorState.lastPy = null;
-      const t = e.touches[0];
-      handle3DDraw(t.clientX, t.clientY);
-    }, {passive:false});
-    viewer.canvas.addEventListener('touchmove', e => {
-      e.preventDefault();
-      if(!editorState.drawing) return;
-      const t = e.touches[0];
-      handle3DDraw(t.clientX, t.clientY);
-    }, {passive:false});
-    viewer.canvas.addEventListener('touchend', stop);
-  }
-
   /* === 2D === */
   function initFlatCanvas(){
     const wrap = $('ed-2d');
@@ -2414,7 +2717,7 @@ async function openEditor(skinName){
         editorState.lastPx = null;
         editorState.lastPy = null;
         pushHistory();
-        schedule3DRefresh();
+        refresh3D();
       }
     };
     cv.addEventListener('mouseup', stop);
@@ -2439,8 +2742,7 @@ async function openEditor(skinName){
     drawCheckerboard(cx, cv.width, cv.height, SKIN_PIXEL);
     cx.drawImage(editorState.canvas, 0, 0, cv.width, cv.height);
 
-    // Сетка границ пикселей поверх 2D развёртки
-    cx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    cx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
     cx.lineWidth = 1;
     for(let i = 0; i <= SKIN_SIZE; i++){
       cx.beginPath();
@@ -2493,6 +2795,7 @@ async function openEditor(skinName){
         ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
         ctx.drawImage(img, 0, 0);
         redrawFlat();
+        if(editorState.skinTexture) editorState.skinTexture.needsUpdate = true;
         refresh3D();
         resolve();
       };
@@ -2525,7 +2828,20 @@ async function openEditor(skinName){
     const file = e.target.files[0];
     if(!file) return;
     const url = URL.createObjectURL(file);
-    await loadSkinToCanvas(url, fallbackSkin);
+    const img = await new Promise(res => {
+      const i = new Image();
+      i.onload = () => res(i);
+      i.onerror = () => res(null);
+      i.src = url;
+    });
+    if(img){
+      ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
+      ctx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
+      pushHistory();
+      redrawFlat();
+      if(editorState.skinTexture) editorState.skinTexture.needsUpdate = true;
+      refresh3D();
+    }
     URL.revokeObjectURL(url);
     toast('Скин загружен','ok');
   });
@@ -2534,12 +2850,27 @@ async function openEditor(skinName){
     ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
     pushHistory();
     redrawFlat();
+    if(editorState.skinTexture) editorState.skinTexture.needsUpdate = true;
     refresh3D();
     toast('Чистое тело','info');
   });
 
   $('ed-steve').addEventListener('click', async () => {
-    await loadSkinToCanvas('https://minotar.net/skin/Steve', skinTextureUrl('Steve'));
+    const img = await new Promise(res => {
+      const i = new Image();
+      i.crossOrigin = 'anonymous';
+      i.onload = () => res(i);
+      i.onerror = () => res(null);
+      i.src = 'https://minotar.net/skin/Steve';
+    });
+    if(img){
+      ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
+      ctx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
+      pushHistory();
+      redrawFlat();
+      if(editorState.skinTexture) editorState.skinTexture.needsUpdate = true;
+      refresh3D();
+    }
     toast('Steve загружен','ok');
   });
 
@@ -2550,7 +2881,7 @@ async function openEditor(skinName){
     $('ed-3d').style.display = mode === '3d' ? 'flex' : 'none';
     $('ed-2d').style.display = mode === '2d' ? 'flex' : 'none';
     $('ed-hint').textContent = mode === '3d'
-      ? 'Рисуй прямо на 3D-модели. ЛКМ рисует, ПКМ вращает.'
+      ? 'ЛКМ рисует, ПКМ вращает, колесо — зум.'
       : 'Рисуй на сетке 64×64 — плоская развёртка скина.';
     if(mode === '2d'){
       if(!editorState.flatCanvas) initFlatCanvas();
@@ -2577,11 +2908,9 @@ async function openEditor(skinName){
     if(editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
     if(editorState?._resizeHandler) window.removeEventListener('resize', editorState._resizeHandler);
     if(editorState?.mousemoveThrottle) clearTimeout(editorState.mousemoveThrottle);
-    if(editorState?.viewer){
-      try{
-        editorState.viewer.renderer.setAnimationLoop(null);
-        editorState.viewer.dispose();
-      }catch{}
+    if(_raf) cancelAnimationFrame(_raf);
+    if(renderer){
+      try{ renderer.dispose(); }catch{}
     }
     editorState = null;
   };
