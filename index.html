@@ -1849,11 +1849,6 @@ async function openEditor(skinName){
               <span style="color:var(--tdim);font-size:.85rem;font-family:var(--font-mono)" id="ed-color-label">#38BDF8</span>
             </div>
             <div class="skin-palette" id="ed-palette"></div>
-            <div class="editor-color-row" style="margin-top:.75rem;margin-bottom:0">
-              <span style="color:var(--tdim);font-size:.75rem;font-family:var(--font-mono);flex:1">Цвет сетки:</span>
-              <input type="color" id="ed-grid-color" value="#ffffff">
-              <span style="color:var(--tdim);font-size:.8rem;font-family:var(--font-mono)" id="ed-grid-color-label">#ffffff</span>
-            </div>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">Слой</div>
@@ -1865,7 +1860,7 @@ async function openEditor(skinName){
                 <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
               </button>
             </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Оверлей — клеточная сетка по всей модели.</p>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Оверлей — клеточная сетка 64×64 по всей модели.</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
@@ -1898,7 +1893,6 @@ async function openEditor(skinName){
     activeLayer: 'base',
     tool: 'pencil',
     color: '#38BDF8',
-    gridColor: '#ffffff',
     drawing: false,
     lastPx: null, lastPy: null,
     viewer: null,
@@ -1909,8 +1903,7 @@ async function openEditor(skinName){
     flatCanvas: null,
     flatCtx: null,
     mousemoveThrottle: null,
-    _resizeHandler: null,
-    gridLines: null
+    _resizeHandler: null
   };
 
   const palette = [
@@ -1945,12 +1938,6 @@ async function openEditor(skinName){
   $('ed-color').addEventListener('input', e => {
     setColor(e.target.value);
     palEl.querySelectorAll('button').forEach(x => x.classList.remove('active'));
-  });
-
-  $('ed-grid-color').addEventListener('input', e => {
-    editorState.gridColor = e.target.value;
-    $('ed-grid-color-label').textContent = e.target.value;
-    if(editorState.activeLayer === 'overlay') buildAllWireframes();
   });
 
   $$('[data-tool]').forEach(b => b.addEventListener('click', () => {
@@ -2078,123 +2065,52 @@ async function openEditor(skinName){
   editorState._resizeHandler = doResize;
 
   /* ============================================================
-     WIREFRAME — клеточная сетка (работает и для SkinnedMesh)
+     GRID SHADER — клетки по UV через fragment shader
      ============================================================ */
-  function buildWireframeForMesh(mesh){
-    const geo = mesh.geometry;
-    if(!geo) return null;
+  function applyGridShader(mat, on){
+    if(!mat) return;
+    const KEY = '__gridShaderOn';
+    if(on){
+      if(mat.userData[KEY]) return;
+      mat.userData[KEY] = true;
+      mat.userData.__origOBC = mat.onBeforeCompile;
 
-    let w, h, d;
-    if(geo.parameters && geo.parameters.width && geo.parameters.height && geo.parameters.depth){
-      w = geo.parameters.width;
-      h = geo.parameters.height;
-      d = geo.parameters.depth;
+      mat.onBeforeCompile = function(shader){
+        if(typeof mat.userData.__origOBC === 'function'){
+          try{ mat.userData.__origOBC.call(mat, shader); }catch(e){}
+        }
+        shader.fragmentShader = shader.fragmentShader.replace(
+          '#include <dithering_fragment>',
+          '#include <dithering_fragment>\n' +
+          '#ifdef USE_MAP\n' +
+          '  vec2 __gUV = vMapUv * 64.0;\n' +
+          '  vec2 __gD = fwidth(__gUV);\n' +
+          '  vec2 __gG = abs(fract(__gUV - 0.5) - 0.5) / max(__gD, vec2(0.0001));\n' +
+          '  float __gLine = min(__gG.x, __gG.y);\n' +
+          '  float __gA = 1.0 - min(__gLine, 1.0);\n' +
+          '  gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(1.0), __gA * 0.85);\n' +
+          '#endif\n'
+        );
+      };
+      mat.customProgramCacheKey = () => 'grid-v1-on';
+      mat.needsUpdate = true;
     }else{
-      if(!geo.boundingBox) geo.computeBoundingBox();
-      const bb = geo.boundingBox;
-      if(!bb) return null;
-      w = bb.max.x - bb.min.x;
-      h = bb.max.y - bb.min.y;
-      d = bb.max.z - bb.min.z;
+      if(!mat.userData[KEY]) return;
+      mat.userData[KEY] = false;
+      mat.onBeforeCompile = mat.userData.__origOBC || function(){};
+      mat.customProgramCacheKey = () => 'grid-v1-off-' + Math.random();
+      mat.needsUpdate = true;
     }
-    if(w <= 0 || h <= 0 || d <= 0) return null;
-
-    const e = 0.003;
-    const pts = [];
-    const seg = (x1,y1,z1,x2,y2,z2) => { pts.push(x1,y1,z1, x2,y2,z2); };
-
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, h/2+e, -d/2, x, h/2+e, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, h/2+e, z, w/2, h/2+e, z); }
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2-e, -d/2, x, -h/2-e, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, -h/2-e, z, w/2, -h/2-e, z); }
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, d/2+e, x, h/2, d/2+e); }
-    for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, d/2+e, w/2, y, d/2+e); }
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, -d/2-e, x, h/2, -d/2-e); }
-    for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, -d/2-e, w/2, y, -d/2-e); }
-    for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(-w/2-e, y, -d/2, -w/2-e, y, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2-e, -h/2, z, -w/2-e, h/2, z); }
-    for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(w/2+e, y, -d/2, w/2+e, y, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(w/2+e, -h/2, z, w/2+e, h/2, z); }
-
-    const gg = new THREE.BufferGeometry();
-    gg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-    return gg;
   }
 
- function clearWireframes(){
-  if(editorState.gridLines){
-    editorState.gridLines.forEach(lines => {
-      if(lines.parent) lines.parent.remove(lines);
-      if(lines.geometry) lines.geometry.dispose();
-      if(lines.material) lines.material.dispose();
-    });
-    editorState.gridLines = null;
-  }
-}
-
-  function buildAllWireframes(){
-  const v = editorState.viewer;
-  if(!v || !v.playerObject) return;
-
-  clearWireframes();
-  editorState.gridLines = [];
-
-  const hex = editorState.gridColor || '#ffffff';
-  const colorNum = parseInt(hex.replace('#',''), 16);
-
-  // Собираем меши ДО того как начнём добавлять клоны
-  const meshes = [];
-  v.playerObject.traverse(obj => {
-    if(!obj.isMesh && !obj.isSkinnedMesh) return;
-    if(obj.name === '__wireframe') return;
-    if(obj.userData && obj.userData.__isWireframe) return;
-    const n = (obj.name || '').toLowerCase();
-    const p = (obj.parent && obj.parent.name || '').toLowerCase();
-    const combined = n + ' ' + p;
-    if(combined.includes('cape') || combined.includes('elytra')) return;
-    meshes.push(obj);
-  });
-
-  meshes.forEach(obj => {
-    const mat = new THREE.MeshBasicMaterial({
-      color: colorNum,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.55,
-      depthTest: true,
-      depthWrite: false
-    });
-
-    let clone;
-    if(obj.isSkinnedMesh){
-      // SkinnedMesh → SkinnedMesh с той же skeleton, деформация работает автоматически
-      clone = new THREE.SkinnedMesh(obj.geometry, mat);
-      try{ clone.bind(obj.skeleton, obj.bindMatrix); }catch(e){ return; }
-      clone.bindMode = obj.bindMode;
-    }else{
-      clone = new THREE.Mesh(obj.geometry, mat);
-    }
-    clone.position.copy(obj.position);
-    clone.rotation.copy(obj.rotation);
-    clone.scale.copy(obj.scale);
-    clone.name = '__wireframe';
-    clone.userData = clone.userData || {};
-    clone.userData.__isWireframe = true;
-    clone.renderOrder = 999;
-    clone.frustumCulled = false;
-    obj.parent.add(clone);
-    editorState.gridLines.push(clone);
-  });
-}
-
-  /* === Слои: не скрываем ничего, только вкл/выкл wireframe === */
+  /* === Видимость слоёв === */
   function applyLayerVisibility(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
-    const isOverlay = editorState.activeLayer === 'overlay';
+    const showGrid = editorState.activeLayer === 'overlay';
 
     v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
+      if(!obj.isMesh && !obj.isSkinnedMesh) return;
       const n = (obj.name || '').toLowerCase();
       const p = (obj.parent && obj.parent.name || '').toLowerCase();
       const combined = n + ' ' + p;
@@ -2208,15 +2124,9 @@ async function openEditor(skinName){
         m.transparent = false;
         m.opacity = 1;
         m.depthWrite = true;
-        m.needsUpdate = true;
+        applyGridShader(m, showGrid);
       });
     });
-
-    if(isOverlay){
-      buildAllWireframes();
-    }else{
-      clearWireframes();
-    }
   }
 
   /* === LOAD SKIN === */
@@ -2351,11 +2261,7 @@ async function openEditor(skinName){
     if(!v) return;
     try{
       const dataUrl = editorState.canvas.toDataURL('image/png');
-      v.loadSkin(dataUrl).then(() => {
-        if(editorState.activeLayer === 'overlay'){
-          buildAllWireframes();
-        }
-      }).catch(() => {});
+      v.loadSkin(dataUrl).catch(() => {});
     }catch(e){}
   }
 
@@ -2397,7 +2303,6 @@ async function openEditor(skinName){
       if(!h.object.visible) continue;
       if(!h.uv) continue;
       if(h.object.isLine || h.object.isLineSegments) continue;
-      if(h.object.name === '__wireframe') continue;
 
       const isOuter = isOuterHit(h);
       if(wantOverlay && !isOuter) continue;
@@ -2661,7 +2566,6 @@ async function openEditor(skinName){
     document.removeEventListener('keydown', keyHandler);
     if(bgUploadInput && bgUploadInput.parentNode) bgUploadInput.parentNode.removeChild(bgUploadInput);
     if(editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
-    clearWireframes();
     if(editorState?._resizeHandler) window.removeEventListener('resize', editorState._resizeHandler);
     if(editorState?.mousemoveThrottle) clearTimeout(editorState.mousemoveThrottle);
     if(editorState?.viewer){
