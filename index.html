@@ -1950,9 +1950,7 @@ async function openEditor(skinName){
   $('ed-grid-color').addEventListener('input', e => {
     editorState.gridColor = e.target.value;
     $('ed-grid-color-label').textContent = e.target.value;
-    if(editorState.activeLayer === 'overlay'){
-      buildAllWireframes();
-    }
+    if(editorState.activeLayer === 'overlay') buildAllWireframes();
   });
 
   $$('[data-tool]').forEach(b => b.addEventListener('click', () => {
@@ -2014,7 +2012,7 @@ async function openEditor(skinName){
     reader.readAsDataURL(file);
   });
 
-  /* 3D VIEWER */
+  /* === 3D VIEWER === */
   const ed3d = $('ed-3d');
   let viewer = null;
 
@@ -2039,7 +2037,7 @@ async function openEditor(skinName){
           MIDDLE: THREE.MOUSE.DOLLY,
           RIGHT: THREE.MOUSE.ROTATE
         };
-      }catch(e){ console.warn('mouseButtons config failed:', e); }
+      }catch(e){ console.warn('mouseButtons:', e); }
       viewer.camera.position.z = 70;
       try{
         viewer.renderer.setClearColor(0x000000, 0);
@@ -2080,55 +2078,49 @@ async function openEditor(skinName){
   editorState._resizeHandler = doResize;
 
   /* ============================================================
-     WIREFRAME — клеточная сетка по boundingBox каждого меша
+     WIREFRAME — клеточная сетка (работает и для SkinnedMesh)
      ============================================================ */
   function buildWireframeForMesh(mesh){
-  const geo = mesh.geometry;
-  if(!geo) return null;
+    const geo = mesh.geometry;
+    if(!geo) return null;
 
-  // Приоритет: parameters BoxGeometry (работает и для SkinnedMesh)
-  let w, h, d;
-  if(geo.parameters && geo.parameters.width && geo.parameters.height && geo.parameters.depth){
-    w = geo.parameters.width;
-    h = geo.parameters.height;
-    d = geo.parameters.depth;
-  }else{
-    if(!geo.boundingBox) geo.computeBoundingBox();
-    const bb = geo.boundingBox;
-    if(!bb) return null;
-    w = bb.max.x - bb.min.x;
-    h = bb.max.y - bb.min.y;
-    d = bb.max.z - bb.min.z;
+    let w, h, d;
+    if(geo.parameters && geo.parameters.width && geo.parameters.height && geo.parameters.depth){
+      w = geo.parameters.width;
+      h = geo.parameters.height;
+      d = geo.parameters.depth;
+    }else{
+      if(!geo.boundingBox) geo.computeBoundingBox();
+      const bb = geo.boundingBox;
+      if(!bb) return null;
+      w = bb.max.x - bb.min.x;
+      h = bb.max.y - bb.min.y;
+      d = bb.max.z - bb.min.z;
+    }
+    if(w <= 0 || h <= 0 || d <= 0) return null;
+
+    const e = 0.003;
+    const pts = [];
+    const seg = (x1,y1,z1,x2,y2,z2) => { pts.push(x1,y1,z1, x2,y2,z2); };
+
+    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, h/2+e, -d/2, x, h/2+e, d/2); }
+    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, h/2+e, z, w/2, h/2+e, z); }
+    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2-e, -d/2, x, -h/2-e, d/2); }
+    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, -h/2-e, z, w/2, -h/2-e, z); }
+    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, d/2+e, x, h/2, d/2+e); }
+    for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, d/2+e, w/2, y, d/2+e); }
+    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, -d/2-e, x, h/2, -d/2-e); }
+    for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, -d/2-e, w/2, y, -d/2-e); }
+    for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(-w/2-e, y, -d/2, -w/2-e, y, d/2); }
+    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2-e, -h/2, z, -w/2-e, h/2, z); }
+    for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(w/2+e, y, -d/2, w/2+e, y, d/2); }
+    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(w/2+e, -h/2, z, w/2+e, h/2, z); }
+
+    const gg = new THREE.BufferGeometry();
+    gg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    return gg;
   }
-  if(w <= 0 || h <= 0 || d <= 0) return null;
 
-  const e = 0.003;
-  const pts = [];
-  const seg = (x1,y1,z1,x2,y2,z2) => { pts.push(x1,y1,z1, x2,y2,z2); };
-
-  // Верхняя
-  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, h/2+e, -d/2, x, h/2+e, d/2); }
-  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, h/2+e, z, w/2, h/2+e, z); }
-  // Нижняя
-  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2-e, -d/2, x, -h/2-e, d/2); }
-  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, -h/2-e, z, w/2, -h/2-e, z); }
-  // Передняя
-  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, d/2+e, x, h/2, d/2+e); }
-  for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, d/2+e, w/2, y, d/2+e); }
-  // Задняя
-  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, -d/2-e, x, h/2, -d/2-e); }
-  for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, -d/2-e, w/2, y, -d/2-e); }
-  // Левая
-  for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(-w/2-e, y, -d/2, -w/2-e, y, d/2); }
-  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2-e, -h/2, z, -w/2-e, h/2, z); }
-  // Правая
-  for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(w/2+e, y, -d/2, w/2+e, y, d/2); }
-  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(w/2+e, -h/2, z, w/2+e, h/2, z); }
-
-  const gg = new THREE.BufferGeometry();
-  gg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  return gg;
-}
   function clearWireframes(){
     if(editorState.gridLines){
       editorState.gridLines.forEach(lines => {
@@ -2139,93 +2131,50 @@ async function openEditor(skinName){
       editorState.gridLines = null;
     }
   }
+
   function buildAllWireframes(){
-  const v = editorState.viewer;
-  if(!v || !v.playerObject) return;
+    const v = editorState.viewer;
+    if(!v || !v.playerObject) return;
 
-  clearWireframes();
-  editorState.gridLines = [];
+    clearWireframes();
+    editorState.gridLines = [];
 
-  const hex = editorState.gridColor || '#ffffff';
-  const colorNum = parseInt(hex.replace('#',''), 16);
+    const hex = editorState.gridColor || '#ffffff';
+    const colorNum = parseInt(hex.replace('#',''), 16);
 
-  const mat = new THREE.LineBasicMaterial({
-    color: colorNum,
-    transparent: true,
-    opacity: 0.8,
-    depthTest: true,
-    depthWrite: false
-  });
+    const mat = new THREE.LineBasicMaterial({
+      color: colorNum,
+      transparent: true,
+      opacity: 0.8,
+      depthTest: true,
+      depthWrite: false
+    });
 
-  v.playerObject.traverse(obj => {
-    if(!obj.isMesh && !obj.isSkinnedMesh) return;
-    if(obj.name === '__wireframe') return;
-    const n = (obj.name || '').toLowerCase();
-    const p = (obj.parent && obj.parent.name || '').toLowerCase();
-    const combined = n + ' ' + p;
-    if(combined.includes('cape') || combined.includes('elytra')) return;
+    v.playerObject.traverse(obj => {
+      if(!obj.isMesh && !obj.isSkinnedMesh) return;
+      if(obj.name === '__wireframe') return;
+      const n = (obj.name || '').toLowerCase();
+      const p = (obj.parent && obj.parent.name || '').toLowerCase();
+      const combined = n + ' ' + p;
+      if(combined.includes('cape') || combined.includes('elytra')) return;
 
-    const gg = buildWireframeForMesh(obj);
-    if(!gg) return;
+      const gg = buildWireframeForMesh(obj);
+      if(!gg) return;
 
-    const lines = new THREE.LineSegments(gg, mat);
-    lines.name = '__wireframe';
-    lines.renderOrder = 999;
-    obj.add(lines);
-    editorState.gridLines.push(lines);
-  });
-}
+      const lines = new THREE.LineSegments(gg, mat);
+      lines.name = '__wireframe';
+      lines.renderOrder = 999;
+      obj.add(lines);
+      editorState.gridLines.push(lines);
+    });
+  }
 
-  // Собираем все meshes (включая SkinnedMesh и вложенные группы)
-  const meshes = [];
-  v.playerObject.traverse(obj => {
-    if(!obj.isMesh && !obj.isSkinnedMesh) return;
-    const n = (obj.name || '').toLowerCase();
-    const p = (obj.parent && obj.parent.name || '').toLowerCase();
-    const combined = n + ' ' + p;
-    if(combined.includes('cape') || combined.includes('elytra')) return;
-    if(obj.name === '__wireframe') return;
-    meshes.push(obj);
-  });
-
-  // Дедупликация: если у двух mesh одинаковый boundingBox + transform, оставляем один
-  const seen = new Set();
-  meshes.forEach(obj => {
-    const geo = obj.geometry;
-    if(!geo) return;
-    if(!geo.boundingBox) geo.computeBoundingBox();
-    const bb = geo.boundingBox;
-    if(!bb) return;
-
-    // Ключ для дедупликации: bbox + позиция в мире
-    const wp = new THREE.Vector3();
-    obj.getWorldPosition(wp);
-    const key = [
-      bb.min.x.toFixed(2), bb.min.y.toFixed(2), bb.min.z.toFixed(2),
-      bb.max.x.toFixed(2), bb.max.y.toFixed(2), bb.max.z.toFixed(2),
-      wp.x.toFixed(2), wp.y.toFixed(2), wp.z.toFixed(2)
-    ].join('|');
-    if(seen.has(key)) return;
-    seen.add(key);
-
-    const gg = buildWireframeForMesh(obj);
-    if(!gg) return;
-
-    const lines = new THREE.LineSegments(gg, mat);
-    lines.name = '__wireframe';
-    lines.renderOrder = 999;
-    obj.add(lines);
-    editorState.gridLines.push(lines);
-  });
-}
-
-  /* === Видимость слоёв: НИЧЕГО не скрываем, только включаем/выключаем wireframe === */
+  /* === Слои: не скрываем ничего, только вкл/выкл wireframe === */
   function applyLayerVisibility(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
     const isOverlay = editorState.activeLayer === 'overlay';
 
-    // Все меши и материалы всегда видимы — скин не пропадает
     v.playerObject.traverse(obj => {
       if(!obj.isMesh) return;
       const n = (obj.name || '').toLowerCase();
@@ -2245,7 +2194,6 @@ async function openEditor(skinName){
       });
     });
 
-    // В overlay — строим wireframe, в base — убираем
     if(isOverlay){
       buildAllWireframes();
     }else{
@@ -2381,21 +2329,19 @@ async function openEditor(skinName){
   }
 
   function refresh3D(){
-  const v = editorState.viewer;
-  if(!v) return;
-  try{
-    const dataUrl = editorState.canvas.toDataURL('image/png');
-    v.loadSkin(dataUrl).then(() => {
-      // После перезагрузки скина материалы пересоздаются → линии слетают.
-      // Если сейчас overlay — пересобираем wireframe
-      if(editorState.activeLayer === 'overlay'){
-        buildAllWireframes();
-      }
-    }).catch(() => {});
-  }catch(e){}
-}
+    const v = editorState.viewer;
+    if(!v) return;
+    try{
+      const dataUrl = editorState.canvas.toDataURL('image/png');
+      v.loadSkin(dataUrl).then(() => {
+        if(editorState.activeLayer === 'overlay'){
+          buildAllWireframes();
+        }
+      }).catch(() => {});
+    }catch(e){}
+  }
 
-  /* === Определяем, попали ли в outer-материал === */
+  /* === OUTER CHECK === */
   function isOuterHit(h){
     const obj = h.object;
     const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
@@ -2434,7 +2380,6 @@ async function openEditor(skinName){
       if(!h.uv) continue;
       if(h.object.isLine || h.object.isLineSegments) continue;
       if(h.object.name === '__wireframe') continue;
-      if(h.object.parent && h.object.parent.name === '__wireframe') continue;
 
       const isOuter = isOuterHit(h);
       if(wantOverlay && !isOuter) continue;
