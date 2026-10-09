@@ -2348,12 +2348,101 @@ async function openEditor(skinName){
   /* ============================================================
      3D DRAW — фильтр по слою через isOuterMesh
      ============================================================ */
-  function handle3DDraw(clientX, clientY){
+    /* ============================================================
+     РУЧНОЙ ПЕРЕСЧЁТ UV для INNER — обход бага skinview3d
+     ============================================================ */
+  const SKIN_PARTS_BOUNDS = {
+    'head':      { xMin:-4, xMax: 4, yMin: 8, yMax: 16, zMin:-4, zMax: 4 },
+    'body':      { xMin:-4, xMax: 4, yMin:-4, yMax: 8,  zMin:-2, zMax: 2 },
+    'right_arm': { xMin:-8, xMax:-4, yMin:-4, yMax: 8,  zMin:-2, zMax: 2 },
+    'left_arm':  { xMin: 4, xMax: 8, yMin:-4, yMax: 8,  zMin:-2, zMax: 2 },
+    'right_leg': { xMin:-4, xMax: 0, yMin:-16,yMax:-4,  zMin:-2, zMax: 2 },
+    'left_leg':  { xMin: 0, xMax: 4, yMin:-16,yMax:-4,  zMin:-2, zMax: 2 }
+  };
+
+  const SKIN_INNER_FACES = {
+    'head':      { front:[ 8, 8, 8, 8], back:[24, 8, 8, 8], right:[ 0, 8, 8, 8], left:[16, 8, 8, 8], top:[ 8, 0, 8, 8], bottom:[16, 0, 8, 8] },
+    'body':      { front:[20,20, 8,12], back:[32,20, 8,12], right:[16,20, 4,12], left:[28,20, 4,12], top:[20,16, 8, 4], bottom:[28,16, 8, 4] },
+    'right_arm': { front:[44,20, 4,12], back:[52,20, 4,12], right:[40,20, 4,12], left:[48,20, 4,12], top:[44,16, 4, 4], bottom:[48,16, 4, 4] },
+    'left_arm':  { front:[36,52, 4,12], back:[44,52, 4,12], right:[40,52, 4,12], left:[32,52, 4,12], top:[36,48, 4, 4], bottom:[40,48, 4, 4] },
+    'right_leg': { front:[ 4,20, 4,12], back:[12,20, 4,12], right:[ 0,20, 4,12], left:[ 8,20, 4,12], top:[ 4,16, 4, 4], bottom:[ 8,16, 4, 4] },
+    'left_leg':  { front:[20,52, 4,12], back:[28,52, 4,12], right:[24,52, 4,12], left:[16,52, 4,12], top:[20,48, 4, 4], bottom:[24,48, 4, 4] }
+  };
+
+  function pickPartFromPoint(x, y, z){
+    for(const [name, p] of Object.entries(SKIN_PARTS_BOUNDS)){
+      if(x >= p.xMin - 0.6 && x <= p.xMax + 0.6 &&
+         y >= p.yMin - 0.6 && y <= p.yMax + 0.6 &&
+         z >= p.zMin - 0.6 && z <= p.zMax + 0.6){
+        return name;
+      }
+    }
+    return null;
+  }
+
+  function computeInnerUV(hit){
+    const p = hit.point;
+    const part = pickPartFromPoint(p.x, p.y, p.z);
+    if(!part) return null;
+    const bounds = SKIN_PARTS_BOUNDS[part];
+    const faces = SKIN_INNER_FACES[part];
+    if(!bounds || !faces) return null;
+
+    const W = bounds.xMax - bounds.xMin;
+    const H = bounds.yMax - bounds.yMin;
+    const D = bounds.zMax - bounds.zMin;
+
+    const n = hit.face.normal;
+    const nx = Math.round(n.x), ny = Math.round(n.y), nz = Math.round(n.z);
+
+    let faceKey = null;
+    if(nz === 1) faceKey = 'front';
+    else if(nz === -1) faceKey = 'back';
+    else if(nx === -1) faceKey = 'right';
+    else if(nx === 1) faceKey = 'left';
+    else if(ny === 1) faceKey = 'top';
+    else if(ny === -1) faceKey = 'bottom';
+    if(!faceKey) return null;
+
+    const region = faces[faceKey];
+    if(!region) return null;
+    const [u0, v0, rw, rh] = region;
+
+    let u = 0, v = 0;
+    if(faceKey === 'front'){
+      u = (p.x - bounds.xMin) / W;
+      v = (bounds.yMax - p.y) / H;
+    }else if(faceKey === 'back'){
+      u = (bounds.xMax - p.x) / W;
+      v = (bounds.yMax - p.y) / H;
+    }else if(faceKey === 'right'){
+      u = (p.z - bounds.zMin) / D;
+      v = (bounds.yMax - p.y) / H;
+    }else if(faceKey === 'left'){
+      u = (bounds.zMax - p.z) / D;
+      v = (bounds.yMax - p.y) / H;
+    }else if(faceKey === 'top'){
+      u = (p.x - bounds.xMin) / W;
+      v = (p.z - bounds.zMin) / D;
+    }else if(faceKey === 'bottom'){
+      u = (bounds.xMax - p.x) / W;
+      v = (bounds.zMax - p.z) / D;
+    }
+
+    u = Math.max(0, Math.min(1, u));
+    v = Math.max(0, Math.min(1, v));
+
+    let px = Math.floor(u0 + u * rw);
+    let py = Math.floor(v0 + v * rh);
+    px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
+    py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
+    return [px, py];
+  }
+   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
     if(!v || !ray || !mv) return;
-
     const wantOverlay = editorState.activeLayer === 'overlay';
 
     const rect = v.canvas.getBoundingClientRect();
@@ -2396,8 +2485,25 @@ async function openEditor(skinName){
       return;
     }
 
-    let px = Math.floor(hit.uv.x * SKIN_SIZE);
-    let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
+    const isOuter = isOuterMesh(hit.object);
+    let px, py;
+
+    if(!isOuter){
+      // INNER — пересчитываем UV вручную (skinview3d даёт неправильные)
+      const uv = computeInnerUV(hit);
+      if(uv){
+        px = uv[0];
+        py = uv[1];
+      }else{
+        px = Math.floor(hit.uv.x * SKIN_SIZE);
+        py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
+      }
+    }else{
+      // OUTER — skinview3d UV работают правильно
+      px = Math.floor(hit.uv.x * SKIN_SIZE);
+      py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
+    }
+
     px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
     py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
 
