@@ -1805,13 +1805,13 @@ async function openEditor(skinName){
 
       <div class="editor-bg-picker-bar" id="ed-bg-picker">
         <span class="editor-bg-label">ФОН:</span>
-        <button class="editor-bg-btn active" data-bg="theme" title="Из темы" type="button">🎨</button>
-        <button class="editor-bg-btn" data-bg="biome" title="Биом" type="button"></button>
-        <button class="editor-bg-btn" data-bg="sunset" title="Закат" type="button"></button>
-        <button class="editor-bg-btn" data-bg="night" title="Ночь" type="button"></button>
-        <button class="editor-bg-btn" data-bg="sakura" title="Сакура" type="button"></button>
-        <button class="editor-bg-btn" data-bg="none" title="Без фона" type="button"></button>
-        <button class="editor-bg-btn upload" id="ed-bg-upload" title="Свой фон" type="button">📁</button>
+        <button class="editor-bg-btn active" data-bg="theme" type="button">🎨</button>
+        <button class="editor-bg-btn" data-bg="biome" type="button"></button>
+        <button class="editor-bg-btn" data-bg="sunset" type="button"></button>
+        <button class="editor-bg-btn" data-bg="night" type="button"></button>
+        <button class="editor-bg-btn" data-bg="sakura" type="button"></button>
+        <button class="editor-bg-btn" data-bg="none" type="button"></button>
+        <button class="editor-bg-btn upload" id="ed-bg-upload" type="button">📁</button>
       </div>
 
       <div class="editor-layout">
@@ -1828,16 +1828,16 @@ async function openEditor(skinName){
           <div class="editor-section">
             <div class="editor-section-title">Инструменты</div>
             <div class="editor-tools">
-              <button class="editor-tool active" data-tool="pencil" title="Карандаш" type="button">
+              <button class="editor-tool active" data-tool="pencil" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
               </button>
-              <button class="editor-tool" data-tool="eraser" title="Ластик" type="button">
+              <button class="editor-tool" data-tool="eraser" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16c-.6-.6-.6-1.6 0-2.2L14.4 2.4c.6-.6 1.6-.6 2.2 0l5 5c.6.6.6 1.6 0 2.2L10 21"/><path d="M6 20l8-8"/></svg>
               </button>
-              <button class="editor-tool" data-tool="fill" title="Заливка" type="button">
+              <button class="editor-tool" data-tool="fill" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11l-8-8-8.6 8.6c-.8.8-.8 2 0 2.8L7 19c.8.8 2 .8 2.8 0L19 9.8V11z"/><path d="M5 2l3 3"/><path d="M2 21h18"/><path d="M11 15c0 2 1 3 3 3s3-1 3-3c0-1-1.5-2.5-3-4-1.5 1.5-3 3-3 4z" fill="currentColor" stroke="none"/></svg>
               </button>
-              <button class="editor-tool" data-tool="picker" title="Пипетка" type="button">
+              <button class="editor-tool" data-tool="picker" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22l1-3 7-7 3 3-7 7-3 1z"/><path d="M17 8l2-2 3 3-2 2-3-3z"/><path d="M13 12l5-5-3-3-5 5 3 3z"/><circle cx="17" cy="7" r="3"/></svg>
               </button>
             </div>
@@ -1849,6 +1849,11 @@ async function openEditor(skinName){
               <span style="color:var(--tdim);font-size:.85rem;font-family:var(--font-mono)" id="ed-color-label">#38BDF8</span>
             </div>
             <div class="skin-palette" id="ed-palette"></div>
+            <div class="editor-color-row" style="margin-top:.75rem;margin-bottom:0">
+              <span style="color:var(--tdim);font-size:.75rem;font-family:var(--font-mono);flex:1">Цвет сетки:</span>
+              <input type="color" id="ed-grid-color" value="#ffffff">
+              <span style="color:var(--tdim);font-size:.8rem;font-family:var(--font-mono)" id="ed-grid-color-label">#ffffff</span>
+            </div>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">Слой</div>
@@ -1893,6 +1898,7 @@ async function openEditor(skinName){
     activeLayer: 'base',
     tool: 'pencil',
     color: '#38BDF8',
+    gridColor: '#ffffff',
     drawing: false,
     lastPx: null, lastPy: null,
     viewer: null,
@@ -1941,6 +1947,14 @@ async function openEditor(skinName){
     palEl.querySelectorAll('button').forEach(x => x.classList.remove('active'));
   });
 
+  $('ed-grid-color').addEventListener('input', e => {
+    editorState.gridColor = e.target.value;
+    $('ed-grid-color-label').textContent = e.target.value;
+    if(editorState.activeLayer === 'overlay'){
+      buildAllWireframes();
+    }
+  });
+
   $$('[data-tool]').forEach(b => b.addEventListener('click', () => {
     editorState.tool = b.dataset.tool;
     $$('[data-tool]').forEach(x => x.classList.remove('active'));
@@ -1969,7 +1983,6 @@ async function openEditor(skinName){
     b.addEventListener('click', (e) => {
       e.preventDefault();
       applyBg(b.dataset.bg);
-      toast('Фон: ' + b.dataset.bg, 'ok', 1200);
     });
   });
 
@@ -1993,7 +2006,7 @@ async function openEditor(skinName){
       const dataUrl = reader.result;
       if(typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')){
         try{ localStorage.setItem('mch-editor-bg-custom', dataUrl); }
-        catch{ toast('Фон слишком большой для сохранения','error'); }
+        catch{ toast('Фон слишком большой','error'); }
         applyBg('custom');
         toast('Свой фон загружен','ok');
       }
@@ -2001,7 +2014,7 @@ async function openEditor(skinName){
     reader.readAsDataURL(file);
   });
 
-  /* === 3D VIEWER через skinview3d === */
+  /* 3D VIEWER */
   const ed3d = $('ed-3d');
   let viewer = null;
 
@@ -2041,7 +2054,7 @@ async function openEditor(skinName){
       editorState.mouseVec = new THREE.Vector2();
     }catch(e){
       console.warn('viewer failed:', e);
-      ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center">3D недоступно. Работай в режиме «Сетка».</p>';
+      ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center">3D недоступно.</p>';
     }
   }else{
     ed3d.innerHTML = '<p style="color:#fff;padding:2rem;text-align:center">3D недоступно.</p>';
@@ -2079,27 +2092,28 @@ async function openEditor(skinName){
     const w = bb.max.x - bb.min.x;
     const h = bb.max.y - bb.min.y;
     const d = bb.max.z - bb.min.z;
-    const e = 0.006;
+    if(w <= 0 || h <= 0 || d <= 0) return null;
 
+    const e = 0.006;
     const pts = [];
     const seg = (x1,y1,z1,x2,y2,z2) => { pts.push(x1,y1,z1, x2,y2,z2); };
 
-    // Верхняя грань
+    // Верхняя грань (y = +h/2)
     for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, h/2+e, -d/2, x, h/2+e, d/2); }
     for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, h/2+e, z, w/2, h/2+e, z); }
-    // Нижняя
+    // Нижняя (y = -h/2)
     for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2-e, -d/2, x, -h/2-e, d/2); }
     for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, -h/2-e, z, w/2, -h/2-e, z); }
-    // Передняя
+    // Передняя (z = +d/2)
     for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, d/2+e, x, h/2, d/2+e); }
     for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, d/2+e, w/2, y, d/2+e); }
-    // Задняя
+    // Задняя (z = -d/2)
     for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, -d/2-e, x, h/2, -d/2-e); }
     for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, -d/2-e, w/2, y, -d/2-e); }
-    // Левая
+    // Левая (x = -w/2)
     for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(-w/2-e, y, -d/2, -w/2-e, y, d/2); }
     for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2-e, -h/2, z, -w/2-e, h/2, z); }
-    // Правая
+    // Правая (x = +w/2)
     for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(w/2+e, y, -d/2, w/2+e, y, d/2); }
     for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(w/2+e, -h/2, z, w/2+e, h/2, z); }
 
@@ -2108,28 +2122,36 @@ async function openEditor(skinName){
     return gg;
   }
 
-  function buildAllWireframes(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
-
-    // Удаляем старые
+  function clearWireframes(){
     if(editorState.gridLines){
       editorState.gridLines.forEach(lines => {
         if(lines.parent) lines.parent.remove(lines);
         if(lines.geometry) lines.geometry.dispose();
         if(lines.material) lines.material.dispose();
       });
+      editorState.gridLines = null;
     }
+  }
+
+  function buildAllWireframes(){
+    const v = editorState.viewer;
+    if(!v || !v.playerObject) return;
+
+    clearWireframes();
     editorState.gridLines = [];
 
+    const hex = editorState.gridColor || '#ffffff';
+    const colorNum = parseInt(hex.replace('#',''), 16);
+
     const mat = new THREE.LineBasicMaterial({
-      color: 0x38BDF8,
+      color: colorNum,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.9,
       depthWrite: false,
       depthTest: true
     });
 
+    // Собираем все уникальные меши и строим для каждого
     v.playerObject.traverse(obj => {
       if(!obj.isMesh) return;
       const n = (obj.name || '').toLowerCase();
@@ -2148,12 +2170,13 @@ async function openEditor(skinName){
     });
   }
 
-  /* === Видимость слоёв + включение/выключение wireframe === */
+  /* === Видимость слоёв: НИЧЕГО не скрываем, только включаем/выключаем wireframe === */
   function applyLayerVisibility(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
     const isOverlay = editorState.activeLayer === 'overlay';
 
+    // Все меши и материалы всегда видимы — скин не пропадает
     v.playerObject.traverse(obj => {
       if(!obj.isMesh) return;
       const n = (obj.name || '').toLowerCase();
@@ -2161,33 +2184,23 @@ async function openEditor(skinName){
       const combined = n + ' ' + p;
       if(combined.includes('cape') || combined.includes('elytra')) return;
 
+      obj.visible = true;
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      const isMulti = mats.length >= 2;
-
-      if(isMulti){
-        obj.visible = true;
-        mats.forEach((mat, idx) => {
-          if(!mat) return;
-          const isOuter = idx > 0;
-          mat.visible = isOverlay ? isOuter : !isOuter;
-        });
-      }else{
-        const isOuter = /outer|hat|jacket|sleeve|overlay|second/i.test(combined);
-        obj.visible = isOverlay ? isOuter : !isOuter;
-      }
+      mats.forEach(m => {
+        if(!m) return;
+        m.visible = true;
+        m.transparent = false;
+        m.opacity = 1;
+        m.depthWrite = true;
+        m.needsUpdate = true;
+      });
     });
 
+    // В overlay — строим wireframe, в base — убираем
     if(isOverlay){
       buildAllWireframes();
     }else{
-      if(editorState.gridLines){
-        editorState.gridLines.forEach(lines => {
-          if(lines.parent) lines.parent.remove(lines);
-          if(lines.geometry) lines.geometry.dispose();
-          if(lines.material) lines.material.dispose();
-        });
-        editorState.gridLines = null;
-      }
+      clearWireframes();
     }
   }
 
@@ -2323,12 +2336,21 @@ async function openEditor(skinName){
     if(!v) return;
     try{
       const dataUrl = editorState.canvas.toDataURL('image/png');
-      v.loadSkin(dataUrl).then(() => {
-        if(editorState.activeLayer === 'overlay'){
-          buildAllWireframes();
-        }
-      }).catch(() => {});
+      v.loadSkin(dataUrl).catch(() => {});
     }catch(e){}
+  }
+
+  /* === Определяем, попали ли в outer-материал === */
+  function isOuterHit(h){
+    const obj = h.object;
+    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+    if(mats.length >= 2){
+      const mi = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
+      return mi > 0;
+    }
+    const n = (obj.name || '').toLowerCase();
+    const p = (obj.parent && obj.parent.name || '').toLowerCase();
+    return /outer|hat|jacket|sleeve|overlay|second/i.test(n + ' ' + p);
   }
 
   /* === 3D DRAW === */
@@ -2337,6 +2359,7 @@ async function openEditor(skinName){
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
     if(!v || !ray || !mv) return;
+    const wantOverlay = editorState.activeLayer === 'overlay';
 
     const rect = v.canvas.getBoundingClientRect();
     mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
@@ -2355,13 +2378,12 @@ async function openEditor(skinName){
       if(!h.object.visible) continue;
       if(!h.uv) continue;
       if(h.object.isLine || h.object.isLineSegments) continue;
+      if(h.object.name === '__wireframe') continue;
+      if(h.object.parent && h.object.parent.name === '__wireframe') continue;
 
-      const obj = h.object;
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      if(mats.length >= 2){
-        const mi = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
-        if(!mats[mi] || mats[mi].visible === false) continue;
-      }
+      const isOuter = isOuterHit(h);
+      if(wantOverlay && !isOuter) continue;
+      if(!wantOverlay && isOuter) continue;
 
       hit = h;
       break;
@@ -2621,13 +2643,7 @@ async function openEditor(skinName){
     document.removeEventListener('keydown', keyHandler);
     if(bgUploadInput && bgUploadInput.parentNode) bgUploadInput.parentNode.removeChild(bgUploadInput);
     if(editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
-    if(editorState?.gridLines){
-      editorState.gridLines.forEach(lines => {
-        if(lines.geometry) lines.geometry.dispose();
-        if(lines.material) lines.material.dispose();
-      });
-      editorState.gridLines = null;
-    }
+    clearWireframes();
     if(editorState?._resizeHandler) window.removeEventListener('resize', editorState._resizeHandler);
     if(editorState?.mousemoveThrottle) clearTimeout(editorState.mousemoveThrottle);
     if(editorState?.viewer){
