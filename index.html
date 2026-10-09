@@ -1979,7 +1979,7 @@ async function openEditor(skinName){
   $('ed-grid-color').addEventListener('input', e => {
     editorState.gridColor = e.target.value;
     $('ed-grid-color-label').textContent = e.target.value;
-    applyGridToAllMaterials();
+    applyGridToAllMaterials(true);
   });
 
   $$('[data-tool]').forEach(b => b.addEventListener('click', () => {
@@ -2108,7 +2108,6 @@ async function openEditor(skinName){
 
   /* ============================================================
      Определение слоя меша
-     У skinview3d у КАЖДОГО меша name = "inner" или "outer".
      ============================================================ */
   function isOuterMesh(mesh){
     const n = (mesh.name || '').toLowerCase();
@@ -2125,22 +2124,29 @@ async function openEditor(skinName){
   const GRID_KEY = '__gridShader';
 
   function installGridShader(mat){
-    if(!mat || mat.userData[GRID_KEY]) return;
+    if(!mat) return;
 
-    mat.userData[GRID_KEY] = {
-      orig: mat.onBeforeCompile,
-      uniforms: {
-        uGridOpacity: { value: 0.0 },
-        uGridColor: { value: new THREE.Color(0xffffff) }
-      }
-    };
+    if(!mat.userData['__gridOrigSet']){
+      mat.userData['__gridOrigSet'] = true;
+      mat.userData['__gridOrig'] = mat.onBeforeCompile || null;
+    }
+
+    if(!mat.userData[GRID_KEY]){
+      mat.userData[GRID_KEY] = {
+        uniforms: {
+          uGridOpacity: { value: 0.0 },
+          uGridColor: { value: new THREE.Color(0xffffff) }
+        }
+      };
+    }
 
     mat.onBeforeCompile = function(shader){
-      const d = mat.userData[GRID_KEY];
-      if(typeof d.orig === 'function'){
-        try{ d.orig.call(this, shader); }catch(e){}
+      const orig = mat.userData['__gridOrig'];
+      if(typeof orig === 'function'){
+        try{ orig.call(this, shader); }catch(e){}
       }
 
+      const d = mat.userData[GRID_KEY];
       shader.uniforms.uGridOpacity = d.uniforms.uGridOpacity;
       shader.uniforms.uGridColor = d.uniforms.uGridColor;
 
@@ -2173,11 +2179,7 @@ async function openEditor(skinName){
     d.uniforms.uGridColor.value.set(c);
   }
 
-  /* ============================================================
-     Сетка только на outer-мешах в overlay-режиме.
-     Никаких манипуляций с obj.visible — skinview3d это ломает.
-     ============================================================ */
-  function applyGridToAllMaterials(){
+  function applyGridToAllMaterials(reinstall){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
     const showOverlay = editorState.activeLayer === 'overlay';
@@ -2196,7 +2198,7 @@ async function openEditor(skinName){
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
       mats.forEach(m => {
         if(!m) return;
-        installGridShader(m);
+        if(reinstall) installGridShader(m);
         updateGridUniform(m, gridOn);
       });
     });
@@ -2231,7 +2233,7 @@ async function openEditor(skinName){
     v.skinTexture.minFilter = THREE.NearestFilter;
     v.skinTexture.needsUpdate = true;
 
-    applyGridToAllMaterials();
+    applyGridToAllMaterials(false);
   }
 
   function schedule3DRefresh(){
@@ -2275,8 +2277,8 @@ async function openEditor(skinName){
     viewer.renderer.setAnimationLoop(() => {
       viewer.renderer.render(viewer.scene, viewer.camera);
     });
-    setTimeout(applyGridToAllMaterials, 500);
-    setTimeout(applyGridToAllMaterials, 1500);
+    setTimeout(() => applyGridToAllMaterials(true), 500);
+    setTimeout(() => applyGridToAllMaterials(true), 1500);
   }
 
   /* СЛОИ */
@@ -2284,7 +2286,7 @@ async function openEditor(skinName){
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    applyGridToAllMaterials();
+    applyGridToAllMaterials(true);
     toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (клетки)', 'info', 1400);
   }));
 
@@ -2346,7 +2348,7 @@ async function openEditor(skinName){
   }
 
   /* ============================================================
-     3D DRAW — фильтр по слою через isOuterMesh
+     3D DRAW — фильтр по слою
      ============================================================ */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
