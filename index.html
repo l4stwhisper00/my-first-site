@@ -1253,16 +1253,25 @@ async function fetchModrinthPage(){
   const {qs, key} = buildModrinthQuery();
   const cached = cacheGet(key);
   if(cached) return cached;
-  const endpoints = [`${MR_API}/search?${qs}`, `${MCIM_MR}/search?${qs}`];
-  for(const url of endpoints){
+
+  const endpoint = `${MR_API}/search?${qs}`;
+  const proxies = [
+    `${MCIM_MR}/search?${qs}`,                                                      // зеркало для РФ
+    endpoint,                                                                        // официальный
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(endpoint)}`,           // CORS-прокси
+    `https://api.cors.lol/?url=${encodeURIComponent(endpoint)}`,                    // CORS-прокси 2
+    `https://cors.eu.org/${endpoint}`                                               // CORS-прокси 3
+  ];
+
+  for(const url of proxies){
     try{
       const data = await fetchJson(url);
-      if(data && data.hits){
+      if(data && data.hits && data.hits.length){
         const result = {list:data.hits.map(i => ({source:'modrinth', ...i})), total:data.total_hits ?? 0};
         cacheSet(key, result);
         return result;
       }
-    }catch(e){ console.warn('MR mirror failed:', url.split('/')[2], e.message); }
+    }catch(e){ console.warn('MR endpoint failed:', url.split('/')[2], e.message); }
   }
   return {list: [], total: 0};
 }
@@ -1270,11 +1279,14 @@ async function fetchCurseForgePage(){
   const {qs, key} = buildCurseForgeQuery();
   const cached = cacheGet(key);
   if(cached) return cached;
+
   const endpoints = [
-    `${MCIM_API}/mods/search?${qs}`,
+    `${MCIM_API}/mods/search?${qs}`,                                                // зеркало для РФ (первое)
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(`${CURSE_TOOLS}/mods/search?${qs}`)}`,
     `${CURSE_TOOLS}/mods/search?${qs}`,
     `${CFPROXY}/v1/mods/search?${qs}`
   ];
+
   for(const url of endpoints){
     try{
       const data = await fetchJson(url);
@@ -1286,7 +1298,7 @@ async function fetchCurseForgePage(){
         cacheSet(key, result);
         return result;
       }
-    }catch(e){ console.warn('CF mirror failed:', url.split('/')[2], e.message); }
+    }catch(e){ console.warn('CF endpoint failed:', url.split('/')[2], e.message); }
   }
   return {list: [], total: 0};
 }
