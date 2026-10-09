@@ -1979,7 +1979,7 @@ async function openEditor(skinName){
   $('ed-grid-color').addEventListener('input', e => {
     editorState.gridColor = e.target.value;
     $('ed-grid-color-label').textContent = e.target.value;
-    applyGridToAllMaterials(true);
+    applyGridToAllMaterials();
   });
 
   $$('[data-tool]').forEach(b => b.addEventListener('click', () => {
@@ -2108,72 +2108,39 @@ async function openEditor(skinName){
 
   /* ============================================================
      Определение слоя меша
+     У skinview3d у КАЖДОГО меша name = "inner" или "outer".
      ============================================================ */
-function isOuterMesh(mesh){
-  const n = (mesh.name || '').toLowerCase();
-  const p = (mesh.parent && mesh.parent.name || '').toLowerCase();
-
-  // 1) По имени — самое надёжное для головы и тела
-  if(n === 'outer' || p === 'outer') return true;
-  if(n === 'inner' || p === 'inner') return false;
-  if(n.includes('hat') || n.includes('jacket') || n.includes('sleeve') || n.includes('pant')) return true;
-
-  // 2) По scale — у outer skinview3d ставит 1.12, у inner 1.0
-  if(mesh.scale){
-    const sx = Math.abs(mesh.scale.x - 1);
-    const sy = Math.abs(mesh.scale.y - 1);
-    const sz = Math.abs(mesh.scale.z - 1);
-    if(sx > 0.05 || sy > 0.05 || sz > 0.05) return true;
-  }
-
-  // 3) По geometry.parameters — у outer дробные размеры (8.6), у inner целые (8)
-  const gp = mesh.geometry && mesh.geometry.parameters;
-  if(gp && gp.width && gp.height && gp.depth){
-    const w = gp.width, h = gp.height, d = gp.depth;
-    if(!Number.isInteger(w) || !Number.isInteger(h) || !Number.isInteger(d)){
-      return true;
-    }
+  function isOuterMesh(mesh){
+    const n = (mesh.name || '').toLowerCase();
+    const p = (mesh.parent && mesh.parent.name || '').toLowerCase();
+    if(n === 'outer') return true;
+    if(p === 'outer') return true;
+    if(n.includes('hat') || n.includes('jacket') || n.includes('sleeve') || n.includes('pant')) return true;
     return false;
   }
 
-  // 4) Fallback — bbox БЕЗ кэша (чтобы не сохранять неправильное значение)
-  const b = new THREE.Box3().setFromObject(mesh);
-  const vals = [b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z];
-  for(const v of vals){
-    const diff = Math.abs(v - Math.round(v));
-    if(diff > 0.15 && diff < 0.85) return true;
-  }
-  return false;
-}
   /* ============================================================
      GRID SHADER
      ============================================================ */
   const GRID_KEY = '__gridShader';
 
   function installGridShader(mat){
-    if(!mat) return;
+    if(!mat || mat.userData[GRID_KEY]) return;
 
-    if(!mat.userData['__gridOrigSet']){
-      mat.userData['__gridOrigSet'] = true;
-      mat.userData['__gridOrig'] = mat.onBeforeCompile || null;
-    }
-
-    if(!mat.userData[GRID_KEY]){
-      mat.userData[GRID_KEY] = {
-        uniforms: {
-          uGridOpacity: { value: 0.0 },
-          uGridColor: { value: new THREE.Color(0xffffff) }
-        }
-      };
-    }
+    mat.userData[GRID_KEY] = {
+      orig: mat.onBeforeCompile,
+      uniforms: {
+        uGridOpacity: { value: 0.0 },
+        uGridColor: { value: new THREE.Color(0xffffff) }
+      }
+    };
 
     mat.onBeforeCompile = function(shader){
-      const orig = mat.userData['__gridOrig'];
-      if(typeof orig === 'function'){
-        try{ orig.call(this, shader); }catch(e){}
+      const d = mat.userData[GRID_KEY];
+      if(typeof d.orig === 'function'){
+        try{ d.orig.call(this, shader); }catch(e){}
       }
 
-      const d = mat.userData[GRID_KEY];
       shader.uniforms.uGridOpacity = d.uniforms.uGridOpacity;
       shader.uniforms.uGridColor = d.uniforms.uGridColor;
 
@@ -2206,7 +2173,11 @@ function isOuterMesh(mesh){
     d.uniforms.uGridColor.value.set(c);
   }
 
-  function applyGridToAllMaterials(reinstall){
+  /* ============================================================
+     Сетка только на outer-мешах в overlay-режиме.
+     Никаких манипуляций с obj.visible — skinview3d это ломает.
+     ============================================================ */
+  function applyGridToAllMaterials(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
     const showOverlay = editorState.activeLayer === 'overlay';
@@ -2225,7 +2196,7 @@ function isOuterMesh(mesh){
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
       mats.forEach(m => {
         if(!m) return;
-        if(reinstall) installGridShader(m);
+        installGridShader(m);
         updateGridUniform(m, gridOn);
       });
     });
@@ -2260,7 +2231,7 @@ function isOuterMesh(mesh){
     v.skinTexture.minFilter = THREE.NearestFilter;
     v.skinTexture.needsUpdate = true;
 
-    applyGridToAllMaterials(false);
+    applyGridToAllMaterials();
   }
 
   function schedule3DRefresh(){
@@ -2304,8 +2275,8 @@ function isOuterMesh(mesh){
     viewer.renderer.setAnimationLoop(() => {
       viewer.renderer.render(viewer.scene, viewer.camera);
     });
-    setTimeout(() => applyGridToAllMaterials(true), 500);
-    setTimeout(() => applyGridToAllMaterials(true), 1500);
+    setTimeout(applyGridToAllMaterials, 500);
+    setTimeout(applyGridToAllMaterials, 1500);
   }
 
   /* СЛОИ */
@@ -2313,7 +2284,7 @@ function isOuterMesh(mesh){
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    applyGridToAllMaterials(true);
+    applyGridToAllMaterials();
     toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (клетки)', 'info', 1400);
   }));
 
@@ -2375,7 +2346,7 @@ function isOuterMesh(mesh){
   }
 
   /* ============================================================
-     3D DRAW — фильтр по слою
+     3D DRAW — фильтр по слою через isOuterMesh
      ============================================================ */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
