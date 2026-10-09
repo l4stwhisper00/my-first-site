@@ -1858,7 +1858,7 @@ async function openEditor(skinName){
                 <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
               </button>
             </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый рисует тело, оверлей — поверх него попиксельно.</p>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый — тело, оверлей — сетка 64×64, другой слой скрывается.</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
@@ -2069,55 +2069,41 @@ async function openEditor(skinName){
   editorState._resizeHandler = doResize;
 
   /* ============================================================
-     ШЕЙДЕР СЕТКИ — попиксельно 64×64 на UV оверлея
+     Текстура с сеткой 64×64 — попиксельно
      ============================================================ */
-  const GRID_SHADER_KEY = '__gridShaderOn';
+  function makeGriddedTexture(){
+    const tmp = document.createElement('canvas');
+    tmp.width = SKIN_SIZE;
+    tmp.height = SKIN_SIZE;
+    const tctx = tmp.getContext('2d');
+    tctx.imageSmoothingEnabled = false;
+    tctx.drawImage(editorState.canvas, 0, 0);
 
-  function applyGridShader(mat, on){
-    if(!mat) return;
-    if(on && !mat.userData[GRID_SHADER_KEY]){
-      mat.userData[GRID_SHADER_KEY] = true;
-      mat.userData.__origOBC = mat.onBeforeCompile;
-      mat.userData.__cacheKey = mat.customProgramCacheKey;
-
-      mat.onBeforeCompile = function(shader){
-        if(typeof mat.userData.__origOBC === 'function'){
-          mat.userData.__origOBC.call(this, shader);
-        }
-        shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <dithering_fragment>',
-          `#include <dithering_fragment>
-          #ifdef USE_MAP
-            vec2 __gUV = vMapUv * 64.0;
-            vec2 __gF = abs(fract(__gUV - 0.5) - 0.5);
-            vec2 __gD = fwidth(__gUV);
-            vec2 __gL = __gF / max(__gD, vec2(0.0001));
-            float __gA = 1.0 - min(min(__gL.x, __gL.y), 1.0);
-            gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.22, 0.85, 1.0), __gA * 0.95);
-          #endif
-          `
-        );
-      };
-      mat.customProgramCacheKey = function(){
-        let base = 'grid-on';
-        if(typeof mat.userData.__cacheKey === 'function'){
-          try{ base += '_' + mat.userData.__cacheKey(); }catch{}
-        }
-        return base;
-      };
-      mat.needsUpdate = true;
-    }else if(!on && mat.userData[GRID_SHADER_KEY]){
-      mat.userData[GRID_SHADER_KEY] = false;
-      mat.onBeforeCompile = mat.userData.__origOBC || function(){};
-      mat.customProgramCacheKey = mat.userData.__cacheKey || function(){ return ''; };
-      mat.needsUpdate = true;
+    // Полупрозрачные голубые линии на каждой границе пикселя
+    // Через каждые 2 пикселя — чтобы не закрывать сам рисунок
+    tctx.fillStyle = 'rgba(56, 189, 248, 0.65)';
+    for(let i = 0; i <= SKIN_SIZE; i += 2){
+      tctx.fillRect(i, 0, 1, SKIN_SIZE);
+      tctx.fillRect(0, i, SKIN_SIZE, 1);
     }
+    // Более тонкие линии каждые 4 пикселя (для читаемости)
+    tctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+    for(let i = 0; i <= SKIN_SIZE; i += 1){
+      if(i % 2 !== 0){
+        tctx.fillRect(i, 0, 1, SKIN_SIZE);
+        tctx.fillRect(0, i, SKIN_SIZE, 1);
+      }
+    }
+    return tmp.toDataURL('image/png');
   }
 
-  /* Применяем/снимаем сетку. showGrid=true — на ОВЕРЛЕЙ материал (index>0 или outer-меш), false — снять со всех */
-  function applyOverlayGrid(showGrid){
+  /* ============================================================
+     ВИДИМОСТЬ СЛОЁВ — скрываем то что не нужно
+     ============================================================ */
+  function applyLayerVisibility(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
+    const isOverlay = editorState.activeLayer === 'overlay';
 
     v.playerObject.traverse(obj => {
       if(!obj.isMesh) return;
@@ -2129,15 +2115,20 @@ async function openEditor(skinName){
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
       const isMulti = mats.length >= 2;
 
-      mats.forEach((mat, idx) => {
-        if(!mat) return;
-        let isOuter;
-        if(isMulti) isOuter = idx > 0;
-        else isOuter = /outer|hat|jacket|sleeve|overlay|second/i.test(combined);
-
-        if(showGrid && isOuter) applyGridShader(mat, true);
-        else applyGridShader(mat, false);
-      });
+      if(isMulti){
+        // Меш содержит оба слоя — переключаем видимость материалов
+        obj.visible = true;
+        mats.forEach((mat, idx) => {
+          if(!mat) return;
+          const isOuter = idx > 0;
+          mat.visible = isOverlay ? isOuter : !isOuter;
+        });
+      }else{
+        // Single-material меш — целиком базовый или целиком оверлей
+        const isOuter = /outer|hat|jacket|sleeve|overlay|second/i.test(combined);
+        const wantVisible = isOverlay ? isOuter : !isOuter;
+        obj.visible = wantVisible;
+      }
     });
   }
 
@@ -2174,16 +2165,17 @@ async function openEditor(skinName){
     viewer.renderer.setAnimationLoop(() => {
       viewer.renderer.render(viewer.scene, viewer.camera);
     });
-    applyOverlayGrid(editorState.activeLayer === 'overlay');
+    applyLayerVisibility();
   }
 
-  /* === СЛОИ === */
+  /* === ПЕРЕКЛЮЧАТЕЛЬ СЛОЁВ === */
   $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    applyOverlayGrid(editorState.activeLayer === 'overlay');
-    toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (попиксельная сетка)', 'info', 1400);
+    applyLayerVisibility();
+    refresh3D();
+    toast(b.dataset.layer === 'base' ? 'Слой: базовый (тело)' : 'Слой: оверлей (сетка)', 'info', 1400);
   }));
 
   /* === PAINT === */
@@ -2277,18 +2269,25 @@ async function openEditor(skinName){
     const v = editorState.viewer;
     if(!v) return;
     try{
-      const dataUrl = editorState.canvas.toDataURL('image/png');
-      v.loadSkin(dataUrl).catch(() => {});
+      let dataUrl;
+      if(editorState.activeLayer === 'overlay'){
+        dataUrl = makeGriddedTexture();
+      }else{
+        dataUrl = editorState.canvas.toDataURL('image/png');
+      }
+      v.loadSkin(dataUrl).then(() => {
+        // после loadSkin переприменяем видимость (материалы могли сброситься)
+        applyLayerVisibility();
+      }).catch(() => {});
     }catch(e){ console.warn('refresh3D failed:', e); }
   }
 
-  /* === 3D DRAW — с разделением по слоям через materialIndex === */
+  /* === 3D DRAW — рисуем только в видимый материал === */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
     if(!v || !ray || !mv) return;
-    const wantOverlay = editorState.activeLayer === 'overlay';
 
     const rect = v.canvas.getBoundingClientRect();
     mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
@@ -2311,24 +2310,15 @@ async function openEditor(skinName){
       const obj = h.object;
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
 
-      let isOuterHit;
+      // Пропускаем попадания в невидимые материалы
       if(mats.length >= 2){
-        const matIdx = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
-        isOuterHit = matIdx > 0;
-      }else{
-        const n = (obj.name || '').toLowerCase();
-        const p = (obj.parent && obj.parent.name || '').toLowerCase();
-        isOuterHit = /outer|hat|jacket|sleeve|overlay|second/i.test(n + ' ' + p);
+        const mi = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
+        if(!mats[mi] || mats[mi].visible === false) continue;
       }
-
-      // базовый слой — только базовые меши, оверлей — только оверлейные
-      if(wantOverlay && !isOuterHit) continue;
-      if(!wantOverlay && isOuterHit) continue;
 
       hit = h;
       break;
     }
-
     if(!hit){
       editorState.lastPx = null;
       editorState.lastPy = null;
@@ -2448,6 +2438,20 @@ async function openEditor(skinName){
     cx.clearRect(0, 0, cv.width, cv.height);
     drawCheckerboard(cx, cv.width, cv.height, SKIN_PIXEL);
     cx.drawImage(editorState.canvas, 0, 0, cv.width, cv.height);
+
+    // Сетка границ пикселей поверх 2D развёртки
+    cx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    cx.lineWidth = 1;
+    for(let i = 0; i <= SKIN_SIZE; i++){
+      cx.beginPath();
+      cx.moveTo(i * SKIN_PIXEL + 0.5, 0);
+      cx.lineTo(i * SKIN_PIXEL + 0.5, cv.height);
+      cx.stroke();
+      cx.beginPath();
+      cx.moveTo(0, i * SKIN_PIXEL + 0.5);
+      cx.lineTo(cv.width, i * SKIN_PIXEL + 0.5);
+      cx.stroke();
+    }
   }
 
   function handleFlatDraw(clientX, clientY){
