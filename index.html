@@ -2108,7 +2108,6 @@ async function openEditor(skinName){
 
   /* ============================================================
      Определение слоя меша
-     У skinview3d у КАЖДОГО меша name = "inner" или "outer".
      ============================================================ */
   function isOuterMesh(mesh){
     const n = (mesh.name || '').toLowerCase();
@@ -2173,10 +2172,6 @@ async function openEditor(skinName){
     d.uniforms.uGridColor.value.set(c);
   }
 
-  /* ============================================================
-     Сетка только на outer-мешах в overlay-режиме.
-     Никаких манипуляций с obj.visible — skinview3d это ломает.
-     ============================================================ */
   function applyGridToAllMaterials(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
@@ -2346,10 +2341,7 @@ async function openEditor(skinName){
   }
 
   /* ============================================================
-     3D DRAW — фильтр по слою через isOuterMesh
-     ============================================================ */
-    /* ============================================================
-     РУЧНОЙ ПЕРЕСЧЁТ UV для INNER — обход бага skinview3d
+     РУЧНОЙ ПЕРЕСЧЁТ UV для INNER
      ============================================================ */
   const SKIN_PARTS_BOUNDS = {
     'head':      { xMin:-4, xMax: 4, yMin: 8, yMax: 16, zMin:-4, zMax: 4 },
@@ -2408,7 +2400,7 @@ async function openEditor(skinName){
     if(!region) return null;
     const [u0, v0, rw, rh] = region;
 
-        let u = 0, v = 0;
+    let u = 0, v = 0;
     if(faceKey === 'front'){
       u = (p.x - bounds.xMin) / W;
       v = (bounds.yMax - p.y) / H;
@@ -2428,109 +2420,115 @@ async function openEditor(skinName){
       u = (bounds.xMax - p.x) / W;
       v = (bounds.zMax - p.z) / D;
     }
+
     u = Math.max(0, Math.min(1, u));
     v = Math.max(0, Math.min(1, v));
 
     let px = Math.floor(u0 + u * rw);
     let py = Math.floor(v0 + v * rh);
-    px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
-    py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
+    px = Math.max(u0, Math.min(u0 + rw - 1, px));
+    py = Math.max(v0, Math.min(v0 + rh - 1, py));
     return [px, py];
   }
-   function handle3DDraw(clientX, clientY){
-  const v = editorState.viewer;
-  const ray = editorState.raycaster;
-  const mv = editorState.mouseVec;
-  if(!v || !ray || !mv) return;
-  const wantOverlay = editorState.activeLayer === 'overlay';
 
-  const rect = v.canvas.getBoundingClientRect();
-  mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-  mv.y = -((clientY - rect.top) / rect.height) * 2 + 1;
-  ray.setFromCamera(mv, v.camera);
+  /* ============================================================
+     3D DRAW
+     ============================================================ */
+  function handle3DDraw(clientX, clientY){
+    const v = editorState.viewer;
+    const ray = editorState.raycaster;
+    const mv = editorState.mouseVec;
+    if(!v || !ray || !mv) return;
+    const wantOverlay = editorState.activeLayer === 'overlay';
 
-  const hits = ray.intersectObject(v.playerObject, true);
-  if(!hits.length){
-    editorState.lastPx = null;
-    editorState.lastPy = null;
-    editorState.lastMesh = null;
-    return;
-  }
+    const rect = v.canvas.getBoundingClientRect();
+    mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    mv.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+    ray.setFromCamera(mv, v.camera);
 
-  let hit = null;
-  for(const h of hits){
-    if(!h.object.visible) continue;
-    if(!h.uv) continue;
-    if(h.object.isLine || h.object.isLineSegments) continue;
+    const hits = ray.intersectObject(v.playerObject, true);
+    if(!hits.length){
+      editorState.lastPx = null;
+      editorState.lastPy = null;
+      editorState.lastMesh = null;
+      return;
+    }
 
-    const n = (h.object.name || '').toLowerCase();
-    const p = (h.object.parent && h.object.parent.name || '').toLowerCase();
-    const combined = n + ' ' + p;
-    if(combined.includes('cape') || combined.includes('elytra')) continue;
-    if(combined.includes('ear')) continue;
+    let hit = null;
+    for(const h of hits){
+      if(!h.object.visible) continue;
+      if(!h.uv) continue;
+      if(h.object.isLine || h.object.isLineSegments) continue;
 
-    // Отсекаем elytra/cape по позиции — они всегда далеко в -Z
-    if(h.point && h.point.z < -3) continue;
+      const n = (h.object.name || '').toLowerCase();
+      const p = (h.object.parent && h.object.parent.name || '').toLowerCase();
+      const combined = n + ' ' + p;
+      if(combined.includes('cape') || combined.includes('elytra')) continue;
+      if(combined.includes('ear')) continue;
 
-    const isOuter = isOuterMesh(h.object);
-    if(wantOverlay && !isOuter) continue;
-    if(!wantOverlay && isOuter) continue;
+      // Отсекаем elytra/cape по boundingBox
+      const _bb = new THREE.Box3().setFromObject(h.object);
+      if(_bb.min.z < -5) continue;
 
-    hit = h;
-    break;
-  }
+      const isOuter = isOuterMesh(h.object);
+      if(wantOverlay && !isOuter) continue;
+      if(!wantOverlay && isOuter) continue;
 
-  if(!hit){
-    editorState.lastPx = null;
-    editorState.lastPy = null;
-    editorState.lastMesh = null;
-    return;
-  }
+      hit = h;
+      break;
+    }
 
-  // В базовом (inner) пересчитываем UV вручную — skinview3d врёт
-  const isOuter = isOuterMesh(hit.object);
-  let px, py;
-  if(!isOuter && typeof computeInnerUV === 'function'){
-    const uv = computeInnerUV(hit);
-    if(uv){
-      px = uv[0];
-      py = uv[1];
+    if(!hit){
+      editorState.lastPx = null;
+      editorState.lastPy = null;
+      editorState.lastMesh = null;
+      return;
+    }
+
+    const isOuter = isOuterMesh(hit.object);
+    let px, py;
+
+    if(!isOuter){
+      const uv = computeInnerUV(hit);
+      if(uv){
+        px = uv[0];
+        py = uv[1];
+      }else{
+        px = Math.floor(hit.uv.x * SKIN_SIZE);
+        py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
+      }
     }else{
       px = Math.floor(hit.uv.x * SKIN_SIZE);
       py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
     }
-  }else{
-    px = Math.floor(hit.uv.x * SKIN_SIZE);
-    py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
-  }
 
-  px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
-  py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
+    px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
+    py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
 
-  if(editorState.lastPx !== null && editorState.lastPy !== null &&
-     editorState.lastMesh === hit.object){
-    const dx = px - editorState.lastPx;
-    const dy = py - editorState.lastPy;
-    const steps = Math.max(Math.abs(dx), Math.abs(dy));
-    if(steps <= 3 && steps > 0){
-      for(let i = 1; i <= steps; i++){
-        const ix = Math.round(editorState.lastPx + dx * (i / steps));
-        const iy = Math.round(editorState.lastPy + dy * (i / steps));
-        paintPx(ix, iy);
+    if(editorState.lastPx !== null && editorState.lastPy !== null &&
+       editorState.lastMesh === hit.object){
+      const dx = px - editorState.lastPx;
+      const dy = py - editorState.lastPy;
+      const steps = Math.max(Math.abs(dx), Math.abs(dy));
+      if(steps <= 3 && steps > 0){
+        for(let i = 1; i <= steps; i++){
+          const ix = Math.round(editorState.lastPx + dx * (i / steps));
+          const iy = Math.round(editorState.lastPy + dy * (i / steps));
+          paintPx(ix, iy);
+        }
+      }else{
+        paintPx(px, py);
       }
     }else{
       paintPx(px, py);
     }
-  }else{
-    paintPx(px, py);
+
+    editorState.lastPx = px;
+    editorState.lastPy = py;
+    editorState.lastMesh = hit.object;
+
+    schedule3DRefresh();
   }
-
-  editorState.lastPx = px;
-  editorState.lastPy = py;
-  editorState.lastMesh = hit.object;
-
-  schedule3DRefresh();
-}
 
   if(viewer){
     viewer.canvas.addEventListener('mousedown', e => {
