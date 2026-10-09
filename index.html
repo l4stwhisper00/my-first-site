@@ -2112,9 +2112,37 @@ async function openEditor(skinName){
 function isOuterMesh(mesh){
   const n = (mesh.name || '').toLowerCase();
   const p = (mesh.parent && mesh.parent.name || '').toLowerCase();
-  if(n === 'outer') return true;
-  if(p === 'outer') return true;
+
+  // 1) По имени — самое надёжное для головы и тела
+  if(n === 'outer' || p === 'outer') return true;
+  if(n === 'inner' || p === 'inner') return false;
   if(n.includes('hat') || n.includes('jacket') || n.includes('sleeve') || n.includes('pant')) return true;
+
+  // 2) По scale — у outer skinview3d ставит 1.12, у inner 1.0
+  if(mesh.scale){
+    const sx = Math.abs(mesh.scale.x - 1);
+    const sy = Math.abs(mesh.scale.y - 1);
+    const sz = Math.abs(mesh.scale.z - 1);
+    if(sx > 0.05 || sy > 0.05 || sz > 0.05) return true;
+  }
+
+  // 3) По geometry.parameters — у outer дробные размеры (8.6), у inner целые (8)
+  const gp = mesh.geometry && mesh.geometry.parameters;
+  if(gp && gp.width && gp.height && gp.depth){
+    const w = gp.width, h = gp.height, d = gp.depth;
+    if(!Number.isInteger(w) || !Number.isInteger(h) || !Number.isInteger(d)){
+      return true;
+    }
+    return false;
+  }
+
+  // 4) Fallback — bbox БЕЗ кэша (чтобы не сохранять неправильное значение)
+  const b = new THREE.Box3().setFromObject(mesh);
+  const vals = [b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z];
+  for(const v of vals){
+    const diff = Math.abs(v - Math.round(v));
+    if(diff > 0.15 && diff < 0.85) return true;
+  }
   return false;
 }
   /* ============================================================
