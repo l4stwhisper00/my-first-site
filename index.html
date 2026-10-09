@@ -2109,14 +2109,32 @@ async function openEditor(skinName){
   /* ============================================================
      Определение слоя меша
      ============================================================ */
-  function isOuterMesh(mesh){
-    const n = (mesh.name || '').toLowerCase();
-    const p = (mesh.parent && mesh.parent.name || '').toLowerCase();
-    if(n === 'outer') return true;
-    if(p === 'outer') return true;
-    if(n.includes('hat') || n.includes('jacket') || n.includes('sleeve') || n.includes('pant')) return true;
-    return false;
+ function isOuterMesh(mesh){
+  const n = (mesh.name || '').toLowerCase();
+  const p = (mesh.parent && mesh.parent.name || '').toLowerCase();
+
+  // Быстрое определение по имени (голова, тело)
+  if(n === 'outer') return true;
+  if(p === 'outer') return true;
+  if(n === 'inner') return false;
+  if(p === 'inner') return false;
+  if(n.includes('hat') || n.includes('jacket') || n.includes('sleeve') || n.includes('pant')) return true;
+
+  // Fallback по bbox — работает для рук/ног с пустым именем
+  if(mesh.userData && mesh.userData.__isOuterCache !== undefined){
+    return mesh.userData.__isOuterCache;
   }
+  const b = new THREE.Box3().setFromObject(mesh);
+  const vals = [b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z];
+  let isOuter = false;
+  for(const v of vals){
+    const diff = Math.abs(v - Math.round(v));
+    if(diff > 0.15 && diff < 0.85){ isOuter = true; break; }
+  }
+  if(!mesh.userData) mesh.userData = {};
+  mesh.userData.__isOuterCache = isOuter;
+  return isOuter;
+}
 
   /* ============================================================
      GRID SHADER
