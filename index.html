@@ -331,7 +331,7 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .editor-bg-picker-bar .editor-bg-btn[data-bg="none"]::after{content:'⊘';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8892A3;font-size:.9rem}
 .editor-bg-picker-bar .editor-bg-btn.upload{background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text)}
 #ed-3d{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;overflow:visible}
-#ed-3d canvas{display:block;touch-action:none;cursor:crosshair;background:transparent}
+#ed-3d canvas{display:block;touch-action:none;background:transparent;cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><line x1='6' y1='1' x2='6' y2='11' stroke='black' stroke-width='2.5'/><line x1='1' y1='6' x2='11' y2='6' stroke='black' stroke-width='2.5'/><line x1='6' y1='2' x2='6' y2='10' stroke='white' stroke-width='1'/><line x1='2' y1='6' x2='10' y2='6' stroke='white' stroke-width='1'/></svg>") 6 6, crosshair}
 #ed-2d{padding:1rem;max-width:100%;overflow:auto;position:relative;z-index:1}
 .editor-mode-toggle{position:absolute;top:1rem;right:1rem;z-index:10;display:flex;gap:.25rem;background:rgba(10,14,22,.9);padding:.3rem;border-radius:var(--r-sm);border:1px solid var(--line-strong);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .editor-mode-toggle button{background:transparent;color:var(--tdim);border:none;padding:.5rem 1rem;border-radius:var(--r-sm);cursor:pointer;font-weight:600;font-size:.85rem;transition:all var(--tf) var(--ease)}
@@ -2039,7 +2039,7 @@ async function openEditor(skinName){
         viewer.renderer.setClearAlpha(0);
       }catch{}
       viewer.canvas.style.background = 'transparent';
-      viewer.canvas.style.cursor = 'crosshair';
+      viewer.canvas.style.cursor = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'><line x1=\'6\' y1=\'1\' x2=\'6\' y2=\'11\' stroke=\'black\' stroke-width=\'2.5\'/><line x1=\'1\' y1=\'6\' x2=\'11\' y2=\'6\' stroke=\'black\' stroke-width=\'2.5\'/><line x1=\'6\' y1=\'2\' x2=\'6\' y2=\'10\' stroke=\'white\' stroke-width=\'1\'/><line x1=\'2\' y1=\'6\' x2=\'10\' y2=\'6\' stroke=\'white\' stroke-width=\'1\'/></svg>") 6 6, crosshair';
       viewer.canvas.addEventListener('contextmenu', e => e.preventDefault());
       ed3d.appendChild(viewer.canvas);
       editorState.viewer = viewer;
@@ -2328,58 +2328,68 @@ async function openEditor(skinName){
   }
 
   /* === 3D DRAW === */
-  function handle3DDraw(clientX, clientY){
-    const v = editorState.viewer;
-    const ray = editorState.raycaster;
-    const mv = editorState.mouseVec;
-    if(!v || !ray || !mv) return;
-    const wantOverlay = editorState.activeLayer === 'overlay';
+function handle3DDraw(clientX, clientY){
+  const v = editorState.viewer;
+  const ray = editorState.raycaster;
+  const mv = editorState.mouseVec;
+  if(!v || !ray || !mv) return;
+  const wantOverlay = editorState.activeLayer === 'overlay';
 
-    const rect = v.canvas.getBoundingClientRect();
-    mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-    mv.y = -((clientY - rect.top) / rect.height) * 2 + 1;
-    ray.setFromCamera(mv, v.camera);
+  const rect = v.canvas.getBoundingClientRect();
+  mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+  mv.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+  ray.setFromCamera(mv, v.camera);
 
-    const hits = ray.intersectObject(v.playerObject, true);
-    if(!hits.length){
-      editorState.lastPx = null;
-      editorState.lastPy = null;
-      return;
-    }
+  const hits = ray.intersectObject(v.playerObject, true);
+  if(!hits.length){
+    editorState.lastPx = null;
+    editorState.lastPy = null;
+    return;
+  }
 
-    let hit = null;
-    for(const h of hits){
-      if(!h.object.visible) continue;
-      if(!h.uv) continue;
-      if(h.object.isLine || h.object.isLineSegments) continue;
+  let hit = null;
+  for(const h of hits){
+    if(!h.object.visible) continue;
+    if(!h.uv) continue;
+    if(h.object.isLine || h.object.isLineSegments) continue;
 
-      const isOuter = isOuterHit(h);
-      if(wantOverlay && !isOuter) continue;
-      if(!wantOverlay && isOuter) continue;
+    const isOuter = isOuterHit(h);
+    if(wantOverlay && !isOuter) continue;
+    if(!wantOverlay && isOuter) continue;
 
-      hit = h;
-      break;
-    }
-    if(!hit){
-      editorState.lastPx = null;
-      editorState.lastPy = null;
-      return;
-    }
+    hit = h;
+    break;
+  }
+  if(!hit){
+    editorState.lastPx = null;
+    editorState.lastPy = null;
+    return;
+  }
 
-    let px = Math.floor(hit.uv.x * SKIN_SIZE);
-    let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
-    px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
-    py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
+  let px = Math.floor(hit.uv.x * SKIN_SIZE);
+  let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
+  px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
+  py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
 
-    if(editorState.lastPx !== null && editorState.lastPy !== null){
-      bresenhamLine(editorState.lastPx, editorState.lastPy, px, py);
+  // Строгая проверка: bresenham только для соседних пикселей (dx<=1 && dy<=1)
+  // Всё что дальше — перескок через UV-разрыв, рисуем только точку
+  if(editorState.lastPx !== null && editorState.lastPy !== null){
+    const dx = Math.abs(px - editorState.lastPx);
+    const dy = Math.abs(py - editorState.lastPy);
+    if(dx <= 1 && dy <= 1){
+      paintPx(px, py);
     }else{
+      // перескок — ставим только точку под мышью
       paintPx(px, py);
     }
-    editorState.lastPx = px;
-    editorState.lastPy = py;
-    schedule3DRefresh();
+  }else{
+    paintPx(px, py);
   }
+
+  editorState.lastPx = px;
+  editorState.lastPy = py;
+  schedule3DRefresh();
+}
 
   if(viewer){
     viewer.canvas.addEventListener('mousedown', e => {
