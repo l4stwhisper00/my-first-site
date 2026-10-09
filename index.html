@@ -1928,6 +1928,7 @@ async function openEditor(skinName){
     gridColor: '#ffffff',
     drawing: false,
     lastPx: null, lastPy: null,
+    lastMesh: null,
     viewer: null,
     raycaster: null,
     mouseVec: null,
@@ -2104,6 +2105,31 @@ async function openEditor(skinName){
   setTimeout(doResize, 600);
   window.addEventListener('resize', doResize);
   editorState._resizeHandler = doResize;
+
+  /* ============================================================
+     ГЛАВНОЕ: определение слоя меша по bounding box
+     ============================================================
+     У inner-мешей все границы bbox = целые числа (0, 4, 8, 12, 16).
+     У outer-мешей границы чуть расширены (4.3, 7.5, 8.3) — skinview3d
+     специально делает оверлей толще. Значит если хоть одна граница
+     bbox имеет дробную часть (.3 или .5) — это outer. */
+  function getMeshLayer(mesh){
+    if(mesh.userData && mesh.userData.__layer) return mesh.userData.__layer;
+    const b = new THREE.Box3().setFromObject(mesh);
+    const vals = [b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z];
+    let isOuter = false;
+    for(const v of vals){
+      const rounded = Math.round(v);
+      const diff = Math.abs(v - rounded);
+      if(diff > 0.15 && diff < 0.85){
+        isOuter = true;
+        break;
+      }
+    }
+    if(!mesh.userData) mesh.userData = {};
+    mesh.userData.__layer = isOuter ? 'outer' : 'inner';
+    return mesh.userData.__layer;
+  }
 
   /* ============================================================
      GRID SHADER
@@ -2329,21 +2355,7 @@ async function openEditor(skinName){
   }
 
   /* ============================================================
-     OUTER CHECK — только по имени меша (без materialIndex!)
-     ============================================================
-     У skinview3d каждый mesh — единый BoxGeometry с массивом
-     из 6 материалов (по грани). materialIndex это НЕ слой, а
-     сторона бокса. Поэтому определяем layer строго по имени. */
-  function isOuterHit(h){
-    const obj = h.object;
-    const n = (obj.name || '').toLowerCase();
-    const p = (obj.parent && obj.parent.name || '').toLowerCase();
-    const combined = n + ' ' + p;
-    return /outer|hat|jacket|sleeve|pant|layer|overlay|second/i.test(combined);
-  }
-
-  /* ============================================================
-     3D DRAW — фикс базового слоя
+     3D DRAW — определение слоя по bbox
      ============================================================ */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
@@ -2361,39 +2373,47 @@ async function openEditor(skinName){
     if(!hits.length){
       editorState.lastPx = null;
       editorState.lastPy = null;
+      editorState.lastMesh = null;
       return;
     }
 
-    // Отбираем только нужный слой
     let hit = null;
     for(const h of hits){
       if(!h.object.visible) continue;
       if(!h.uv) continue;
       if(h.object.isLine || h.object.isLineSegments) continue;
 
-      const isOuter = isOuterHit(h);
-      if(wantOverlay && !isOuter) continue;
-      if(!wantOverlay && isOuter) continue;
+      const n = (h.object.name || '').toLowerCase();
+      const p = (h.object.parent && h.object.parent.name || '').toLowerCase();
+      const combined = n + ' ' + p;
+      if(combined.includes('cape') || combined.includes('elytra')) continue;
+      if(combined.includes('ear')) continue;
+
+      const layer = getMeshLayer(h.object);
+      if(wantOverlay){
+        if(layer !== 'outer') continue;
+      }else{
+        if(layer !== 'inner') continue;
+      }
 
       hit = h;
       break;
     }
+
     if(!hit){
       editorState.lastPx = null;
       editorState.lastPy = null;
+      editorState.lastMesh = null;
       return;
     }
 
     let px = Math.floor(hit.uv.x * SKIN_SIZE);
-     let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
+    let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
     px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
     py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
-    console.log('[PAINT]', hit.object.name, 'uv=', hit.uv.x.toFixed(3), hit.uv.y.toFixed(3), 'px=', px, 'py=', py, 'normal=', hit.face?.normal?.x, hit.face?.normal?.y, hit.face?.normal?.z, 'layer=', editorState.activeLayer);
 
-    // Рисуем текущую точку всегда
     if(editorState.lastPx !== null && editorState.lastPy !== null &&
        editorState.lastMesh === hit.object){
-      // Продолжение линии — рисуем интерполяцию между точками
       const dx = px - editorState.lastPx;
       const dy = py - editorState.lastPy;
       const steps = Math.max(Math.abs(dx), Math.abs(dy));
