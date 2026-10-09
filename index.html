@@ -2085,13 +2085,21 @@ async function openEditor(skinName){
   function buildWireframeForMesh(mesh){
   const geo = mesh.geometry;
   if(!geo) return null;
-  if(!geo.boundingBox) geo.computeBoundingBox();
-  const bb = geo.boundingBox;
-  if(!bb) return null;
 
-  const w = bb.max.x - bb.min.x;
-  const h = bb.max.y - bb.min.y;
-  const d = bb.max.z - bb.min.z;
+  // Приоритет: parameters BoxGeometry (работает и для SkinnedMesh)
+  let w, h, d;
+  if(geo.parameters && geo.parameters.width && geo.parameters.height && geo.parameters.depth){
+    w = geo.parameters.width;
+    h = geo.parameters.height;
+    d = geo.parameters.depth;
+  }else{
+    if(!geo.boundingBox) geo.computeBoundingBox();
+    const bb = geo.boundingBox;
+    if(!bb) return null;
+    w = bb.max.x - bb.min.x;
+    h = bb.max.y - bb.min.y;
+    d = bb.max.z - bb.min.z;
+  }
   if(w <= 0 || h <= 0 || d <= 0) return null;
 
   const e = 0.003;
@@ -2121,7 +2129,6 @@ async function openEditor(skinName){
   gg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
   return gg;
 }
-
   function clearWireframes(){
     if(editorState.gridLines){
       editorState.gridLines.forEach(lines => {
@@ -2143,7 +2150,6 @@ async function openEditor(skinName){
   const hex = editorState.gridColor || '#ffffff';
   const colorNum = parseInt(hex.replace('#',''), 16);
 
-  // depthTest: true → видны ТОЛЬКО ближние грани, не даёт жирности
   const mat = new THREE.LineBasicMaterial({
     color: colorNum,
     transparent: true,
@@ -2151,6 +2157,25 @@ async function openEditor(skinName){
     depthTest: true,
     depthWrite: false
   });
+
+  v.playerObject.traverse(obj => {
+    if(!obj.isMesh && !obj.isSkinnedMesh) return;
+    if(obj.name === '__wireframe') return;
+    const n = (obj.name || '').toLowerCase();
+    const p = (obj.parent && obj.parent.name || '').toLowerCase();
+    const combined = n + ' ' + p;
+    if(combined.includes('cape') || combined.includes('elytra')) return;
+
+    const gg = buildWireframeForMesh(obj);
+    if(!gg) return;
+
+    const lines = new THREE.LineSegments(gg, mat);
+    lines.name = '__wireframe';
+    lines.renderOrder = 999;
+    obj.add(lines);
+    editorState.gridLines.push(lines);
+  });
+}
 
   // Собираем все meshes (включая SkinnedMesh и вложенные группы)
   const meshes = [];
