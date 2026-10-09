@@ -2408,18 +2408,18 @@ async function openEditor(skinName){
     if(!region) return null;
     const [u0, v0, rw, rh] = region;
 
-    let u = 0, v = 0;
+        let u = 0, v = 0;
     if(faceKey === 'front'){
       u = (p.x - bounds.xMin) / W;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'back'){
-      u = (bounds.xMax - p.x) / W;
+      u = (p.x - bounds.xMin) / W;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'right'){
-      u = (p.z - bounds.zMin) / D;
+      u = (bounds.zMax - p.z) / D;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'left'){
-      u = (bounds.zMax - p.z) / D;
+      u = (p.z - bounds.zMin) / D;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'top'){
       u = (p.x - bounds.xMin) / W;
@@ -2428,7 +2428,6 @@ async function openEditor(skinName){
       u = (bounds.xMax - p.x) / W;
       v = (bounds.zMax - p.z) / D;
     }
-
     u = Math.max(0, Math.min(1, u));
     v = Math.max(0, Math.min(1, v));
 
