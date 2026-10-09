@@ -2385,9 +2385,10 @@ async function openEditor(skinName){
     }
 
     let px = Math.floor(hit.uv.x * SKIN_SIZE);
-    let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
+     let py = Math.floor((1 - hit.uv.y) * SKIN_SIZE);
     px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
     py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
+    console.log('[PAINT]', hit.object.name, 'uv=', hit.uv.x.toFixed(3), hit.uv.y.toFixed(3), 'px=', px, 'py=', py, 'normal=', hit.face?.normal?.x, hit.face?.normal?.y, hit.face?.normal?.z, 'layer=', editorState.activeLayer);
 
     // Рисуем текущую точку всегда
     if(editorState.lastPx !== null && editorState.lastPy !== null &&
