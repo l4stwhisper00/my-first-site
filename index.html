@@ -2121,53 +2121,71 @@ async function openEditor(skinName){
     return gg;
   }
 
-  function clearWireframes(){
-    if(editorState.gridLines){
-      editorState.gridLines.forEach(lines => {
-        if(lines.parent) lines.parent.remove(lines);
-        if(lines.geometry) lines.geometry.dispose();
-        if(lines.material) lines.material.dispose();
-      });
-      editorState.gridLines = null;
-    }
+ function clearWireframes(){
+  if(editorState.gridLines){
+    editorState.gridLines.forEach(lines => {
+      if(lines.parent) lines.parent.remove(lines);
+      if(lines.geometry) lines.geometry.dispose();
+      if(lines.material) lines.material.dispose();
+    });
+    editorState.gridLines = null;
   }
+}
 
   function buildAllWireframes(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
+  const v = editorState.viewer;
+  if(!v || !v.playerObject) return;
 
-    clearWireframes();
-    editorState.gridLines = [];
+  clearWireframes();
+  editorState.gridLines = [];
 
-    const hex = editorState.gridColor || '#ffffff';
-    const colorNum = parseInt(hex.replace('#',''), 16);
+  const hex = editorState.gridColor || '#ffffff';
+  const colorNum = parseInt(hex.replace('#',''), 16);
 
-    const mat = new THREE.LineBasicMaterial({
+  // Собираем меши ДО того как начнём добавлять клоны
+  const meshes = [];
+  v.playerObject.traverse(obj => {
+    if(!obj.isMesh && !obj.isSkinnedMesh) return;
+    if(obj.name === '__wireframe') return;
+    if(obj.userData && obj.userData.__isWireframe) return;
+    const n = (obj.name || '').toLowerCase();
+    const p = (obj.parent && obj.parent.name || '').toLowerCase();
+    const combined = n + ' ' + p;
+    if(combined.includes('cape') || combined.includes('elytra')) return;
+    meshes.push(obj);
+  });
+
+  meshes.forEach(obj => {
+    const mat = new THREE.MeshBasicMaterial({
       color: colorNum,
+      wireframe: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.55,
       depthTest: true,
       depthWrite: false
     });
 
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh && !obj.isSkinnedMesh) return;
-      if(obj.name === '__wireframe') return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
-
-      const gg = buildWireframeForMesh(obj);
-      if(!gg) return;
-
-      const lines = new THREE.LineSegments(gg, mat);
-      lines.name = '__wireframe';
-      lines.renderOrder = 999;
-      obj.add(lines);
-      editorState.gridLines.push(lines);
-    });
-  }
+    let clone;
+    if(obj.isSkinnedMesh){
+      // SkinnedMesh → SkinnedMesh с той же skeleton, деформация работает автоматически
+      clone = new THREE.SkinnedMesh(obj.geometry, mat);
+      try{ clone.bind(obj.skeleton, obj.bindMatrix); }catch(e){ return; }
+      clone.bindMode = obj.bindMode;
+    }else{
+      clone = new THREE.Mesh(obj.geometry, mat);
+    }
+    clone.position.copy(obj.position);
+    clone.rotation.copy(obj.rotation);
+    clone.scale.copy(obj.scale);
+    clone.name = '__wireframe';
+    clone.userData = clone.userData || {};
+    clone.userData.__isWireframe = true;
+    clone.renderOrder = 999;
+    clone.frustumCulled = false;
+    obj.parent.add(clone);
+    editorState.gridLines.push(clone);
+  });
+}
 
   /* === Слои: не скрываем ничего, только вкл/выкл wireframe === */
   function applyLayerVisibility(){
