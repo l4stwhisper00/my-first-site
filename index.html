@@ -1928,8 +1928,6 @@ async function openEditor(skinName){
     gridColor: '#ffffff',
     drawing: false,
     lastPx: null, lastPy: null,
-    lastMesh: null,
-    lastFaceKey: null,
     viewer: null,
     raycaster: null,
     mouseVec: null,
@@ -1940,8 +1938,7 @@ async function openEditor(skinName){
     mousemoveThrottle: null,
     _resizeHandler: null,
     uploadCanvas: null,
-    _skinWaitTries: 0,
-    debugLog: true
+    _skinWaitTries: 0
   };
 
   const palette = [
@@ -2331,33 +2328,24 @@ async function openEditor(skinName){
     ctx.putImageData(img, 0, 0);
   }
 
-  /* === OUTER CHECK === */
+  /* ============================================================
+     OUTER CHECK — только по имени меша (без materialIndex!)
+     ============================================================
+     У skinview3d каждый mesh — единый BoxGeometry с массивом
+     из 6 материалов (по грани). materialIndex это НЕ слой, а
+     сторона бокса. Поэтому определяем layer строго по имени. */
   function isOuterHit(h){
     const obj = h.object;
-    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-    if(mats.length >= 2){
-      const mi = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
-      return mi > 0;
-    }
     const n = (obj.name || '').toLowerCase();
     const p = (obj.parent && obj.parent.name || '').toLowerCase();
-    return /outer|hat|jacket|sleeve|overlay|second/i.test(n + ' ' + p);
+    const combined = n + ' ' + p;
+    return /outer|hat|jacket|sleeve|pant|layer|overlay|second/i.test(combined);
   }
 
-  /* === FACE KEY — уникальный идентификатор грани для отслеживания перехода === */
-  function getFaceKey(hit){
-    if(!hit.face) return '?';
-    const mi = hit.face.materialIndex || 0;
-    const n = hit.face.normal;
-    const nx = n ? n.x.toFixed(0) : '?';
-    const ny = n ? n.y.toFixed(0) : '?';
-    const nz = n ? n.z.toFixed(0) : '?';
-    const obj = hit.object;
-    return (obj.name || obj.uuid) + '|' + mi + '|' + nx + ',' + ny + ',' + nz;
-  }
-
-  /* === 3D DRAW === */
-  function handle3DDraw(clientX, clientY, isFirst){
+  /* ============================================================
+     3D DRAW — фикс базового слоя
+     ============================================================ */
+  function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
@@ -2370,17 +2358,13 @@ async function openEditor(skinName){
     ray.setFromCamera(mv, v.camera);
 
     const hits = ray.intersectObject(v.playerObject, true);
-
     if(!hits.length){
-      // мышь за пределами модели
       editorState.lastPx = null;
       editorState.lastPy = null;
-      editorState.lastMesh = null;
-      editorState.lastFaceKey = null;
       return;
     }
 
-    // ВАЖНО: отбираем хит СТРОГО по нужному слою
+    // Отбираем только нужный слой
     let hit = null;
     for(const h of hits){
       if(!h.object.visible) continue;
@@ -2388,24 +2372,15 @@ async function openEditor(skinName){
       if(h.object.isLine || h.object.isLineSegments) continue;
 
       const isOuter = isOuterHit(h);
-
-      // ЖЁСТКО: в базовом — только НЕ outer, в оверлее — только outer
-      if(wantOverlay){
-        if(!isOuter) continue;
-      }else{
-        if(isOuter) continue;
-      }
+      if(wantOverlay && !isOuter) continue;
+      if(!wantOverlay && isOuter) continue;
 
       hit = h;
       break;
     }
-
     if(!hit){
-      // в нужном слое хита нет (например мышь над оверлеем, но мы в базовом)
       editorState.lastPx = null;
       editorState.lastPy = null;
-      editorState.lastMesh = null;
-      editorState.lastFaceKey = null;
       return;
     }
 
@@ -2414,36 +2389,20 @@ async function openEditor(skinName){
     px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
     py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
 
-    const faceKey = getFaceKey(hit);
-
-    // ОТЛАДКА — по клику один раз логируем
-    if(editorState.debugLog && isFirst){
-      console.log('[PAINT]', hit.object.name || hit.object.uuid, 'uv=', hit.uv.x.toFixed(3), hit.uv.y.toFixed(3), 'px=', px, 'py=', py, 'layer=', editorState.activeLayer, 'face=', faceKey);
-    }
-
-    // Рисуем линию ТОЛЬКО если предыдущий пиксель был:
-    //  - на том же меше
-    //  - на той же грани
-    //  - И пиксели соседние (|dx|<=1 и |dy|<=1)
-    // Иначе — рисуем только текущую точку
-    if(
-      !isFirst &&
-      editorState.lastPx !== null && editorState.lastPy !== null &&
-      editorState.lastMesh === hit.object &&
-      editorState.lastFaceKey === faceKey
-    ){
+    // Рисуем текущую точку всегда
+    if(editorState.lastPx !== null && editorState.lastPy !== null &&
+       editorState.lastMesh === hit.object){
+      // Продолжение линии — рисуем интерполяцию между точками
       const dx = px - editorState.lastPx;
       const dy = py - editorState.lastPy;
       const steps = Math.max(Math.abs(dx), Math.abs(dy));
-      if(steps <= 3){
-        // маленькое расстояние — дорисовываем линию шаг за шагом
+      if(steps <= 3 && steps > 0){
         for(let i = 1; i <= steps; i++){
           const ix = Math.round(editorState.lastPx + dx * (i / steps));
           const iy = Math.round(editorState.lastPy + dy * (i / steps));
           paintPx(ix, iy);
         }
       }else{
-        // перескок через UV разрыв — только точка
         paintPx(px, py);
       }
     }else{
@@ -2453,7 +2412,6 @@ async function openEditor(skinName){
     editorState.lastPx = px;
     editorState.lastPy = py;
     editorState.lastMesh = hit.object;
-    editorState.lastFaceKey = faceKey;
 
     schedule3DRefresh();
   }
@@ -2465,14 +2423,13 @@ async function openEditor(skinName){
       editorState.lastPx = null;
       editorState.lastPy = null;
       editorState.lastMesh = null;
-      editorState.lastFaceKey = null;
-      handle3DDraw(e.clientX, e.clientY, true);
+      handle3DDraw(e.clientX, e.clientY);
     });
     viewer.canvas.addEventListener('mousemove', e => {
       if(!editorState.drawing) return;
       if(editorState.mousemoveThrottle) return;
       editorState.mousemoveThrottle = setTimeout(() => { editorState.mousemoveThrottle = null; }, 16);
-      handle3DDraw(e.clientX, e.clientY, false);
+      handle3DDraw(e.clientX, e.clientY);
     });
     const stop = () => {
       if(editorState.drawing){
@@ -2480,7 +2437,6 @@ async function openEditor(skinName){
         editorState.lastPx = null;
         editorState.lastPy = null;
         editorState.lastMesh = null;
-        editorState.lastFaceKey = null;
         pushHistory();
         schedule3DRefresh();
       }
@@ -2494,15 +2450,14 @@ async function openEditor(skinName){
       editorState.lastPx = null;
       editorState.lastPy = null;
       editorState.lastMesh = null;
-      editorState.lastFaceKey = null;
       const t = e.touches[0];
-      handle3DDraw(t.clientX, t.clientY, true);
+      handle3DDraw(t.clientX, t.clientY);
     }, {passive:false});
     viewer.canvas.addEventListener('touchmove', e => {
       e.preventDefault();
       if(!editorState.drawing) return;
       const t = e.touches[0];
-      handle3DDraw(t.clientX, t.clientY, false);
+      handle3DDraw(t.clientX, t.clientY);
     }, {passive:false});
     viewer.canvas.addEventListener('touchend', stop);
   }
@@ -2586,12 +2541,11 @@ async function openEditor(skinName){
     px = Math.max(0, Math.min(SKIN_SIZE - 1, px));
     py = Math.max(0, Math.min(SKIN_SIZE - 1, py));
 
-    // Только соседние пиксели соединяем линией
     if(editorState.lastPx !== null && editorState.lastPy !== null){
       const dx = px - editorState.lastPx;
       const dy = py - editorState.lastPy;
       const steps = Math.max(Math.abs(dx), Math.abs(dy));
-      if(steps <= 3){
+      if(steps <= 3 && steps > 0){
         for(let i = 1; i <= steps; i++){
           const ix = Math.round(editorState.lastPx + dx * (i / steps));
           const iy = Math.round(editorState.lastPy + dy * (i / steps));
