@@ -2083,44 +2083,45 @@ async function openEditor(skinName){
      WIREFRAME — клеточная сетка по boundingBox каждого меша
      ============================================================ */
   function buildWireframeForMesh(mesh){
-    const geo = mesh.geometry;
-    if(!geo) return null;
-    if(!geo.boundingBox) geo.computeBoundingBox();
-    const bb = geo.boundingBox;
-    if(!bb) return null;
+  const geo = mesh.geometry;
+  if(!geo) return null;
+  if(!geo.boundingBox) geo.computeBoundingBox();
+  const bb = geo.boundingBox;
+  if(!bb) return null;
 
-    const w = bb.max.x - bb.min.x;
-    const h = bb.max.y - bb.min.y;
-    const d = bb.max.z - bb.min.z;
-    if(w <= 0 || h <= 0 || d <= 0) return null;
+  const w = bb.max.x - bb.min.x;
+  const h = bb.max.y - bb.min.y;
+  const d = bb.max.z - bb.min.z;
+  if(w <= 0 || h <= 0 || d <= 0) return null;
 
-    const e = 0.006;
-    const pts = [];
-    const seg = (x1,y1,z1,x2,y2,z2) => { pts.push(x1,y1,z1, x2,y2,z2); };
+  // Отступ побольше — чтобы линии были снаружи тонких мешей (руки, ноги)
+  const e = 0.02;
+  const pts = [];
+  const seg = (x1,y1,z1,x2,y2,z2) => { pts.push(x1,y1,z1, x2,y2,z2); };
 
-    // Верхняя грань (y = +h/2)
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, h/2+e, -d/2, x, h/2+e, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, h/2+e, z, w/2, h/2+e, z); }
-    // Нижняя (y = -h/2)
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2-e, -d/2, x, -h/2-e, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, -h/2-e, z, w/2, -h/2-e, z); }
-    // Передняя (z = +d/2)
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, d/2+e, x, h/2, d/2+e); }
-    for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, d/2+e, w/2, y, d/2+e); }
-    // Задняя (z = -d/2)
-    for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, -d/2-e, x, h/2, -d/2-e); }
-    for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, -d/2-e, w/2, y, -d/2-e); }
-    // Левая (x = -w/2)
-    for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(-w/2-e, y, -d/2, -w/2-e, y, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2-e, -h/2, z, -w/2-e, h/2, z); }
-    // Правая (x = +w/2)
-    for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(w/2+e, y, -d/2, w/2+e, y, d/2); }
-    for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(w/2+e, -h/2, z, w/2+e, h/2, z); }
+  // Верхняя грань (y = +h/2)
+  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, h/2+e, -d/2, x, h/2+e, d/2); }
+  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, h/2+e, z, w/2, h/2+e, z); }
+  // Нижняя (y = -h/2)
+  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2-e, -d/2, x, -h/2-e, d/2); }
+  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2, -h/2-e, z, w/2, -h/2-e, z); }
+  // Передняя (z = +d/2)
+  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, d/2+e, x, h/2, d/2+e); }
+  for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, d/2+e, w/2, y, d/2+e); }
+  // Задняя (z = -d/2)
+  for(let i = 0; i <= w; i++){ const x = -w/2 + i; seg(x, -h/2, -d/2-e, x, h/2, -d/2-e); }
+  for(let j = 0; j <= h; j++){ const y = -h/2 + j; seg(-w/2, y, -d/2-e, w/2, y, -d/2-e); }
+  // Левая (x = -w/2)
+  for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(-w/2-e, y, -d/2, -w/2-e, y, d/2); }
+  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(-w/2-e, -h/2, z, -w/2-e, h/2, z); }
+  // Правая (x = +w/2)
+  for(let i = 0; i <= h; i++){ const y = -h/2 + i; seg(w/2+e, y, -d/2, w/2+e, y, d/2); }
+  for(let j = 0; j <= d; j++){ const z = -d/2 + j; seg(w/2+e, -h/2, z, w/2+e, h/2, z); }
 
-    const gg = new THREE.BufferGeometry();
-    gg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-    return gg;
-  }
+  const gg = new THREE.BufferGeometry();
+  gg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+  return gg;
+}
 
   function clearWireframes(){
     if(editorState.gridLines){
@@ -2134,41 +2135,41 @@ async function openEditor(skinName){
   }
 
   function buildAllWireframes(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
+  const v = editorState.viewer;
+  if(!v || !v.playerObject) return;
 
-    clearWireframes();
-    editorState.gridLines = [];
+  clearWireframes();
+  editorState.gridLines = [];
 
-    const hex = editorState.gridColor || '#ffffff';
-    const colorNum = parseInt(hex.replace('#',''), 16);
+  const hex = editorState.gridColor || '#ffffff';
+  const colorNum = parseInt(hex.replace('#',''), 16);
 
-    const mat = new THREE.LineBasicMaterial({
-      color: colorNum,
-      transparent: true,
-      opacity: 0.9,
-      depthWrite: false,
-      depthTest: true
-    });
+  // depthTest: false — линии рисуются ПОВЕРХ всего, не перекрываются мешами
+  const mat = new THREE.LineBasicMaterial({
+    color: colorNum,
+    transparent: true,
+    opacity: 0.9,
+    depthTest: false,
+    depthWrite: false
+  });
 
-    // Собираем все уникальные меши и строим для каждого
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
+  v.playerObject.traverse(obj => {
+    if(!obj.isMesh) return;
+    const n = (obj.name || '').toLowerCase();
+    const p = (obj.parent && obj.parent.name || '').toLowerCase();
+    const combined = n + ' ' + p;
+    if(combined.includes('cape') || combined.includes('elytra')) return;
 
-      const gg = buildWireframeForMesh(obj);
-      if(!gg) return;
+    const gg = buildWireframeForMesh(obj);
+    if(!gg) return;
 
-      const lines = new THREE.LineSegments(gg, mat);
-      lines.name = '__wireframe';
-      lines.renderOrder = 999;
-      obj.add(lines);
-      editorState.gridLines.push(lines);
-    });
-  }
+    const lines = new THREE.LineSegments(gg, mat);
+    lines.name = '__wireframe';
+    lines.renderOrder = 1000; // поверх всего
+    obj.add(lines);
+    editorState.gridLines.push(lines);
+  });
+}
 
   /* === Видимость слоёв: НИЧЕГО не скрываем, только включаем/выключаем wireframe === */
   function applyLayerVisibility(){
