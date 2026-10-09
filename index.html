@@ -2106,9 +2106,6 @@ async function openEditor(skinName){
   window.addEventListener('resize', doResize);
   editorState._resizeHandler = doResize;
 
-  /* ============================================================
-     Определение слоя меша
-     ============================================================ */
   function isOuterMesh(mesh){
     const n = (mesh.name || '').toLowerCase();
     const p = (mesh.parent && mesh.parent.name || '').toLowerCase();
@@ -2197,7 +2194,6 @@ async function openEditor(skinName){
     });
   }
 
-  /* === REFRESH 3D === */
   function refresh3D(){
     const v = editorState.viewer;
     if(!v) return;
@@ -2237,7 +2233,6 @@ async function openEditor(skinName){
     });
   }
 
-  /* === LOAD SKIN === */
   async function loadSkinToCanvas(url, fallbackUrl){
     const draw = (img) => {
       ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
@@ -2274,7 +2269,6 @@ async function openEditor(skinName){
     setTimeout(applyGridToAllMaterials, 1500);
   }
 
-  /* СЛОИ */
   $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
@@ -2283,7 +2277,6 @@ async function openEditor(skinName){
     toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (клетки)', 'info', 1400);
   }));
 
-  /* PAINT */
   function paintPx(px, py){
     if(px < 0 || py < 0 || px >= SKIN_SIZE || py >= SKIN_SIZE) return;
     if(editorState.tool === 'fill'){
@@ -2405,20 +2398,20 @@ async function openEditor(skinName){
       u = (p.x - bounds.xMin) / W;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'back'){
-      u = (p.x - bounds.xMin) / W;
+      u = (bounds.xMax - p.x) / W;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'right'){
-      u = (bounds.zMax - p.z) / D;
+      u = (p.z - bounds.zMin) / D;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'left'){
-      u = (p.z - bounds.zMin) / D;
+      u = (bounds.zMax - p.z) / D;
       v = (bounds.yMax - p.y) / H;
     }else if(faceKey === 'top'){
       u = (p.x - bounds.xMin) / W;
       v = (p.z - bounds.zMin) / D;
     }else if(faceKey === 'bottom'){
       u = (bounds.xMax - p.x) / W;
-      v = (bounds.zMax - p.z) / D;
+      v = (p.z - bounds.zMin) / D;
     }
 
     u = Math.max(0, Math.min(1, u));
@@ -2431,9 +2424,6 @@ async function openEditor(skinName){
     return [px, py];
   }
 
-  /* ============================================================
-     3D DRAW
-     ============================================================ */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
     const ray = editorState.raycaster;
@@ -2466,7 +2456,6 @@ async function openEditor(skinName){
       if(combined.includes('cape') || combined.includes('elytra')) continue;
       if(combined.includes('ear')) continue;
 
-      // Отсекаем elytra/cape по boundingBox
       const _bb = new THREE.Box3().setFromObject(h.object);
       if(_bb.min.z < -5) continue;
 
@@ -2576,7 +2565,6 @@ async function openEditor(skinName){
     viewer.canvas.addEventListener('touchend', stop);
   }
 
-  /* 2D */
   function initFlatCanvas(){
     const wrap = $('ed-2d');
     wrap.innerHTML = '';
@@ -2677,7 +2665,6 @@ async function openEditor(skinName){
     schedule3DRefresh();
   }
 
-  /* HISTORY */
   function pushHistory(){
     try{
       const snap = {url: editorState.canvas.toDataURL('image/png')};
