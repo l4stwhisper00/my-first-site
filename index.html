@@ -10,13 +10,11 @@
 <link rel="preconnect" href="https://minecraft-proxy.zxcdedinside944.workers.dev">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&family=Archivo+Black&family=Rubik:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&family=Archivo+Black&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Minecraft Hub</title>
 <style>
-/* RESET */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-/* ТЕМЫ */
 :root{
   --s0:#04060A;--s2:#0C1018;--s3:#131924;--s4:#1A2130;--s5:#232B3D;
   --accent:#38BDF8;--accent-2:#6EE7B7;--dim:#1E3A5F;
@@ -33,7 +31,6 @@
 [data-theme="rose"]{--s0:#150710;--s2:#220C1A;--s3:#311323;--s4:#3F1A2C;--s5:#4E2338;--accent:#F472B6;--accent-2:#FCD34D;--dim:#5E1F41;--text:#FFE4F1;--tdim:#C493AD;--tdim2:#8C6178}
 [data-theme="mono"]{--s0:#0A0A0A;--s2:#111111;--s3:#181818;--s4:#202020;--s5:#2A2A2A;--accent:#FAFAFA;--accent-2:#A3A3A3;--dim:#333333;--text:#F5F5F5;--tdim:#A3A3A3;--tdim2:#666666;--error:#EF4444;--ok:#22C55E;--warn:#EAB308}
 
-/* БАЗОВЫЕ ПЕРЕМЕННЫЕ */
 :root{
   --r:10px;--r-sm:8px;--r-lg:14px;--r-xl:18px;
   --font-body:'Inter',-apple-system,sans-serif;
@@ -53,93 +50,33 @@
 }
 [data-theme="light"]{--line:rgba(0,0,0,.06);--line-strong:rgba(0,0,0,.12)}
 
-/* ============================================================
-   СТИЛИ — КАЖДЫЙ РЕАЛЬНО ДРУГОЙ
-   ============================================================ */
-
-/* BRUTAL — моно, 0 радиусов, толстые бордеры, uppercase, большие отступы */
-html[data-style="brutal"]{
-  --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
-  --font-body:'JetBrains Mono',monospace;
-  --font-display:'JetBrains Mono',monospace;
-  --font-mono:'JetBrains Mono',monospace;
-  --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
-  --bg-card:var(--s2);
-  --tracking:-.03em;
-  --border-w:3px;
-}
+html[data-style="brutal"]{--r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;--font-body:'JetBrains Mono',monospace;--font-display:'JetBrains Mono',monospace;--font-mono:'JetBrains Mono',monospace;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s2);--tracking:-.03em;--border-w:3px}
 html[data-style="brutal"] h1{text-transform:uppercase;letter-spacing:.05em}
 html[data-style="brutal"] h1::before{border-radius:0;background:var(--accent)}
-html[data-style="brutal"] .card{border-color:var(--text)}
 html[data-style="brutal"] .card-title{text-transform:uppercase;font-weight:700}
 html[data-style="brutal"] .btn,html[data-style="brutal"] .search-btn{text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--text);box-shadow:none!important}
-html[data-style="brutal"] .tab{text-transform:uppercase;font-weight:700}
-html[data-style="brutal"] .subtitle::before{content:'>>>'}
-html[data-style="brutal"] .search-container{border-color:var(--text)}
-html[data-style="brutal"] .tag{border-radius:0;text-transform:uppercase}
 
-/* RETRO — Archivo Black, жёсткие тени с offset, жёлтый акцент, никаких радиусов */
-html[data-style="retro"]{
-  --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
-  --font-body:'Rubik',sans-serif;
-  --font-display:'Archivo Black',sans-serif;
-  --border-w:2px;
-  --bg-card:var(--s2);
-  --tracking:-.01em;
-  --accent:#FBBF24;
-  --shadow-sm:2px 2px 0 rgba(0,0,0,.9);
-  --shadow-md:4px 4px 0 rgba(0,0,0,.9);
-  --shadow-lg:6px 6px 0 rgba(0,0,0,.9);
-}
-html[data-style="retro"] h1{font-weight:400;letter-spacing:-.02em}
+html[data-style="retro"]{--r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;--font-body:'Rubik',sans-serif;--font-display:'Archivo Black',sans-serif;--border-w:2px;--bg-card:var(--s2);--accent:#FBBF24;--shadow-sm:2px 2px 0 rgba(0,0,0,.9);--shadow-md:4px 4px 0 rgba(0,0,0,.9);--shadow-lg:6px 6px 0 rgba(0,0,0,.9)}
 html[data-style="retro"] h1::before{border-radius:0;background:var(--accent);box-shadow:3px 3px 0 rgba(0,0,0,.8)}
 html[data-style="retro"] .card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(0,0,0,.9)}
-html[data-style="retro"] .btn:hover,html[data-style="retro"] .search-btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 rgba(0,0,0,.9)}
 html[data-style="retro"] .tab.active{background:var(--accent);color:#000}
 
-/* TERMINAL — зелёный текст, чёрный фон, курсор, monospace */
-html[data-style="terminal"]{
-  --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
-  --font-body:'IBM Plex Mono',monospace;
-  --font-display:'IBM Plex Mono',monospace;
-  --font-mono:'IBM Plex Mono',monospace;
-  --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
-  --bg-card:var(--s0);
-  --tracking:-.01em;
-}
-html[data-style="terminal"]{--accent:#4ADE80;--accent-2:#22C55E}
+html[data-style="terminal"]{--r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;--font-body:'IBM Plex Mono',monospace;--font-display:'IBM Plex Mono',monospace;--font-mono:'IBM Plex Mono',monospace;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s0);--accent:#4ADE80;--accent-2:#22C55E}
 html[data-style="terminal"] body{color:#4ADE80}
 html[data-style="terminal"] h1::before{background:#4ADE80;border-radius:0}
 html[data-style="terminal"] h1::after{content:'_';animation:blink 1s steps(2) infinite;color:#4ADE80}
-html[data-style="terminal"] .card-title,html[data-style="terminal"] .card-description,html[data-style="terminal"] .card-stats{color:#4ADE80}
 html[data-style="terminal"] .card{background:#000;border-color:#4ADE80}
+html[data-style="terminal"] .card-title,html[data-style="terminal"] .card-description,html[data-style="terminal"] .card-stats{color:#4ADE80}
 html[data-style="terminal"] .btn,html[data-style="terminal"] .search-btn,html[data-style="terminal"] .tab.active{background:#4ADE80;color:#000;box-shadow:none}
 html[data-style="terminal"] .subtitle::before{content:'$';color:#4ADE80}
 
-/* PAPER — серифы, тёплый оттенок, тени как от бумаги */
-html[data-style="paper"]{
-  --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
-  --font-body:'IBM Plex Serif',Georgia,serif;
-  --font-display:'IBM Plex Serif',Georgia,serif;
-  --font-mono:'IBM Plex Mono',monospace;
-  --bg-card:#FAF6EC;
-  --tracking:0em;
-  --shadow-sm:0 1px 0 rgba(120,90,40,.25);
-  --shadow-md:0 2px 6px rgba(120,90,40,.25);
-  --shadow-lg:0 4px 12px rgba(120,90,40,.25);
-}
+html[data-style="paper"]{--r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;--font-body:'IBM Plex Serif',Georgia,serif;--font-display:'IBM Plex Serif',Georgia,serif;--font-mono:'IBM Plex Mono',monospace;--bg-card:#FAF6EC;--tracking:0em;--shadow-sm:0 1px 0 rgba(120,90,40,.25);--shadow-md:0 2px 6px rgba(120,90,40,.25);--shadow-lg:0 4px 12px rgba(120,90,40,.25)}
 html[data-style="paper"]{--line:rgba(90,60,20,.2);--line-strong:rgba(90,60,20,.35);--text:#2A1F10;--tdim:#6B5B45;--tdim2:#8C7B62;--s0:#F0E8D5;--s2:#FAF6EC;--s3:#F2EBD9;--s4:#E8DFC8}
 html[data-style="paper"] h1::before{background:#8B4513;border-radius:0}
 html[data-style="paper"] .btn,html[data-style="paper"] .search-btn{background:#8B4513;color:#FAF6EC;box-shadow:none;border-radius:0}
 html[data-style="paper"] .btn-secondary{background:#E8DFC8;color:#2A1F10}
 
-/* MINIMAL — без теней, тонкие бордеры, никакого декора */
-html[data-style="minimal"]{
-  --r:2px;--r-sm:2px;--r-lg:2px;--r-xl:2px;
-  --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
-  --bg-card:transparent;
-  --tracking:-.012em;
-}
+html[data-style="minimal"]{--r:2px;--r-sm:2px;--r-lg:2px;--r-xl:2px;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:transparent;--tracking:-.012em}
 html[data-style="minimal"] .card{border-color:var(--line-strong)}
 html[data-style="minimal"] .card:hover{transform:none;border-color:var(--accent);box-shadow:none}
 html[data-style="minimal"] h1::before{display:none}
@@ -150,103 +87,48 @@ html[data-style="minimal"] .tab.active::after{display:none}
 html[data-style="minimal"] .aurora{display:none}
 html[data-style="minimal"] body::before{display:none}
 
-/* NEON — глитч-эффект, яркое свечение, пульсация */
-html[data-style="neon"]{
-  --r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;
-  --bg-card:linear-gradient(180deg, color-mix(in oklab, var(--s2), var(--accent) 18%) 0%, var(--s2) 100%);
-  --shadow-md:0 0 30px -6px color-mix(in oklab, var(--accent), transparent 20%);
-  --shadow-lg:0 0 50px -10px color-mix(in oklab, var(--accent), transparent 10%);
-}
+html[data-style="neon"]{--r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;--bg-card:linear-gradient(180deg, color-mix(in oklab, var(--s2), var(--accent) 18%) 0%, var(--s2) 100%);--shadow-md:0 0 30px -6px color-mix(in oklab, var(--accent), transparent 20%);--shadow-lg:0 0 50px -10px color-mix(in oklab, var(--accent), transparent 10%)}
 html[data-style="neon"] h1{text-shadow:0 0 12px var(--accent),0 0 24px var(--accent-2)}
 html[data-style="neon"] h1::before{box-shadow:0 0 24px var(--accent),0 0 48px var(--accent-2)}
 html[data-style="neon"] .card{border-color:color-mix(in oklab, var(--accent), transparent 60%)}
 html[data-style="neon"] .card:hover{border-color:var(--accent);box-shadow:0 0 40px -8px var(--accent)}
 html[data-style="neon"] .btn,html[data-style="neon"] .search-btn{box-shadow:0 0 20px color-mix(in oklab, var(--accent), transparent 40%)}
 html[data-style="neon"] .tab.active{box-shadow:0 0 16px var(--accent)}
-html[data-style="neon"] .card-title{text-shadow:0 0 8px color-mix(in oklab, var(--accent), transparent 60%)}
 
-/* GLASS — прозрачные карточки, blur, светлые границы */
-html[data-style="glass"]{
-  --r:20px;--r-sm:14px;--r-lg:24px;--r-xl:28px;
-  --bg-card:rgba(255,255,255,.05);
-  --line:rgba(255,255,255,.15);
-  --line-strong:rgba(255,255,255,.25);
-}
+html[data-style="glass"]{--r:20px;--r-sm:14px;--r-lg:24px;--r-xl:28px;--bg-card:rgba(255,255,255,.05);--line:rgba(255,255,255,.15);--line-strong:rgba(255,255,255,.25)}
 html[data-style="glass"] .card{backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%)}
 html[data-style="glass"] .search-container,html[data-style="glass"] .modal-content,html[data-style="glass"] .settings-menu,html[data-style="glass"] .tabs{backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(255,255,255,.06)}
-html[data-style="glass"] h1::before{background:linear-gradient(135deg,#fff3,var(--accent));backdrop-filter:blur(8px)}
 html[data-style="glass"] .btn,html[data-style="glass"] .search-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(10px)}
-html[data-style="glass"] .btn:hover{background:rgba(255,255,255,.25)}
 
-/* SOFT — огромные радиусы, пастельные тени, всё закруглённое */
-html[data-style="soft"]{
-  --r:28px;--r-sm:20px;--r-lg:36px;--r-xl:44px;
-  --border-w:0px;
-  --bg-card:linear-gradient(180deg, var(--s3) 0%, var(--s2) 100%);
-  --shadow-md:0 20px 40px -20px color-mix(in oklab, var(--accent), transparent 70%);
-  --shadow-lg:0 30px 60px -30px color-mix(in oklab, var(--accent), transparent 60%);
-}
+html[data-style="soft"]{--r:28px;--r-sm:20px;--r-lg:36px;--r-xl:44px;--border-w:0px;--bg-card:linear-gradient(180deg, var(--s3) 0%, var(--s2) 100%);--shadow-md:0 20px 40px -20px color-mix(in oklab, var(--accent), transparent 70%);--shadow-lg:0 30px 60px -30px color-mix(in oklab, var(--accent), transparent 60%)}
 html[data-style="soft"] .card:hover{transform:translateY(-6px)}
 html[data-style="soft"] h1::before{border-radius:50%}
 html[data-style="soft"] .btn,html[data-style="soft"] .search-btn,html[data-style="soft"] .tab{border-radius:9999px}
-html[data-style="soft"] .tag{border-radius:9999px}
-html[data-style="soft"] .status-dot{border-radius:9999px}
-html[data-style="soft"] .skin-palette button,html[data-style="soft"] .theme-opt,html[data-style="soft"] .style-opt{border-radius:12px}
+html[data-style="soft"] .tag,html[data-style="soft"] .status-dot{border-radius:9999px}
 
-/* DEV — monospace, сетка, dev-стиль */
-html[data-style="dev"]{
-  --r:2px;--r-sm:2px;--r-lg:4px;--r-xl:6px;
-  --font-body:'JetBrains Mono',monospace;
-  --font-display:'JetBrains Mono',monospace;
-  --font-mono:'JetBrains Mono',monospace;
-  --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
-  --bg-card:var(--s2);
-  --tracking:-.02em;
-}
+html[data-style="dev"]{--r:2px;--r-sm:2px;--r-lg:4px;--r-xl:6px;--font-body:'JetBrains Mono',monospace;--font-display:'JetBrains Mono',monospace;--font-mono:'JetBrains Mono',monospace;--shadow-sm:none;--shadow-md:none;--shadow-lg:none;--bg-card:var(--s2);--tracking:-.02em}
 html[data-style="dev"] .card{border-color:var(--line-strong);position:relative}
 html[data-style="dev"] .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent)}
 html[data-style="dev"] h1::before{border-radius:0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
 html[data-style="dev"] .card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 0 0 1px var(--accent)}
-html[data-style="dev"] .btn,html[data-style="dev"] .search-btn{box-shadow:none;font-weight:500;border:1px solid var(--accent);background:transparent;color:var(--accent)}
-html[data-style="dev"] .btn:hover{background:var(--accent);color:var(--s0)}
 html[data-style="dev"] .card-title::before{content:'# ';color:var(--accent);opacity:.6}
+html[data-style="dev"] .btn,html[data-style="dev"] .search-btn{box-shadow:none;font-weight:500;border:1px solid var(--accent);background:transparent;color:var(--accent)}
 
-/* БАЗА */
+html[data-style="default"]{}
+
 html{background:var(--s0);scrollbar-gutter:stable;transition:background var(--ts) var(--ease)}
-body{
-  min-height:100vh;background:var(--s0);color:var(--text);
-  font-family:var(--font-body);font-feature-settings:'cv11','ss01','tnum';
-  font-size:14px;line-height:1.55;letter-spacing:var(--tracking);
-  transition:color var(--ts) var(--ease), background var(--ts) var(--ease), font-family var(--ts) var(--ease);
-  overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-}
+body{min-height:100vh;background:var(--s0);color:var(--text);font-family:var(--font-body);font-feature-settings:'cv11','ss01','tnum';font-size:14px;line-height:1.55;letter-spacing:var(--tracking);transition:color var(--ts) var(--ease), background var(--ts) var(--ease), font-family var(--ts) var(--ease);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body.lock{overflow:hidden}
 body.editor-lock{overflow:hidden}
 body.editor-lock .wrap{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;padding:2rem;max-width:100%;z-index:2}
 body.no-bg .aurora{display:none}
 body.no-bg::before{display:none}
 
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size:48px 48px;
-  -webkit-mask-image:radial-gradient(ellipse 100% 70% at 50% 0%, #000 20%, transparent 85%);
-  mask-image:radial-gradient(ellipse 100% 70% at 50% 0%, #000 20%, transparent 85%);
-  opacity:.55;
-}
-html[data-style="paper"] body::before,
-html[data-style="minimal"] body::before,
-html[data-style="soft"] body::before{display:none}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse 100% 70% at 50% 0%, #000 20%, transparent 85%);mask-image:radial-gradient(ellipse 100% 70% at 50% 0%, #000 20%, transparent 85%);opacity:.55}
+html[data-style="paper"] body::before,html[data-style="minimal"] body::before,html[data-style="soft"] body::before{display:none}
 
 .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.85;transition:opacity var(--ts) var(--ease)}
-html[data-style="minimal"] .aurora,
-html[data-style="brutal"] .aurora,
-html[data-style="terminal"] .aurora,
-html[data-style="dev"] .aurora,
-html[data-style="paper"] .aurora,
-html[data-style="retro"] .aurora{opacity:.3}
+html[data-style="minimal"] .aurora,html[data-style="brutal"] .aurora,html[data-style="terminal"] .aurora,html[data-style="dev"] .aurora,html[data-style="paper"] .aurora,html[data-style="retro"] .aurora{opacity:.3}
 .aurora::before,.aurora::after{content:'';position:absolute;width:80vmax;height:80vmax;border-radius:50%;filter:blur(100px);will-change:transform}
 .aurora::before{background:radial-gradient(circle, color-mix(in oklab, var(--accent), transparent 70%) 0%, transparent 60%);top:-30vmax;left:-25vmax;animation:aA 32s ease-in-out infinite}
 .aurora::after{background:radial-gradient(circle, color-mix(in oklab, var(--accent-2), transparent 72%) 0%, transparent 60%);bottom:-30vmax;right:-25vmax;animation:aB 38s ease-in-out infinite}
@@ -266,7 +148,7 @@ header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap
 .header-right{display:flex;gap:.5rem;align-items:center;font-family:var(--font-mono);font-size:.68rem;color:var(--tdim2);letter-spacing:.03em}
 .status-dot{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .7rem;border:1px solid var(--line);border-radius:var(--r-sm);background:color-mix(in oklab, var(--s2), var(--s0) 30%)}
 .status-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 2.4s ease-in-out infinite}
-h1{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,3vw,2.15rem);letter-spacing:-.03em;line-height:1;color:var(--text);display:flex;align-items:center;gap:.85rem;transition:all var(--ts) var(--ease)}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,3vw,2.15rem);letter-spacing:-.03em;line-height:1;color:var(--text);display:flex;align-items:center;gap:.85rem}
 h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;border-radius:var(--r-sm);background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);box-shadow:0 0 0 1px rgba(255,255,255,.1) inset, 0 1px 0 rgba(255,255,255,.2) inset, var(--shadow-sm)}
 .subtitle{font-family:var(--font-mono);font-size:.72rem;color:var(--tdim);letter-spacing:.02em;display:flex;align-items:center;gap:.5rem}
 .subtitle::before{content:'//';color:var(--accent);font-weight:600;letter-spacing:0}
@@ -301,17 +183,16 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .btn,.search-btn{background:linear-gradient(180deg, color-mix(in oklab, var(--accent), white 6%) 0%, var(--accent) 100%);color:var(--s0);padding:.7rem 1.35rem;border:none;border-radius:var(--r-sm);font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:pointer;text-align:center;letter-spacing:-.005em;transition:all var(--tf) var(--ease);box-shadow:0 1px 0 rgba(255,255,255,.35) inset, 0 0 0 1px color-mix(in oklab, var(--accent), black 15%), var(--shadow-sm)}
 .btn{width:100%;display:inline-block}
 .btn:hover,.search-btn:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.4) inset, 0 0 0 1px color-mix(in oklab, var(--accent), black 15%), 0 8px 20px -6px color-mix(in oklab, var(--accent), transparent 40%)}
-.btn:active,.search-btn:active{transform:translateY(0)}
 .btn-secondary{background:var(--s3);color:var(--text);box-shadow:0 1px 0 rgba(255,255,255,.04) inset, 0 0 0 1px var(--line-strong), var(--shadow-sm)}
-.btn-secondary:hover{background:var(--s4);box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 0 0 1px color-mix(in oklab, var(--line-strong), var(--accent) 30%), 0 6px 16px -6px rgba(0,0,0,.5)}
+.btn-secondary:hover{background:var(--s4)}
 .btn-danger{background:linear-gradient(180deg, color-mix(in oklab, var(--error), white 6%) 0%, var(--error) 100%);color:#fff}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-#editorBtn{background:linear-gradient(180deg, color-mix(in oklab, var(--accent-2), white 6%) 0%, var(--accent-2) 100%);color:var(--s0);border:none;border-radius:var(--r-sm);padding:.7rem 1.2rem;font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:pointer;display:none;align-items:center;gap:.5rem;letter-spacing:-.005em;transition:all var(--tf) var(--ease);white-space:nowrap;box-shadow:0 1px 0 rgba(255,255,255,.35) inset, 0 0 0 1px color-mix(in oklab, var(--accent-2), black 15%), var(--shadow-sm)}
-#randomBtn{background:var(--s3);color:var(--text);border:none;border-radius:var(--r-sm);padding:.7rem 1.2rem;font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:pointer;display:none;align-items:center;gap:.5rem;letter-spacing:-.005em;transition:all var(--tf) var(--ease);white-space:nowrap;box-shadow:0 1px 0 rgba(255,255,255,.04) inset, 0 0 0 1px var(--line-strong), var(--shadow-sm)}
+#editorBtn{background:linear-gradient(180deg, color-mix(in oklab, var(--accent-2), white 6%) 0%, var(--accent-2) 100%);color:var(--s0);border:none;border-radius:var(--r-sm);padding:.7rem 1.2rem;font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:pointer;display:none;align-items:center;gap:.5rem;letter-spacing:-.005em;transition:all var(--tf) var(--ease);white-space:nowrap}
+#randomBtn{background:var(--s3);color:var(--text);border:none;border-radius:var(--r-sm);padding:.7rem 1.2rem;font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:pointer;display:none;align-items:center;gap:.5rem;white-space:nowrap}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(268px, 1fr));gap:1rem;margin-bottom:2rem}
-.card{background:var(--bg-card);border:var(--border-w) solid var(--line);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;position:relative;transition:transform var(--tn) var(--ease), border-color var(--tn) var(--ease), box-shadow var(--tn) var(--ease), border-radius var(--ts) var(--ease);box-shadow:var(--shadow-md);animation:fadeUp .45s var(--ease-out) both;will-change:transform}
+.card{background:var(--bg-card);border:var(--border-w) solid var(--line);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;position:relative;transition:transform var(--tn) var(--ease), border-color var(--tn) var(--ease), box-shadow var(--tn) var(--ease);box-shadow:var(--shadow-md);animation:fadeUp .45s var(--ease-out) both;will-change:transform}
 .card:hover{transform:translateY(-3px);border-color:color-mix(in oklab, var(--line-strong), var(--accent) 25%);box-shadow:var(--shadow-lg)}
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .card-image{width:100%;height:170px;object-fit:cover;background:var(--s4);border-bottom:var(--border-w) solid var(--line);display:block}
@@ -341,14 +222,13 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .modal-body{padding:2rem}
 .modal-3d-viewport{width:100%;height:400px;background:linear-gradient(135deg, var(--s3), var(--s4));border-radius:var(--r);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;border:var(--border-w) solid var(--line)}
 .modal-3d-viewport canvas{display:block;cursor:grab}
-.modal-3d-viewport img{max-height:100%;max-width:100%;object-fit:contain}
 .modal-description{color:var(--tdim);line-height:1.7;margin-bottom:1.5rem;white-space:pre-line}
 .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .version-picker{background:var(--s3);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:.75rem;border:var(--border-w) solid var(--line)}
 .version-picker-title{font-size:.9rem;color:var(--tdim);display:flex;justify-content:space-between;align-items:center;gap:.75rem}
 .version-picker-row{display:flex;gap:.75rem;flex-wrap:wrap}
 .version-picker select{flex:1;min-width:140px}
-#toggleVersionMode{background:var(--s3)!important;border:1px solid var(--line-strong)!important;color:var(--text)!important;font-family:var(--font-mono)!important;font-size:.7rem!important;padding:.35rem .7rem!important;border-radius:var(--r-sm)!important;cursor:pointer;transition:all var(--tf) var(--ease);white-space:nowrap}
+#toggleVersionMode{background:var(--s3)!important;border:1px solid var(--line-strong)!important;color:var(--text)!important;font-family:var(--font-mono)!important;font-size:.7rem!important;padding:.35rem .7rem!important;border-radius:var(--r-sm)!important;cursor:pointer;white-space:nowrap}
 
 .error{text-align:center;padding:2rem;font-size:1.1rem;color:var(--error);background:var(--s2);border-radius:var(--r);border:var(--border-w) solid color-mix(in oklab, var(--error), transparent 70%)}
 .error-detail{color:var(--tdim);font-size:.85rem;margin-top:.5rem;word-break:break-word}
@@ -370,13 +250,13 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 
 .style-grid{display:grid;grid-template-columns:repeat(5, 1fr);gap:.4rem;margin-bottom:.65rem}
 .style-opt{background:var(--s0);border:var(--border-w) solid var(--line);border-radius:var(--r-sm);padding:.55rem .3rem .45rem;cursor:pointer;transition:all var(--tf) var(--ease);display:flex;flex-direction:column;align-items:center;gap:.3rem;font-family:var(--font-mono);font-size:.56rem;color:var(--tdim);text-transform:lowercase;letter-spacing:0;min-width:0;position:relative;overflow:hidden}
-.style-opt:hover{background:var(--s3);color:var(--text);border-color:var(--line-strong)}
+.style-opt:hover{background:var(--s3);color:var(--text)}
 .style-opt.active{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 2px color-mix(in oklab, var(--accent), transparent 70%)}
 .style-preview{width:24px;height:24px;display:block;background:var(--s3);border:1px solid var(--line-strong);position:relative;flex-shrink:0}
 .style-opt[data-style="default"] .style-preview{border-radius:4px}
 .style-opt[data-style="brutal"] .style-preview{border-radius:0;border-width:2px;border-color:var(--text);background:transparent}
 .style-opt[data-style="neon"] .style-preview{border-radius:3px;box-shadow:0 0 8px var(--accent);border-color:var(--accent)}
-.style-opt[data-style="glass"] .style-preview{border-radius:8px;background:color-mix(in oklab, var(--accent), transparent 85%);border-color:color-mix(in oklab, var(--accent), transparent 50%)}
+.style-opt[data-style="glass"] .style-preview{border-radius:8px;background:color-mix(in oklab, var(--accent), transparent 85%)}
 .style-opt[data-style="retro"] .style-preview{border-radius:0;border-width:2px;box-shadow:3px 3px 0 var(--accent);border-color:var(--text)}
 .style-opt[data-style="minimal"] .style-preview{border-radius:2px;background:transparent}
 .style-opt[data-style="paper"] .style-preview{border-radius:2px;background:#FAF6EC;border-color:#8B4513}
@@ -438,19 +318,19 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .editor-canvas-area[data-editor-bg="none"]{background:linear-gradient(135deg, var(--s3), var(--s4))}
 .editor-canvas-area[data-editor-bg="custom"]{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}
 .editor-canvas-area::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom, transparent 0 3px, rgba(0,0,0,.04) 3px 4px),repeating-linear-gradient(to right, transparent 0 3px, rgba(0,0,0,.04) 3px 4px);mix-blend-mode:multiply}
-.editor-bg-picker{position:absolute;bottom:1rem;left:1rem;z-index:11;display:flex;gap:.4rem;background:rgba(10,14,22,.9);padding:.4rem;border-radius:var(--r-sm);border:1px solid var(--line-strong);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-.editor-bg-btn{width:36px;height:36px;border-radius:var(--r-sm);border:1px solid var(--line);cursor:pointer;padding:0;transition:all var(--tf) var(--ease);position:relative}
-.editor-bg-btn:hover{transform:scale(1.1)}
-.editor-bg-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
-.editor-bg-btn[data-bg="theme"]{background:linear-gradient(135deg, color-mix(in oklab, var(--accent), white 15%) 0%, color-mix(in oklab, var(--accent-2), white 15%) 100%)}
-.editor-bg-btn[data-bg="theme"]::after{content:'🎨';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;pointer-events:none}
-.editor-bg-btn[data-bg="biome"]{background:linear-gradient(to bottom,#4FA8DE 0%,#6FC0EA 45%,#5EAE3E 56%,#4A9030 62%,#7A4C24 65%,#5E3A1A 100%)}
-.editor-bg-btn[data-bg="sunset"]{background:linear-gradient(to bottom,#FF7E5F 0%,#FEB47B 40%,#6A3093 75%,#2D1B4E 100%)}
-.editor-bg-btn[data-bg="night"]{background:linear-gradient(to bottom,#0B1026 0%,#1B2346 50%,#2D1B4E 100%)}
-.editor-bg-btn[data-bg="sakura"]{background:linear-gradient(to bottom,#F5B7C1 0%,#FADADD 40%,#C7A8C4 75%,#8B6D93 100%)}
-.editor-bg-btn[data-bg="none"]{background:linear-gradient(135deg,#161D2B,#1E2636)}
-.editor-bg-btn[data-bg="none"]::after{content:'⊘';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8892A3;font-size:.9rem}
-.editor-bg-btn.upload{background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text)}
+.editor-bg-picker-bar{display:flex;gap:.4rem;align-items:center;background:var(--s3);padding:.5rem .75rem;border-radius:var(--r-sm);border:1px solid var(--line);margin-bottom:1rem;width:fit-content;flex-wrap:wrap}
+.editor-bg-label{font-family:var(--font-mono);font-size:.7rem;color:var(--tdim);letter-spacing:.1em;padding-right:.35rem}
+.editor-bg-picker-bar .editor-bg-btn{width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--line);cursor:pointer;padding:0;position:relative;transition:all var(--tf) var(--ease);background:transparent}
+.editor-bg-picker-bar .editor-bg-btn:hover{transform:scale(1.08);border-color:var(--accent)}
+.editor-bg-picker-bar .editor-bg-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.editor-bg-picker-bar .editor-bg-btn[data-bg="theme"]{background:linear-gradient(135deg, color-mix(in oklab, var(--accent), white 15%) 0%, color-mix(in oklab, var(--accent-2), white 15%) 100%)}
+.editor-bg-picker-bar .editor-bg-btn[data-bg="biome"]{background:linear-gradient(to bottom,#4FA8DE 0%,#6FC0EA 45%,#5EAE3E 56%,#4A9030 62%,#7A4C24 65%,#5E3A1A 100%)}
+.editor-bg-picker-bar .editor-bg-btn[data-bg="sunset"]{background:linear-gradient(to bottom,#FF7E5F 0%,#FEB47B 40%,#6A3093 75%,#2D1B4E 100%)}
+.editor-bg-picker-bar .editor-bg-btn[data-bg="night"]{background:linear-gradient(to bottom,#0B1026 0%,#1B2346 50%,#2D1B4E 100%)}
+.editor-bg-picker-bar .editor-bg-btn[data-bg="sakura"]{background:linear-gradient(to bottom,#F5B7C1 0%,#FADADD 40%,#C7A8C4 75%,#8B6D93 100%)}
+.editor-bg-picker-bar .editor-bg-btn[data-bg="none"]{background:linear-gradient(135deg,#161D2B,#1E2636)}
+.editor-bg-picker-bar .editor-bg-btn[data-bg="none"]::after{content:'⊘';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8892A3;font-size:.9rem}
+.editor-bg-picker-bar .editor-bg-btn.upload{background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text)}
 #ed-3d{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;overflow:visible}
 #ed-3d canvas{display:block;touch-action:none;cursor:crosshair;background:transparent}
 #ed-2d{padding:1rem;max-width:100%;overflow:auto;position:relative;z-index:1}
@@ -469,7 +349,6 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .editor-color-row input[type="color"]{width:56px;height:44px;border:none;border-radius:var(--r-sm);cursor:pointer;background:transparent;padding:0;overflow:hidden;border:var(--border-w) solid var(--line)}
 .editor-color-row input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
 .editor-color-row input[type="color"]::-webkit-color-swatch{border:none;border-radius:var(--r-sm)}
-.editor-color-row input[type="color"]::-moz-color-swatch{border:none;border-radius:var(--r-sm)}
 .skin-palette{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .skin-palette button{aspect-ratio:1;border:var(--border-w) solid var(--line);border-radius:var(--r-sm);cursor:pointer;padding:0;transition:all var(--tf) var(--ease);position:relative}
 .skin-palette button:hover{transform:scale(1.08)}
@@ -658,11 +537,12 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
+                    <script>
 'use strict';
 
 try{
-  if(localStorage.getItem('mch-cache-v') !== 'v17'){
-    localStorage.setItem('mch-cache-v','v17');
+  if(localStorage.getItem('mch-cache-v') !== 'v19'){
+    localStorage.setItem('mch-cache-v','v19');
     sessionStorage.clear();
   }
 }catch{}
@@ -713,22 +593,19 @@ function cacheSet(k,v){
   pageCache.set(k,{data:v,ts:Date.now()});
 }
 
-async function fetchJson(url){
-  let lastError;
-  for(let i=0;i<2;i++){
-    try{
-      const ctrl = new AbortController();
-      const tm = setTimeout(() => ctrl.abort(), 15000);
-      const r = await fetch(url, {signal: ctrl.signal});
-      clearTimeout(tm);
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      return await r.json();
-    }catch(e){
-      lastError = e;
-      if(i===0) await new Promise(res => setTimeout(res, 300));
-    }
+/* Быстрый fetch с таймаутом 6 сек и 1 попыткой */
+async function fetchJson(url, timeoutMs = 6000){
+  const ctrl = new AbortController();
+  const tm = setTimeout(() => ctrl.abort(), timeoutMs);
+  try{
+    const r = await fetch(url, {signal: ctrl.signal});
+    clearTimeout(tm);
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  }catch(e){
+    clearTimeout(tm);
+    throw e;
   }
-  throw lastError || new Error('fetch failed');
 }
 
 const TAB_CONFIG = {
@@ -819,16 +696,8 @@ async function translateQueue(elements, token){
 }
 
 const STYLE_LIST = [
-  {id:'default',  label:'default'},
-  {id:'brutal',   label:'brutal'},
-  {id:'neon',     label:'neon'},
-  {id:'glass',    label:'glass'},
-  {id:'retro',    label:'retro'},
-  {id:'minimal',  label:'minimal'},
-  {id:'paper',    label:'paper'},
-  {id:'terminal', label:'terminal'},
-  {id:'soft',     label:'soft'},
-  {id:'dev',      label:'dev'}
+  {id:'default'},{id:'brutal'},{id:'neon'},{id:'glass'},{id:'retro'},
+  {id:'minimal'},{id:'paper'},{id:'terminal'},{id:'soft'},{id:'dev'}
 ];
 
 function applyStyle(styleId){
@@ -851,27 +720,14 @@ function initStyles(){
 }
 
 const BUILTIN_THEMES = [
-  {id:'dark',name:'Dark'},
-  {id:'midnight',name:'Midnight'},
-  {id:'light',name:'Light'},
-  {id:'ocean',name:'Ocean'},
-  {id:'sunset',name:'Sunset'},
-  {id:'forest',name:'Forest'},
-  {id:'cyber',name:'Cyberpunk'},
-  {id:'nord',name:'Nord'},
-  {id:'rose',name:'Rose'},
-  {id:'mono',name:'Mono'}
+  {id:'dark',name:'Dark'},{id:'midnight',name:'Midnight'},{id:'light',name:'Light'},
+  {id:'ocean',name:'Ocean'},{id:'sunset',name:'Sunset'},{id:'forest',name:'Forest'},
+  {id:'cyber',name:'Cyberpunk'},{id:'nord',name:'Nord'},{id:'rose',name:'Rose'},{id:'mono',name:'Mono'}
 ];
 const THEME_COLORS = [
-  {key:'s0',label:'Фон'},
-  {key:'s2',label:'Карточки'},
-  {key:'s3',label:'Поля'},
-  {key:'s4',label:'Hover'},
-  {key:'accent',label:'Акцент'},
-  {key:'accent-2',label:'Градиент'},
-  {key:'text',label:'Текст'},
-  {key:'tdim',label:'Тусклый'},
-  {key:'dim',label:'Тег'}
+  {key:'s0',label:'Фон'},{key:'s2',label:'Карточки'},{key:'s3',label:'Поля'},
+  {key:'s4',label:'Hover'},{key:'accent',label:'Акцент'},{key:'accent-2',label:'Градиент'},
+  {key:'text',label:'Текст'},{key:'tdim',label:'Тусклый'},{key:'dim',label:'Тег'}
 ];
 
 let customThemes = [];
@@ -945,10 +801,7 @@ function initThemes(){
     e.stopPropagation();
     $('settingsPanel').classList.toggle('open');
   });
-
-  $('settingsPanel').addEventListener('mousedown', e => {
-    if(e.detail > 1) e.preventDefault();
-  });
+  $('settingsPanel').addEventListener('mousedown', e => { if(e.detail > 1) e.preventDefault(); });
 
   $('themeGrid').addEventListener('click', e => {
     const delBtn = e.target.closest('[data-del]');
@@ -1030,7 +883,6 @@ function initThemes(){
 }
 
 let themeEditState = null;
-
 function openThemeEditor(existingId){
   const existing = existingId ? customThemes.find(t => t.id === existingId) : null;
   const defaults = existing ? existing.colors : {
@@ -1249,47 +1101,44 @@ function buildCurseForgeQuery(){
   return {qs, key:['cf',currentTab,currentQuery,sort,offset].join('|')};
 }
 
+/* ЗЕРКАЛА ПЕРВЫМИ */
 async function fetchModrinthPage(){
   const {qs, key} = buildModrinthQuery();
   const cached = cacheGet(key);
   if(cached) return cached;
-
   const endpoint = `${MR_API}/search?${qs}`;
   const proxies = [
-    `${MCIM_MR}/search?${qs}`,                                                      // зеркало для РФ
-    endpoint,                                                                        // официальный
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(endpoint)}`,           // CORS-прокси
-    `https://api.cors.lol/?url=${encodeURIComponent(endpoint)}`,                    // CORS-прокси 2
-    `https://cors.eu.org/${endpoint}`                                               // CORS-прокси 3
+    `${MCIM_MR}/search?${qs}`,
+    endpoint,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(endpoint)}`,
+    `https://api.cors.lol/?url=${encodeURIComponent(endpoint)}`
   ];
-
   for(const url of proxies){
     try{
-      const data = await fetchJson(url);
+      const data = await fetchJson(url, 6000);
       if(data && data.hits && data.hits.length){
         const result = {list:data.hits.map(i => ({source:'modrinth', ...i})), total:data.total_hits ?? 0};
         cacheSet(key, result);
         return result;
       }
-    }catch(e){ console.warn('MR endpoint failed:', url.split('/')[2], e.message); }
+    }catch(e){ console.warn('MR failed:', url.split('/')[2], e.message); }
   }
   return {list: [], total: 0};
 }
+
 async function fetchCurseForgePage(){
   const {qs, key} = buildCurseForgeQuery();
   const cached = cacheGet(key);
   if(cached) return cached;
-
   const endpoints = [
-    `${MCIM_API}/mods/search?${qs}`,                                                // зеркало для РФ (первое)
+    `${MCIM_API}/mods/search?${qs}`,
     `https://api.allorigins.win/raw?url=${encodeURIComponent(`${CURSE_TOOLS}/mods/search?${qs}`)}`,
     `${CURSE_TOOLS}/mods/search?${qs}`,
     `${CFPROXY}/v1/mods/search?${qs}`
   ];
-
   for(const url of endpoints){
     try{
-      const data = await fetchJson(url);
+      const data = await fetchJson(url, 6000);
       if(data && data.data && data.data.length){
         const result = {
           list: data.data.map(i => ({source:'curseforge', ...i})),
@@ -1298,66 +1147,9 @@ async function fetchCurseForgePage(){
         cacheSet(key, result);
         return result;
       }
-    }catch(e){ console.warn('CF endpoint failed:', url.split('/')[2], e.message); }
+    }catch(e){ console.warn('CF failed:', url.split('/')[2], e.message); }
   }
   return {list: [], total: 0};
-}
-
-/* ==== ГЕНЕРАТОР НИКОВ для бесконечных скинов ==== */
-const NICK_PARTS_A = ['Dark','Shadow','Craft','Mine','Sky','Fire','Ice','Dia','Ruby','Pixel','Block','Red','Blue','Gold','Iron','Nether','End','Void','Star','Moon','Sun','Wolf','Dragon','Ninja','Pro','Mega','Ultra','Super','Epic','Frost','Lava','Strom','Thunder','Storm','Light','Cyber'];
-const NICK_PARTS_B = ['Killer','Master','Lord','King','Queen','Hunter','Slayer','Warrior','Mage','Wizard','Knight','Sniper','Gamer','Player','Creeper','Zombie','Wolf','Cat','Fox','Bear','Eagle','Falcon','Phoenix','Titan','Hero','Boss','Legend','Miner','Crafter','Builder'];
-const NICK_PARTS_C = ['X','YT','TTV','HD','PRO','GG','MVP','OP','TV','RU','MC','XD','LOL','EQ','PVP'];
-function randomNick(){
-  const r = Math.random();
-  if(r < 0.4) return NICK_PARTS_A[Math.floor(Math.random()*NICK_PARTS_A.length)] + NICK_PARTS_B[Math.floor(Math.random()*NICK_PARTS_B.length)];
-  if(r < 0.7) return NICK_PARTS_A[Math.floor(Math.random()*NICK_PARTS_A.length)] + Math.floor(Math.random()*999);
-  if(r < 0.9) return NICK_PARTS_B[Math.floor(Math.random()*NICK_PARTS_B.length)] + Math.floor(Math.random()*99);
-  return NICK_PARTS_A[Math.floor(Math.random()*NICK_PARTS_A.length)] + NICK_PARTS_C[Math.floor(Math.random()*NICK_PARTS_C.length)];
-}
-
-/* ==== БЕСКОНЕЧНАЯ ПОДГРУЗКА СКИНОВ ==== */
-async function fetchSkinPage(page){
-  let names = [];
-
-  // 1) пробуем через воркер
-  try{
-    const r = await fetch(`${WORKER_URL}/skins/trending?page=${page}`);
-    if(r.ok){
-      const d = await r.json();
-      if(d && Array.isArray(d.names) && d.names.length){
-        names = d.names;
-      }
-    }
-  }catch(e){ console.warn('worker trending failed:', e.message); }
-
-  // 2) если воркер не ответил — allorigins + minecraft-api (циклично)
-  if(!names.length){
-    try{
-      const r2 = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('https://minecraft-api.vercel.app/api/skins')}`);
-      if(r2.ok){
-        const d2 = await r2.json();
-        if(Array.isArray(d2) && d2.length){
-          const start = (page - 1) * SKIN_LIMIT;
-          for(let i = 0; i < SKIN_LIMIT; i++){
-            const item = d2[(start + i) % d2.length];
-            const n = (item && (item.name || item.uuid)) ? String(item.name || item.uuid) : '';
-            if(n && isValidNick(n)) names.push(n);
-          }
-        }
-      }
-    }catch(e){ console.warn('allorigins skins failed:', e.message); }
-  }
-
-  // 3) если всё пусто — генерируем ники сами (никогда не кончается)
-  if(!names.length){
-    for(let i = 0; i < SKIN_LIMIT; i++){
-      names.push(randomNick() + Math.floor(Math.random()*99));
-    }
-  }
-
-  // чистим мусор
-  names = names.filter(n => n && typeof n === 'string' && isValidNick(n));
-  return names;
 }
 
 async function loadMore(){
@@ -1368,23 +1160,18 @@ async function loadMore(){
     if(currentTab === 'skins'){
       showSkeletons(8);
       let list = [];
-
       if(currentQuery && isValidNick(currentQuery)){
-        // поиск одного ника
         list = [{source:'skin', name:currentQuery}];
         hasMore = false;
       }else if(randomMode){
-        // случайные — всегда
         list = Array.from({length:SKIN_LIMIT}, () => ({source:'skin', name: randomNick() + Math.floor(Math.random()*999)}));
         hasMore = true;
       }else{
-        // trending — бесконечно, страница = offset / SKIN_LIMIT + 1
         const page = Math.floor(offset / SKIN_LIMIT) + 1;
         const names = await fetchSkinPage(page);
         list = names.map(n => ({source:'skin', name:n}));
-        hasMore = true; // никогда не заканчивается
+        hasMore = true;
       }
-
       removeSkeletons();
       if(token !== reqId) return;
       if(!list.length){ hasMore = false; setSentinel('end'); return; }
@@ -1448,24 +1235,62 @@ async function loadMore(){
   }
 }
 
+const NICK_A = ['Dark','Shadow','Craft','Mine','Sky','Fire','Ice','Dia','Ruby','Pixel','Block','Red','Blue','Gold','Iron','Nether','End','Void','Star','Moon','Sun','Wolf','Dragon','Ninja','Pro','Mega','Ultra','Super','Epic','Frost','Lava','Storm','Thunder','Light','Cyber'];
+const NICK_B = ['Killer','Master','Lord','King','Queen','Hunter','Slayer','Warrior','Mage','Wizard','Knight','Sniper','Gamer','Player','Creeper','Zombie','Wolf','Cat','Fox','Bear','Eagle','Falcon','Phoenix','Titan','Hero','Boss','Legend','Miner','Crafter','Builder'];
+const NICK_C = ['X','YT','TTV','HD','PRO','GG','MVP','OP','TV','RU','MC','XD','LOL','EQ','PVP'];
+function randomNick(){
+  const r = Math.random();
+  if(r < 0.4) return NICK_A[Math.floor(Math.random()*NICK_A.length)] + NICK_B[Math.floor(Math.random()*NICK_B.length)];
+  if(r < 0.7) return NICK_A[Math.floor(Math.random()*NICK_A.length)] + Math.floor(Math.random()*999);
+  if(r < 0.9) return NICK_B[Math.floor(Math.random()*NICK_B.length)] + Math.floor(Math.random()*99);
+  return NICK_A[Math.floor(Math.random()*NICK_A.length)] + NICK_C[Math.floor(Math.random()*NICK_C.length)];
+}
+
+async function fetchSkinPage(page){
+  let names = [];
+  try{
+    const r = await fetch(`${WORKER_URL}/skins/trending?page=${page}`);
+    if(r.ok){
+      const d = await r.json();
+      if(d && Array.isArray(d.names) && d.names.length) names = d.names;
+    }
+  }catch(e){ console.warn('worker trending failed:', e.message); }
+
+  if(!names.length){
+    try{
+      const r2 = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('https://minecraft-api.vercel.app/api/skins')}`);
+      if(r2.ok){
+        const d2 = await r2.json();
+        if(Array.isArray(d2) && d2.length){
+          const start = (page - 1) * SKIN_LIMIT;
+          for(let i = 0; i < SKIN_LIMIT; i++){
+            const item = d2[(start + i) % d2.length];
+            const n = (item && (item.name || item.uuid)) ? String(item.name || item.uuid) : '';
+            if(n && isValidNick(n)) names.push(n);
+          }
+        }
+      }
+    }catch(e){ console.warn('allorigins skins failed:', e.message); }
+  }
+
+  if(!names.length){
+    for(let i = 0; i < SKIN_LIMIT; i++){
+      names.push(randomNick() + Math.floor(Math.random()*99));
+    }
+  }
+  names = names.filter(n => n && typeof n === 'string' && isValidNick(n));
+  return names;
+}
+
 const normalizeItem = item => item.source === 'modrinth' ? {
-  title:item.title,
-  desc:item.description,
-  icon:item.icon_url,
-  downloads:item.downloads,
-  author:item.author,
-  updated:item.date_modified,
+  title:item.title, desc:item.description, icon:item.icon_url,
+  downloads:item.downloads, author:item.author, updated:item.date_modified,
   id:item.project_id || item.slug,
   web:`https://modrinth.com/${TAB_CONFIG[currentTab]?.type || 'mod'}/${encodeURIComponent(item.slug)}`
 } : {
-  title:item.name,
-  desc:item.summary,
-  icon:item.logo?.url,
-  downloads:item.downloadCount,
-  author:item.authors?.[0]?.name || 'Неизвестно',
-  updated:item.dateModified,
-  id:item.id,
-  web:item.links?.websiteUrl
+  title:item.name, desc:item.summary, icon:item.logo?.url,
+  downloads:item.downloadCount, author:item.authors?.[0]?.name || 'Неизвестно',
+  updated:item.dateModified, id:item.id, web:item.links?.websiteUrl
 };
 
 function skinTextureUrl(name){
@@ -1618,6 +1443,341 @@ function createSkinViewer(container, skinUrl, opts = {}){
     return null;
   }
 }
+
+async function showDetails(item){
+  if(!item) return;
+  let html;
+  const isSkin = item.source === 'skin';
+  if(isSkin){
+    $('modalTitle').textContent = item.name;
+    html = `
+      <div class="modal-3d-viewport" id="modal3d"></div>
+      <div class="modal-actions">
+        <button class="btn" id="dlBtn" data-source="skin" data-id="${esc(item.name)}">Скачать скин</button>
+        <button class="btn btn-secondary" id="editSkinBtn" data-skin-name="${esc(item.name)}">Редактировать</button>
+      </div>`;
+  }else{
+    const n = normalizeItem(item);
+    const web = safeUrl(n.web);
+    $('modalTitle').textContent = n.title;
+    html = `
+      <img src="${esc(safeUrl(n.icon) || NO_IMG)}" alt="${esc(n.title)}" class="card-image" style="height:280px;border-radius:var(--r);margin-bottom:1.5rem;border:1px solid var(--line)" referrerpolicy="no-referrer" data-fallback>
+      <div class="version-picker">
+        <div class="version-picker-title">
+          <span>Выбери версию</span>
+          <button id="toggleVersionMode" data-mode="mod">Режим: версия мода</button>
+        </div>
+        <div class="version-picker-row">
+          <select class="filter-select" id="modalVersion"><option>Загрузка...</option></select>
+          <select class="filter-select" id="modalLoader"><option>Загрузка...</option></select>
+        </div>
+      </div>
+      <p class="modal-description" id="modalDesc">${esc(n.desc || 'Описание отсутствует')}</p>
+      <div class="modal-actions">
+        <button class="btn" id="dlBtn" data-source="${item.source}" data-id="${esc(safeId(n.id))}">Скачать</button>
+        ${web ? `<a class="btn btn-secondary" href="${esc(web)}" target="_blank" rel="noopener noreferrer">Открыть на сайте</a>` : ''}
+      </div>`;
+  }
+  $('modalBody').innerHTML = html;
+  lastFocused = document.activeElement;
+  $('detailModal').classList.add('active');
+  document.body.classList.add('lock');
+  $('modalClose').focus();
+
+  if(isSkin){
+    const vp = $('modal3d');
+    if(vp){
+      setTimeout(async () => {
+        const dataUrl = await loadSkinDataUrl([
+          skinTextureUrl(item.name),
+          `https://minotar.net/skin/${encodeURIComponent(item.name)}`,
+          `https://mc-heads.net/skin/${encodeURIComponent(item.name)}`
+        ]);
+        if(!document.contains(vp)) return;
+        if(!dataUrl){
+          vp.innerHTML = '<p style="color:var(--tdim);padding:2rem;text-align:center">Не удалось загрузить скин</p>';
+          return;
+        }
+        modalViewer = createSkinViewer(vp, dataUrl, {animation:true, zoom:true});
+      }, 50);
+    }
+  }else{
+    const d = item.source === 'modrinth' ? item.description : item.summary;
+    const ru = await translate(d || '');
+    const el = $('modalDesc');
+    if(el && d) el.textContent = ru;
+    loadVersions(item).catch(err => console.warn(err));
+  }
+}
+
+let versionMode = 'mod';
+
+async function loadVersions(item){
+  const vSel = $('modalVersion');
+  const lSel = $('modalLoader');
+  if(!vSel) return;
+  const id = safeId(item.source === 'modrinth' ? (item.project_id || item.slug) : item.id);
+  if(!id) return;
+  try{
+    let versions = [];
+    if(item.source === 'modrinth'){
+      const v = await fetchJson(`${MR_API}/project/${id}/version`, 6000);
+      versions = (v || []).map(x => ({
+        id: x.id, name: x.version_number || x.name || 'unknown',
+        type: x.version_type || 'release', date: x.date_published || '',
+        mc: x.game_versions || [], loaders: x.loaders || []
+      }));
+    }else{
+      const bases = [MCIM_API, CURSE_TOOLS, CFPROXY];
+      for(const base of bases){
+        try{
+          let idx = 0, guard = 0;
+          const collected = [];
+          while(guard++ < 20){
+            const f = await fetchJson(`${base}/mods/${id}/files?pageSize=50&index=${idx}`, 6000);
+            const chunk = f.data || [];
+            if(!chunk.length) break;
+            collected.push(...chunk.map(x => ({
+              id: x.id, name: x.displayName || x.fileName || 'unknown',
+              type: (x.releaseType === 1 ? 'release' : x.releaseType === 2 ? 'beta' : 'alpha'),
+              date: x.fileDate || '', mc: (x.gameVersions || []).filter(g => /^\d/.test(g)),
+              loaders: x.modLoader ? [x.modLoader] : []
+            })));
+            if(chunk.length < 50 || collected.length >= VERSIONS_MAX) break;
+            idx += 50;
+          }
+          if(collected.length){ versions = collected; break; }
+        }catch(e){ console.warn('CF versions failed:', base, e.message); }
+      }
+    }
+
+    versions.sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+
+    if(!versions.length){
+      vSel.innerHTML = '<option value="">Нет версий</option>';
+      lSel.innerHTML = '<option value="">—</option>';
+      return;
+    }
+
+    const mcSet = new Set();
+    const loaderSet = new Set();
+    versions.forEach(v => {
+      v.mc.forEach(m => mcSet.add(m));
+      v.loaders.forEach(l => loaderSet.add(l));
+    });
+    const mcs = [...mcSet].sort((a,b) => compareVersions(b, a));
+    const loaders = [...loaderSet].sort();
+
+    renderVersionOptions(versions, mcs, loaders);
+
+    const toggleBtn = $('toggleVersionMode');
+    if(toggleBtn && !toggleBtn.__bound){
+      toggleBtn.__bound = true;
+      toggleBtn.addEventListener('click', () => {
+        versionMode = versionMode === 'mod' ? 'game' : 'mod';
+        toggleBtn.dataset.mode = versionMode;
+        toggleBtn.textContent = versionMode === 'mod' ? 'Режим: версия мода' : 'Режим: версия игры';
+        renderVersionOptions(versions, mcs, loaders);
+      });
+    }
+  }catch(e){
+    console.warn('loadVersions failed:', e);
+    vSel.innerHTML = '<option value="">Ошибка</option>';
+    lSel.innerHTML = '<option value="">—</option>';
+  }
+}
+
+function renderVersionOptions(versions, mcs, loaders){
+  const vSel = $('modalVersion');
+  const lSel = $('modalLoader');
+  if(!vSel) return;
+  if(versionMode === 'mod'){
+    vSel.innerHTML = versions.map(v => {
+      const tag = v.type === 'release' ? '' : v.type === 'beta' ? ' (beta)' : ' (alpha)';
+      return `<option value="${esc(v.id)}">${esc(v.name)}${tag}</option>`;
+    }).join('');
+    const updateMcList = () => {
+      const picked = versions.find(v => String(v.id) === String(vSel.value)) || versions[0];
+      if(picked && picked.mc.length){
+        lSel.innerHTML = picked.mc.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
+      }else{
+        lSel.innerHTML = '<option value="">—</option>';
+      }
+    };
+    updateMcList();
+    vSel.onchange = updateMcList;
+  }else{
+    vSel.innerHTML = mcs.length ? mcs.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') : '<option value="">—</option>';
+    lSel.innerHTML = '<option value="">Любой</option>' + loaders.map(l => `<option value="${esc(l)}">${esc(l)}</option>`).join('');
+    vSel.onchange = null;
+  }
+}
+
+function compareVersions(a, b){
+  const pa = String(a).split('.').map(Number);
+  const pb = String(b).split('.').map(Number);
+  for(let i = 0; i < Math.max(pa.length, pb.length); i++){
+    const d = (pa[i] || 0) - (pb[i] || 0);
+    if(d) return d;
+  }
+  return 0;
+}
+
+function closeModal(){
+  $('detailModal').classList.remove('active');
+  if(!document.querySelector('.modal.active') && !document.body.classList.contains('editor-lock')){
+    document.body.classList.remove('lock');
+  }
+  if(modalViewer){
+    try{
+      modalViewer.renderer.setAnimationLoop(null);
+      modalViewer.dispose();
+    }catch{}
+    modalViewer = null;
+  }
+  $('modalBody').innerHTML = '';
+  if(lastFocused && document.contains(lastFocused)) lastFocused.focus();
+  lastFocused = null;
+}
+
+$('modalClose').addEventListener('click', closeModal);
+$('detailModal').addEventListener('click', e => { if(e.target.id === 'detailModal') closeModal(); });
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ closeModal(); closeThemeEditor(true); }
+  trapFocus(e);
+});
+$('modalBody').addEventListener('click', e => {
+  const b = e.target.closest('#dlBtn');
+  if(b) downloadDirect(b.dataset.source, b.dataset.id, b);
+  const editBtn = e.target.closest('#editSkinBtn');
+  if(editBtn){
+    const name = editBtn.dataset.skinName;
+    closeModal();
+    setTimeout(() => openEditor(name), 100);
+  }
+});
+$('themeModalClose').addEventListener('click', () => closeThemeEditor(true));
+$('themeModal').addEventListener('click', e => { if(e.target.id === 'themeModal') closeThemeEditor(true); });
+$('ct-cancel').addEventListener('click', () => closeThemeEditor(true));
+$('ct-save').addEventListener('click', saveCustomTheme);
+
+async function downloadDirect(source, id, btn){
+  if(!id){ toast('Некорректный ID','error'); return; }
+  const old = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Подготовка...';
+  try{
+    let url = '', filename = 'download';
+    if(source === 'skin'){
+      url = skinDownloadUrl(id);
+      filename = id + '.png';
+    }else if(source === 'modrinth'){
+      const v = await fetchJson(`${MR_API}/project/${id}/version`);
+      if(!v?.length){ toast('Файлы не найдены','error'); return; }
+      let pick = null;
+      if(versionMode === 'mod'){
+        const wantId = $('modalVersion')?.value || '';
+        pick = v.find(x => String(x.id) === String(wantId));
+      }else{
+        const wantMc = $('modalVersion')?.value || '';
+        const wantLoader = $('modalLoader')?.value || '';
+        pick = v.find(x => (!wantMc || (x.game_versions || []).includes(wantMc)) && (!wantLoader || (x.loaders || []).includes(wantLoader)));
+      }
+      if(!pick){ toast('Беру последнюю версию','info'); pick = v[0]; }
+      const file = (pick.files || []).find(x => x.primary) || (pick.files || [])[0];
+      if(!file){ toast('Файл не найден','error'); return; }
+      url = file.url;
+      filename = file.filename || 'mod.jar';
+    }else{
+      let pick = null;
+      const bases = [MCIM_API, CURSE_TOOLS, CFPROXY];
+      if(versionMode === 'mod'){
+        const wantId = $('modalVersion')?.value || '';
+        for(const base of bases){
+          try{
+            const f = await fetchJson(`${base}/mods/${id}/files/${wantId}`);
+            if(f && f.data){ pick = f.data; break; }
+          }catch{}
+        }
+      }
+      if(!pick){
+        const wantMc = versionMode === 'game' ? ($('modalVersion')?.value || '') : '';
+        const wantLoader = versionMode === 'game' ? ($('modalLoader')?.value || '') : '';
+        for(const base of bases){
+          try{
+            let idx = 0, guard = 0;
+            while(guard++ < 20){
+              const f = await fetchJson(`${base}/mods/${id}/files?pageSize=50&index=${idx}`);
+              const chunk = f.data || [];
+              if(!chunk.length) break;
+              const found = chunk.find(x => {
+                const mcOk = !wantMc || (x.gameVersions || []).includes(wantMc);
+                const ldOk = !wantLoader || x.modLoader === wantLoader;
+                return mcOk && ldOk;
+              });
+              if(found){ pick = found; break; }
+              if(chunk.length < 50) break;
+              idx += 50;
+            }
+            if(pick) break;
+          }catch{}
+        }
+      }
+      if(!pick){
+        for(const base of bases){
+          try{
+            const f0 = await fetchJson(`${base}/mods/${id}/files?pageSize=1&index=0`);
+            pick = (f0.data || [])[0];
+            if(pick) break;
+          }catch{}
+        }
+      }
+      if(!pick){ toast('Файлы не найдены','error'); return; }
+      const fid = safeId(pick.id);
+      if(!fid){ toast('Некорректный ID','error'); return; }
+      filename = pick.fileName || 'mod.jar';
+      let dlData = null;
+      for(const base of bases){
+        try{
+          const dl = await fetchJson(`${base}/mods/${id}/files/${fid}/download-url`);
+          if(dl && dl.data){ dlData = dl.data; break; }
+        }catch(e){ console.warn('download-url failed:', base, e.message); }
+      }
+      if(!dlData){ toast('Автор запретил скачивание','error'); return; }
+      url = dlData;
+    }
+    const safe = safeUrl(url);
+    if(!safe){ toast('Некорректная ссылка','error'); return; }
+    const a = document.createElement('a');
+    a.href = safe;
+    a.download = filename;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    toast('Скачивание: ' + filename,'ok');
+  }catch(e){
+    console.error(e);
+    toast('Ошибка: ' + (e.message || 'не удалось'),'error');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = old;
+  }
+}
+
+function formatNumber(n){
+  n = Number(n) || 0;
+  if(n >= 1e6){
+    const v = n / 1e6;
+    return (v >= 100 ? Math.round(v) : (Math.round(v*10)/10).toString().replace(/\.0$/,'')) + 'M';
+  }
+  if(n >= 1000){
+    const v = n / 1000;
+    return (v >= 999.5 ? (Math.round(n/1e5)/10).toString().replace(/\.0$/,'') + 'M' : (Math.round(v*10)/10).toString().replace(/\.0$/,'') + 'K');
+  }
+  return String(n);
+}
 /* ============================================================
    РЕДАКТОР СКИНОВ
    ============================================================ */
@@ -1644,7 +1804,7 @@ async function openEditor(skinName){
 
       <div class="editor-bg-picker-bar" id="ed-bg-picker">
         <span class="editor-bg-label">ФОН:</span>
-        <button class="editor-bg-btn active" data-bg="theme" title="Фон из темы" type="button">🎨</button>
+        <button class="editor-bg-btn active" data-bg="theme" title="Из темы" type="button">🎨</button>
         <button class="editor-bg-btn" data-bg="biome" title="Биом" type="button"></button>
         <button class="editor-bg-btn" data-bg="sunset" title="Закат" type="button"></button>
         <button class="editor-bg-btn" data-bg="night" title="Ночь" type="button"></button>
@@ -1699,7 +1859,7 @@ async function openEditor(skinName){
                 <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
               </button>
             </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Оверлей — сетка пикселей поверх скина.</p>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый рисует тело, оверлей — поверх него попиксельно.</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
@@ -1720,28 +1880,6 @@ async function openEditor(skinName){
       </div>
       <input type="file" id="ed-file" accept="image/png" hidden>
     </div>`;
-
-  /* Дополнительный CSS для панели пикера — вне области canvas */
-  if(!document.getElementById('ed-bg-picker-style')){
-    const st = document.createElement('style');
-    st.id = 'ed-bg-picker-style';
-    st.textContent = `
-      .editor-bg-picker-bar{display:flex;gap:.4rem;align-items:center;background:var(--s3);padding:.5rem .75rem;border-radius:var(--r-sm);border:1px solid var(--line);margin-bottom:1rem;width:fit-content;flex-wrap:wrap;z-index:100;position:relative}
-      .editor-bg-label{font-family:var(--font-mono);font-size:.7rem;color:var(--tdim);letter-spacing:.1em;padding-right:.35rem}
-      .editor-bg-picker-bar .editor-bg-btn{width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--line);cursor:pointer;padding:0;position:relative;transition:all var(--tf) var(--ease);background:transparent}
-      .editor-bg-picker-bar .editor-bg-btn:hover{transform:scale(1.08);border-color:var(--accent)}
-      .editor-bg-picker-bar .editor-bg-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
-      .editor-bg-picker-bar .editor-bg-btn[data-bg="theme"]{background:linear-gradient(135deg, color-mix(in oklab, var(--accent), white 15%) 0%, color-mix(in oklab, var(--accent-2), white 15%) 100%)}
-      .editor-bg-picker-bar .editor-bg-btn[data-bg="biome"]{background:linear-gradient(to bottom,#4FA8DE 0%,#6FC0EA 45%,#5EAE3E 56%,#4A9030 62%,#7A4C24 65%,#5E3A1A 100%)}
-      .editor-bg-picker-bar .editor-bg-btn[data-bg="sunset"]{background:linear-gradient(to bottom,#FF7E5F 0%,#FEB47B 40%,#6A3093 75%,#2D1B4E 100%)}
-      .editor-bg-picker-bar .editor-bg-btn[data-bg="night"]{background:linear-gradient(to bottom,#0B1026 0%,#1B2346 50%,#2D1B4E 100%)}
-      .editor-bg-picker-bar .editor-bg-btn[data-bg="sakura"]{background:linear-gradient(to bottom,#F5B7C1 0%,#FADADD 40%,#C7A8C4 75%,#8B6D93 100%)}
-      .editor-bg-picker-bar .editor-bg-btn[data-bg="none"]{background:linear-gradient(135deg,#161D2B,#1E2636)}
-      .editor-bg-picker-bar .editor-bg-btn[data-bg="none"]::after{content:'⊘';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8892A3;font-size:.9rem}
-      .editor-bg-picker-bar .editor-bg-btn.upload{background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text)}
-    `;
-    document.head.appendChild(st);
-  }
 
   const canvas = document.createElement('canvas');
   canvas.width = SKIN_SIZE;
@@ -1764,8 +1902,7 @@ async function openEditor(skinName){
     flatCanvas: null,
     flatCtx: null,
     mousemoveThrottle: null,
-    _resizeHandler: null,
-    overlayLines: null
+    _resizeHandler: null
   };
 
   const palette = [
@@ -1809,34 +1946,29 @@ async function openEditor(skinName){
     b.classList.add('active');
   }));
 
-  /* === ФОН — теперь пикер ВНЕ canvas-area, работает всегда === */
+  /* === ФОН === */
   const canvasArea = document.querySelector('.editor-canvas-area');
   const savedBg = safeGetLocalStorage('mch-editor-bg') || 'theme';
-  const savedCustomBg = safeGetLocalStorage('mch-editor-bg-custom');
 
   function applyBg(bg){
     if(!canvasArea) return;
     canvasArea.style.backgroundImage = '';
     canvasArea.setAttribute('data-editor-bg', bg);
-    if(bg === 'custom' && savedCustomBg){
-      canvasArea.style.backgroundImage = `url(${savedCustomBg})`;
+    if(bg === 'custom'){
+      const cur = safeGetLocalStorage('mch-editor-bg-custom');
+      if(cur) canvasArea.style.backgroundImage = `url(${cur})`;
     }
     $$('#ed-bg-picker [data-bg]').forEach(x => x.classList.toggle('active', x.dataset.bg === bg));
     safeSetLocalStorage('mch-editor-bg', bg);
   }
 
-  if(savedCustomBg && savedBg === 'custom'){
-    applyBg('custom');
-  }else{
-    applyBg(savedBg);
-  }
+  applyBg(savedBg);
 
   $$('#ed-bg-picker [data-bg]').forEach(b => {
     b.addEventListener('click', (e) => {
       e.preventDefault();
-      const bg = b.dataset.bg;
-      applyBg(bg);
-      toast('Фон: ' + bg, 'ok', 1200);
+      applyBg(b.dataset.bg);
+      toast('Фон: ' + b.dataset.bg, 'ok', 1200);
     });
   });
 
@@ -1862,9 +1994,6 @@ async function openEditor(skinName){
         try{ localStorage.setItem('mch-editor-bg-custom', dataUrl); }
         catch{ toast('Фон слишком большой для сохранения','error'); }
         applyBg('custom');
-        if(canvasArea){
-          canvasArea.style.backgroundImage = `url(${dataUrl})`;
-        }
         toast('Свой фон загружен','ok');
       }
     };
@@ -1940,7 +2069,80 @@ async function openEditor(skinName){
   window.addEventListener('resize', doResize);
   editorState._resizeHandler = doResize;
 
-  /* === LOAD SKIN с фолбэком === */
+  /* ============================================================
+     ШЕЙДЕР СЕТКИ — попиксельно 64×64 на UV оверлея
+     ============================================================ */
+  const GRID_SHADER_KEY = '__gridShaderOn';
+
+  function applyGridShader(mat, on){
+    if(!mat) return;
+    if(on && !mat.userData[GRID_SHADER_KEY]){
+      mat.userData[GRID_SHADER_KEY] = true;
+      mat.userData.__origOBC = mat.onBeforeCompile;
+      mat.userData.__cacheKey = mat.customProgramCacheKey;
+
+      mat.onBeforeCompile = function(shader){
+        if(typeof mat.userData.__origOBC === 'function'){
+          mat.userData.__origOBC.call(this, shader);
+        }
+        shader.fragmentShader = shader.fragmentShader.replace(
+          '#include <dithering_fragment>',
+          `#include <dithering_fragment>
+          #ifdef USE_MAP
+            vec2 __gUV = vMapUv * 64.0;
+            vec2 __gF = abs(fract(__gUV - 0.5) - 0.5);
+            vec2 __gD = fwidth(__gUV);
+            vec2 __gL = __gF / max(__gD, vec2(0.0001));
+            float __gA = 1.0 - min(min(__gL.x, __gL.y), 1.0);
+            gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.22, 0.85, 1.0), __gA * 0.95);
+          #endif
+          `
+        );
+      };
+      mat.customProgramCacheKey = function(){
+        let base = 'grid-on';
+        if(typeof mat.userData.__cacheKey === 'function'){
+          try{ base += '_' + mat.userData.__cacheKey(); }catch{}
+        }
+        return base;
+      };
+      mat.needsUpdate = true;
+    }else if(!on && mat.userData[GRID_SHADER_KEY]){
+      mat.userData[GRID_SHADER_KEY] = false;
+      mat.onBeforeCompile = mat.userData.__origOBC || function(){};
+      mat.customProgramCacheKey = mat.userData.__cacheKey || function(){ return ''; };
+      mat.needsUpdate = true;
+    }
+  }
+
+  /* Применяем/снимаем сетку. showGrid=true — на ОВЕРЛЕЙ материал (index>0 или outer-меш), false — снять со всех */
+  function applyOverlayGrid(showGrid){
+    const v = editorState.viewer;
+    if(!v || !v.playerObject) return;
+
+    v.playerObject.traverse(obj => {
+      if(!obj.isMesh) return;
+      const n = (obj.name || '').toLowerCase();
+      const p = (obj.parent && obj.parent.name || '').toLowerCase();
+      const combined = n + ' ' + p;
+      if(combined.includes('cape') || combined.includes('elytra')) return;
+
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+      const isMulti = mats.length >= 2;
+
+      mats.forEach((mat, idx) => {
+        if(!mat) return;
+        let isOuter;
+        if(isMulti) isOuter = idx > 0;
+        else isOuter = /outer|hat|jacket|sleeve|overlay|second/i.test(combined);
+
+        if(showGrid && isOuter) applyGridShader(mat, true);
+        else applyGridShader(mat, false);
+      });
+    });
+  }
+
+  /* === LOAD SKIN === */
   async function loadSkinToCanvas(url, fallbackUrl){
     const draw = (img) => {
       ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
@@ -1973,66 +2175,7 @@ async function openEditor(skinName){
     viewer.renderer.setAnimationLoop(() => {
       viewer.renderer.render(viewer.scene, viewer.camera);
     });
-  }
-
-  /* === ОВЕРЛЕЙ — WIREFRAME через EdgesGeometry поверх модели === */
-  function buildOverlayLines(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return null;
-
-    const group = new THREE.Group();
-    group.name = '__overlay_wireframe_group';
-
-    const lineMat = new THREE.LineBasicMaterial({
-      color: 0x38BDF8,
-      transparent: true,
-      opacity: 0.95,
-      depthTest: true,
-      depthWrite: false,
-      linewidth: 1
-    });
-
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
-      if(!obj.geometry) return;
-
-      try{
-        const edges = new THREE.EdgesGeometry(obj.geometry, 1);
-        const lines = new THREE.LineSegments(edges, lineMat);
-        // прикрепляем к тому же родителю и позиционируем относительно obj
-        obj.add(lines);
-        lines.renderOrder = 10;
-        group.userData.lines = group.userData.lines || [];
-        group.userData.lines.push({parent: obj, lines: lines});
-      }catch(e){ console.warn('edge build failed:', e); }
-    });
-
-    return group;
-  }
-
-  function setOverlay(on){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
-
-    // удаляем старые линии
-    if(editorState.overlayLines && editorState.overlayLines.userData.lines){
-      editorState.overlayLines.userData.lines.forEach(({parent, lines}) => {
-        try{
-          parent.remove(lines);
-          if(lines.geometry) lines.geometry.dispose();
-          if(lines.material) lines.material.dispose();
-        }catch{}
-      });
-      editorState.overlayLines = null;
-    }
-
-    if(!on) return;
-
-    editorState.overlayLines = buildOverlayLines();
+    applyOverlayGrid(editorState.activeLayer === 'overlay');
   }
 
   /* === СЛОИ === */
@@ -2040,8 +2183,8 @@ async function openEditor(skinName){
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    setOverlay(b.dataset.layer === 'overlay');
-    toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (сетка пикселей)', 'info', 1400);
+    applyOverlayGrid(editorState.activeLayer === 'overlay');
+    toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (попиксельная сетка)', 'info', 1400);
   }));
 
   /* === PAINT === */
@@ -2123,34 +2266,30 @@ async function openEditor(skinName){
     ctx.putImageData(img, 0, 0);
   }
 
-  /* === REFRESH 3D === */
-  function refresh3D(){
-    const v = editorState.viewer;
-    if(!v) return;
-    try{
-      const dataUrl = editorState.canvas.toDataURL('image/png');
-      v.loadSkin(dataUrl).then(() => {
-        if(editorState.activeLayer === 'overlay'){
-          setOverlay(false);
-          setOverlay(true);
-        }
-      }).catch(() => {});
-    }catch(e){ console.warn('refresh3D failed:', e); }
-  }
   function schedule3DRefresh(){
     if(editorState.refreshTimer) return;
     editorState.refreshTimer = setTimeout(() => {
       editorState.refreshTimer = null;
       refresh3D();
-    }, 100);
+    }, 120);
   }
 
-  /* === 3D DRAW === */
+  function refresh3D(){
+    const v = editorState.viewer;
+    if(!v) return;
+    try{
+      const dataUrl = editorState.canvas.toDataURL('image/png');
+      v.loadSkin(dataUrl).catch(() => {});
+    }catch(e){ console.warn('refresh3D failed:', e); }
+  }
+
+  /* === 3D DRAW — с разделением по слоям через materialIndex === */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
     const ray = editorState.raycaster;
     const mv = editorState.mouseVec;
     if(!v || !ray || !mv) return;
+    const wantOverlay = editorState.activeLayer === 'overlay';
 
     const rect = v.canvas.getBoundingClientRect();
     mv.x = ((clientX - rect.left) / rect.width) * 2 - 1;
@@ -2169,11 +2308,28 @@ async function openEditor(skinName){
       if(!h.object.visible) continue;
       if(!h.uv) continue;
       if(h.object.isLine || h.object.isLineSegments) continue;
-      // пропускаем наши вспомогательные линии
-      if(h.object.name === '__overlay_wireframe_group') continue;
+
+      const obj = h.object;
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+
+      let isOuterHit;
+      if(mats.length >= 2){
+        const matIdx = (h.face && typeof h.face.materialIndex === 'number') ? h.face.materialIndex : 0;
+        isOuterHit = matIdx > 0;
+      }else{
+        const n = (obj.name || '').toLowerCase();
+        const p = (obj.parent && obj.parent.name || '').toLowerCase();
+        isOuterHit = /outer|hat|jacket|sleeve|overlay|second/i.test(n + ' ' + p);
+      }
+
+      // базовый слой — только базовые меши, оверлей — только оверлейные
+      if(wantOverlay && !isOuterHit) continue;
+      if(!wantOverlay && isOuterHit) continue;
+
       hit = h;
       break;
     }
+
     if(!hit){
       editorState.lastPx = null;
       editorState.lastPy = null;
