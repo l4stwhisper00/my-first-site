@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://minecraft-proxy.zxcdedinside944.workers.dev">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&family=Archivo+Black&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&family=Archivo+Black&family=Rubik:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
 <title>Minecraft Hub</title>
 <style>
 /* RESET */
@@ -33,7 +33,7 @@
 [data-theme="rose"]{--s0:#150710;--s2:#220C1A;--s3:#311323;--s4:#3F1A2C;--s5:#4E2338;--accent:#F472B6;--accent-2:#FCD34D;--dim:#5E1F41;--text:#FFE4F1;--tdim:#C493AD;--tdim2:#8C6178}
 [data-theme="mono"]{--s0:#0A0A0A;--s2:#111111;--s3:#181818;--s4:#202020;--s5:#2A2A2A;--accent:#FAFAFA;--accent-2:#A3A3A3;--dim:#333333;--text:#F5F5F5;--tdim:#A3A3A3;--tdim2:#666666;--error:#EF4444;--ok:#22C55E;--warn:#EAB308}
 
-/* БАЗА */
+/* БАЗОВЫЕ ПЕРЕМЕННЫЕ */
 :root{
   --r:10px;--r-sm:8px;--r-lg:14px;--r-xl:18px;
   --font-body:'Inter',-apple-system,sans-serif;
@@ -53,7 +53,11 @@
 }
 [data-theme="light"]{--line:rgba(0,0,0,.06);--line-strong:rgba(0,0,0,.12)}
 
-/* СТИЛИ */
+/* ============================================================
+   СТИЛИ — КАЖДЫЙ РЕАЛЬНО ДРУГОЙ
+   ============================================================ */
+
+/* BRUTAL — моно, 0 радиусов, толстые бордеры, uppercase, большие отступы */
 html[data-style="brutal"]{
   --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
   --font-body:'JetBrains Mono',monospace;
@@ -62,16 +66,38 @@ html[data-style="brutal"]{
   --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
   --bg-card:var(--s2);
   --tracking:-.03em;
-  --border-w:2px;
+  --border-w:3px;
 }
+html[data-style="brutal"] h1{text-transform:uppercase;letter-spacing:.05em}
+html[data-style="brutal"] h1::before{border-radius:0;background:var(--accent)}
+html[data-style="brutal"] .card{border-color:var(--text)}
+html[data-style="brutal"] .card-title{text-transform:uppercase;font-weight:700}
+html[data-style="brutal"] .btn,html[data-style="brutal"] .search-btn{text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--text);box-shadow:none!important}
+html[data-style="brutal"] .tab{text-transform:uppercase;font-weight:700}
+html[data-style="brutal"] .subtitle::before{content:'>>>'}
+html[data-style="brutal"] .search-container{border-color:var(--text)}
+html[data-style="brutal"] .tag{border-radius:0;text-transform:uppercase}
+
+/* RETRO — Archivo Black, жёсткие тени с offset, жёлтый акцент, никаких радиусов */
 html[data-style="retro"]{
   --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
   --font-body:'Rubik',sans-serif;
   --font-display:'Archivo Black',sans-serif;
-  --border-w:3px;
+  --border-w:2px;
   --bg-card:var(--s2);
   --tracking:-.01em;
+  --accent:#FBBF24;
+  --shadow-sm:2px 2px 0 rgba(0,0,0,.9);
+  --shadow-md:4px 4px 0 rgba(0,0,0,.9);
+  --shadow-lg:6px 6px 0 rgba(0,0,0,.9);
 }
+html[data-style="retro"] h1{font-weight:400;letter-spacing:-.02em}
+html[data-style="retro"] h1::before{border-radius:0;background:var(--accent);box-shadow:3px 3px 0 rgba(0,0,0,.8)}
+html[data-style="retro"] .card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(0,0,0,.9)}
+html[data-style="retro"] .btn:hover,html[data-style="retro"] .search-btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 rgba(0,0,0,.9)}
+html[data-style="retro"] .tab.active{background:var(--accent);color:#000}
+
+/* TERMINAL — зелёный текст, чёрный фон, курсор, monospace */
 html[data-style="terminal"]{
   --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
   --font-body:'IBM Plex Mono',monospace;
@@ -81,37 +107,93 @@ html[data-style="terminal"]{
   --bg-card:var(--s0);
   --tracking:-.01em;
 }
+html[data-style="terminal"]{--accent:#4ADE80;--accent-2:#22C55E}
+html[data-style="terminal"] body{color:#4ADE80}
+html[data-style="terminal"] h1::before{background:#4ADE80;border-radius:0}
+html[data-style="terminal"] h1::after{content:'_';animation:blink 1s steps(2) infinite;color:#4ADE80}
+html[data-style="terminal"] .card-title,html[data-style="terminal"] .card-description,html[data-style="terminal"] .card-stats{color:#4ADE80}
+html[data-style="terminal"] .card{background:#000;border-color:#4ADE80}
+html[data-style="terminal"] .btn,html[data-style="terminal"] .search-btn,html[data-style="terminal"] .tab.active{background:#4ADE80;color:#000;box-shadow:none}
+html[data-style="terminal"] .subtitle::before{content:'$';color:#4ADE80}
+
+/* PAPER — серифы, тёплый оттенок, тени как от бумаги */
 html[data-style="paper"]{
   --r:0px;--r-sm:0px;--r-lg:0px;--r-xl:0px;
   --font-body:'IBM Plex Serif',Georgia,serif;
   --font-display:'IBM Plex Serif',Georgia,serif;
   --font-mono:'IBM Plex Mono',monospace;
-  --bg-card:var(--s2);
+  --bg-card:#FAF6EC;
   --tracking:0em;
-  --shadow-sm:0 1px 0 rgba(0,0,0,.15);
-  --shadow-md:0 3px 0 rgba(0,0,0,.15);
-  --shadow-lg:0 6px 0 rgba(0,0,0,.15);
+  --shadow-sm:0 1px 0 rgba(120,90,40,.25);
+  --shadow-md:0 2px 6px rgba(120,90,40,.25);
+  --shadow-lg:0 4px 12px rgba(120,90,40,.25);
 }
+html[data-style="paper"]{--line:rgba(90,60,20,.2);--line-strong:rgba(90,60,20,.35);--text:#2A1F10;--tdim:#6B5B45;--tdim2:#8C7B62;--s0:#F0E8D5;--s2:#FAF6EC;--s3:#F2EBD9;--s4:#E8DFC8}
+html[data-style="paper"] h1::before{background:#8B4513;border-radius:0}
+html[data-style="paper"] .btn,html[data-style="paper"] .search-btn{background:#8B4513;color:#FAF6EC;box-shadow:none;border-radius:0}
+html[data-style="paper"] .btn-secondary{background:#E8DFC8;color:#2A1F10}
+
+/* MINIMAL — без теней, тонкие бордеры, никакого декора */
 html[data-style="minimal"]{
   --r:2px;--r-sm:2px;--r-lg:2px;--r-xl:2px;
   --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
-  --bg-card:var(--s2);
+  --bg-card:transparent;
   --tracking:-.012em;
 }
+html[data-style="minimal"] .card{border-color:var(--line-strong)}
+html[data-style="minimal"] .card:hover{transform:none;border-color:var(--accent);box-shadow:none}
+html[data-style="minimal"] h1::before{display:none}
+html[data-style="minimal"] .subtitle::before{content:''}
+html[data-style="minimal"] .btn,html[data-style="minimal"] .search-btn{box-shadow:none;background:transparent;color:var(--accent);border:1px solid var(--accent)}
+html[data-style="minimal"] .btn:hover,html[data-style="minimal"] .search-btn:hover{background:var(--accent);color:var(--s0);transform:none}
+html[data-style="minimal"] .tab.active::after{display:none}
+html[data-style="minimal"] .aurora{display:none}
+html[data-style="minimal"] body::before{display:none}
+
+/* NEON — глитч-эффект, яркое свечение, пульсация */
 html[data-style="neon"]{
   --r:4px;--r-sm:3px;--r-lg:6px;--r-xl:8px;
-  --bg-card:linear-gradient(180deg, color-mix(in oklab, var(--s2), var(--accent) 14%) 0%, var(--s2) 100%);
-  --shadow-md:0 0 28px -8px color-mix(in oklab, var(--accent), transparent 30%);
+  --bg-card:linear-gradient(180deg, color-mix(in oklab, var(--s2), var(--accent) 18%) 0%, var(--s2) 100%);
+  --shadow-md:0 0 30px -6px color-mix(in oklab, var(--accent), transparent 20%);
+  --shadow-lg:0 0 50px -10px color-mix(in oklab, var(--accent), transparent 10%);
 }
+html[data-style="neon"] h1{text-shadow:0 0 12px var(--accent),0 0 24px var(--accent-2)}
+html[data-style="neon"] h1::before{box-shadow:0 0 24px var(--accent),0 0 48px var(--accent-2)}
+html[data-style="neon"] .card{border-color:color-mix(in oklab, var(--accent), transparent 60%)}
+html[data-style="neon"] .card:hover{border-color:var(--accent);box-shadow:0 0 40px -8px var(--accent)}
+html[data-style="neon"] .btn,html[data-style="neon"] .search-btn{box-shadow:0 0 20px color-mix(in oklab, var(--accent), transparent 40%)}
+html[data-style="neon"] .tab.active{box-shadow:0 0 16px var(--accent)}
+html[data-style="neon"] .card-title{text-shadow:0 0 8px color-mix(in oklab, var(--accent), transparent 60%)}
+
+/* GLASS — прозрачные карточки, blur, светлые границы */
 html[data-style="glass"]{
-  --r:16px;--r-sm:12px;--r-lg:20px;--r-xl:24px;
-  --bg-card:color-mix(in oklab, var(--s2), transparent 50%);
+  --r:20px;--r-sm:14px;--r-lg:24px;--r-xl:28px;
+  --bg-card:rgba(255,255,255,.05);
+  --line:rgba(255,255,255,.15);
+  --line-strong:rgba(255,255,255,.25);
 }
+html[data-style="glass"] .card{backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%)}
+html[data-style="glass"] .search-container,html[data-style="glass"] .modal-content,html[data-style="glass"] .settings-menu,html[data-style="glass"] .tabs{backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(255,255,255,.06)}
+html[data-style="glass"] h1::before{background:linear-gradient(135deg,#fff3,var(--accent));backdrop-filter:blur(8px)}
+html[data-style="glass"] .btn,html[data-style="glass"] .search-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(10px)}
+html[data-style="glass"] .btn:hover{background:rgba(255,255,255,.25)}
+
+/* SOFT — огромные радиусы, пастельные тени, всё закруглённое */
 html[data-style="soft"]{
-  --r:24px;--r-sm:18px;--r-lg:32px;--r-xl:40px;
+  --r:28px;--r-sm:20px;--r-lg:36px;--r-xl:44px;
   --border-w:0px;
   --bg-card:linear-gradient(180deg, var(--s3) 0%, var(--s2) 100%);
+  --shadow-md:0 20px 40px -20px color-mix(in oklab, var(--accent), transparent 70%);
+  --shadow-lg:0 30px 60px -30px color-mix(in oklab, var(--accent), transparent 60%);
 }
+html[data-style="soft"] .card:hover{transform:translateY(-6px)}
+html[data-style="soft"] h1::before{border-radius:50%}
+html[data-style="soft"] .btn,html[data-style="soft"] .search-btn,html[data-style="soft"] .tab{border-radius:9999px}
+html[data-style="soft"] .tag{border-radius:9999px}
+html[data-style="soft"] .status-dot{border-radius:9999px}
+html[data-style="soft"] .skin-palette button,html[data-style="soft"] .theme-opt,html[data-style="soft"] .style-opt{border-radius:12px}
+
+/* DEV — monospace, сетка, dev-стиль */
 html[data-style="dev"]{
   --r:2px;--r-sm:2px;--r-lg:4px;--r-xl:6px;
   --font-body:'JetBrains Mono',monospace;
@@ -121,7 +203,13 @@ html[data-style="dev"]{
   --bg-card:var(--s2);
   --tracking:-.02em;
 }
-html[data-style="default"]{}
+html[data-style="dev"] .card{border-color:var(--line-strong);position:relative}
+html[data-style="dev"] .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent)}
+html[data-style="dev"] h1::before{border-radius:0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+html[data-style="dev"] .card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 0 0 1px var(--accent)}
+html[data-style="dev"] .btn,html[data-style="dev"] .search-btn{box-shadow:none;font-weight:500;border:1px solid var(--accent);background:transparent;color:var(--accent)}
+html[data-style="dev"] .btn:hover{background:var(--accent);color:var(--s0)}
+html[data-style="dev"] .card-title::before{content:'# ';color:var(--accent);opacity:.6}
 
 /* БАЗА */
 html{background:var(--s0);scrollbar-gutter:stable;transition:background var(--ts) var(--ease)}
@@ -169,6 +257,7 @@ html[data-style="retro"] .aurora{opacity:.3}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes blink{50%{opacity:0}}
 @keyframes arrowIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
 
 .wrap{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:2rem 2rem 3rem}
@@ -177,7 +266,7 @@ header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap
 .header-right{display:flex;gap:.5rem;align-items:center;font-family:var(--font-mono);font-size:.68rem;color:var(--tdim2);letter-spacing:.03em}
 .status-dot{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .7rem;border:1px solid var(--line);border-radius:var(--r-sm);background:color-mix(in oklab, var(--s2), var(--s0) 30%)}
 .status-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 2.4s ease-in-out infinite}
-h1{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,3vw,2.15rem);letter-spacing:-.03em;line-height:1;color:var(--text);display:flex;align-items:center;gap:.85rem}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,3vw,2.15rem);letter-spacing:-.03em;line-height:1;color:var(--text);display:flex;align-items:center;gap:.85rem;transition:all var(--ts) var(--ease)}
 h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;border-radius:var(--r-sm);background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);box-shadow:0 0 0 1px rgba(255,255,255,.1) inset, 0 1px 0 rgba(255,255,255,.2) inset, var(--shadow-sm)}
 .subtitle{font-family:var(--font-mono);font-size:.72rem;color:var(--tdim);letter-spacing:.02em;display:flex;align-items:center;gap:.5rem}
 .subtitle::before{content:'//';color:var(--accent);font-weight:600;letter-spacing:0}
@@ -222,7 +311,7 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 #randomBtn{background:var(--s3);color:var(--text);border:none;border-radius:var(--r-sm);padding:.7rem 1.2rem;font-family:var(--font-body);font-size:.85rem;font-weight:600;cursor:pointer;display:none;align-items:center;gap:.5rem;letter-spacing:-.005em;transition:all var(--tf) var(--ease);white-space:nowrap;box-shadow:0 1px 0 rgba(255,255,255,.04) inset, 0 0 0 1px var(--line-strong), var(--shadow-sm)}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(268px, 1fr));gap:1rem;margin-bottom:2rem}
-.card{background:var(--bg-card);border:var(--border-w) solid var(--line);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;position:relative;transition:transform var(--tn) var(--ease), border-color var(--tn) var(--ease), box-shadow var(--tn) var(--ease);box-shadow:var(--shadow-md);animation:fadeUp .45s var(--ease-out) both;will-change:transform}
+.card{background:var(--bg-card);border:var(--border-w) solid var(--line);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;position:relative;transition:transform var(--tn) var(--ease), border-color var(--tn) var(--ease), box-shadow var(--tn) var(--ease), border-radius var(--ts) var(--ease);box-shadow:var(--shadow-md);animation:fadeUp .45s var(--ease-out) both;will-change:transform}
 .card:hover{transform:translateY(-3px);border-color:color-mix(in oklab, var(--line-strong), var(--accent) 25%);box-shadow:var(--shadow-lg)}
 .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .card-image{width:100%;height:170px;object-fit:cover;background:var(--s4);border-bottom:var(--border-w) solid var(--line);display:block}
@@ -290,8 +379,8 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 .style-opt[data-style="glass"] .style-preview{border-radius:8px;background:color-mix(in oklab, var(--accent), transparent 85%);border-color:color-mix(in oklab, var(--accent), transparent 50%)}
 .style-opt[data-style="retro"] .style-preview{border-radius:0;border-width:2px;box-shadow:3px 3px 0 var(--accent);border-color:var(--text)}
 .style-opt[data-style="minimal"] .style-preview{border-radius:2px;background:transparent}
-.style-opt[data-style="paper"] .style-preview{border-radius:2px;background:var(--s4);border-color:var(--line-strong)}
-.style-opt[data-style="terminal"] .style-preview{border-radius:0;background:var(--accent);border-color:var(--accent)}
+.style-opt[data-style="paper"] .style-preview{border-radius:2px;background:#FAF6EC;border-color:#8B4513}
+.style-opt[data-style="terminal"] .style-preview{border-radius:0;background:#4ADE80;border-color:#4ADE80}
 .style-opt[data-style="soft"] .style-preview{border-radius:12px;background:var(--s4)}
 .style-opt[data-style="dev"] .style-preview{border-radius:2px;background:var(--s4)}
 
@@ -568,6 +657,7 @@ h1::before{content:'';display:inline-block;width:36px;height:36px;flex-shrink:0;
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.1/bundles/skinview3d.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
 <script>
 'use strict';
 
@@ -1884,18 +1974,18 @@ async function openEditor(skinName){
       </div>
       <div class="editor-layout">
         <div class="editor-canvas-area" data-editor-bg="theme">
-          <div class="editor-mode-toggle">
-            <button class="active" data-mode="3d">🎮 3D</button>
-            <button data-mode="2d">📋 Сетка</button>
+          <div class="editor-mode-toggle" style="pointer-events:auto;z-index:999">
+            <button class="active" data-mode="3d" type="button">🎮 3D</button>
+            <button data-mode="2d" type="button">📋 Сетка</button>
           </div>
-          <div class="editor-bg-picker" id="ed-bg-picker">
-            <button class="editor-bg-btn active" data-bg="theme" title="Фон из темы">🎨</button>
-            <button class="editor-bg-btn" data-bg="biome" title="Биом"></button>
-            <button class="editor-bg-btn" data-bg="sunset" title="Закат"></button>
-            <button class="editor-bg-btn" data-bg="night" title="Ночь"></button>
-            <button class="editor-bg-btn" data-bg="sakura" title="Сакура"></button>
-            <button class="editor-bg-btn" data-bg="none" title="Без фона"></button>
-            <button class="editor-bg-btn upload" id="ed-bg-upload" title="Свой фон">📁</button>
+          <div class="editor-bg-picker" id="ed-bg-picker" style="pointer-events:auto;z-index:999">
+            <button class="editor-bg-btn active" data-bg="theme" title="Фон из темы" type="button">🎨</button>
+            <button class="editor-bg-btn" data-bg="biome" title="Биом" type="button"></button>
+            <button class="editor-bg-btn" data-bg="sunset" title="Закат" type="button"></button>
+            <button class="editor-bg-btn" data-bg="night" title="Ночь" type="button"></button>
+            <button class="editor-bg-btn" data-bg="sakura" title="Сакура" type="button"></button>
+            <button class="editor-bg-btn" data-bg="none" title="Без фона" type="button"></button>
+            <button class="editor-bg-btn upload" id="ed-bg-upload" title="Свой фон" type="button">📁</button>
           </div>
           <div id="ed-3d"></div>
           <div id="ed-2d" style="display:none"></div>
@@ -1905,16 +1995,16 @@ async function openEditor(skinName){
           <div class="editor-section">
             <div class="editor-section-title">Инструменты</div>
             <div class="editor-tools">
-              <button class="editor-tool active" data-tool="pencil" title="Карандаш">
+              <button class="editor-tool active" data-tool="pencil" title="Карандаш" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
               </button>
-              <button class="editor-tool" data-tool="eraser" title="Ластик">
+              <button class="editor-tool" data-tool="eraser" title="Ластик" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16c-.6-.6-.6-1.6 0-2.2L14.4 2.4c.6-.6 1.6-.6 2.2 0l5 5c.6.6.6 1.6 0 2.2L10 21"/><path d="M6 20l8-8"/></svg>
               </button>
-              <button class="editor-tool" data-tool="fill" title="Заливка">
+              <button class="editor-tool" data-tool="fill" title="Заливка" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11l-8-8-8.6 8.6c-.8.8-.8 2 0 2.8L7 19c.8.8 2 .8 2.8 0L19 9.8V11z"/><path d="M5 2l3 3"/><path d="M2 21h18"/><path d="M11 15c0 2 1 3 3 3s3-1 3-3c0-1-1.5-2.5-3-4-1.5 1.5-3 3-3 4z" fill="currentColor" stroke="none"/></svg>
               </button>
-              <button class="editor-tool" data-tool="picker" title="Пипетка">
+              <button class="editor-tool" data-tool="picker" title="Пипетка" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22l1-3 7-7 3 3-7 7-3 1z"/><path d="M17 8l2-2 3 3-2 2-3-3z"/><path d="M13 12l5-5-3-3-5 5 3 3z"/><circle cx="17" cy="7" r="3"/></svg>
               </button>
             </div>
@@ -1930,28 +2020,28 @@ async function openEditor(skinName){
           <div class="editor-section">
             <div class="editor-section-title">Слой</div>
             <div class="editor-layer-row">
-              <button class="editor-layer-btn active" data-layer="base">
+              <button class="editor-layer-btn active" data-layer="base" type="button">
                 <span class="editor-layer-dot" style="background:var(--accent)"></span>Базовый
               </button>
-              <button class="editor-layer-btn" data-layer="overlay">
+              <button class="editor-layer-btn" data-layer="overlay" type="button">
                 <span class="editor-layer-dot" style="background:var(--accent-2)"></span>Оверлей
               </button>
             </div>
-            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый — тело. Оверлей — сетка поверх шапки и куртки.</p>
+            <p style="color:var(--tdim);font-size:.75rem;margin-top:.5rem;line-height:1.4;font-family:var(--font-mono)">Базовый — тело. Оверлей — сетка поверх скина (каждый пиксель).</p>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">История</div>
             <div class="editor-action-row">
-              <button class="btn btn-secondary" id="ed-undo">↶ Отмена</button>
-              <button class="btn btn-secondary" id="ed-redo">↷ Повтор</button>
+              <button class="btn btn-secondary" id="ed-undo" type="button">↶ Отмена</button>
+              <button class="btn btn-secondary" id="ed-redo" type="button">↷ Повтор</button>
             </div>
           </div>
           <div class="editor-section">
             <div class="editor-section-title">Файл</div>
             <div class="editor-action-col">
-              <button class="btn btn-secondary" id="ed-upload">📁 Загрузить PNG</button>
-              <button class="btn btn-secondary" id="ed-blank">⬜ Чистое тело</button>
-              <button class="btn btn-secondary" id="ed-steve">👕 Steve</button>
+              <button class="btn btn-secondary" id="ed-upload" type="button">📁 Загрузить PNG</button>
+              <button class="btn btn-secondary" id="ed-blank" type="button">⬜ Чистое тело</button>
+              <button class="btn btn-secondary" id="ed-steve" type="button">👕 Steve</button>
             </div>
           </div>
         </div>
@@ -1980,8 +2070,7 @@ async function openEditor(skinName){
     flatCanvas: null,
     flatCtx: null,
     mousemoveThrottle: null,
-    _resizeHandler: null,
-    gridActive: false
+    _resizeHandler: null
   };
 
   const palette = [
@@ -2025,7 +2114,7 @@ async function openEditor(skinName){
     b.classList.add('active');
   }));
 
-  /* === ФОН — инициализируем ДО await === */
+  /* === ФОН — делегирование через document, работает всегда === */
   const canvasArea = document.querySelector('.editor-canvas-area');
   const savedBg = safeGetLocalStorage('mch-editor-bg') || 'theme';
   const savedCustomBg = safeGetLocalStorage('mch-editor-bg-custom');
@@ -2040,17 +2129,22 @@ async function openEditor(skinName){
     });
   }
 
-  $$('#ed-bg-picker [data-bg]').forEach(b => {
-    b.addEventListener('click', () => {
-      const bg = b.dataset.bg;
-      if(canvasArea){
-        canvasArea.style.backgroundImage = '';
-        canvasArea.setAttribute('data-editor-bg', bg);
-      }
-      $$('#ed-bg-picker [data-bg]').forEach(x => x.classList.toggle('active', x === b));
-      safeSetLocalStorage('mch-editor-bg', bg);
-    });
-  });
+  const bgClickHandler = (e) => {
+    const btn = e.target.closest('#ed-bg-picker [data-bg]');
+    if(!btn || !editorState) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const bg = btn.dataset.bg;
+    const area = document.querySelector('.editor-canvas-area');
+    if(area){
+      area.style.backgroundImage = '';
+      area.setAttribute('data-editor-bg', bg);
+    }
+    $$('#ed-bg-picker [data-bg]').forEach(x => x.classList.toggle('active', x === btn));
+    safeSetLocalStorage('mch-editor-bg', bg);
+    toast('Фон: ' + bg, 'ok', 1200);
+  };
+  document.addEventListener('click', bgClickHandler, true);
 
   const bgUploadBtn = $('ed-bg-upload');
   const bgUploadInput = document.createElement('input');
@@ -2059,7 +2153,11 @@ async function openEditor(skinName){
   bgUploadInput.style.display = 'none';
   document.body.appendChild(bgUploadInput);
 
-  bgUploadBtn.addEventListener('click', () => bgUploadInput.click());
+  const uploadHandler = (e) => {
+    if(e.target.closest('#ed-bg-upload')){ bgUploadInput.click(); }
+  };
+  document.addEventListener('click', uploadHandler, true);
+
   bgUploadInput.addEventListener('change', e => {
     const file = e.target.files[0];
     if(!file) return;
@@ -2067,14 +2165,16 @@ async function openEditor(skinName){
     reader.onload = () => {
       const dataUrl = reader.result;
       if(typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')){
-        if(canvasArea){
-          canvasArea.setAttribute('data-editor-bg', 'custom');
-          canvasArea.style.backgroundImage = `url(${dataUrl})`;
+        const area = document.querySelector('.editor-canvas-area');
+        if(area){
+          area.setAttribute('data-editor-bg', 'custom');
+          area.style.backgroundImage = `url(${dataUrl})`;
         }
         $$('#ed-bg-picker [data-bg]').forEach(x => x.classList.remove('active'));
         try{ localStorage.setItem('mch-editor-bg-custom', dataUrl); }
         catch{ toast('Фон слишком большой для сохранения','error'); }
         safeSetLocalStorage('mch-editor-bg', 'custom');
+        toast('Свой фон загружен','ok');
       }
     };
     reader.readAsDataURL(file);
@@ -2149,67 +2249,6 @@ async function openEditor(skinName){
   window.addEventListener('resize', doResize);
   editorState._resizeHandler = doResize;
 
-  /* === GRID SHADER — рисуем ПОВЕРХ материала через emissive === */
-  function applyGridToMaterial(mat, on){
-    if(!mat) return;
-    if(on){
-      if(mat.userData.__gridOn) return;
-      mat.userData.__gridOn = true;
-      mat.userData.__origOBC = mat.onBeforeCompile;
-      mat.onBeforeCompile = (shader) => {
-        if(mat.userData.__origOBC) mat.userData.__origOBC.call(mat, shader);
-        shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <dithering_fragment>',
-          `#include <dithering_fragment>
-          #ifdef USE_MAP
-            vec2 __gUV = vMapUv * 64.0;
-            vec2 __gF = abs(fract(__gUV - 0.5) - 0.5);
-            vec2 __gD = fwidth(__gUV);
-            vec2 __gL = __gF / max(__gD, vec2(0.0001));
-            float __gA = 1.0 - min(min(__gL.x, __gL.y), 1.0);
-            gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.22, 0.85, 1.0), __gA * 0.95);
-          #endif
-          `
-        );
-      };
-      mat.customProgramCacheKey = () => 'grid-v1-on';
-      mat.needsUpdate = true;
-    }else{
-      if(!mat.userData.__gridOn) return;
-      mat.userData.__gridOn = false;
-      mat.onBeforeCompile = mat.userData.__origOBC || function(){};
-      mat.customProgramCacheKey = () => 'grid-v1-off-' + Math.random();
-      mat.needsUpdate = true;
-    }
-  }
-
-  /* === Видимость слоёв: grid включается на ВСЕХ материалах в режиме overlay === */
-  function applyLayerVisibility(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
-    const showGrid = editorState.activeLayer === 'overlay';
-    editorState.gridActive = showGrid;
-
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
-
-      obj.visible = true;
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      mats.forEach(mat => {
-        if(!mat) return;
-        mat.visible = true;
-        mat.transparent = false;
-        mat.opacity = 1;
-        mat.depthWrite = true;
-        applyGridToMaterial(mat, showGrid);
-      });
-    });
-  }
-
   /* === LOAD SKIN с фолбэком === */
   async function loadSkinToCanvas(url, fallbackUrl){
     const draw = (img) => {
@@ -2243,15 +2282,15 @@ async function openEditor(skinName){
     viewer.renderer.setAnimationLoop(() => {
       viewer.renderer.render(viewer.scene, viewer.camera);
     });
-    applyLayerVisibility();
   }
 
+  /* === СЛОИ: переключение визуальное (сетка на текстуре) === */
   $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    applyLayerVisibility();
-    toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (сетка)', 'info', 1200);
+    refresh3D();
+    toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (сетка 64×64)', 'info', 1400);
   }));
 
   /* === PAINT === */
@@ -2282,10 +2321,8 @@ async function openEditor(skinName){
       ctx.fillStyle = editorState.color;
       ctx.fillRect(px, py, 1, 1);
       if(editorState.flatCtx){
-        editorState.flatCtx.globalAlpha = 1;
         editorState.flatCtx.fillStyle = editorState.color;
         editorState.flatCtx.fillRect(px*S, py*S, S, S);
-        editorState.flatCtx.globalAlpha = 1;
       }
     }
   }
@@ -2335,7 +2372,51 @@ async function openEditor(skinName){
     ctx.putImageData(img, 0, 0);
   }
 
-  /* === 3D DRAW — БЕЗ разделения слоёв, рисуем в UV попадания === */
+  /* === REFRESH 3D — рисуем сетку НА текстуре, если оверлей === */
+  function makeGriddedTexture(){
+    const tmp = document.createElement('canvas');
+    tmp.width = SKIN_SIZE;
+    tmp.height = SKIN_SIZE;
+    const tctx = tmp.getContext('2d');
+    tctx.imageSmoothingEnabled = false;
+    tctx.drawImage(editorState.canvas, 0, 0);
+    tctx.strokeStyle = 'rgba(56, 189, 248, 0.95)';
+    tctx.lineWidth = 1;
+    for(let i = 0; i <= SKIN_SIZE; i++){
+      tctx.beginPath();
+      tctx.moveTo(i + 0.5, 0);
+      tctx.lineTo(i + 0.5, SKIN_SIZE);
+      tctx.stroke();
+      tctx.beginPath();
+      tctx.moveTo(0, i + 0.5);
+      tctx.lineTo(SKIN_SIZE, i + 0.5);
+      tctx.stroke();
+    }
+    return tmp.toDataURL('image/png');
+  }
+
+  function refresh3D(){
+    const v = editorState.viewer;
+    if(!v) return;
+    try{
+      let dataUrl;
+      if(editorState.activeLayer === 'overlay'){
+        dataUrl = makeGriddedTexture();
+      }else{
+        dataUrl = editorState.canvas.toDataURL('image/png');
+      }
+      v.loadSkin(dataUrl).catch(() => {});
+    }catch(e){ console.warn('refresh3D failed:', e); }
+  }
+  function schedule3DRefresh(){
+    if(editorState.refreshTimer) return;
+    editorState.refreshTimer = setTimeout(() => {
+      editorState.refreshTimer = null;
+      refresh3D();
+    }, 100);
+  }
+
+  /* === 3D DRAW === */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
     const ray = editorState.raycaster;
@@ -2502,22 +2583,6 @@ async function openEditor(skinName){
     schedule3DRefresh();
   }
 
-  function schedule3DRefresh(){
-    if(editorState.refreshTimer) return;
-    editorState.refreshTimer = setTimeout(() => {
-      editorState.refreshTimer = null;
-      refresh3D();
-    }, 100);
-  }
-  function refresh3D(){
-    const v = editorState.viewer;
-    if(!v) return;
-    try{
-      const dataUrl = editorState.canvas.toDataURL('image/png');
-      v.loadSkin(dataUrl).catch(() => {});
-    }catch{}
-  }
-
   /* === HISTORY === */
   function pushHistory(){
     try{
@@ -2618,6 +2683,8 @@ async function openEditor(skinName){
   const cleanup = () => {
     document.body.classList.remove('editor-lock');
     document.removeEventListener('keydown', keyHandler);
+    document.removeEventListener('click', bgClickHandler, true);
+    document.removeEventListener('click', uploadHandler, true);
     if(bgUploadInput && bgUploadInput.parentNode) bgUploadInput.parentNode.removeChild(bgUploadInput);
     if(editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
     if(editorState?._resizeHandler) window.removeEventListener('resize', editorState._resizeHandler);
