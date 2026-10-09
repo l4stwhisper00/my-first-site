@@ -1979,7 +1979,7 @@ async function openEditor(skinName){
   $('ed-grid-color').addEventListener('input', e => {
     editorState.gridColor = e.target.value;
     $('ed-grid-color-label').textContent = e.target.value;
-    refreshEditorView();
+    applyGridToAllMaterials();
   });
 
   $$('[data-tool]').forEach(b => b.addEventListener('click', () => {
@@ -2107,27 +2107,16 @@ async function openEditor(skinName){
   editorState._resizeHandler = doResize;
 
   /* ============================================================
-     ОПРЕДЕЛЕНИЕ СЛОЯ МЕША
+     Определение слоя меша
+     У skinview3d у КАЖДОГО меша name = "inner" или "outer".
      ============================================================ */
-  function getMeshLayer(mesh){
-    if(mesh.userData && mesh.userData.__layer) return mesh.userData.__layer;
+  function isOuterMesh(mesh){
     const n = (mesh.name || '').toLowerCase();
-    let layer = 'inner';
-    if(n === 'outer' || n.includes('outer') || n.includes('hat') || n.includes('jacket') || n.includes('sleeve')){
-      layer = 'outer';
-    }else if(n === 'inner' || n.includes('inner')){
-      layer = 'inner';
-    }else{
-      const b = new THREE.Box3().setFromObject(mesh);
-      const vals = [b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z];
-      for(const v of vals){
-        const diff = Math.abs(v - Math.round(v));
-        if(diff > 0.15 && diff < 0.85){ layer = 'outer'; break; }
-      }
-    }
-    if(!mesh.userData) mesh.userData = {};
-    mesh.userData.__layer = layer;
-    return layer;
+    const p = (mesh.parent && mesh.parent.name || '').toLowerCase();
+    if(n === 'outer') return true;
+    if(p === 'outer') return true;
+    if(n.includes('hat') || n.includes('jacket') || n.includes('sleeve') || n.includes('pant')) return true;
+    return false;
   }
 
   /* ============================================================
@@ -2185,41 +2174,13 @@ async function openEditor(skinName){
   }
 
   /* ============================================================
-     ВИДИМОСТЬ СЛОЯ: base=inner, overlay=outer
-     + синхронизируем material.visible с mesh.visible
+     Сетка только на outer-мешах в overlay-режиме.
+     Никаких манипуляций с obj.visible — skinview3d это ломает.
      ============================================================ */
- function applyLayerVisibility(){
-  const v = editorState.viewer;
-  if(!v || !v.playerObject) return;
-  const showOverlay = editorState.activeLayer === 'overlay';
-
-  v.playerObject.traverse(obj => {
-    if(!obj.isMesh && !obj.isSkinnedMesh) return;
-    const n = (obj.name || '').toLowerCase();
-    const p = (obj.parent && obj.parent.name || '').toLowerCase();
-    const combined = n + ' ' + p;
-    if(combined.includes('cape') || combined.includes('elytra')) return;
-    if(combined.includes('ear')) return;
-
-    // Определяем слой
-    let isOuter = false;
-    if(n === 'outer' || p === 'outer' || n.includes('hat') || n.includes('jacket') || n.includes('sleeve')){
-      isOuter = true;
-    }
-
-    // Скрываем/показываем ТОЛЬКО через obj.visible
-    obj.visible = showOverlay ? isOuter : !isOuter;
-
-    // Все материалы ВСЕГДА видимы — иначе skinview3d ломает рендер
-    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-    mats.forEach(m => { if(m) m.visible = true; });
-  });
-}
-
   function applyGridToAllMaterials(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
-    const showGrid = editorState.activeLayer === 'overlay';
+    const showOverlay = editorState.activeLayer === 'overlay';
 
     v.playerObject.traverse(obj => {
       if(!obj.isMesh && !obj.isSkinnedMesh) return;
@@ -2229,21 +2190,16 @@ async function openEditor(skinName){
       if(combined.includes('cape') || combined.includes('elytra')) return;
       if(combined.includes('ear')) return;
 
+      const isOuter = isOuterMesh(obj);
+      const gridOn = showOverlay && isOuter;
+
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
       mats.forEach(m => {
         if(!m) return;
-        m.transparent = false;
-        m.opacity = 1;
-        m.depthWrite = true;
         installGridShader(m);
-        updateGridUniform(m, showGrid);
+        updateGridUniform(m, gridOn);
       });
     });
-  }
-
-  function refreshEditorView(){
-    applyLayerVisibility();
-    applyGridToAllMaterials();
   }
 
   /* === REFRESH 3D === */
@@ -2275,7 +2231,7 @@ async function openEditor(skinName){
     v.skinTexture.minFilter = THREE.NearestFilter;
     v.skinTexture.needsUpdate = true;
 
-    refreshEditorView();
+    applyGridToAllMaterials();
   }
 
   function schedule3DRefresh(){
@@ -2319,8 +2275,8 @@ async function openEditor(skinName){
     viewer.renderer.setAnimationLoop(() => {
       viewer.renderer.render(viewer.scene, viewer.camera);
     });
-    setTimeout(refreshEditorView, 500);
-    setTimeout(refreshEditorView, 1500);
+    setTimeout(applyGridToAllMaterials, 500);
+    setTimeout(applyGridToAllMaterials, 1500);
   }
 
   /* СЛОИ */
@@ -2328,7 +2284,7 @@ async function openEditor(skinName){
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    refreshEditorView();
+    applyGridToAllMaterials();
     toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (клетки)', 'info', 1400);
   }));
 
@@ -2390,7 +2346,7 @@ async function openEditor(skinName){
   }
 
   /* ============================================================
-     3D DRAW — с защитной проверкой слоя
+     3D DRAW — фильтр по слою через isOuterMesh
      ============================================================ */
   function handle3DDraw(clientX, clientY){
     const v = editorState.viewer;
@@ -2425,10 +2381,9 @@ async function openEditor(skinName){
       if(combined.includes('cape') || combined.includes('elytra')) continue;
       if(combined.includes('ear')) continue;
 
-      // Защитная проверка слоя — даже если visible не сработал
-      const layer = getMeshLayer(h.object);
-      if(wantOverlay && layer !== 'outer') continue;
-      if(!wantOverlay && layer !== 'inner') continue;
+      const isOuter = isOuterMesh(h.object);
+      if(wantOverlay && !isOuter) continue;
+      if(!wantOverlay && isOuter) continue;
 
       hit = h;
       break;
