@@ -1903,7 +1903,8 @@ async function openEditor(skinName){
     flatCanvas: null,
     flatCtx: null,
     mousemoveThrottle: null,
-    _resizeHandler: null
+    _resizeHandler: null,
+    skinTexture: null
   };
 
   const palette = [
@@ -2064,58 +2065,12 @@ async function openEditor(skinName){
   window.addEventListener('resize', doResize);
   editorState._resizeHandler = doResize;
 
-  /* ============================================================
-     GRID SHADER — клетки по UV через fragment shader
-     ============================================================ */
-  function applyGridShader(mat, on){
-    if(!mat) return;
-    const KEY = '__gridShaderOn';
-    if(on){
-      if(mat.userData[KEY]) return;
-      mat.userData[KEY] = true;
-      mat.userData.__origOBC = mat.onBeforeCompile;
-
-      mat.onBeforeCompile = function(shader){
-        if(typeof mat.userData.__origOBC === 'function'){
-          try{ mat.userData.__origOBC.call(mat, shader); }catch(e){}
-        }
-        shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <dithering_fragment>',
-          '#include <dithering_fragment>\n' +
-          '#ifdef USE_MAP\n' +
-          '  vec2 __gUV = vMapUv * 64.0;\n' +
-          '  vec2 __gD = fwidth(__gUV);\n' +
-          '  vec2 __gG = abs(fract(__gUV - 0.5) - 0.5) / max(__gD, vec2(0.0001));\n' +
-          '  float __gLine = min(__gG.x, __gG.y);\n' +
-          '  float __gA = 1.0 - min(__gLine, 1.0);\n' +
-          '  gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(1.0), __gA * 0.85);\n' +
-          '#endif\n'
-        );
-      };
-      mat.customProgramCacheKey = () => 'grid-v1-on';
-      mat.needsUpdate = true;
-    }else{
-      if(!mat.userData[KEY]) return;
-      mat.userData[KEY] = false;
-      mat.onBeforeCompile = mat.userData.__origOBC || function(){};
-      mat.customProgramCacheKey = () => 'grid-v1-off-' + Math.random();
-      mat.needsUpdate = true;
-    }
-  }
-
-  /* === Видимость слоёв === */
+  /* === ВИДИМОСТЬ СЛОЁВ — ничего не скрываем === */
   function applyLayerVisibility(){
     const v = editorState.viewer;
     if(!v || !v.playerObject) return;
-    const showGrid = editorState.activeLayer === 'overlay';
-
     v.playerObject.traverse(obj => {
       if(!obj.isMesh && !obj.isSkinnedMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
-
       obj.visible = true;
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
       mats.forEach(m => {
@@ -2124,7 +2079,7 @@ async function openEditor(skinName){
         m.transparent = false;
         m.opacity = 1;
         m.depthWrite = true;
-        applyGridShader(m, showGrid);
+        m.needsUpdate = true;
       });
     });
   }
@@ -2136,7 +2091,7 @@ async function openEditor(skinName){
       ctx.drawImage(img, 0, 0, SKIN_SIZE, SKIN_SIZE);
       pushHistory();
       redrawFlat();
-      refresh3D();
+      refresh3D(true);
     };
     const tryLoad = (u) => new Promise(res => {
       const img = new Image();
@@ -2147,7 +2102,7 @@ async function openEditor(skinName){
     });
     if(await tryLoad(url)) return true;
     if(fallbackUrl && await tryLoad(fallbackUrl)) return true;
-    pushHistory(); redrawFlat(); refresh3D();
+    pushHistory(); redrawFlat(); refresh3D(true);
     return false;
   }
 
@@ -2170,7 +2125,7 @@ async function openEditor(skinName){
     editorState.activeLayer = b.dataset.layer;
     $$('[data-layer]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    applyLayerVisibility();
+    refresh3D(true);
     toast(b.dataset.layer === 'base' ? 'Слой: базовый' : 'Слой: оверлей (клетки)', 'info', 1400);
   }));
 
@@ -2248,21 +2203,60 @@ async function openEditor(skinName){
     ctx.putImageData(img, 0, 0);
   }
 
-  function schedule3DRefresh(){
-    if(editorState.refreshTimer) return;
-    editorState.refreshTimer = setTimeout(() => {
-      editorState.refreshTimer = null;
-      refresh3D();
-    }, 100);
-  }
-
-  function refresh3D(){
+  /* === 3D REFRESH — мгновенный через CanvasTexture === */
+  function refresh3D(forceNew){
     const v = editorState.viewer;
     if(!v) return;
+
     try{
-      const dataUrl = editorState.canvas.toDataURL('image/png');
-      v.loadSkin(dataUrl).catch(() => {});
-    }catch(e){}
+      const tmp = document.createElement('canvas');
+      tmp.width = SKIN_SIZE;
+      tmp.height = SKIN_SIZE;
+      const tctx = tmp.getContext('2d');
+      tctx.imageSmoothingEnabled = false;
+      tctx.drawImage(editorState.canvas, 0, 0);
+
+      if(editorState.activeLayer === 'overlay'){
+        tctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+        for(let i = 1; i < SKIN_SIZE; i++){
+          tctx.fillRect(i, 0, 1, SKIN_SIZE);
+          tctx.fillRect(0, i, SKIN_SIZE, 1);
+        }
+      }
+
+      if(!editorState.skinTexture || forceNew){
+        if(editorState.skinTexture && editorState.skinTexture.dispose){
+          try{ editorState.skinTexture.dispose(); }catch(e){}
+        }
+        editorState.skinTexture = new THREE.CanvasTexture(tmp);
+        editorState.skinTexture.magFilter = THREE.NearestFilter;
+        editorState.skinTexture.minFilter = THREE.NearestFilter;
+        editorState.skinTexture.colorSpace = THREE.SRGBColorSpace;
+        editorState.skinTexture.needsUpdate = true;
+
+        v.playerObject.traverse(obj => {
+          if(!obj.isMesh && !obj.isSkinnedMesh) return;
+          const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+          mats.forEach(m => {
+            if(!m) return;
+            m.map = editorState.skinTexture;
+            m.needsUpdate = true;
+          });
+        });
+      }else{
+        // Обновляем существующую текстуру без пересоздания
+        editorState.skinTexture.image = tmp;
+        editorState.skinTexture.needsUpdate = true;
+      }
+    }catch(e){ console.error('refresh3D:', e); }
+  }
+
+  function schedule3DRefresh(){
+    if(editorState.refreshTimer) return;
+    editorState.refreshTimer = requestAnimationFrame(() => {
+      editorState.refreshTimer = null;
+      refresh3D(false);
+    });
   }
 
   /* === OUTER CHECK === */
@@ -2484,7 +2478,7 @@ async function openEditor(skinName){
         ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
         ctx.drawImage(img, 0, 0);
         redrawFlat();
-        refresh3D();
+        refresh3D(true);
         resolve();
       };
       img.onerror = resolve;
@@ -2525,7 +2519,7 @@ async function openEditor(skinName){
     ctx.clearRect(0, 0, SKIN_SIZE, SKIN_SIZE);
     pushHistory();
     redrawFlat();
-    refresh3D();
+    refresh3D(true);
     toast('Чистое тело','info');
   });
 
@@ -2565,7 +2559,10 @@ async function openEditor(skinName){
     document.body.classList.remove('editor-lock');
     document.removeEventListener('keydown', keyHandler);
     if(bgUploadInput && bgUploadInput.parentNode) bgUploadInput.parentNode.removeChild(bgUploadInput);
-    if(editorState?.refreshTimer) clearTimeout(editorState.refreshTimer);
+    if(editorState?.refreshTimer) cancelAnimationFrame(editorState.refreshTimer);
+    if(editorState?.skinTexture && editorState.skinTexture.dispose){
+      try{ editorState.skinTexture.dispose(); }catch(e){}
+    }
     if(editorState?._resizeHandler) window.removeEventListener('resize', editorState._resizeHandler);
     if(editorState?.mousemoveThrottle) clearTimeout(editorState.mousemoveThrottle);
     if(editorState?.viewer){
