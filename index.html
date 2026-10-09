@@ -2188,27 +2188,33 @@ async function openEditor(skinName){
      ВИДИМОСТЬ СЛОЯ: base=inner, overlay=outer
      + синхронизируем material.visible с mesh.visible
      ============================================================ */
-  function applyLayerVisibility(){
-    const v = editorState.viewer;
-    if(!v || !v.playerObject) return;
-    const showOverlay = editorState.activeLayer === 'overlay';
+ function applyLayerVisibility(){
+  const v = editorState.viewer;
+  if(!v || !v.playerObject) return;
+  const showOverlay = editorState.activeLayer === 'overlay';
 
-    v.playerObject.traverse(obj => {
-      if(!obj.isMesh && !obj.isSkinnedMesh) return;
-      const n = (obj.name || '').toLowerCase();
-      const p = (obj.parent && obj.parent.name || '').toLowerCase();
-      const combined = n + ' ' + p;
-      if(combined.includes('cape') || combined.includes('elytra')) return;
-      if(combined.includes('ear')) return;
+  v.playerObject.traverse(obj => {
+    if(!obj.isMesh && !obj.isSkinnedMesh) return;
+    const n = (obj.name || '').toLowerCase();
+    const p = (obj.parent && obj.parent.name || '').toLowerCase();
+    const combined = n + ' ' + p;
+    if(combined.includes('cape') || combined.includes('elytra')) return;
+    if(combined.includes('ear')) return;
 
-      const layer = getMeshLayer(obj);
-      const visible = showOverlay ? (layer === 'outer') : (layer === 'inner');
-      obj.visible = visible;
+    // Определяем слой
+    let isOuter = false;
+    if(n === 'outer' || p === 'outer' || n.includes('hat') || n.includes('jacket') || n.includes('sleeve')){
+      isOuter = true;
+    }
 
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      mats.forEach(m => { if(m) m.visible = visible; });
-    });
-  }
+    // Скрываем/показываем ТОЛЬКО через obj.visible
+    obj.visible = showOverlay ? isOuter : !isOuter;
+
+    // Все материалы ВСЕГДА видимы — иначе skinview3d ломает рендер
+    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+    mats.forEach(m => { if(m) m.visible = true; });
+  });
+}
 
   function applyGridToAllMaterials(){
     const v = editorState.viewer;
